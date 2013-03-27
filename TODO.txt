@@ -1,0 +1,10 @@
+TODO list :
+- add chord
+- select color
+- print
+- export PDF
+- read/edit mode
+- 2 pages display
+- test if ti is note or text word
+- vertical selection
+- past image / tab from Guitar Pro or TuxGuitar
