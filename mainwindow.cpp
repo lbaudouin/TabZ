@@ -20,9 +20,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     xta = new XTA(this->centralWidget());
 
-    ui->tabWidget->setCurrentIndex( ui->tabWidget->addTab(new Tab(ui->tabWidget),"maman papa.xta") );
 
-    XTAinfo info = xta->parse("maman papa.xta");
+    QString testFile = "test.xta";
+
+    ui->tabWidget->setCurrentIndex( ui->tabWidget->addTab(new Tab(ui->tabWidget),testFile) );
+
+    XTAinfo info = xta->parse(testFile);
 
     ((Tab*)(ui->tabWidget->currentWidget()))->setXTA(info);
 }
