@@ -93,6 +93,7 @@
     <property name="title">
      <string>Display</string>
     </property>
+    <addaction name="actionFull_Screen"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -286,6 +287,17 @@
   <action name="actionTranslate_EN_FR">
    <property name="text">
     <string>Translate EN -&gt; FR</string>
+   </property>
+  </action>
+  <action name="actionFull_Screen">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Full Screen</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
    </property>
   </action>
  </widget>

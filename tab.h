@@ -8,6 +8,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QScrollArea>
+#include <QPushButton>
 
 #include "highlighter.h"
 #include "xta_info.h"
@@ -24,11 +25,18 @@ private:
     QTextEdit *edit;
     XTAinfo info;
 
+    QVBoxLayout *mainLayout;
+    QVBoxLayout*v1,*v2;
+    QScrollArea *scrollArea;
+
 signals:
     
 public slots:
     void setText(QString text);
     void setXTA(XTAinfo xta);
+
+    void resizeLayout();
+    void addChord();
     
 };
 

@@ -28,6 +28,8 @@ MainWindow::MainWindow(QWidget *parent) :
     XTAinfo info = xta->parse(testFile);
 
     ((Tab*)(ui->tabWidget->currentWidget()))->setXTA(info);
+
+    this->setWindowState(Qt::WindowMaximized);
 }
 
 MainWindow::~MainWindow()
@@ -43,15 +45,20 @@ void MainWindow::setUpToolBar()
     ui->actionClose->setIcon( this->style()->standardIcon(QStyle::SP_DialogCloseButton) );
     ui->actionQuit->setIcon( this->style()->standardIcon(QStyle::SP_TitleBarCloseButton) );
 
+    ui->actionFull_Screen->setIcon( this->style()->standardIcon(QStyle::SP_TitleBarMaxButton) );
+
     ui->mainToolBar->addAction(ui->actionNew);
     ui->mainToolBar->addAction(ui->actionOpen);
     ui->mainToolBar->addAction(ui->actionSave);
     ui->mainToolBar->addAction(ui->actionClose);
+    ui->mainToolBar->addAction(ui->actionFull_Screen);
 
     connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(pressNew()));
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(pressOpen()));
     connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(pressSave()));
     connect(ui->actionClose,SIGNAL(triggered()),this,SLOT(pressClose()));
+
+    connect(ui->actionFull_Screen,SIGNAL(toggled(bool)),this,SLOT(pressSetFullScreen(bool)));
 }
 
 void MainWindow::pressNew()
@@ -84,4 +91,13 @@ void MainWindow::pressSave()
 void MainWindow::pressClose()
 {
     delete ui->tabWidget->currentWidget();
+}
+
+void MainWindow::pressSetFullScreen(bool fullScreen)
+{
+    if(fullScreen){
+        previousState = this->windowState();
+        this->setWindowState(Qt::WindowFullScreen);
+    }else
+        this->setWindowState(previousState);
 }

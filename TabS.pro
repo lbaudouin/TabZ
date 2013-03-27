@@ -25,3 +25,6 @@ HEADERS  += mainwindow.h \
     xta_info.h
 
 FORMS    += mainwindow.ui
+
+OTHER_FILES += \
+    TODO.txt

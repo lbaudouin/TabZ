@@ -28,6 +28,7 @@ protected:
     
 private:
     Ui::MainWindow *ui;
+    Qt::WindowStates previousState;
     XTA *xta;
 
 private slots:
@@ -35,6 +36,7 @@ private slots:
     void pressOpen();
     void pressSave();
     void pressClose();
+    void pressSetFullScreen(bool);
 };
 
 #endif // MAINWINDOW_H

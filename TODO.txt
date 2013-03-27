@@ -1,6 +1,20 @@
 TODO list :
-- add chord
-- select color
+
+#### Options ####
+
+- select colors
+- disable colors
+- default folder
+- select new tab
+- always read only
+- black/white/color neck for chord
+
+#### Functions ####
+
+- save option (xml)
+- manual add chord in tab
+- add existing chords
+- chords manager
 - print
 - export PDF
 - read/edit mode
@@ -8,3 +22,11 @@ TODO list :
 - test if ti is note or text word
 - vertical selection
 - past image / tab from Guitar Pro or TuxGuitar
+- insert ascii tab (with tool bar)
+- French chord to english
+- save on exit
+*** full screen
+- tab browser menu
+- create assistant
+- recent files
+

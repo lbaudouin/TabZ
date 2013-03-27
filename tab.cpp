@@ -50,9 +50,21 @@ Tab::Tab(QWidget *parent) :
     new Highlighter(edit->document());
 
 
-    QVBoxLayout *chordsLayout = new QVBoxLayout;
+    mainLayout = new QVBoxLayout;
 
-    QGridLayout *grid = new QGridLayout();
+    QPushButton *buttonAdd = new QPushButton(tr("A"));
+    QPushButton *buttonResize = new QPushButton(tr("R"));
+
+    QHBoxLayout *buttonLayout = new QHBoxLayout;
+    buttonLayout->addWidget(buttonAdd);
+    buttonLayout->addWidget(buttonResize);
+
+    mainLayout->addLayout(buttonLayout);
+
+    connect(buttonAdd,SIGNAL(clicked()),this,SLOT(addChord()));
+    connect(buttonResize,SIGNAL(clicked()),this,SLOT(resizeLayout()));
+
+   /* QGridLayout *grid = new QGridLayout();
     grid->setObjectName(QString::fromUtf8("grid"));
 
     grid->addWidget(new Guitar("F","133211"));
@@ -61,28 +73,55 @@ Tab::Tab(QWidget *parent) :
     grid->addWidget(new Guitar("D#m","X68876"),0,1);
     grid->addWidget(new Guitar("A","577655"),1,1);
     grid->addWidget(new Guitar("Em","022000"),2,1);
-    grid->addWidget(new Guitar("D#add9-\\A#","X1234X"));
+    grid->addWidget(new Guitar("D#add9-\\A#","X1234X"));*/
 
-#if 1
-    QScrollArea *s =new QScrollArea();
-    s->setAlignment(Qt::AlignCenter);
-    s->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
+    scrollArea =new QScrollArea();
+    scrollArea->setAlignment(Qt::AlignCenter);
+    scrollArea->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
 
     QWidget *w2 = new QWidget;
-    w2->setLayout(grid);
-    s->setWidget(w2);
-    s->setWidgetResizable(true);
-    s->raise();
 
-    s->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    s->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    QHBoxLayout *h = new QHBoxLayout;
+    QVBoxLayout *vi1 = new QVBoxLayout;
+    QVBoxLayout *vi2 = new QVBoxLayout;
+
+    h->addLayout(vi1);
+    h->addLayout(vi2);
+
+    v1 = new QVBoxLayout;
+    v2 = new QVBoxLayout;
 
 
-    chordsLayout->addWidget(s);
+    vi1->addLayout(v1);
+    vi2->addLayout(v2);
 
-#else
-    chordsLayout->addLayout(grid);
-#endif
+    QSpacerItem *s1 = new QSpacerItem(10,10,QSizePolicy::Minimum,QSizePolicy::Expanding);
+    QSpacerItem *s2 = new QSpacerItem(10,10,QSizePolicy::Minimum,QSizePolicy::Expanding);
+
+    vi1->addSpacerItem(s1);
+    vi2->addSpacerItem(s2);
+
+
+
+    v1->addWidget(new Guitar("F","133211"));
+    v1->addWidget(new Guitar("D","XX2320"));
+    v1->addWidget(new Guitar("E","022100"));
+    v1->addWidget(new Guitar("D#m","X68876"));
+    v2->addWidget(new Guitar("A","577655"));
+    v2->addWidget(new Guitar("Em","022000"));
+    v2->addWidget(new Guitar("D#add9-\\A#","X1234X"));
+
+
+
+    w2->setLayout(h);
+    scrollArea->setWidget(w2);
+    //scrollArea->setWidgetResizable(true);
+    scrollArea->raise();
+
+    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    mainLayout->addWidget(scrollArea);
 
     //QSpacerItem *spacer = new QSpacerItem(10,10,QSizePolicy::Minimum,QSizePolicy::Maximum);
     //chordsLayout->addSpacerItem(spacer);
@@ -99,7 +138,7 @@ Tab::Tab(QWidget *parent) :
 
     hlayout->addWidget(edit);
     //hlayout->addWidget(w);
-    hlayout->addLayout(chordsLayout);
+    hlayout->addLayout(mainLayout);
     layout->addLayout(hlayout);
 
 
@@ -121,4 +160,15 @@ void Tab::setXTA(XTAinfo xta)
 XTAinfo Tab::getXTA()
 {
     return info;
+}
+
+void Tab::resizeLayout()
+{
+    scrollArea->update();
+    mainLayout->update();
+    parentWidget()->update();
+}
+
+void Tab::addChord()
+{
 }
