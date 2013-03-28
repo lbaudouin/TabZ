@@ -20,14 +20,20 @@ class Tab : public QWidget
 public:
     explicit Tab(QWidget *parent = 0);
     XTAinfo getXTA();
+
+protected:
+    void addChord(QString name, QString fingers = QString());
     
 private:
     QTextEdit *edit;
+    QLabel *labelInfo;
     XTAinfo info;
 
     QVBoxLayout *mainLayout;
     QVBoxLayout*v1,*v2;
     QScrollArea *scrollArea;
+
+    Highlighter *highlighter;
 
 signals:
     
@@ -36,7 +42,16 @@ public slots:
     void setXTA(XTAinfo xta);
 
     void resizeLayout();
-    void addChord();
+    void addNewChord();
+
+    void read();
+
+    void selectAll();
+    void undo();
+    void redo();
+    void cut();
+    void copy();
+    void paste();
     
 };
 

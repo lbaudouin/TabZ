@@ -5,6 +5,7 @@
 #include <QDomDocument>
 #include <QMessageBox>
 #include <QFile>
+#include <QFileInfo>
 
 #include <QDebug>
 

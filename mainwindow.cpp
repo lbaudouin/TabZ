@@ -54,54 +54,107 @@ void MainWindow::setUpToolBar()
 
     connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(pressNew()));
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(pressOpen()));
+    connect(ui->actionOpen_Folder,SIGNAL(triggered()),this,SLOT(pressOpenFolder()));
     connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(pressSave()));
     connect(ui->actionSave_as,SIGNAL(triggered()),this,SLOT(pressSaveAs()));
     connect(ui->actionClose,SIGNAL(triggered()),this,SLOT(pressClose()));
+    connect(ui->actionClose_All,SIGNAL(triggered()),this,SLOT(pressCloseAll()));
 
     connect(ui->actionPrevious,SIGNAL(triggered()),this,SLOT(pressPrevious()));
     connect(ui->actionNext,SIGNAL(triggered()),this,SLOT(pressNext()));
 
     connect(ui->actionFull_Screen,SIGNAL(toggled(bool)),this,SLOT(pressSetFullScreen(bool)));
+
+    connect(ui->actionSelect_All,SIGNAL(triggered()),this,SLOT(pressSelectAll()));
+    connect(ui->actionCut,SIGNAL(triggered()),this,SLOT(pressCut()));
+    connect(ui->actionCopy,SIGNAL(triggered()),this,SLOT(pressCopy()));
+    connect(ui->actionPaste,SIGNAL(triggered()),this,SLOT(pressPaste()));
+
+    connect(ui->actionUndo,SIGNAL(triggered()),this,SLOT(pressUndo()));
+    connect(ui->actionRedo,SIGNAL(triggered()),this,SLOT(pressRedo()));
+}
+
+int MainWindow::addTab(XTAinfo info)
+{
+    QString tabName = info.filename;
+    if(!info.artist.isEmpty() && !info.title.isEmpty())
+        tabName = info.artist + " - " + info.title;
+    if(tabName.isEmpty())
+        tabName = tr("New");
+
+    int index = addTab(tabName);
+
+    ((Tab*)(ui->tabWidget->widget(index)))->setXTA(info);
 }
 
 int MainWindow::addTab(QString name)
 {
     QAction *action = new QAction(name,this);
+    action->setIcon( this->style()->standardIcon(QStyle::SP_DialogSaveButton ) );
+
     Tab *tab = new Tab(ui->tabWidget);
+
     mapTabAction.insert(action,tab);
 
     ui->menuTabs->addAction(action);
     connect(action,SIGNAL(triggered()),this,SLOT(pressGoTo()));
 
-    return ui->tabWidget->addTab(tab,name);
+    int index = ui->tabWidget->addTab(tab,name);
+
+    ui->tabWidget->setCurrentIndex( index );
+
+    return index;
 }
 
-void MainWindow::pressNew()
+void MainWindow::pressNew(QString text)
 {
-    int index = addTab("*.new");
-    ui->tabWidget->setCurrentIndex( index );
+    XTAinfo info("","");
+    info.text = text;
+    int index = addTab(info);
+
+    ui->tabWidget->setTabIcon(index, QIcon( this->style()->standardIcon(QStyle::SP_DialogSaveButton )) );
 }
 
 void MainWindow::pressOpen()
 {
-    QString filepath = QFileDialog::getOpenFileName(this,tr("Open file"),"."/*QDir::homePath()*/,"*.xta");
+    QString filepath = QFileDialog::getOpenFileName(this,tr("Open file"),"."/*QDir::homePath()*/,"*.xta *.txt");
 
     if(filepath.isEmpty())
         return;
 
     QFileInfo fi(filepath);
 
-    int index = addTab(fi.fileName());
+    XTAinfo info(fi.filePath(), fi.fileName());
+    info = xta->parse(filepath);
 
-    ui->tabWidget->setCurrentIndex( index );
+    addTab( info );
+}
 
-    XTAinfo info = xta->parse(filepath);
+void MainWindow::pressOpenFolder()
+{
+    QString folderpath = QFileDialog::getExistingDirectory(this,tr("Open file"),".");
 
-    ((Tab*)(ui->tabWidget->widget(index)))->setXTA(info);
+    if(folderpath.isEmpty())
+        return;
+
+    QStringList filters;
+    filters << "*.xta" << "*.XTA" << "*.txt" << "*.TXT";
+
+    QDir dir(folderpath);
+    dir.setNameFilters(filters);
+    QStringList listFiles = dir.entryList();
+
+    foreach(QString filepath, listFiles){
+        QFileInfo fi(filepath);
+        XTAinfo info(fi.filePath(), fi.fileName());
+        info = xta->parse(filepath);
+        addTab(info);
+    }
 }
 
 void MainWindow::pressSave()
 {
+    if(ui->tabWidget->currentIndex()<0) return;
     XTAinfo info = ((Tab*)(ui->tabWidget->currentWidget()))->getXTA();
     if(info.filename.isEmpty()){
         pressSaveAs(info);
@@ -112,17 +165,31 @@ void MainWindow::pressSave()
 
 void MainWindow::pressSaveAs()
 {
+    if(ui->tabWidget->currentIndex()<0) return;
     XTAinfo info = ((Tab*)(ui->tabWidget->currentWidget()))->getXTA();
     pressSaveAs(info);
 }
 
 void MainWindow::pressSaveAs(XTAinfo info)
 {
-    QString filepath = QFileDialog::getSaveFileName(this,tr("Save as"),".",tr("XTA files (*.xta)"));
+    if(ui->tabWidget->currentIndex()<0) return;
+    QString selectedFilter;
+
+    QString sample = ".";
+    if(!info.artist.isEmpty() && !info.title.isEmpty())
+        sample = info.artist + " - " + info.title;
+
+
+    QString filepath = QFileDialog::getSaveFileName(this,tr("Save as"),sample,QString("%1;;%2").arg(tr("XTA files (*.xta)"),tr("TXT files (*.txt)")),&selectedFilter);
+    qDebug() << selectedFilter;
+
     if(!filepath.isEmpty()){
         QFileInfo fi(filepath);
-        if(fi.suffix()!=".xta"){
+        if(selectedFilter==tr("XTA files (*.xta)") && fi.suffix()!="xta"){
             filepath.push_back(".xta");
+        }
+        if(selectedFilter==tr("TXT files (*.txt)") && fi.suffix()!="txt"){
+            filepath.push_back(".txt");
         }
         xta->save(filepath,info);
     }
@@ -137,6 +204,19 @@ void MainWindow::pressClose()
 
     delete action;
     delete ui->tabWidget->currentWidget();
+}
+
+void MainWindow::pressCloseAll()
+{
+    while(ui->tabWidget->count()!=0){
+        Tab* currentTab = (Tab*)(ui->tabWidget->currentWidget());
+        QAction* action = mapTabAction.key(currentTab);
+
+        mapTabAction.remove(action);
+
+        delete action;
+        delete ui->tabWidget->currentWidget();
+    }
 }
 
 void MainWindow::pressSetFullScreen(bool fullScreen)
@@ -172,4 +252,46 @@ void MainWindow::pressGoTo()
 {
     QAction *action = (QAction*)sender();
     ui->tabWidget->setCurrentWidget(mapTabAction[action]);
+}
+
+void MainWindow::pressSelectAll()
+{
+    if(ui->tabWidget->currentIndex()<0) return;
+    Tab* currentTab = (Tab*)(ui->tabWidget->currentWidget());
+    currentTab->selectAll();
+}
+
+void MainWindow::pressUndo()
+{
+    if(ui->tabWidget->currentIndex()<0) return;
+    Tab* currentTab = (Tab*)(ui->tabWidget->currentWidget());
+    currentTab->undo();
+}
+
+void MainWindow::pressRedo()
+{
+    if(ui->tabWidget->currentIndex()<0) return;
+    Tab* currentTab = (Tab*)(ui->tabWidget->currentWidget());
+    currentTab->redo();
+}
+
+void MainWindow::pressCut()
+{
+    if(ui->tabWidget->currentIndex()<0) return;
+    Tab* currentTab = (Tab*)(ui->tabWidget->currentWidget());
+    currentTab->cut();
+}
+
+void MainWindow::pressCopy()
+{
+    if(ui->tabWidget->currentIndex()<0) return;
+    Tab* currentTab = (Tab*)(ui->tabWidget->currentWidget());
+    currentTab->copy();
+}
+
+void MainWindow::pressPaste()
+{
+    if(ui->tabWidget->currentIndex()<0) return;
+    Tab* currentTab = (Tab*)(ui->tabWidget->currentWidget());
+    currentTab->paste();
 }

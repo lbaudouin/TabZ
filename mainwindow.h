@@ -26,6 +26,7 @@ public:
 protected:
     void setUpToolBar();
     int addTab(QString name);
+    int addTab(XTAinfo info);
     
 private:
     Ui::MainWindow *ui;
@@ -35,17 +36,26 @@ private:
     QMap<QAction*,Tab*> mapTabAction;
 
 private slots:
-    void pressNew();
+    void pressNew(QString text = QString());
     void pressOpen();
+    void pressOpenFolder();
     void pressSave();
     void pressSaveAs();
     void pressSaveAs(XTAinfo);
     void pressClose();
+    void pressCloseAll();
     void pressSetFullScreen(bool);
 
     void pressPrevious();
     void pressNext();
     void pressGoTo();
+
+    void pressSelectAll();
+    void pressUndo();
+    void pressRedo();
+    void pressCut();
+    void pressCopy();
+    void pressPaste();
 };
 
 #endif // MAINWINDOW_H

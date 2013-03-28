@@ -10,42 +10,56 @@ XTAinfo XTA::parse(QString filepath)
     QDomDocument *dom = new QDomDocument("docXML");
     QFile xml_doc(filepath);
 
-    XTAinfo xta(filepath);
+    QFileInfo fi(filepath);
+    XTAinfo xta(filepath,fi.fileName());
 
-    if(!xml_doc.open(QIODevice::ReadOnly)){
-        if(parent_)
-            QMessageBox::warning(parent_,parent_->tr("Failed to open XML document"),parent_->tr("The XML document '%1' could not be opened. Verify that the name is correct and that the document is well placed.").arg(filepath));
-        return XTAinfo("");
+    if(fi.suffix()=="txt" || fi.suffix()=="TXT"){
+        QFile file(filepath);
+        if(file.open(QFile::ReadOnly)){
+            QTextStream in(&file);
+            QString text = in.readAll();
+            xta.text = text;
+        }
+        file.close();
     }
-    if (!dom->setContent(&xml_doc)){
+
+    if(fi.suffix()=="xta" || fi.suffix()=="XTA"){
+
+        if(!xml_doc.open(QIODevice::ReadOnly)){
+            if(parent_)
+                QMessageBox::warning(parent_,parent_->tr("Failed to open XML document"),parent_->tr("The XML document '%1' could not be opened. Verify that the name is correct and that the document is well placed.").arg(filepath));
+            return XTAinfo("","");
+        }
+        if (!dom->setContent(&xml_doc)){
+            xml_doc.close();
+            if(parent_)
+                QMessageBox::warning(parent_,parent_->tr("Error opening the XML document"),parent_->tr("The XML document could not be assigned to the object QDomDocument."));
+            return XTAinfo("","");
+        }
+
+        QDomElement dom_element = dom->documentElement();
+        QDomNode node = dom_element.firstChild();
+
+
+        while(!node.isNull())
+        {
+            QDomElement element = node.toElement();
+
+            //qDebug() << element.tagName();
+
+            if(element.tagName()=="Header"){
+                readHeaders(node,xta);
+            }
+
+            if(element.tagName()=="Contenu"){
+                readContent(node,xta);
+            }
+
+            node = node.nextSibling();
+        }
+
         xml_doc.close();
-        if(parent_)
-            QMessageBox::warning(parent_,parent_->tr("Error opening the XML document"),parent_->tr("The XML document could not be assigned to the object QDomDocument."));
-        return XTAinfo("");
     }
-
-    QDomElement dom_element = dom->documentElement();
-    QDomNode node = dom_element.firstChild();
-
-
-    while(!node.isNull())
-    {
-        QDomElement element = node.toElement();
-
-        //qDebug() << element.tagName();
-
-        if(element.tagName()=="Header"){
-            readHeaders(node,xta);
-        }
-
-        if(element.tagName()=="Contenu"){
-            readContent(node,xta);
-        }
-
-        node = node.nextSibling();
-    }
-
-    xml_doc.close();
 
     return xta;
 }
@@ -112,7 +126,7 @@ void XTA::readSongInfo(QDomNode &node, XTAinfo &xta)
             xta.title = element.text();
         if(element.tagName()=="artiste")
             xta.artist = element.text();
-        if(element.tagName()=="titre")
+        if(element.tagName()=="album")
             xta.album = element.text();
 
         child = child.nextSibling();
@@ -126,41 +140,48 @@ void XTA::save(QString filepath, XTAinfo xta)
 
     QTextStream stream(&file);
 
-    QDomDocument dom;
-
-    QDomElement nodeXTA = dom.createElement("XTA");
-    dom.appendChild(nodeXTA);
-
-    {
-        QDomElement node1 = dom.createElement("Headers");
-        nodeXTA.appendChild(node1);
-
-        addNode(dom,node1,"Version",xta.version);
-        addNode(dom,node1,"Capo",xta.capo);
-        addNode(dom,node1,"Accordage",xta.tuning);
-
-        QDomElement node2 = dom.createElement("Musique");
-        node1.appendChild(node2);
-
-        addNode(dom,node2,"titre",xta.title);
-        addNode(dom,node2,"artiste",xta.artist);
-        addNode(dom,node2,"album",xta.album);
-
-
-        addNode(dom,node1,"FichierGTP",xta.file_gp);
-        addNode(dom,node1,"FichierMP3",xta.file_mp3);
-
+    QFileInfo fi(filepath);
+    if(fi.suffix()=="txt" || fi.suffix()=="TXT"){
+        stream << xta.text;
     }
 
-    {
-        QDomElement node1 = dom.createElement("Contenu");
-        nodeXTA.appendChild(node1);
+    if(fi.suffix()=="xta" || fi.suffix()=="XTA"){
+        QDomDocument dom;
 
-        addNode(dom,node1,"TXT",xta.text);
-        addNode(dom,node1,"TableAccords",xta.chords);
+        QDomElement nodeXTA = dom.createElement("XTA");
+        dom.appendChild(nodeXTA);
+
+        {
+            QDomElement node1 = dom.createElement("Headers");
+            nodeXTA.appendChild(node1);
+
+            addNode(dom,node1,"Version",xta.version);
+            addNode(dom,node1,"Capo",xta.capo);
+            addNode(dom,node1,"Accordage",xta.tuning);
+
+            QDomElement node2 = dom.createElement("Musique");
+            node1.appendChild(node2);
+
+            addNode(dom,node2,"titre",xta.title);
+            addNode(dom,node2,"artiste",xta.artist);
+            addNode(dom,node2,"album",xta.album);
+
+
+            addNode(dom,node1,"FichierGTP",xta.file_gp);
+            addNode(dom,node1,"FichierMP3",xta.file_mp3);
+
+        }
+
+        {
+            QDomElement node1 = dom.createElement("Contenu");
+            nodeXTA.appendChild(node1);
+
+            addNode(dom,node1,"TXT",xta.text);
+            addNode(dom,node1,"TableAccords",xta.chords);
+        }
+
+        stream << dom.toString();
     }
-
-    stream << dom.toString();
 
     file.close();
 
