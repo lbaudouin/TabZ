@@ -21,13 +21,8 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>-1</number>
       </property>
-      <widget class="QWidget" name="tabNew">
-       <attribute name="title">
-        <string>New</string>
-       </attribute>
-      </widget>
      </widget>
     </item>
    </layout>
@@ -93,7 +88,16 @@
     <property name="title">
      <string>Display</string>
     </property>
+    <widget class="QMenu" name="menuTabs">
+     <property name="title">
+      <string>Tabs</string>
+     </property>
+     <addaction name="actionPrevious"/>
+     <addaction name="actionNext"/>
+     <addaction name="separator"/>
+    </widget>
     <addaction name="actionFull_Screen"/>
+    <addaction name="menuTabs"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -186,6 +190,9 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
    </property>
   </action>
   <action name="actionClose">
@@ -295,6 +302,28 @@
    </property>
    <property name="text">
     <string>Full Screen</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionPrevious">
+   <property name="text">
+    <string>Previous</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+Left</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionNext">
+   <property name="text">
+    <string>Next</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+Right</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>

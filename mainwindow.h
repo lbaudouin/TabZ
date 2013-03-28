@@ -25,18 +25,27 @@ public:
 
 protected:
     void setUpToolBar();
+    int addTab(QString name);
     
 private:
     Ui::MainWindow *ui;
     Qt::WindowStates previousState;
     XTA *xta;
 
+    QMap<QAction*,Tab*> mapTabAction;
+
 private slots:
     void pressNew();
     void pressOpen();
     void pressSave();
+    void pressSaveAs();
+    void pressSaveAs(XTAinfo);
     void pressClose();
     void pressSetFullScreen(bool);
+
+    void pressPrevious();
+    void pressNext();
+    void pressGoTo();
 };
 
 #endif // MAINWINDOW_H

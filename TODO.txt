@@ -26,7 +26,9 @@ TODO list :
 - French chord to english
 - save on exit
 *** full screen
-- tab browser menu
+*** tab browser menu
 - create assistant
 - recent files
+- resize scrool area if empty column
+- overwrite existing file (save as) : suffix not added before checking
 

@@ -4,7 +4,7 @@
 #include <QString>
 
 struct XTAinfo{
-    XTAinfo() : capo(0) {}
+    XTAinfo(QString path) : filename(path), capo(0) {}
 
     QString version;
     int capo;
@@ -17,6 +17,8 @@ struct XTAinfo{
 
     QString text;
     QString chords;
+
+    QString filename;
 };
 
 #endif // XTA_INFO_H

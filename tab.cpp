@@ -1,39 +1,8 @@
 #include "tab.h"
 
-Tab::Tab(QWidget *parent) :
+Tab::Tab(QWidget *parent) : info(""),
     QWidget(parent)
 {
-    /*if(parent->layout()){
-        delete parent->layout();
-    }
-
-    if(!parent->layout()){
-        QVBoxLayout* layout = new QVBoxLayout(parent);
-        layout->setSpacing(6);
-        layout->setContentsMargins(11, 11, 11, 11);
-        layout->setObjectName(QString::fromUtf8("layout"));
-    }
-
-    edit = new QTextEdit;
-    edit->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
-    Highlighter *highlighter = new Highlighter(edit->document());
-    QLabel *label =new QLabel("test");
-    QSplitter *splitter = new QSplitter(parent);
-    splitter->setOrientation(Qt::Horizontal);
-    splitter->addWidget(edit);
-    splitter->addWidget(label);
-
-    QLabel *info = new QLabel("Info");
-    info->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
-
-    parent->layout()->addWidget(info);
-
-    parent->layout()->addWidget(splitter);
-
-    edit->setText(QString::fromUtf8("A Am A# B# C# A\n"
-                  "Avec A Amour"));*/
-
-
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setSpacing(6);
     //layout->setContentsMargins(11, 11, 11, 11);
@@ -103,13 +72,13 @@ Tab::Tab(QWidget *parent) :
 
 
 
-    v1->addWidget(new Guitar("F","133211"));
-    v1->addWidget(new Guitar("D","XX2320"));
-    v1->addWidget(new Guitar("E","022100"));
-    v1->addWidget(new Guitar("D#m","X68876"));
-    v2->addWidget(new Guitar("A","577655"));
-    v2->addWidget(new Guitar("Em","022000"));
-    v2->addWidget(new Guitar("D#add9-\\A#","X1234X"));
+    v1->addWidget(new Guitar("F","1 3 3 2 1 1"));
+    v1->addWidget(new Guitar("D","X X 2 3 2 0"));
+    v1->addWidget(new Guitar("X","10 12 12 11 10 10"));
+    v1->addWidget(new Guitar("D#m","X 6 8 8 7 6"));
+    v2->addWidget(new Guitar("A","5 7 7 6 5 5"));
+    v2->addWidget(new Guitar("Em","0 2 2 0 0 0"));
+    v2->addWidget(new Guitar("D#add9-\\A#","X 1 2 3 4 X"));
 
 
 
@@ -159,16 +128,23 @@ void Tab::setXTA(XTAinfo xta)
 
 XTAinfo Tab::getXTA()
 {
+    info.text = edit->toPlainText();
     return info;
 }
 
 void Tab::resizeLayout()
 {
-    scrollArea->update();
+    qDebug() << "resizeLayout";
+    scrollArea->resize(0,0);
     mainLayout->update();
+    v1->update();
+    v2->update();
     parentWidget()->update();
+
+
 }
 
 void Tab::addChord()
 {
+    v2->addWidget(new Guitar("Em","0 2 2 0 0 0"));
 }

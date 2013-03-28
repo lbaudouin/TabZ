@@ -10,18 +10,18 @@ XTAinfo XTA::parse(QString filepath)
     QDomDocument *dom = new QDomDocument("docXML");
     QFile xml_doc(filepath);
 
-    XTAinfo xta;
+    XTAinfo xta(filepath);
 
     if(!xml_doc.open(QIODevice::ReadOnly)){
         if(parent_)
             QMessageBox::warning(parent_,parent_->tr("Failed to open XML document"),parent_->tr("The XML document '%1' could not be opened. Verify that the name is correct and that the document is well placed.").arg(filepath));
-        return xta;
+        return XTAinfo("");
     }
     if (!dom->setContent(&xml_doc)){
         xml_doc.close();
         if(parent_)
             QMessageBox::warning(parent_,parent_->tr("Error opening the XML document"),parent_->tr("The XML document could not be assigned to the object QDomDocument."));
-        return xta;
+        return XTAinfo("");
     }
 
     QDomElement dom_element = dom->documentElement();

@@ -98,12 +98,14 @@ void Neck::paintEvent(QPaintEvent *)
     int max = -1;
 
     //Find min and max, save poses
-    for(int i=0;i<6;i++){
-        if(fingers_.at(i)=='X'){
+    QList<QString> fingers = fingers_.split(" ");
+
+    foreach(QString finger, fingers){
+        if(finger=="X"){
             poses.push_back(-1);
             continue;
         }
-        int pose = QString(fingers_.at(i)).toInt();
+        int pose = finger.toInt();
         poses.push_back(pose);
 
         if(pose>max) max = pose;
@@ -161,5 +163,5 @@ void Neck::paintEvent(QPaintEvent *)
     //Print first fret
     painter.setPen(Qt::white);
     painter.setBrush(Qt::NoBrush);
-    painter.drawText(0,18,10,10,Qt::AlignCenter,QString::number(1+shift));
+    painter.drawText(0,18,20,10,Qt::AlignCenter,QString::number(1+shift));
 }
