@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=TabS
+Name[fr_FR]=tabs.desktop
+Comment=Read/Modify chords song files
+Comment[fr_FR]=Lire/Modifier les fichiers d'accord musiquaux
+Exec=tabs
+Icon=tabs
+Type=Application
+Terminal=false
+MimeType=text/x-xta;
+Categories=AudioVideo;Audio;
