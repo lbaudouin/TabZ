@@ -61,6 +61,7 @@ private:
     QString name_;
     QString fingers_;
     QSize size_;
+    bool selected_;
 
 signals:
     

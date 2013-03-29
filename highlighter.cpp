@@ -66,6 +66,8 @@ QStringList Highlighter::getList(QString text)
         QString chords = line;
         chords.remove(QRegExp("[0-9]"));
         chords.remove("x",Qt::CaseInsensitive);
+        chords.remove("-");
+        chords.remove("|");
         chords.remove(" ");
         chords.remove("\t");
 
@@ -104,6 +106,8 @@ void Highlighter::highlightBlock(const QString &text)
     chords.remove(QRegExp("[0-9]"));
     chords.remove("x",Qt::CaseInsensitive);
     chords.remove(" ");
+    chords.remove("-");
+    chords.remove("|");
     chords.remove("\t");
 
     if(chords.contains("(")){

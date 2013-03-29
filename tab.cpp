@@ -44,12 +44,17 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta),
     QHBoxLayout *infoLayout = new QHBoxLayout;
     mainLayout->addLayout(infoLayout);
 
-    QVBoxLayout *i1 = new QVBoxLayout;
+    QHBoxLayout *i1 = new QHBoxLayout;
     QVBoxLayout *i2 = new QVBoxLayout;
 
     labelInfo = new QLabel("Info");
-    labelInfo->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
+    QFont font = labelInfo->font();
+    font.setBold(true);
+    labelInfo->setFont(font);
+    specialInfo = new QLabel("Info");
+    //labelInfo->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
     i1->addWidget(labelInfo);
+    i1->addWidget(specialInfo);
 
 
     QWidget *infoWidget = new QWidget;
@@ -63,9 +68,14 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta),
     editTuning = new QLineEdit;
     formLayout->addRow(tr("Tuning:"),editTuning);
     editCapo = new QSpinBox();
+
+    QSpacerItem *spacerSpinBox = new QSpacerItem(10,10,QSizePolicy::Expanding,QSizePolicy::Ignored);
+    QHBoxLayout *layoutSpinBox = new QHBoxLayout;
     editCapo->setMinimum(0);
     editCapo->setMaximum(30);
-    formLayout->addRow(tr("Capo:"),editCapo);
+    layoutSpinBox->addWidget(editCapo);
+    layoutSpinBox->addSpacerItem(spacerSpinBox);
+    formLayout->addRow(tr("Capo:"),layoutSpinBox);
 
     infoWidget->setLayout(formLayout);
     infoWidget->setVisible(false);
@@ -88,7 +98,9 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta),
     infoLayout->addLayout(i2);
 
     connect(hideShow,SIGNAL(toggled(bool)),labelInfo,SLOT(setHidden(bool)));
+    connect(hideShow,SIGNAL(toggled(bool)),specialInfo,SLOT(setHidden(bool)));
     connect(hideShow,SIGNAL(toggled(bool)),infoWidget,SLOT(setVisible(bool)));
+    connect(hideShow,SIGNAL(clicked()),this,SLOT(updateTitle()));
 
 
     edit = new QTextEdit;
@@ -219,18 +231,37 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta),
         resizeLayout();
     }
 
-    labelInfo->setText(tr("%1 - %2 %3").arg(info.artist,info.title,
-                                                 (info.capo>0 && info.tuning!="EADGBE")?QString(tr("\t [Capo: %1, Tuning: %2]")).arg(QString::number(info.capo),info.tuning):
-                                                 (info.capo>0)?QString("\t [Capo: %1]").arg(QString::number(info.capo)):
-                                                 (info.tuning!="EADGBE")?QString("\t [Tuning: %1]").arg(info.tuning):""));
+    updateTitle();
+}
+
+void Tab::updateTitle()
+{
+    if(modified_info.title.isEmpty()){
+        labelInfo->setText( tr("(No title)"));
+    }else{
+        labelInfo->setText( QString(tr("%1 - %2","artist - title")).arg(modified_info.artist,modified_info.title));
+    }
+
+    if(modified_info.capo>0 && modified_info.tuning!="EADGBE"){
+        specialInfo->setText(QString(tr("\t [Capo: %1, Tuning: %2]")).arg(QString::number(modified_info.capo),modified_info.tuning));
+    }else if(modified_info.capo>0){
+        specialInfo->setText(QString("\t [Capo: %1]").arg(QString::number(modified_info.capo)));
+    }else if(modified_info.tuning!="EADGBE") {
+        specialInfo->setText(QString("\t [Tuning: %1]").arg(modified_info.tuning));
+    }else{
+        specialInfo->clear();
+    }
 }
 
 void Tab::capoChanged(int)
 {
     modified_info.capo = editCapo->value();
 
-    if(!info.isEqual(modified_info))
-     emit setSaveIcon(-1,edit->toPlainText()!=info.text);
+    if(!info.isEqual(modified_info)){
+        emit setSaveIcon(-1,true);
+    }else{
+        emit setSaveIcon(-1,false);
+    }
 }
 
 void Tab::textChanged(QString)

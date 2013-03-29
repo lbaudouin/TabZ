@@ -57,6 +57,8 @@ private slots:
     void pressPaste();
 
     void displaySaveIcon(int,bool);
+
+    void tabCloseRequest(int);
 };
 
 #endif // MAINWINDOW_H

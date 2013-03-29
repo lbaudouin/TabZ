@@ -28,7 +28,7 @@ protected:
     
 private:
     QTextEdit *edit;
-    QLabel *labelInfo;
+    QLabel *labelInfo,*specialInfo;
     XTAinfo info,modified_info;
 
     QLineEdit *editTitle,*editArtist,*editAlbum,*editTuning;
@@ -50,8 +50,10 @@ private slots:
     void textChanged(QString text = QString());
     void capoChanged(int);
     void deleteGuitar();
+    void updateTitle();
 
 public slots:
+
     void resizeLayout();
     void addNewChord();
 

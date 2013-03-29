@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //QPrintDialog *pd = new QPrintDialog(printer,this);
     //pd->show();
 
+    connect(ui->tabWidget,SIGNAL(tabCloseRequested(int)),this,SLOT(tabCloseRequest(int)));
 }
 
 MainWindow::~MainWindow()
@@ -92,6 +93,26 @@ void MainWindow::setUpToolBar()
     connect(ui->actionRedo,SIGNAL(triggered()),this,SLOT(pressRedo()));
 }
 
+void MainWindow::tabCloseRequest(int index)
+{
+    Tab* tab = (Tab*)ui->tabWidget->widget(index);
+
+    if(tab->isModified()){
+        int button = QMessageBox::warning(this,"modified",QString("do you want to save : %1").arg(ui->tabWidget->tabText(index)),QMessageBox::Yes,QMessageBox::No);
+        //TODO
+        /*if(button==QMessageBox::Yes){
+            pressSave();
+        }*/
+    }
+
+    QAction* action = mapTabAction.key(tab);
+
+    mapTabAction.remove(action);
+
+    delete action;
+    delete tab;
+}
+
 Tab* MainWindow::getCurrentTab()
 {
     if(ui->tabWidget->count()==0) return 0;
@@ -141,7 +162,7 @@ void MainWindow::pressNew(QString text)
 {
     XTAinfo info("","");
     info.text = text;
-    int index = addTab(info);
+    addTab(info);
 }
 
 void MainWindow::pressOpen()

@@ -9,6 +9,7 @@ TODO list :
 - always read only
 - black/white/color neck for chord
 - french/english chords
+- change police
 
 #### Functions ####
 
@@ -41,5 +42,8 @@ TODO list :
 *** open/save txt
 - auto scrolling
 - sync MP3 and lines
+- highlight selected chord
+- import chords from other xta
+- search on internet for tab on "http://guythoun.free.fr/TabS/xta/index.php?page=search&q=%s"
 
 

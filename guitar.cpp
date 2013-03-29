@@ -64,7 +64,7 @@ QString Guitar::getFingers()
     return fingers_;
 }
 
-Neck::Neck( QString fingers, QWidget *parent) : fingers_(fingers),
+Neck::Neck( QString fingers, QWidget *parent) : fingers_(fingers), selected_(false),
     QWidget(parent)
 {
     size_ = QSize(150,200);
@@ -92,8 +92,13 @@ void Neck::paintEvent(QPaintEvent *)
 
     painter.drawRect(0,0,size_.width(),size_.height());
 
-    painter.setBrush(Qt::black);
-    painter.setPen(Qt::black);
+    if(selected_){
+        painter.setBrush(Qt::darkBlue);
+        painter.setPen(Qt::darkBlue);
+    }else{
+        painter.setBrush(Qt::black);
+        painter.setPen(Qt::black);
+    }
 
     painter.drawRect(0,0,size_.width(),size_.height());
 
@@ -210,13 +215,18 @@ void Neck::paintEvent(QPaintEvent *)
 
 void Neck::mousePressEvent(QMouseEvent *event)
 {
-    QMenu * menu = new QMenu(this);
-    QAction* actionModify = menu->addAction(tr("Modify"));
-    QAction* actionReduce = menu->addAction(tr("Reduce"));
-    QAction* actionClose = menu->addAction(tr("Close"));
-    //connect(actionModify,SIGNAL(triggered()),this,SLOT(()));
-    connect(actionReduce,SIGNAL(triggered()),(Guitar*)this->parent(),SLOT(pressReduce()));
-    connect(actionClose,SIGNAL(triggered()),(Guitar*)this->parent(),SLOT(pressClose()));
-    menu->move(event->globalPos());
-    menu->show();
+    if(event->button()==Qt::RightButton){
+        QMenu * menu = new QMenu(this);
+        QAction* actionModify = menu->addAction(tr("Modify"));
+        QAction* actionReduce = menu->addAction(tr("Reduce"));
+        QAction* actionClose = menu->addAction(tr("Close"));
+
+        actionModify->setEnabled(false);
+
+        //connect(actionModify,SIGNAL(triggered()),this,SLOT(()));
+        connect(actionReduce,SIGNAL(triggered()),(Guitar*)this->parent(),SLOT(pressReduce()));
+        connect(actionClose,SIGNAL(triggered()),(Guitar*)this->parent(),SLOT(pressClose()));
+        menu->move(event->globalPos());
+        menu->show();
+    }
 }

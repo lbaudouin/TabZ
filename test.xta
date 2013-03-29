@@ -1,8 +1,8 @@
 <XTA>
  <Header>
   <Version></Version>
-  <Capo>0</Capo>
-  <Accordage>EADGBE</Accordage>
+  <Capo>1</Capo>
+  <Accordage>EbADGBE</Accordage>
   <Musique>
    <titre>Titre</titre>
    <artiste>Artiste</artiste>
@@ -22,7 +22,14 @@ Ma-man, ma-man,  je r'de-viens pe-tit gar-çon,
 C#m            G#7
 Alors je suis sage en classe
 G#7   C#m                F#m
-Et,   pour te fair' plai-sir,</TXT>
+Et,   pour te fair' plai-sir,
+
+E|---0--------------|
+A|---0--------------|
+D|---0--------------|
+G|---2--------------|
+B|---2--------------|
+E|---0--------------|</TXT>
   <TableAccords>B
 B7 X 2 4 2 4 2
 E
