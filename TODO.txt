@@ -33,7 +33,7 @@ TODO list :
 - recent files
 - resize scrool area if empty column
 - overwrite existing file (save as) : suffix not added before checking
-- hide/show icon when file is modified
+~ hide/show icon when file is modified (only text for the moment)
 - move tabs (move in menu too)
 *** open folder
 *** open/save txt

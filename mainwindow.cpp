@@ -24,6 +24,26 @@ MainWindow::MainWindow(QWidget *parent) :
     ((Tab*)(ui->tabWidget->currentWidget()))->setXTA(info);
 
     this->setWindowState(Qt::WindowMaximized);
+
+    /*QPrinter *printer = new QPrinter;
+
+    QPrintPreviewWidget *pre = new QPrintPreviewWidget(printer);
+
+    ui->tabWidget->addTab(pre,"preview");
+
+
+    QTextEdit *edit = new QTextEdit;
+    edit->setText(info.text);
+
+    QPrintEngine *pe = new QPrintEngine;
+    QPaintEngine *ppe = new QPaintEngine;
+
+    printer->setEngines(pe,ppe);*/
+
+
+    //QPrintDialog *pd = new QPrintDialog(printer,this);
+    //pd->show();
+
 }
 
 MainWindow::~MainWindow()
@@ -85,6 +105,8 @@ int MainWindow::addTab(XTAinfo info)
     int index = addTab(tabName);
 
     ((Tab*)(ui->tabWidget->widget(index)))->setXTA(info);
+
+    return index;
 }
 
 int MainWindow::addTab(QString name)
@@ -93,6 +115,7 @@ int MainWindow::addTab(QString name)
     action->setIcon( this->style()->standardIcon(QStyle::SP_DialogSaveButton ) );
 
     Tab *tab = new Tab(ui->tabWidget);
+    connect(tab,SIGNAL(setSaveIcon(int,bool)),this,SLOT(displaySaveIcon(int,bool)));
 
     mapTabAction.insert(action,tab);
 
@@ -106,13 +129,24 @@ int MainWindow::addTab(QString name)
     return index;
 }
 
+void MainWindow::displaySaveIcon(int index, bool state)
+{
+    if(index<0)
+        index = ui->tabWidget->indexOf((Tab*)sender());
+
+    if(index>=ui->tabWidget->count())
+        return;
+    if(state)
+        ui->tabWidget->setTabIcon(index, QIcon( this->style()->standardIcon(QStyle::SP_DialogSaveButton )) );
+    else
+        ui->tabWidget->setTabIcon(index, QIcon());
+}
+
 void MainWindow::pressNew(QString text)
 {
     XTAinfo info("","");
     info.text = text;
     int index = addTab(info);
-
-    ui->tabWidget->setTabIcon(index, QIcon( this->style()->standardIcon(QStyle::SP_DialogSaveButton )) );
 }
 
 void MainWindow::pressOpen()

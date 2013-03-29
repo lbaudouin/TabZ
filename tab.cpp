@@ -100,6 +100,13 @@ Tab::Tab(QWidget *parent) : info("",""),
     //hlayout->addWidget(w);
     hlayout->addLayout(mainLayout);
     layout->addLayout(hlayout);
+
+    connect(edit,SIGNAL(textChanged()),this,SLOT(textChanged()));
+}
+
+void Tab::textChanged()
+{
+   emit setSaveIcon(-1,edit->toPlainText()!=info.text);
 }
 
 void Tab::setText(QString text)

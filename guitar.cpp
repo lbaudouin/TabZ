@@ -92,6 +92,7 @@ Neck::Neck( QString fingers, QWidget *parent) : fingers_(fingers),
     QWidget(parent)
 {
     size_ = QSize(150,200);
+    //size_ = QSize(100,150);
     this->resize(size_);
     this->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
     setMinimumSize( size_ );

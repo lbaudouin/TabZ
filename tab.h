@@ -36,7 +36,11 @@ private:
     Highlighter *highlighter;
 
 signals:
-    
+    void setSaveIcon(int,bool);
+
+private slots:
+    void textChanged();
+
 public slots:
     void setText(QString text);
     void setXTA(XTAinfo xta);
