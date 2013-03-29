@@ -18,7 +18,7 @@ class Tab : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Tab(QWidget *parent = 0);
+    explicit Tab(XTAinfo xta, QWidget *parent = 0);
     XTAinfo getXTA();
 
 protected:
@@ -27,24 +27,29 @@ protected:
 private:
     QTextEdit *edit;
     QLabel *labelInfo;
-    XTAinfo info;
+    XTAinfo info,modified_info;
 
-    QVBoxLayout *mainLayout;
+    QLineEdit *editTitle,*editArtist,*editAlbum,*editTuning;
+    QSpinBox *editCapo;
+
+    QVBoxLayout *chordLayout;
     QVBoxLayout*v1,*v2;
     QScrollArea *scrollArea;
 
     Highlighter *highlighter;
 
+    QStringList chords;
+    QMap<QString,QString> mapChord;
+
 signals:
     void setSaveIcon(int,bool);
 
 private slots:
-    void textChanged();
+    void textChanged(QString text = QString());
+    void capoChanged(int);
+    void deleteGuitar();
 
 public slots:
-    void setText(QString text);
-    void setXTA(XTAinfo xta);
-
     void resizeLayout();
     void addNewChord();
 
@@ -56,6 +61,8 @@ public slots:
     void cut();
     void copy();
     void paste();
+
+    void saved();
     
 };
 

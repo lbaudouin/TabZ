@@ -17,6 +17,9 @@ class Guitar : public QFrame
 public:
     explicit Guitar(QString name, QString fingers = "", QWidget *parent = 0);
 
+    QString getName() { return name_; }
+    QString getFingers() { return fingers_; }
+
 private:
     QString name_;
     QString fingers_;
@@ -25,9 +28,12 @@ private:
     QToolButton *buttonReduce_, *buttonClose_;
 
 signals:
+    void closeAndDelete();
+
+private slots:
+    void pressClose();
 
 public slots:
-    void reduced(bool);
 };
 
 class Neck : public QWidget

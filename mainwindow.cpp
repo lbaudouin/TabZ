@@ -15,15 +15,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QString testFile = "test.xta";
 
-    int index = addTab(testFile);
+    XTAinfo info = xta->parse(testFile);
+    int index = addTab(info);
 
     ui->tabWidget->setCurrentIndex( index );
 
-    XTAinfo info = xta->parse(testFile);
-
-    ((Tab*)(ui->tabWidget->currentWidget()))->setXTA(info);
-
-    this->setWindowState(Qt::WindowMaximized);
+    //this->setWindowState(Qt::WindowMaximized);
 
     /*QPrinter *printer = new QPrinter;
 
@@ -94,6 +91,12 @@ void MainWindow::setUpToolBar()
     connect(ui->actionRedo,SIGNAL(triggered()),this,SLOT(pressRedo()));
 }
 
+Tab* MainWindow::getCurrentTab()
+{
+    if(ui->tabWidget->count()==0) return 0;
+    else return (Tab*)ui->tabWidget->currentWidget();
+}
+
 int MainWindow::addTab(XTAinfo info)
 {
     QString tabName = info.filename;
@@ -102,27 +105,18 @@ int MainWindow::addTab(XTAinfo info)
     if(tabName.isEmpty())
         tabName = tr("New");
 
-    int index = addTab(tabName);
-
-    ((Tab*)(ui->tabWidget->widget(index)))->setXTA(info);
-
-    return index;
-}
-
-int MainWindow::addTab(QString name)
-{
-    QAction *action = new QAction(name,this);
-    action->setIcon( this->style()->standardIcon(QStyle::SP_DialogSaveButton ) );
-
-    Tab *tab = new Tab(ui->tabWidget);
+    Tab *tab = new Tab(info, ui->tabWidget);
     connect(tab,SIGNAL(setSaveIcon(int,bool)),this,SLOT(displaySaveIcon(int,bool)));
+
+    QAction *action = new QAction(tabName,this);
+    action->setIcon( this->style()->standardIcon(QStyle::SP_DialogSaveButton ) );
 
     mapTabAction.insert(action,tab);
 
     ui->menuTabs->addAction(action);
     connect(action,SIGNAL(triggered()),this,SLOT(pressGoTo()));
 
-    int index = ui->tabWidget->addTab(tab,name);
+    int index = ui->tabWidget->addTab(tab,tabName);
 
     ui->tabWidget->setCurrentIndex( index );
 
@@ -189,24 +183,23 @@ void MainWindow::pressOpenFolder()
 void MainWindow::pressSave()
 {
     if(ui->tabWidget->currentIndex()<0) return;
-    XTAinfo info = ((Tab*)(ui->tabWidget->currentWidget()))->getXTA();
+    Tab *currentTab = (Tab*)ui->tabWidget->currentWidget();
+    XTAinfo info = currentTab->getXTA();
     if(info.filename.isEmpty()){
-        pressSaveAs(info);
+        pressSaveAs();
     }else{
         xta->save(info.filename,info);
+        currentTab->saved();
+        displaySaveIcon(ui->tabWidget->indexOf(currentTab),false);
     }
 }
 
 void MainWindow::pressSaveAs()
 {
     if(ui->tabWidget->currentIndex()<0) return;
-    XTAinfo info = ((Tab*)(ui->tabWidget->currentWidget()))->getXTA();
-    pressSaveAs(info);
-}
+    Tab *currentTab = (Tab*)ui->tabWidget->currentWidget();
+    XTAinfo info = currentTab->getXTA();
 
-void MainWindow::pressSaveAs(XTAinfo info)
-{
-    if(ui->tabWidget->currentIndex()<0) return;
     QString selectedFilter;
 
     QString sample = ".";
@@ -226,6 +219,8 @@ void MainWindow::pressSaveAs(XTAinfo info)
             filepath.push_back(".txt");
         }
         xta->save(filepath,info);
+        currentTab->saved();
+        displaySaveIcon(ui->tabWidget->indexOf(currentTab),false);
     }
 }
 

@@ -3,46 +3,6 @@
 Guitar::Guitar(QString name, QString fingers, QWidget *parent) : name_(name), fingers_(fingers),
     QFrame(parent)
 {
-    //TODO, move it
-    QMap<QString,QString> mapChord;
-    mapChord.insert("A","0 0 2 2 1 0");
-    mapChord.insert("B","2 2 4 4 4 2");
-    mapChord.insert("C","0 3 2 0 1 0");
-    mapChord.insert("D","0 0 0 2 3 2");
-    mapChord.insert("E","0 2 2 1 0 0");
-    mapChord.insert("F","1 3 3 2 1 1");
-    mapChord.insert("G","3 2 0 0 0 3");
-    mapChord.insert("Am","0 0 2 2 1 0");
-    mapChord.insert("Bm","2 2 4 4 3 2");
-    mapChord.insert("Cm","X 3 5 5 4 3");
-    mapChord.insert("Dm","0 0 0 2 3 1");
-    mapChord.insert("Em","0 2 2 0 0 0");
-    mapChord.insert("Fm","1 3 3 1 1 1");
-    mapChord.insert("Gm","3 5 5 3 3 3");
-    mapChord.insert("A#","X 1 3 3 3 1");
-    mapChord.insert("C#","X 4 6 6 6 4");
-    mapChord.insert("D#","X 6 8 8 8 6");
-    mapChord.insert("F#","2 4 4 3 2 2");
-    mapChord.insert("G#","4 6 6 5 4 4");
-    mapChord.insert("Bb","X 1 3 3 3 1");
-    mapChord.insert("Db","X 4 6 6 6 4");
-    mapChord.insert("Eb","X 6 8 8 8 6");
-    mapChord.insert("Gb","2 4 4 3 2 2");
-    mapChord.insert("Ab","4 6 6 5 4 4");
-    mapChord.insert("A#m","X 1 3 3 2 1");
-    mapChord.insert("C#m","X 4 6 6 5 4");
-    mapChord.insert("D#m","X 6 8 8 7 6");
-    mapChord.insert("F#m","2 4 4 2 2 2");
-    mapChord.insert("G#m","4 6 6 4 4 4");
-
-    if(fingers_.isEmpty()){
-        if(mapChord.contains(name_)){
-            fingers_ = mapChord[name_];
-        }else{
-            fingers_ = "X X X X X X";
-        }
-    }
-
     QVBoxLayout *vlayout = new QVBoxLayout(this);
     QHBoxLayout *hlayout = new QHBoxLayout();
     hlayout->setSizeConstraint(QLayout::SetMinimumSize);
@@ -60,16 +20,21 @@ Guitar::Guitar(QString name, QString fingers, QWidget *parent) : name_(name), fi
 
     buttonClose_ = new QToolButton();
     buttonClose_->setIcon( this->style()->standardIcon(QStyle::SP_DialogCloseButton) );
-    connect(buttonClose_,SIGNAL(clicked()),this,SLOT(close()));
+    connect(buttonClose_,SIGNAL(clicked()),this,SLOT(pressClose()));
 
     buttonReduce_ = new QToolButton();
-    buttonReduce_->setIcon( this->style()->standardIcon(QStyle::SP_TitleBarShadeButton) );
+    //buttonReduce_->setIcon( this->style()->standardIcon(QStyle::SP_TitleBarShadeButton) );
     buttonReduce_->setCheckable(true);
+
+    QIcon icon;
+    icon.addPixmap( this->style()->standardIcon(QStyle::SP_TitleBarUnshadeButton).pixmap(16), QIcon::Normal, QIcon::On );
+    icon.addPixmap( this->style()->standardIcon(QStyle::SP_TitleBarShadeButton).pixmap(16), QIcon::Normal, QIcon::Off );
+    buttonReduce_->setIcon(icon);
 
     Neck *neck = new Neck(fingers_,this);
 
     connect(buttonReduce_,SIGNAL(toggled(bool)),neck,SLOT(setHidden(bool)));
-    connect(buttonReduce_,SIGNAL(toggled(bool)),this,SLOT(reduced(bool)));
+    //connect(buttonReduce_,SIGNAL(toggled(bool)),this,SLOT(reduced(bool)));
 
     hlayout->addWidget(label);
     hlayout->addWidget(buttonReduce_);
@@ -79,13 +44,9 @@ Guitar::Guitar(QString name, QString fingers, QWidget *parent) : name_(name), fi
     vlayout->addWidget(neck);
 }
 
-void Guitar::reduced(bool state)
+void Guitar::pressClose()
 {
-    if(state){
-        buttonReduce_->setIcon( this->style()->standardIcon(QStyle::SP_TitleBarUnshadeButton) );
-    }else{
-        buttonReduce_->setIcon( this->style()->standardIcon(QStyle::SP_TitleBarShadeButton) );
-    }
+    emit closeAndDelete();
 }
 
 Neck::Neck( QString fingers, QWidget *parent) : fingers_(fingers),

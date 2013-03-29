@@ -15,6 +15,7 @@ TODO list :
 - save option (xml)
 - manual add chord in tab
 - add existing chords
+- drag and drop chord
 - chords manager
 - print
 - export PDF
@@ -31,10 +32,13 @@ TODO list :
 *** tab browser menu
 - create assistant
 - recent files
-- resize scrool area if empty column
+*** resize scrool area if empty column
 - overwrite existing file (save as) : suffix not added before checking
-~ hide/show icon when file is modified (only text for the moment)
+~~~ hide/show icon when file is modified (save chords now)
 - move tabs (move in menu too)
 *** open folder
 *** open/save txt
+- auto scrolling
+- sync MP3 ans lines
+
 

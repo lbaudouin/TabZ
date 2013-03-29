@@ -25,8 +25,8 @@ public:
 
 protected:
     void setUpToolBar();
-    int addTab(QString name);
     int addTab(XTAinfo info);
+    Tab* getCurrentTab();
     
 private:
     Ui::MainWindow *ui;
@@ -41,7 +41,6 @@ private slots:
     void pressOpenFolder();
     void pressSave();
     void pressSaveAs();
-    void pressSaveAs(XTAinfo);
     void pressClose();
     void pressCloseAll();
     void pressSetFullScreen(bool);

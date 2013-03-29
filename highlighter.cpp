@@ -6,7 +6,7 @@ Highlighter::Highlighter(QTextDocument *parent)
     QStringList keywordPatterns;
 
     keywordPatterns.clear();
-    keywordPatterns << "\\bA#" << "\\bB#" << "\\bC#" << "\\bD#" << "\\bE#" << "\\bF#" << "\\bG#";
+    keywordPatterns << "\\bA#(?|m)" << "\\bB#(?|m)" << "\\bC#(?|m)" << "\\bD#(?|m)" << "\\bE#(?|m)" << "\\bF#(?|m)" << "\\bG#(?|m)";
     addRule(keywordPatterns,Qt::darkMagenta,QFont::Bold);
 
     keywordPatterns.clear();
@@ -39,6 +39,54 @@ Highlighter::Highlighter(QTextDocument *parent)
     addRule(keywordPatterns,Qt::magenta,QFont::Bold);
 }
 
+QStringList Highlighter::getList(QString text)
+{
+    QStringList list;
+    QStringList lines = text.split("\n");
+
+    foreach(QString line, lines){
+        int lenght_total = 0;
+
+        QStringList temp;
+
+        foreach (const HighlightingRule &rule, highlightingRules) {
+            QRegExp expression(rule.pattern);
+            int index = expression.indexIn(line);
+            if(index>=0)
+                temp << rule.pattern.pattern();
+            while (index >= 0) {
+                int length = expression.matchedLength();
+                lenght_total += length;
+                index = expression.indexIn(line, index + length);
+            }
+        }
+        if(lenght_total==0)
+            continue;
+
+        QString chords = line;
+        chords.remove(QRegExp("[0-9]"));
+        chords.remove("x",Qt::CaseInsensitive);
+        chords.remove(" ");
+        chords.remove("\t");
+
+        qDebug() << chords;
+
+        if(chords.contains("(")){
+            chords = chords.remove( QRegExp( "\\(.*\\)" ) );
+        }
+
+        int nb_char = chords.size();
+
+        //If there is more than 0.5 of total characters for chords then, paint them
+        if(lenght_total>=0.5*nb_char){
+            list << temp;
+        }
+    }
+    list.removeDuplicates();
+    return list;
+}
+
+
 void Highlighter::highlightBlock(const QString &text)
 {
     int lenght_total = 0;
@@ -55,18 +103,8 @@ void Highlighter::highlightBlock(const QString &text)
         return;
 
     QString chords = text;
-    chords.remove("0");
-    chords.remove("1");
-    chords.remove("2");
-    chords.remove("3");
-    chords.remove("4");
-    chords.remove("5");
-    chords.remove("6");
-    chords.remove("7");
-    chords.remove("8");
-    chords.remove("9");
-    chords.remove("x");
-    chords.remove("X");
+    chords.remove(QRegExp("[0-9]"));
+    chords.remove("x",Qt::CaseInsensitive);
     chords.remove(" ");
     chords.remove("\t");
 
@@ -81,8 +119,6 @@ void Highlighter::highlightBlock(const QString &text)
         foreach (const HighlightingRule &rule, highlightingRules) {
             QRegExp expression(rule.pattern);
             int index = expression.indexIn(text);
-            if(index>=0 && !found.contains(rule.pattern.pattern()))
-                found << rule.pattern.pattern();
             while (index >= 0) {
                 int length = expression.matchedLength();
                 setFormat(index, length, rule.format);
@@ -106,9 +142,4 @@ void Highlighter::addRule(QStringList list, QColor color, QFont::Weight weight)
         rule.format = keywordFormat;
         highlightingRules.append(rule);
     }
-}
-
-QStringList Highlighter::matches()
-{
-    return found;
 }

@@ -142,6 +142,7 @@ void XTA::save(QString filepath, XTAinfo xta)
 
     QFileInfo fi(filepath);
     if(fi.suffix()=="txt" || fi.suffix()=="TXT"){
+        qDebug() << "Save txt";
         stream << xta.text;
     }
 
@@ -152,7 +153,7 @@ void XTA::save(QString filepath, XTAinfo xta)
         dom.appendChild(nodeXTA);
 
         {
-            QDomElement node1 = dom.createElement("Headers");
+            QDomElement node1 = dom.createElement("Header");
             nodeXTA.appendChild(node1);
 
             addNode(dom,node1,"Version",xta.version);

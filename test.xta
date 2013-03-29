@@ -1,29 +1,28 @@
 <XTA>
- <Headers>
+ <Header>
   <Version></Version>
   <Capo>0</Capo>
-  <Accordage></Accordage>
+  <Accordage>EADGBE</Accordage>
   <Musique>
-   <titre></titre>
-   <artiste></artiste>
+   <titre>Titre</titre>
+   <artiste>Artiste</artiste>
    <album></album>
   </Musique>
   <FichierGTP></FichierGTP>
   <FichierMP3></FichierMP3>
- </Headers>
+ </Header>
  <Contenu>
   <TXT>Intro
-F#m7     C7     B   B7   E 
+F#m7     C7     B   B7   E
 
-E       Edim   E                 G#7  
+E     Edim   E                 G#7
 Ma-man, ma-man,  en fai-sant cet-te chan-son,
-C#m     F#m    C#m                G#7  
+C#m     F#m    C#m                G#7
 Ma-man, ma-man,  je r'de-viens pe-tit gar-çon,
-C#m            G#7  
+C#m            G#7
 Alors je suis sage en classe
-G#7   C#m                F#m 
-Et,   pour te fair' plai-sir,
-C#m              </TXT>
+G#7   C#m                F#m
+Et,   pour te fair' plai-sir,</TXT>
   <TableAccords>B
 B7 X 2 4 2 4 2
 E

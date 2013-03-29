@@ -24,6 +24,8 @@ public:
     QStringList matches();
     void addRule(QStringList list, QColor color, QFont::Weight weight);
 
+    QStringList getList(QString text);
+
 protected:
     void highlightBlock(const QString &text);
 
