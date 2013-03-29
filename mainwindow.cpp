@@ -207,11 +207,10 @@ void MainWindow::pressSaveAs()
 
     QString sample = ".";
     if(!info.artist.isEmpty() && !info.title.isEmpty())
-        sample = info.artist + " - " + info.title;
+        sample = info.artist + " - " + info.title + ".xta";
 
 
-    QString filepath = QFileDialog::getSaveFileName(this,tr("Save as"),sample,QString("%1;;%2").arg(tr("XTA files (*.xta)"),tr("TXT files (*.txt)")),&selectedFilter);
-    qDebug() << selectedFilter;
+    QString filepath = QFileDialog::getSaveFileName(this,tr("Save as"),sample,QString("%1;;%2").arg(tr("XTA files (*.xta)"),tr("TXT files (*.txt)")),&selectedFilter,QFileDialog::DontConfirmOverwrite);
 
     if(!filepath.isEmpty()){
         QFileInfo fi(filepath);
@@ -221,6 +220,16 @@ void MainWindow::pressSaveAs()
         if(selectedFilter==tr("TXT files (*.txt)") && fi.suffix()!="txt"){
             filepath.push_back(".txt");
         }
+        fi.setFile(filepath);
+
+        if(QFile::exists(filepath)){
+            int button = QMessageBox::warning(this, windowTitle(), tr("'%1' already exists.\nDo you want to replace it?")
+                                              .arg(fi.fileName()), QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
+            if(button == QMessageBox::No){
+                return;
+            }
+        }
+
         xta->save(filepath,info);
         currentTab->saved();
         displaySaveIcon(ui->tabWidget->indexOf(currentTab),false);

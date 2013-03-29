@@ -34,7 +34,7 @@ TODO list :
 - create assistant
 - recent files
 *** resize scrool area if empty column
-- overwrite existing file (save as) : suffix not added before checking
+*** overwrite existing file (save as) : suffix not added before checking
 ~~~ hide/show icon when file is modified (save chords now)
 - move tabs (move in menu too)
 *** open folder

@@ -8,8 +8,13 @@
 #include <QToolButton>
 #include <QLabel>
 #include <QStyle>
+#include <QMouseEvent>
+#include <QMenu>
+#include <QAction>
 
 #include <QDebug>
+
+class Neck;
 
 class Guitar : public QFrame
 {
@@ -17,13 +22,14 @@ class Guitar : public QFrame
 public:
     explicit Guitar(QString name, QString fingers = "", QWidget *parent = 0);
 
-    QString getName() { return name_; }
-    QString getFingers() { return fingers_; }
+    QString getName();
+    QString getFingers();
 
 private:
     QString name_;
     QString fingers_;
     QSize size_;
+    Neck *neck;
 
     QToolButton *buttonReduce_, *buttonClose_;
 
@@ -32,6 +38,7 @@ signals:
 
 private slots:
     void pressClose();
+    void pressReduce();
 
 public slots:
 };
@@ -43,7 +50,7 @@ public:
     explicit Neck(QString fingers, QWidget *parent = 0);
     
 protected:
-    //void mousePressEvent(QMouseEvent *);
+    void mousePressEvent(QMouseEvent *);
     //void mouseMoveEvent(QMouseEvent *);
     //void mouseReleaseEvent(QMouseEvent *);
     void paintEvent(QPaintEvent *);

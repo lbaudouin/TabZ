@@ -31,7 +31,7 @@ Guitar::Guitar(QString name, QString fingers, QWidget *parent) : name_(name), fi
     icon.addPixmap( this->style()->standardIcon(QStyle::SP_TitleBarShadeButton).pixmap(16), QIcon::Normal, QIcon::Off );
     buttonReduce_->setIcon(icon);
 
-    Neck *neck = new Neck(fingers_,this);
+    neck = new Neck(fingers_,this);
 
     connect(buttonReduce_,SIGNAL(toggled(bool)),neck,SLOT(setHidden(bool)));
     //connect(buttonReduce_,SIGNAL(toggled(bool)),this,SLOT(reduced(bool)));
@@ -44,9 +44,24 @@ Guitar::Guitar(QString name, QString fingers, QWidget *parent) : name_(name), fi
     vlayout->addWidget(neck);
 }
 
+void Guitar::pressReduce()
+{
+    buttonReduce_->setChecked(true);
+}
+
 void Guitar::pressClose()
 {
     emit closeAndDelete();
+}
+
+QString Guitar::getName()
+{
+    return name_;
+}
+
+QString Guitar::getFingers()
+{
+    return fingers_;
 }
 
 Neck::Neck( QString fingers, QWidget *parent) : fingers_(fingers),
@@ -191,4 +206,17 @@ void Neck::paintEvent(QPaintEvent *)
     painter.setPen(Qt::white);
     painter.setBrush(Qt::NoBrush);
     painter.drawText(0,18,20,10,Qt::AlignCenter,QString::number(1+shift));
+}
+
+void Neck::mousePressEvent(QMouseEvent *event)
+{
+    QMenu * menu = new QMenu(this);
+    QAction* actionModify = menu->addAction(tr("Modify"));
+    QAction* actionReduce = menu->addAction(tr("Reduce"));
+    QAction* actionClose = menu->addAction(tr("Close"));
+    //connect(actionModify,SIGNAL(triggered()),this,SLOT(()));
+    connect(actionReduce,SIGNAL(triggered()),(Guitar*)this->parent(),SLOT(pressReduce()));
+    connect(actionClose,SIGNAL(triggered()),(Guitar*)this->parent(),SLOT(pressClose()));
+    menu->move(event->globalPos());
+    menu->show();
 }

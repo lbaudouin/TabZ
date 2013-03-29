@@ -242,7 +242,9 @@ void Tab::textChanged(QString)
    modified_info.tuning = editTuning->text();
 
    if(!info.isEqual(modified_info)){
-    emit setSaveIcon(-1,true);
+       emit setSaveIcon(-1,true);
+   }else{
+       emit setSaveIcon(-1,false);
    }
 }
 
