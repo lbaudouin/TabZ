@@ -13,7 +13,8 @@ TODO list :
 #### Functions ####
 
 - save option (xml)
-- manual add chord in tab
+- manual add chord
+- modify chord
 - add existing chords
 - drag and drop chord
 - chords manager
@@ -26,7 +27,7 @@ TODO list :
 - past image / tab from Guitar Pro or TuxGuitar
 - insert ascii tab (with tool bar)
 - French chord to english
-- save on exit
+*** save on exit
 - save under "$default_folder/$artist" with "$artist - $title.xta" name
 *** full screen
 *** tab browser menu
@@ -39,6 +40,6 @@ TODO list :
 *** open folder
 *** open/save txt
 - auto scrolling
-- sync MP3 ans lines
+- sync MP3 and lines
 
 

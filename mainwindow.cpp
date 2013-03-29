@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->tabWidget->setCurrentIndex( index );
 
-    //this->setWindowState(Qt::WindowMaximized);
+    this->setWindowState(Qt::WindowMaximized);
 
     /*QPrinter *printer = new QPrinter;
 
@@ -45,6 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    pressCloseAll();
     delete ui;
 }
 
@@ -145,17 +146,19 @@ void MainWindow::pressNew(QString text)
 
 void MainWindow::pressOpen()
 {
-    QString filepath = QFileDialog::getOpenFileName(this,tr("Open file"),"."/*QDir::homePath()*/,"*.xta *.txt");
+    QStringList filepaths = QFileDialog::getOpenFileNames(this,tr("Open file"),"."/*QDir::homePath()*/,"*.xta *.txt");
 
-    if(filepath.isEmpty())
+    if(filepaths.isEmpty())
         return;
 
-    QFileInfo fi(filepath);
+    foreach(QString filepath, filepaths){
+        QFileInfo fi(filepath);
 
-    XTAinfo info(fi.filePath(), fi.fileName());
-    info = xta->parse(filepath);
+        XTAinfo info(fi.filePath(), fi.fileName());
+        info = xta->parse(filepath);
 
-    addTab( info );
+        addTab( info );
+    }
 }
 
 void MainWindow::pressOpenFolder()
@@ -183,7 +186,7 @@ void MainWindow::pressOpenFolder()
 void MainWindow::pressSave()
 {
     if(ui->tabWidget->currentIndex()<0) return;
-    Tab *currentTab = (Tab*)ui->tabWidget->currentWidget();
+    Tab *currentTab = getCurrentTab();
     XTAinfo info = currentTab->getXTA();
     if(info.filename.isEmpty()){
         pressSaveAs();
@@ -197,7 +200,7 @@ void MainWindow::pressSave()
 void MainWindow::pressSaveAs()
 {
     if(ui->tabWidget->currentIndex()<0) return;
-    Tab *currentTab = (Tab*)ui->tabWidget->currentWidget();
+    Tab *currentTab = getCurrentTab();
     XTAinfo info = currentTab->getXTA();
 
     QString selectedFilter;
@@ -226,7 +229,15 @@ void MainWindow::pressSaveAs()
 
 void MainWindow::pressClose()
 {
-    Tab* currentTab = (Tab*)(ui->tabWidget->currentWidget());
+    if(ui->tabWidget->currentIndex()<0) return;
+    Tab* currentTab = getCurrentTab();
+    if(currentTab->isModified()){
+        int button = QMessageBox::warning(this,"modified",QString("do you want to save : %1").arg(ui->tabWidget->tabText(ui->tabWidget->currentIndex())),QMessageBox::Yes,QMessageBox::No);
+        if(button==QMessageBox::Yes){
+            pressSave();
+        }
+    }
+
     QAction* action = mapTabAction.key(currentTab);
 
     mapTabAction.remove(action);
@@ -238,13 +249,7 @@ void MainWindow::pressClose()
 void MainWindow::pressCloseAll()
 {
     while(ui->tabWidget->count()!=0){
-        Tab* currentTab = (Tab*)(ui->tabWidget->currentWidget());
-        QAction* action = mapTabAction.key(currentTab);
-
-        mapTabAction.remove(action);
-
-        delete action;
-        delete ui->tabWidget->currentWidget();
+        pressClose();
     }
 }
 
@@ -286,41 +291,35 @@ void MainWindow::pressGoTo()
 void MainWindow::pressSelectAll()
 {
     if(ui->tabWidget->currentIndex()<0) return;
-    Tab* currentTab = (Tab*)(ui->tabWidget->currentWidget());
-    currentTab->selectAll();
+    getCurrentTab()->selectAll();
 }
 
 void MainWindow::pressUndo()
 {
     if(ui->tabWidget->currentIndex()<0) return;
-    Tab* currentTab = (Tab*)(ui->tabWidget->currentWidget());
-    currentTab->undo();
+    getCurrentTab()->undo();
 }
 
 void MainWindow::pressRedo()
 {
     if(ui->tabWidget->currentIndex()<0) return;
-    Tab* currentTab = (Tab*)(ui->tabWidget->currentWidget());
-    currentTab->redo();
+    getCurrentTab()->redo();
 }
 
 void MainWindow::pressCut()
 {
     if(ui->tabWidget->currentIndex()<0) return;
-    Tab* currentTab = (Tab*)(ui->tabWidget->currentWidget());
-    currentTab->cut();
+    getCurrentTab()->cut();
 }
 
 void MainWindow::pressCopy()
 {
     if(ui->tabWidget->currentIndex()<0) return;
-    Tab* currentTab = (Tab*)(ui->tabWidget->currentWidget());
-    currentTab->copy();
+    getCurrentTab()->copy();
 }
 
 void MainWindow::pressPaste()
 {
     if(ui->tabWidget->currentIndex()<0) return;
-    Tab* currentTab = (Tab*)(ui->tabWidget->currentWidget());
-    currentTab->paste();
+    getCurrentTab()->paste();
 }

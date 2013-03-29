@@ -21,6 +21,18 @@ struct XTAinfo{
     QString filename;
     QString filepath;
 
+    void diff(XTAinfo &info){
+        if(info.capo!=capo) qDebug() << "Capo";
+        if(info.tuning!=tuning) qDebug() << "Tuning";
+        if(info.title!=title) qDebug() << "Title";
+        if(info.artist!=artist) qDebug() << "Artist";
+        if(info.album!=album) qDebug() << "Album";
+        if(info.file_gp!=file_gp) qDebug() << "FileGP";
+        if(info.file_mp3!=file_mp3) qDebug() << "FileMP3";
+        if(info.text!=text) qDebug() << "Text";
+        if(info.chords!=chords) qDebug() << "Chords";
+    }
+
     bool isEqual(XTAinfo &info){
         if(info.capo!=capo) return false;
         if(info.tuning!=tuning) return false;

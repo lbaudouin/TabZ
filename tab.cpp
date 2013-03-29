@@ -246,6 +246,12 @@ void Tab::textChanged(QString)
    }
 }
 
+bool Tab::isModified()
+{
+    //info.diff(modified_info);
+    return !info.isEqual(modified_info);
+}
+
 void Tab::saved()
 {
     info = modified_info;

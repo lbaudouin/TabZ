@@ -69,8 +69,6 @@ QStringList Highlighter::getList(QString text)
         chords.remove(" ");
         chords.remove("\t");
 
-        qDebug() << chords;
-
         if(chords.contains("(")){
             chords = chords.remove( QRegExp( "\\(.*\\)" ) );
         }

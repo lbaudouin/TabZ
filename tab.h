@@ -21,6 +21,8 @@ public:
     explicit Tab(XTAinfo xta, QWidget *parent = 0);
     XTAinfo getXTA();
 
+    bool isModified();
+
 protected:
     void addChord(QString name, QString fingers = QString());
     
