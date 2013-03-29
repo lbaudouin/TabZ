@@ -45,5 +45,6 @@ TODO list :
 - highlight selected chord
 - import chords from other xta
 - search on internet for tab on "http://guythoun.free.fr/TabS/xta/index.php?page=search&q=%s"
-
+- serach lyrics
+- use QButtonGroup to select chord to add
 

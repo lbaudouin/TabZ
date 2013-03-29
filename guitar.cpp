@@ -67,6 +67,18 @@ QString Guitar::getFingers()
 Neck::Neck( QString fingers, QWidget *parent) : fingers_(fingers), selected_(false),
     QWidget(parent)
 {
+    fingers_.replace("\t"," ");
+    fingers_.replace(","," ");
+
+    if(fingers_.contains(" ")){
+        QString temp;
+        for(int i=0;i<fingers_.size();i++){
+            temp += QString(" ") + fingers_.at(i);
+        }
+        fingers_ = temp;
+    }
+    fingers_.trimmed();
+
     size_ = QSize(150,200);
     //size_ = QSize(100,150);
     this->resize(size_);
@@ -127,7 +139,6 @@ void Neck::paintEvent(QPaintEvent *)
     //Find min and max, save poses
     QList<QString> fingers = fingers_.split(" ", QString::SkipEmptyParts);
     int nbString = fingers.size();
-
 
     if(nbString<2|| nbString>12)
         return;

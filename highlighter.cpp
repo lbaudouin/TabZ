@@ -14,7 +14,7 @@ Highlighter::Highlighter(QTextDocument *parent)
     addRule(keywordPatterns,Qt::red,QFont::Bold);
 
     keywordPatterns.clear();
-    keywordPatterns << "\\bA#7" << "\\bB#7" << "\\bC#7" << "\\bD#7" << "\\bE#7" << "\\bF#7" << "\\bG#7";
+    keywordPatterns << "\\bA#[1-9]" << "\\bB#[1-9]" << "\\bC#[1-9]" << "\\bD#[1-9]" << "\\bE#[1-9]" << "\\bF#[1-9]" << "\\bG#[1-9]";
     addRule(keywordPatterns,Qt::green,QFont::Bold);
 
     keywordPatterns.clear();
@@ -22,9 +22,8 @@ Highlighter::Highlighter(QTextDocument *parent)
     addRule(keywordPatterns,Qt::darkCyan,QFont::Bold);
 
     keywordPatterns.clear();
-    keywordPatterns << "\\bA7\\b" << "\\bB7\\b" << "\\bC7\\b" << "\\bD7\\b" << "\\bE7\\b" << "\\bF7\\b" << "\\bG7\\b";
+    keywordPatterns << "\\bA[1-9]\\b" << "\\bB[1-9]\\b" << "\\bC[1-9]\\b" << "\\bD[1-9]\\b" << "\\bE[1-9]\\b" << "\\bF[1-9]\\b" << "\\bG[1-9]\\b";
     addRule(keywordPatterns,Qt::darkYellow,QFont::Bold);
-
 
     keywordPatterns.clear();
     keywordPatterns << "\\bA(?!#)\\b" << "\\bB(?!#)\\b" << "\\bC(?!(#|'))\\b" << "\\bD(?!(#|'))\\b" << "\\bE(?!#)\\b" << "\\bF(?!#)\\b" << "\\bG(?!#)\\b";
@@ -33,6 +32,10 @@ Highlighter::Highlighter(QTextDocument *parent)
     keywordPatterns.clear();
     keywordPatterns << "\\bAm\\b" << "\\bBm\\b" << "\\bCm\\b" << "\\bDm\\b" << "\\bEm\\b" << "\\bFm\\b" << "\\bGm\\b";
     addRule(keywordPatterns,Qt::darkGreen,QFont::Bold);
+
+    keywordPatterns.clear();
+    keywordPatterns << "\\bAm[1-9]\\b" << "\\bBm[1-9]\\b" << "\\bCm[1-9]\\b" << "\\bDm[1-9]\\b" << "\\bEm[1-9]\\b" << "\\bFm[1-9]\\b" << "\\bGm[1-9]\\b";
+    addRule(keywordPatterns,Qt::blue,QFont::Bold);
 
     keywordPatterns.clear();
     keywordPatterns << "\\bAdim\\b" << "\\bBdim\\b" << "\\bCdim\\b" << "\\bDdim\\b" << "\\bEdim\\b" << "\\bFdim\\b" << "\\bGdim\\b";
