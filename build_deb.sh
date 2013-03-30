@@ -1,4 +1,4 @@
 #!/bin/bash
-cp TabS debian/usr/bin/tabs
+cp TabS debian/usr/bin/
 dpkg-deb --build debian/
-mv debian.deb tabs.deb
+mv debian.deb TabS.deb

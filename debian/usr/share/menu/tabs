@@ -1,2 +1,0 @@
-?package(tabs):needs="X11" section="Audio"\
-  title="Tabs" command="/usr/bin/tabs"

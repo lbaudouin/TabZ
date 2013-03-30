@@ -54,6 +54,15 @@ void Guitar::pressClose()
     emit closeAndDelete();
 }
 
+void Guitar::setSelected(QString name)
+{
+    if(name==name_){
+        neck->select(true);
+    }else{
+        neck->select(false);
+    }
+}
+
 QString Guitar::getName()
 {
     return name_;
@@ -240,4 +249,10 @@ void Neck::mousePressEvent(QMouseEvent *event)
         menu->move(event->globalPos());
         menu->show();
     }
+}
+
+void Neck::select(bool state)
+{
+    selected_ = state;
+    this->update();
 }

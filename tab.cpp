@@ -104,6 +104,11 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta),
 
 
     edit = new QTextEdit;
+    QFont editFont = edit->font();
+    editFont.setFamily("Tahoma");
+    editFont.setFixedPitch(true);
+
+    edit->setFont(editFont);
     edit->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     //Highlighter *highlighter = new Highlighter(edit->document());
     highlighter = new Highlighter(edit->document());
@@ -232,6 +237,8 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta),
     }
 
     updateTitle();
+
+    connect(edit,SIGNAL(cursorPositionChanged()),this,SLOT(updateSelectedNote()));
 }
 
 void Tab::updateTitle()
@@ -294,6 +301,27 @@ XTAinfo Tab::getXTA()
 {
     return modified_info;
 }
+
+void Tab::updateSelectedNote()
+{
+    int position =  edit->textCursor().columnNumber();
+    QString line = edit->textCursor().block().text();
+    QString word;
+    for(int i=position-1;i>=0;i--){
+        if(line.at(i)!=' ')
+            word.push_front(line.at(i));
+        else
+            break;
+    }
+    for(int i=position;i<line.size();i++){
+        if(line.at(i)!=' ')
+            word.push_back(line.at(i));
+        else
+            break;
+    }
+    emit setSelected(word);
+}
+
 
 void Tab::deleteGuitar()
 {
@@ -359,6 +387,7 @@ void Tab::addChord(QString name, QString fingers)
         else
             v1->addWidget(guitar);
         connect(guitar,SIGNAL(closeAndDelete()),this,SLOT(deleteGuitar()));
+        connect(this,SIGNAL(setSelected(QString)),guitar,SLOT(setSelected(QString)));
     }
 
 }

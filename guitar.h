@@ -41,6 +41,7 @@ private slots:
     void pressReduce();
 
 public slots:
+    void setSelected(QString);
 };
 
 class Neck : public QWidget
@@ -66,6 +67,7 @@ private:
 signals:
     
 public slots:
+    void select(bool);
     
 };
 

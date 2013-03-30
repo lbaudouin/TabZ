@@ -7,6 +7,7 @@
 #include <QFileDialog>
 #include <QInputDialog>
 #include <QToolButton>
+#include <QUrl>
 
 #include "tab.h"
 #include "xta.h"
@@ -55,6 +56,9 @@ private slots:
     void pressCut();
     void pressCopy();
     void pressPaste();
+
+    void pressSearchLyrics();
+    void pressSearchXTA();
 
     void displaySaveIcon(int,bool);
 

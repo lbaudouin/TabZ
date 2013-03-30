@@ -45,12 +45,15 @@ private:
 
 signals:
     void setSaveIcon(int,bool);
+    void setSelected(QString name);
 
 private slots:
     void textChanged(QString text = QString());
     void capoChanged(int);
     void deleteGuitar();
     void updateTitle();
+
+    void updateSelectedNote();
 
 public slots:
 

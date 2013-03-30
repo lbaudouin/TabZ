@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->tabWidget->setCurrentIndex( index );
 
-    this->setWindowState(Qt::WindowMaximized);
+    //this->setWindowState(Qt::WindowMaximized);
 
     /*QPrinter *printer = new QPrinter;
 
@@ -42,6 +42,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //pd->show();
 
     connect(ui->tabWidget,SIGNAL(tabCloseRequested(int)),this,SLOT(tabCloseRequest(int)));
+    connect(ui->actionSearch_lyrics,SIGNAL(triggered()),this,SLOT(pressSearchLyrics()));
+    connect(ui->actionSearch_XTA,SIGNAL(triggered()),this,SLOT(pressSearchXTA()));
 }
 
 MainWindow::~MainWindow()
@@ -352,4 +354,43 @@ void MainWindow::pressPaste()
 {
     if(ui->tabWidget->currentIndex()<0) return;
     getCurrentTab()->paste();
+}
+
+void MainWindow::pressSearchLyrics()
+{
+    QString search;
+    if(ui->tabWidget->currentIndex()>=0){
+        XTAinfo info = getCurrentTab()->getXTA();
+        search += info.artist + " " + info.title;
+        search.trimmed();
+    }
+    search.prepend(tr("lyrics") + " ");
+
+    bool ok;
+    search = QInputDialog::getText(this,tr("Search lyrics"),tr("Search text:"),QLineEdit::Normal,search,&ok);
+    if(!ok)
+        return;
+
+    search = QString("https://www.google.fr/#hl=fr&q=%1").arg(search);
+
+    QDesktopServices::openUrl(QUrl(search));
+}
+
+void MainWindow::pressSearchXTA()
+{
+    QString search;
+    if(ui->tabWidget->currentIndex()>=0){
+        XTAinfo info = getCurrentTab()->getXTA();
+        search += info.artist + " " + info.title;
+        search.trimmed();
+    }
+
+    bool ok;
+    search = QInputDialog::getText(this,tr("Search lyrics"),tr("Search text:"),QLineEdit::Normal,search,&ok);
+    if(!ok)
+        return;
+
+    search = QString("http://guythoun.free.fr/TabS/xta/index.php?page=search&q=%1").arg(search);
+
+    QDesktopServices::openUrl(QUrl(search));
 }

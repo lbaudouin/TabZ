@@ -26,8 +26,12 @@ public:
 
     QStringList getList(QString text);
 
+    void clear();
+    void reset();
+
 protected:
     void highlightBlock(const QString &text);
+    void setDefaultRules();
 
 
 private:

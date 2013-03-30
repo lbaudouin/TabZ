@@ -114,6 +114,9 @@
     </property>
     <addaction name="actionTranslate_FR_EN"/>
     <addaction name="actionTranslate_EN_FR"/>
+    <addaction name="separator"/>
+    <addaction name="actionSearch_lyrics"/>
+    <addaction name="actionSearch_XTA"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -384,6 +387,22 @@
    </property>
    <property name="shortcut">
     <string>Alt+Right</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionSearch_lyrics">
+   <property name="text">
+    <string>Search lyrics</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionSearch_XTA">
+   <property name="text">
+    <string>Search XTA</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>

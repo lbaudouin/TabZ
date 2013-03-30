@@ -37,14 +37,17 @@ TODO list :
 *** resize scrool area if empty column
 *** overwrite existing file (save as) : suffix not added before checking
 ~~~ hide/show icon when file is modified (save chords now)
-- move tabs (move in menu too)
+*** move tabs
+- move tabs in menu too
 *** open folder
 *** open/save txt
 - auto scrolling
 - sync MP3 and lines
-- highlight selected chord
+*** highlight selected chord
 - import chords from other xta
-- search on internet for tab on "http://guythoun.free.fr/TabS/xta/index.php?page=search&q=%s"
-- serach lyrics
+*** search on internet for tab on "http://guythoun.free.fr/TabS/xta/index.php?page=search&q=%s"
+*** search lyrics on google
+- search lyrics on other site
 - use QButtonGroup to select chord to add
+- associate xta files with TabS
 

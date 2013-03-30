@@ -1,6 +1,7 @@
+
 [Desktop Entry]
 Name=TabS
-Name[fr_FR]=tabs.desktop
+Name[fr_FR]=TabS
 Comment=Read/Modify chords song files
 Comment[fr_FR]=Lire/Modifier les fichiers d'accord musiquaux
 Exec=tabs

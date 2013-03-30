@@ -3,48 +3,72 @@
 Highlighter::Highlighter(QTextDocument *parent)
     : QSyntaxHighlighter(parent)
 {
+    setDefaultRules();
+}
+
+void Highlighter::setDefaultRules()
+{
     QStringList keywordPatterns;
 
     keywordPatterns.clear();
-    keywordPatterns << "\\bA#(?|m)" << "\\bB#(?|m)" << "\\bC#(?|m)" << "\\bD#(?|m)" << "\\bE#(?|m)" << "\\bF#(?|m)" << "\\bG#(?|m)";
-    addRule(keywordPatterns,Qt::darkMagenta,QFont::Bold);
-
-    keywordPatterns.clear();
-    keywordPatterns << "\\bA#m" << "\\bB#m" << "\\bC#m" << "\\bD#m" << "\\bE#m" << "\\bF#m" << "\\bG#m";
+    keywordPatterns << "\\b[A-G]#(?!m)";
     addRule(keywordPatterns,Qt::red,QFont::Bold);
 
     keywordPatterns.clear();
-    keywordPatterns << "\\bA#[1-9]" << "\\bB#[1-9]" << "\\bC#[1-9]" << "\\bD#[1-9]" << "\\bE#[1-9]" << "\\bF#[1-9]" << "\\bG#[1-9]";
+    keywordPatterns << "\\b[A-G]#m[1-9]";
+    addRule(keywordPatterns,QColor(255,125,0),QFont::Bold);
+
+    keywordPatterns.clear();
+    keywordPatterns << "\\b[A-G]#m\\b";
+    addRule(keywordPatterns,Qt::red,QFont::Bold);
+
+    keywordPatterns.clear();
+    keywordPatterns << "\\b[A-G]#[1-9]";
     addRule(keywordPatterns,Qt::green,QFont::Bold);
 
     keywordPatterns.clear();
-    keywordPatterns << "\\bAb\\b" << "\\bBb\\b" << "\\bCb\\b" << "\\bDb\\b" << "\\bEb\\b" << "\\bFb\\b" << "\\bGb\\b";
+    keywordPatterns << "\\b[A-G]b\\b";
     addRule(keywordPatterns,Qt::darkCyan,QFont::Bold);
 
     keywordPatterns.clear();
-    keywordPatterns << "\\bA[1-9]\\b" << "\\bB[1-9]\\b" << "\\bC[1-9]\\b" << "\\bD[1-9]\\b" << "\\bE[1-9]\\b" << "\\bF[1-9]\\b" << "\\bG[1-9]\\b";
+    keywordPatterns << "\\b[A-G][1-9]\\b";
     addRule(keywordPatterns,Qt::darkYellow,QFont::Bold);
 
     keywordPatterns.clear();
-    keywordPatterns << "\\bA(?!#)\\b" << "\\bB(?!#)\\b" << "\\bC(?!(#|'))\\b" << "\\bD(?!(#|'))\\b" << "\\bE(?!#)\\b" << "\\bF(?!#)\\b" << "\\bG(?!#)\\b";
+    keywordPatterns << "\\b[A-G](?!(#|'|\\|))\\b";
     addRule(keywordPatterns,Qt::darkBlue,QFont::Bold);
 
     keywordPatterns.clear();
-    keywordPatterns << "\\bAm\\b" << "\\bBm\\b" << "\\bCm\\b" << "\\bDm\\b" << "\\bEm\\b" << "\\bFm\\b" << "\\bGm\\b";
+    keywordPatterns << "\\b[A-G]m\\b";
     addRule(keywordPatterns,Qt::darkGreen,QFont::Bold);
 
     keywordPatterns.clear();
-    keywordPatterns << "\\bAm[1-9]\\b" << "\\bBm[1-9]\\b" << "\\bCm[1-9]\\b" << "\\bDm[1-9]\\b" << "\\bEm[1-9]\\b" << "\\bFm[1-9]\\b" << "\\bGm[1-9]\\b";
+    keywordPatterns << "\\b[A-G]m[1-9]\\b";
     addRule(keywordPatterns,Qt::blue,QFont::Bold);
 
     keywordPatterns.clear();
-    keywordPatterns << "\\bAdim\\b" << "\\bBdim\\b" << "\\bCdim\\b" << "\\bDdim\\b" << "\\bEdim\\b" << "\\bFdim\\b" << "\\bGdim\\b";
+    keywordPatterns << "\\b[A-G]dim\\b";
     addRule(keywordPatterns,Qt::magenta,QFont::Bold);
+}
+
+void Highlighter::clear()
+{
+    highlightingRules.clear();
+}
+
+void Highlighter::reset()
+{
+    clear();
+    setDefaultRules();
 }
 
 QStringList Highlighter::getList(QString text)
 {
     QStringList list;
+
+    if(highlightingRules.isEmpty())
+        return list;
+
     QStringList lines = text.split("\n");
 
     foreach(QString line, lines){
@@ -55,16 +79,17 @@ QStringList Highlighter::getList(QString text)
         foreach (const HighlightingRule &rule, highlightingRules) {
             QRegExp expression(rule.pattern);
             int index = expression.indexIn(line);
-            if(index>=0)
-                temp << rule.pattern.pattern();
             while (index >= 0) {
                 int length = expression.matchedLength();
+                temp << line.mid(index,length);
                 lenght_total += length;
                 index = expression.indexIn(line, index + length);
             }
         }
         if(lenght_total==0)
             continue;
+
+        temp.removeDuplicates();
 
         QString chords = line;
         chords.remove(QRegExp("[0-9]"));
