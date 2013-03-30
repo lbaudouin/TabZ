@@ -11,6 +11,7 @@
 
 #include "tab.h"
 #include "xta.h"
+#include "options.h"
 
 namespace Ui {
 class MainWindow;
@@ -34,7 +35,12 @@ private:
     Qt::WindowStates previousState;
     XTA *xta;
 
+    OptionsValues options;
+
     QMap<QAction*,Tab*> mapTabAction;
+
+signals:
+    void setColorsEnabled(bool);
 
 private slots:
     void pressNew(QString text = QString());
@@ -56,6 +62,8 @@ private slots:
     void pressCut();
     void pressCopy();
     void pressPaste();
+
+    void pressPreference();
 
     void pressSearchLyrics();
     void pressSearchXTA();

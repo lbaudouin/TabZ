@@ -45,6 +45,13 @@ private:
     QTextCharFormat keywordFormat;
 
     QStringList found;
+
+    bool enabled_;
+
+public slots:
+    void enable();
+    void disable();
+    void setEnabled(bool);
 };
 //! [0]
 

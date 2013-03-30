@@ -82,8 +82,11 @@ void XTA::readHeaders(QDomNode &node, XTAinfo &xta)
             xta.version = element.text();
         if(element.tagName()=="Capo")
             xta.capo = element.text().toInt();
-        if(element.tagName()=="Accordage")
+        if(element.tagName()=="Accordage"){
             xta.tuning = element.text();
+            if(xta.tuning=="EBGDAE")
+                xta.tuning = "EADGBE";
+        }
         if(element.tagName()=="FichierGTP")
             xta.file_gp = element.text();
         if(element.tagName()=="FichierMP3")

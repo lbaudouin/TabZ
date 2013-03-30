@@ -79,7 +79,7 @@ Neck::Neck( QString fingers, QWidget *parent) : fingers_(fingers), selected_(fal
     fingers_.replace("\t"," ");
     fingers_.replace(","," ");
 
-    if(fingers_.contains(" ")){
+    if(!fingers_.contains(" ")){
         QString temp;
         for(int i=0;i<fingers_.size();i++){
             temp += QString(" ") + fingers_.at(i);

@@ -56,7 +56,6 @@ private slots:
     void updateSelectedNote();
 
 public slots:
-
     void resizeLayout();
     void addNewChord();
 
@@ -70,6 +69,8 @@ public slots:
     void paste();
 
     void saved();
+
+    void enableColors(bool);
     
 };
 

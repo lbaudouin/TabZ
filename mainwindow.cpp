@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->tabWidget,SIGNAL(tabCloseRequested(int)),this,SLOT(tabCloseRequest(int)));
     connect(ui->actionSearch_lyrics,SIGNAL(triggered()),this,SLOT(pressSearchLyrics()));
     connect(ui->actionSearch_XTA,SIGNAL(triggered()),this,SLOT(pressSearchXTA()));
+    connect(ui->actionPreferences,SIGNAL(triggered()),this,SLOT(pressPreference()));
 }
 
 MainWindow::~MainWindow()
@@ -131,6 +132,7 @@ int MainWindow::addTab(XTAinfo info)
 
     Tab *tab = new Tab(info, ui->tabWidget);
     connect(tab,SIGNAL(setSaveIcon(int,bool)),this,SLOT(displaySaveIcon(int,bool)));
+    connect(this,SIGNAL(setColorsEnabled(bool)),tab,SLOT(enableColors(bool)));
 
     QAction *action = new QAction(tabName,this);
     action->setIcon( this->style()->standardIcon(QStyle::SP_DialogSaveButton ) );
@@ -393,4 +395,17 @@ void MainWindow::pressSearchXTA()
     search = QString("http://guythoun.free.fr/TabS/xta/index.php?page=search&q=%1").arg(search);
 
     QDesktopServices::openUrl(QUrl(search));
+}
+
+void MainWindow::pressPreference()
+{
+    Options *opt = new Options(options,this);
+    if(opt->exec()){
+        OptionsValues o = opt->getOptions();
+
+        if(o.enableColors!=options.enableColors)
+            emit setColorsEnabled(o.enableColors);
+
+        options = o;
+    }
 }

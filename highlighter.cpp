@@ -1,7 +1,7 @@
 #include "highlighter.h"
 
 Highlighter::Highlighter(QTextDocument *parent)
-    : QSyntaxHighlighter(parent)
+    : QSyntaxHighlighter(parent), enabled_(true)
 {
     setDefaultRules();
 }
@@ -117,6 +117,9 @@ QStringList Highlighter::getList(QString text)
 
 void Highlighter::highlightBlock(const QString &text)
 {
+    if(!enabled_)
+        return;
+
     int lenght_total = 0;
     foreach (const HighlightingRule &rule, highlightingRules) {
         QRegExp expression(rule.pattern);
@@ -172,4 +175,22 @@ void Highlighter::addRule(QStringList list, QColor color, QFont::Weight weight)
         rule.format = keywordFormat;
         highlightingRules.append(rule);
     }
+}
+
+void Highlighter::enable()
+{
+    enabled_ = true;
+    this->rehighlight();
+}
+
+void Highlighter::disable()
+{
+    enabled_ = false;
+    this->rehighlight();
+}
+
+void Highlighter::setEnabled(bool state)
+{
+    enabled_ = state;
+    this->rehighlight();
 }

@@ -412,3 +412,8 @@ void Tab::redo() { edit->redo(); }
 void Tab::cut() { edit->cut(); }
 void Tab::copy() { edit->copy(); }
 void Tab::paste() { edit->paste(); }
+
+void Tab::enableColors(bool state)
+{
+    highlighter->setEnabled(state);
+}

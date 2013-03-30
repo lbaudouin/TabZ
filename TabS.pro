@@ -15,14 +15,16 @@ SOURCES += main.cpp\
     tab.cpp \
     highlighter.cpp \
     guitar.cpp \
-    xta.cpp
+    xta.cpp \
+    options.cpp
 
 HEADERS  += mainwindow.h \
     tab.h \
     highlighter.h \
     guitar.h \
     xta.h \
-    xta_info.h
+    xta_info.h \
+    options.h
 
 FORMS    += mainwindow.ui
 

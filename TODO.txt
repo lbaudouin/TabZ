@@ -3,7 +3,7 @@ TODO list :
 #### Options ####
 
 - select colors
-- disable colors
+*** disable colors
 - default folder
 - select new tab
 - always read only
@@ -13,6 +13,7 @@ TODO list :
 
 #### Functions ####
 
+- add icon set
 - save option (xml)
 - manual add chord
 - modify chord
