@@ -10,11 +10,16 @@
 #include <QComboBox>
 #include <QCheckBox>
 #include <QLineEdit>
+#include <QString>
 
 struct OptionsValues
 {
-    OptionsValues() : enableColors(true) {}
+    OptionsValues(){
+        enableColors = true;
+        defaultPath = "";
+    }
     bool enableColors;
+    QString defaultPath;
 };
 
 class Options : public QDialog
@@ -28,6 +33,7 @@ private:
     OptionsValues options_;
 
     QCheckBox *checkEnableColor;
+    QLineEdit *editDefaultFolder;
 
 protected:
     void createColorTab(QTabWidget *tab);

@@ -4,7 +4,7 @@ TODO list :
 
 - select colors
 *** disable colors
-- default folder
+*** default folder
 - select new tab
 - always read only
 - black/white/color neck for chord

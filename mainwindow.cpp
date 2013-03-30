@@ -101,7 +101,7 @@ void MainWindow::tabCloseRequest(int index)
     Tab* tab = (Tab*)ui->tabWidget->widget(index);
 
     if(tab->isModified()){
-        int button = QMessageBox::warning(this,"modified",QString("do you want to save : %1").arg(ui->tabWidget->tabText(index)),QMessageBox::Yes,QMessageBox::No);
+        int button = QMessageBox::warning(this,"modified",QString("Do you want to save : %1").arg(ui->tabWidget->tabText(index)),QMessageBox::Yes,QMessageBox::No);
         //TODO
         /*if(button==QMessageBox::Yes){
             pressSave();
@@ -171,7 +171,7 @@ void MainWindow::pressNew(QString text)
 
 void MainWindow::pressOpen()
 {
-    QStringList filepaths = QFileDialog::getOpenFileNames(this,tr("Open file"),"."/*QDir::homePath()*/,"*.xta *.txt");
+    QStringList filepaths = QFileDialog::getOpenFileNames(this,tr("Open file"),options.defaultPath.isEmpty()?QDir::homePath():options.defaultPath,"*.xta *.txt");
 
     if(filepaths.isEmpty())
         return;
@@ -188,7 +188,7 @@ void MainWindow::pressOpen()
 
 void MainWindow::pressOpenFolder()
 {
-    QString folderpath = QFileDialog::getExistingDirectory(this,tr("Open file"),".");
+    QString folderpath = QFileDialog::getExistingDirectory(this,tr("Open file"),options.defaultPath.isEmpty()?QDir::homePath():options.defaultPath);
 
     if(folderpath.isEmpty())
         return;
@@ -230,9 +230,9 @@ void MainWindow::pressSaveAs()
 
     QString selectedFilter;
 
-    QString sample = ".";
+    QString sample = (options.defaultPath.isEmpty()?QDir::homePath():options.defaultPath) + QDir::separator();
     if(!info.artist.isEmpty() && !info.title.isEmpty())
-        sample = info.artist + " - " + info.title + ".xta";
+        sample += info.artist + " - " + info.title + ".xta";
 
 
     QString filepath = QFileDialog::getSaveFileName(this,tr("Save as"),sample,QString("%1;;%2").arg(tr("XTA files (*.xta)"),tr("TXT files (*.txt)")),&selectedFilter,QFileDialog::DontConfirmOverwrite);
@@ -266,7 +266,7 @@ void MainWindow::pressClose()
     if(ui->tabWidget->currentIndex()<0) return;
     Tab* currentTab = getCurrentTab();
     if(currentTab->isModified()){
-        int button = QMessageBox::warning(this,"modified",QString("do you want to save : %1").arg(ui->tabWidget->tabText(ui->tabWidget->currentIndex())),QMessageBox::Yes,QMessageBox::No);
+        int button = QMessageBox::warning(this,"modified",QString("Do you want to save : %1").arg(ui->tabWidget->tabText(ui->tabWidget->currentIndex())),QMessageBox::Yes,QMessageBox::No);
         if(button==QMessageBox::Yes){
             pressSave();
         }

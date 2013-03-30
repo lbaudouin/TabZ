@@ -44,9 +44,10 @@ void Options::createOptionsTab(QTabWidget *tab)
     QComboBox *comboBox = new QComboBox;
     comboBox->addItem("TEST");
 
-    QLineEdit *lineEdit = new QLineEdit;
+    editDefaultFolder = new QLineEdit;
+    editDefaultFolder->setText(options_.defaultPath);
 
-    formLayout->addRow(tr("Default folder:"),lineEdit);
+    formLayout->addRow(tr("Default folder:"),editDefaultFolder);
 
 
 
@@ -56,5 +57,6 @@ void Options::createOptionsTab(QTabWidget *tab)
 OptionsValues Options::getOptions()
 {
     options_.enableColors = checkEnableColor->isChecked();
+    options_.defaultPath = editDefaultFolder->text();
     return options_;
 }
