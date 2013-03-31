@@ -13,7 +13,7 @@ TODO list :
 
 #### Functions ####
 
-- add icon set
+*** add icon set
 *** save options (xml)
 - manual add chord
 - modify chord

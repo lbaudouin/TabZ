@@ -51,7 +51,7 @@ private slots:
     void pressSaveAs();
     void pressClose();
     void pressCloseAll();
-    void pressSetFullScreen(bool);
+    void pressSetFullScreen();
 
     void pressPrevious();
     void pressNext();

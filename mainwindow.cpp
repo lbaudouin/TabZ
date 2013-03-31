@@ -9,8 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     options.parse(this);
 
-    setUpToolBar();
-
+    ui->actionFull_Screen->setChecked(options.openSizeMode==2);
 
     switch(options.openSizeMode){
     case 0 : this->setWindowState(Qt::WindowNoState); break;
@@ -20,8 +19,13 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
 
+    setUpToolBar();
+
+
     xta = new XTA(this->centralWidget());
 
+
+    /////////////////////////// TEST /////////////////////////////////////
 
     QString testFile = "test.xta";
 
@@ -51,6 +55,9 @@ MainWindow::MainWindow(QWidget *parent) :
     //QPrintDialog *pd = new QPrintDialog(printer,this);
     //pd->show();
 
+
+    /////////////////////////// TEST /////////////////////////////////////
+
     connect(ui->tabWidget,SIGNAL(tabCloseRequested(int)),this,SLOT(tabCloseRequest(int)));
     connect(ui->actionSearch_lyrics,SIGNAL(triggered()),this,SLOT(pressSearchLyrics()));
     connect(ui->actionSearch_XTA,SIGNAL(triggered()),this,SLOT(pressSearchXTA()));
@@ -65,17 +72,17 @@ MainWindow::~MainWindow()
 
 void MainWindow::setUpToolBar()
 {
-    ui->actionNew->setIcon( this->style()->standardIcon(QStyle::SP_FileIcon) );
+    /*ui->actionNew->setIcon( this->style()->standardIcon(QStyle::SP_FileIcon) );
     ui->actionSave->setIcon( this->style()->standardIcon(QStyle::SP_DialogSaveButton) );
     ui->actionSave_as->setIcon( this->style()->standardIcon(QStyle::SP_DriveHDIcon) );
     ui->actionOpen->setIcon( this->style()->standardIcon(QStyle::SP_DirOpenIcon) );
     ui->actionClose->setIcon( this->style()->standardIcon(QStyle::SP_DialogCloseButton) );
     ui->actionQuit->setIcon( this->style()->standardIcon(QStyle::SP_TitleBarCloseButton) );
-
+    */
     ui->actionPrevious->setIcon( this->style()->standardIcon(QStyle::SP_ArrowLeft) );
     ui->actionNext->setIcon( this->style()->standardIcon(QStyle::SP_ArrowRight) );
 
-    ui->actionFull_Screen->setIcon( this->style()->standardIcon(QStyle::SP_TitleBarMaxButton) );
+    //ui->actionFull_Screen->setIcon( this->style()->standardIcon(QStyle::SP_TitleBarMaxButton) );
 
     ui->mainToolBar->addAction(ui->actionNew);
     ui->mainToolBar->addAction(ui->actionOpen);
@@ -83,9 +90,6 @@ void MainWindow::setUpToolBar()
     ui->mainToolBar->addAction(ui->actionSave_as);
     ui->mainToolBar->addAction(ui->actionClose);
     ui->mainToolBar->addAction(ui->actionFull_Screen);
-
-    if(options.openSizeMode==2)
-        ui->actionFull_Screen->setChecked(true);
 
     connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(pressNew()));
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(pressOpen()));
@@ -98,7 +102,7 @@ void MainWindow::setUpToolBar()
     connect(ui->actionPrevious,SIGNAL(triggered()),this,SLOT(pressPrevious()));
     connect(ui->actionNext,SIGNAL(triggered()),this,SLOT(pressNext()));
 
-    connect(ui->actionFull_Screen,SIGNAL(toggled(bool)),this,SLOT(pressSetFullScreen(bool)));
+    connect(ui->actionFull_Screen,SIGNAL(triggered()),this,SLOT(pressSetFullScreen()));
 
     connect(ui->actionSelect_All,SIGNAL(triggered()),this,SLOT(pressSelectAll()));
     connect(ui->actionCut,SIGNAL(triggered()),this,SLOT(pressCut()));
@@ -111,22 +115,14 @@ void MainWindow::setUpToolBar()
 
 void MainWindow::tabCloseRequest(int index)
 {
-    Tab* tab = (Tab*)ui->tabWidget->widget(index);
+    QWidget *currentWidget = ui->tabWidget->currentWidget();
+    if(index<0 || index>ui->tabWidget->count()) return;
 
-    if(tab->isModified()){
-        int button = QMessageBox::warning(this,"modified",QString("Do you want to save : %1").arg(ui->tabWidget->tabText(index)),QMessageBox::Yes,QMessageBox::No);
-        //TODO
-        /*if(button==QMessageBox::Yes){
-            pressSave();
-        }*/
-    }
+    ui->tabWidget->setCurrentIndex(index);
 
-    QAction* action = mapTabAction.key(tab);
+    pressClose();
 
-    mapTabAction.remove(action);
-
-    delete action;
-    delete tab;
+    ui->tabWidget->setCurrentWidget(currentWidget);
 }
 
 Tab* MainWindow::getCurrentTab()
@@ -302,13 +298,14 @@ void MainWindow::pressCloseAll()
     }
 }
 
-void MainWindow::pressSetFullScreen(bool fullScreen)
+void MainWindow::pressSetFullScreen()
 {
-    if(fullScreen){
+    if(this->windowState()!=Qt::WindowFullScreen){
         previousState = this->windowState();
         this->setWindowState(Qt::WindowFullScreen);
-    }else
+    }else{
         this->setWindowState(previousState);
+    }
 }
 
 void MainWindow::pressPrevious()

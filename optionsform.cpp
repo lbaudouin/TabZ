@@ -63,7 +63,9 @@ void OptionsForm::createOptionsTab(QTabWidget *tab)
     checkOpenReadOnly->setChecked(options_.openReadOnly);
 
     comboOpenSize = new QComboBox;
-    comboOpenSize->addItems( QStringList() << "Normal" << "Maximized" << "FullScreen");
+    comboOpenSize->addItems( QStringList() << tr("Normal") << tr("Maximized") << tr("FullScreen") );
+    comboOpenSize->setCurrentIndex(options_.openSizeMode);
+
 
     formLayout->addRow(tr("Default folder:"),editDefaultFolder);
     formLayout->addRow(tr("Select new tab:"),checkSelectNewTab);

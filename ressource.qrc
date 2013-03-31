@@ -2,5 +2,33 @@
     <qresource prefix="/images">
         <file alias="add">images/add.png</file>
         <file alias="search">images/search.png</file>
+        <file alias="apply">images/apply.svg</file>
+        <file alias="config">images/config.svg</file>
+        <file alias="display">images/display-properties.svg</file>
+        <file alias="import">images/document-import.svg</file>
+        <file alias="new">images/document-new.svg</file>
+        <file alias="open">images/document-open.svg</file>
+        <file alias="setup">images/document-page-setup.svg</file>
+        <file alias="print">images/document-print.svg</file>
+        <file alias="print-preview">images/document-print-preview.svg</file>
+        <file alias="properties">images/document-properties.svg</file>
+        <file alias="reload">images/document-revert.svg</file>
+        <file alias="save">images/document-save.svg</file>
+        <file alias="save-as">images/document-save-as.svg</file>
+        <file alias="clear">images/edit-clear.svg</file>
+        <file alias="copy">images/edit-copy.svg</file>
+        <file alias="cut">images/edit-cut.svg</file>
+        <file alias="paste">images/edit-paste.svg</file>
+        <file alias="redo">images/edit-redo.svg</file>
+        <file alias="undo">images/edit-undo.svg</file>
+        <file alias="file-icon">images/file-icon.png</file>
+        <file alias="file-preview">images/file-preview.svg</file>
+        <file alias="pda">images/pda.svg</file>
+        <file alias="phone">images/phone.svg</file>
+        <file alias="fullscreen">images/view-fullscreen.svg</file>
+        <file alias="normalscreen">images/view-restore.svg</file>
+        <file alias="web">images/web.svg</file>
+        <file alias="close">images/window-close.svg</file>
+        <file alias="app-close">images/app-close.svg</file>
     </qresource>
 </RCC>
