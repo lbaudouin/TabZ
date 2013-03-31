@@ -9,6 +9,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setUpToolBar();
 
+    options.parse(this);
+
 
     xta = new XTA(this->centralWidget());
 
@@ -131,6 +133,7 @@ int MainWindow::addTab(XTAinfo info)
         tabName = tr("New");
 
     Tab *tab = new Tab(info, ui->tabWidget);
+    tab->setOptions(options);
     connect(tab,SIGNAL(setSaveIcon(int,bool)),this,SLOT(displaySaveIcon(int,bool)));
     connect(this,SIGNAL(setColorsEnabled(bool)),tab,SLOT(enableColors(bool)));
 
@@ -144,7 +147,8 @@ int MainWindow::addTab(XTAinfo info)
 
     int index = ui->tabWidget->addTab(tab,tabName);
 
-    ui->tabWidget->setCurrentIndex( index );
+    if(options.selectNewTab)
+        ui->tabWidget->setCurrentIndex( index );
 
     return index;
 }
@@ -399,6 +403,7 @@ void MainWindow::pressSearchXTA()
 
 void MainWindow::pressPreference()
 {
+    options.colors.push_back( ColorRegExp("\\b[A-G]#(?!m)",Qt::red,QFont::Normal,0) );
     Options *opt = new Options(options,this);
     if(opt->exec()){
         OptionsValues o = opt->getOptions();
@@ -407,5 +412,7 @@ void MainWindow::pressPreference()
             emit setColorsEnabled(o.enableColors);
 
         options = o;
+
+        options.save(this);
     }
 }

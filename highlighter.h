@@ -22,7 +22,8 @@ public:
     Highlighter(QTextDocument *parent = 0);
 
     QStringList matches();
-    void addRule(QStringList list, QColor color, QFont::Weight weight);
+    void addRule(QStringList list, QColor color, QFont::Weight weight, bool isText = false);
+    void addRule(QString text, QColor color, QFont::Weight weight, bool isText = false);
 
     QStringList getList(QString text);
 
@@ -39,6 +40,7 @@ private:
     {
         QRegExp pattern;
         QTextCharFormat format;
+        bool text;
     };
     QVector<HighlightingRule> highlightingRules;
 

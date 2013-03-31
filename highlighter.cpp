@@ -31,6 +31,10 @@ void Highlighter::setDefaultRules()
     addRule(keywordPatterns,Qt::darkCyan,QFont::Bold);
 
     keywordPatterns.clear();
+    keywordPatterns << "\\b[A-G]bm\\b";
+    addRule(keywordPatterns,QColor(0,125,255),QFont::Bold);
+
+    keywordPatterns.clear();
     keywordPatterns << "\\b[A-G][1-9]\\b";
     addRule(keywordPatterns,Qt::darkYellow,QFont::Bold);
 
@@ -81,8 +85,10 @@ QStringList Highlighter::getList(QString text)
             int index = expression.indexIn(line);
             while (index >= 0) {
                 int length = expression.matchedLength();
-                temp << line.mid(index,length);
-                lenght_total += length;
+                if(!rule.text){
+                    temp << line.mid(index,length);
+                    lenght_total += length;
+                }
                 index = expression.indexIn(line, index + length);
             }
         }
@@ -126,7 +132,11 @@ void Highlighter::highlightBlock(const QString &text)
         int index = expression.indexIn(text);
         while (index >= 0) {
             int length = expression.matchedLength();
-            lenght_total += length;
+            if(rule.text){
+                setFormat(index, length, rule.format);
+            }else{
+                lenght_total += length;
+            }
             index = expression.indexIn(text, index + length);
         }
     }
@@ -163,18 +173,31 @@ void Highlighter::highlightBlock(const QString &text)
     setCurrentBlockState(0);
 }
 
-void Highlighter::addRule(QStringList list, QColor color, QFont::Weight weight)
+void Highlighter::addRule(QStringList list, QColor color, QFont::Weight weight, bool isText)
 {
     HighlightingRule rule;
     QTextCharFormat keywordFormat;
     keywordFormat.setForeground(color);
     keywordFormat.setFontWeight(weight);
+    rule.text = isText;
 
     foreach (const QString &pattern, list) {
         rule.pattern = QRegExp(pattern);
         rule.format = keywordFormat;
         highlightingRules.append(rule);
     }
+}
+
+void Highlighter::addRule(QString text, QColor color, QFont::Weight weight, bool isText)
+{
+    HighlightingRule rule;
+    QTextCharFormat keywordFormat;
+    keywordFormat.setForeground(color);
+    keywordFormat.setFontWeight(weight);
+    rule.text = isText;
+    rule.pattern = QRegExp(text);
+    rule.format = keywordFormat;
+    highlightingRules.append(rule);
 }
 
 void Highlighter::enable()

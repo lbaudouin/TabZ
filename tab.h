@@ -13,6 +13,7 @@
 #include "highlighter.h"
 #include "xta_info.h"
 #include "guitar.h"
+#include "options.h"
 
 class Tab : public QWidget
 {
@@ -21,6 +22,8 @@ public:
     explicit Tab(XTAinfo xta, QWidget *parent = 0);
     XTAinfo getXTA();
 
+
+    void setOptions(OptionsValues options);
     bool isModified();
 
 protected:
@@ -42,6 +45,8 @@ private:
 
     QStringList chords;
     QMap<QString,QString> mapChord;
+
+    OptionsValues optionsValues;
 
 signals:
     void setSaveIcon(int,bool);

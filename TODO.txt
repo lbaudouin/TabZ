@@ -5,16 +5,16 @@ TODO list :
 - select colors
 *** disable colors
 *** default folder
-- select new tab
-- always read only
-- black/white/color neck for chord
+*** select new tab
+*** open in read only mode
+- black/white/color strings for chord
 - french/english chords
 - change police
 
 #### Functions ####
 
 - add icon set
-- save option (xml)
+*** save options (xml)
 - manual add chord
 - modify chord
 - add existing chords

@@ -14,7 +14,7 @@
 
 #include <QDebug>
 
-class Neck;
+class Strings;
 
 class Guitar : public QFrame
 {
@@ -29,7 +29,7 @@ private:
     QString name_;
     QString fingers_;
     QSize size_;
-    Neck *neck;
+    Strings *strings;
 
     QToolButton *buttonReduce_, *buttonClose_;
 
@@ -44,11 +44,11 @@ public slots:
     void setSelected(QString);
 };
 
-class Neck : public QWidget
+class Strings : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Neck(QString fingers, QWidget *parent = 0);
+    explicit Strings(QString fingers, QWidget *parent = 0);
     
 protected:
     void mousePressEvent(QMouseEvent *);

@@ -11,15 +11,40 @@
 #include <QCheckBox>
 #include <QLineEdit>
 #include <QString>
+#include <QMessageBox>
+#include <QDomDocument>
+#include <QFile>
+#include <QTextStream>
+
+struct ColorRegExp
+{
+    ColorRegExp(QString _regExp, QColor _color, int _weight, int _isText){
+        regExp = _regExp;
+        color = _color;
+        weight = _weight;
+        isText = _isText;
+    }
+
+    QString regExp;
+    QColor color;
+    int weight;
+    int isText;
+};
 
 struct OptionsValues
 {
-    OptionsValues(){
-        enableColors = true;
-        defaultPath = "";
-    }
+    OptionsValues();
     bool enableColors;
+    bool selectNewTab;
+    bool openReadOnly;
     QString defaultPath;
+
+    QList<ColorRegExp> colors;
+
+    void save(QWidget* parent = 0);
+    void parse(QWidget* parent = 0);
+    void addNode(QDomDocument &dom, QDomElement &parent, QString tag, QString data);
+    void addNode(QDomDocument &dom, QDomElement &parent, QString tag, int data);
 };
 
 class Options : public QDialog
@@ -33,6 +58,8 @@ private:
     OptionsValues options_;
 
     QCheckBox *checkEnableColor;
+    QCheckBox *checkSelectNewTab;
+    QCheckBox *checkOpenReadOnly;
     QLineEdit *editDefaultFolder;
 
 protected:

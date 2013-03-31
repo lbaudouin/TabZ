@@ -417,3 +417,10 @@ void Tab::enableColors(bool state)
 {
     highlighter->setEnabled(state);
 }
+
+void Tab::setOptions(OptionsValues options)
+{
+    optionsValues = options;
+    highlighter->setEnabled(optionsValues.enableColors);
+    edit->setReadOnly(options.openReadOnly);
+}

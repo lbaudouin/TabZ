@@ -31,9 +31,9 @@ Guitar::Guitar(QString name, QString fingers, QWidget *parent) : name_(name), fi
     icon.addPixmap( this->style()->standardIcon(QStyle::SP_TitleBarShadeButton).pixmap(16), QIcon::Normal, QIcon::Off );
     buttonReduce_->setIcon(icon);
 
-    neck = new Neck(fingers_,this);
+    strings = new Strings(fingers_,this);
 
-    connect(buttonReduce_,SIGNAL(toggled(bool)),neck,SLOT(setHidden(bool)));
+    connect(buttonReduce_,SIGNAL(toggled(bool)),strings,SLOT(setHidden(bool)));
     //connect(buttonReduce_,SIGNAL(toggled(bool)),this,SLOT(reduced(bool)));
 
     hlayout->addWidget(label);
@@ -41,7 +41,7 @@ Guitar::Guitar(QString name, QString fingers, QWidget *parent) : name_(name), fi
     hlayout->addWidget(buttonClose_);
 
     vlayout->addLayout(hlayout);
-    vlayout->addWidget(neck);
+    vlayout->addWidget(strings);
 }
 
 void Guitar::pressReduce()
@@ -57,9 +57,9 @@ void Guitar::pressClose()
 void Guitar::setSelected(QString name)
 {
     if(name==name_){
-        neck->select(true);
+        strings->select(true);
     }else{
-        neck->select(false);
+        strings->select(false);
     }
 }
 
@@ -73,7 +73,7 @@ QString Guitar::getFingers()
     return fingers_;
 }
 
-Neck::Neck( QString fingers, QWidget *parent) : fingers_(fingers), selected_(false),
+Strings::Strings( QString fingers, QWidget *parent) : fingers_(fingers), selected_(false),
     QWidget(parent)
 {
     fingers_.replace("\t"," ");
@@ -95,17 +95,17 @@ Neck::Neck( QString fingers, QWidget *parent) : fingers_(fingers), selected_(fal
     setMinimumSize( size_ );
 }
 
-QSize Neck::sizeHint()
+QSize Strings::sizeHint()
 {
     return size_;
 }
 
-QSize Neck::minimumSizeHint()
+QSize Strings::minimumSizeHint()
 {
     return size_;
 }
 
-void Neck::paintEvent(QPaintEvent *)
+void Strings::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
 
@@ -233,7 +233,7 @@ void Neck::paintEvent(QPaintEvent *)
     painter.drawText(0,18,20,10,Qt::AlignCenter,QString::number(1+shift));
 }
 
-void Neck::mousePressEvent(QMouseEvent *event)
+void Strings::mousePressEvent(QMouseEvent *event)
 {
     if(event->button()==Qt::RightButton){
         QMenu * menu = new QMenu(this);
@@ -251,7 +251,7 @@ void Neck::mousePressEvent(QMouseEvent *event)
     }
 }
 
-void Neck::select(bool state)
+void Strings::select(bool state)
 {
     selected_ = state;
     this->update();
