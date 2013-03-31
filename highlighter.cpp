@@ -66,6 +66,11 @@ void Highlighter::reset()
     setDefaultRules();
 }
 
+void Highlighter::update()
+{
+    rehighlight();
+}
+
 QStringList Highlighter::getList(QString text)
 {
     QStringList list;
@@ -173,7 +178,7 @@ void Highlighter::highlightBlock(const QString &text)
     setCurrentBlockState(0);
 }
 
-void Highlighter::addRule(QStringList list, QColor color, QFont::Weight weight, bool isText)
+void Highlighter::addRule(QStringList list, QColor color, int weight, bool isText)
 {
     HighlightingRule rule;
     QTextCharFormat keywordFormat;
@@ -188,7 +193,7 @@ void Highlighter::addRule(QStringList list, QColor color, QFont::Weight weight, 
     }
 }
 
-void Highlighter::addRule(QString text, QColor color, QFont::Weight weight, bool isText)
+void Highlighter::addRule(QString text, QColor color, int weight, bool isText)
 {
     HighlightingRule rule;
     QTextCharFormat keywordFormat;

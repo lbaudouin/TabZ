@@ -12,6 +12,7 @@
 #include "tab.h"
 #include "xta.h"
 #include "options.h"
+#include "optionsform.h"
 
 namespace Ui {
 class MainWindow;

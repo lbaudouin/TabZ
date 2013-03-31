@@ -106,7 +106,7 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta),
     edit = new QTextEdit;
     QFont editFont = edit->font();
     editFont.setFamily("Tahoma");
-    editFont.setFixedPitch(true);
+    //editFont.setFixedPitch(true);
 
     edit->setFont(editFont);
     edit->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
@@ -422,5 +422,11 @@ void Tab::setOptions(OptionsValues options)
 {
     optionsValues = options;
     highlighter->setEnabled(optionsValues.enableColors);
+    highlighter->clear();
+    foreach(ColorRegExp colorRegExp, optionsValues.colors){
+        highlighter->addRule(colorRegExp.regExp,colorRegExp.color,colorRegExp.weight,colorRegExp.isText);
+    }
+    highlighter->update();
+
     edit->setReadOnly(options.openReadOnly);
 }

@@ -30,7 +30,8 @@ TODO list :
 - insert ascii tab (with tool bar)
 - French chord to english
 *** save on exit
-- save under "$default_folder/$artist" with "$artist - $title.xta" name
+*** save under "$default_folder/$artist" with "$artist - $title.xta" name
+- select existing default folder
 *** full screen
 *** tab browser menu
 - create assistant

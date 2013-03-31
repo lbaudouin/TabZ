@@ -16,7 +16,8 @@ SOURCES += main.cpp\
     highlighter.cpp \
     guitar.cpp \
     xta.cpp \
-    options.cpp
+    options.cpp \
+    optionsform.cpp
 
 HEADERS  += mainwindow.h \
     tab.h \
@@ -24,7 +25,8 @@ HEADERS  += mainwindow.h \
     guitar.h \
     xta.h \
     xta_info.h \
-    options.h
+    options.h \
+    optionsform.h
 
 FORMS    += mainwindow.ui
 

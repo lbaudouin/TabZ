@@ -7,9 +7,17 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    options.parse(this);
+
     setUpToolBar();
 
-    options.parse(this);
+
+    switch(options.openSizeMode){
+    case 0 : this->setWindowState(Qt::WindowNoState); break;
+    case 1 : this->setWindowState(Qt::WindowMaximized); break;
+    case 2 : this->setWindowState(Qt::WindowFullScreen); break;
+    default : this->setWindowState(Qt::WindowNoState); break;
+    }
 
 
     xta = new XTA(this->centralWidget());
@@ -75,6 +83,9 @@ void MainWindow::setUpToolBar()
     ui->mainToolBar->addAction(ui->actionSave_as);
     ui->mainToolBar->addAction(ui->actionClose);
     ui->mainToolBar->addAction(ui->actionFull_Screen);
+
+    if(options.openSizeMode==2)
+        ui->actionFull_Screen->setChecked(true);
 
     connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(pressNew()));
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(pressOpen()));
@@ -403,8 +414,7 @@ void MainWindow::pressSearchXTA()
 
 void MainWindow::pressPreference()
 {
-    options.colors.push_back( ColorRegExp("\\b[A-G]#(?!m)",Qt::red,QFont::Normal,0) );
-    Options *opt = new Options(options,this);
+    OptionsForm *opt = new OptionsForm(options,this);
     if(opt->exec()){
         OptionsValues o = opt->getOptions();
 

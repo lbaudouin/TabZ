@@ -5,6 +5,7 @@ OptionsValues::OptionsValues()
     openReadOnly = false;
     enableColors = true;
     selectNewTab = true;
+    openSizeMode = 0;
     defaultPath = "";
 }
 
@@ -40,6 +41,8 @@ void OptionsValues::save(QWidget *parent)
         addNode(dom,mainNode,"defaultPath",defaultPath);
         addNode(dom,mainNode,"selectNewTab",selectNewTab);
         addNode(dom,mainNode,"openReadOnly",openReadOnly);
+        addNode(dom,mainNode,"openSizeMode",openSizeMode);
+
 
 
         QDomElement colorNode = dom.createElement("colors");
@@ -65,6 +68,11 @@ void OptionsValues::save(QWidget *parent)
 void OptionsValues::parse(QWidget *parent)
 {
     QDomDocument *dom = new QDomDocument("docXML");
+
+    if(!QFile::exists("options.xml")){
+        save(parent);
+    }
+
     QFile xml_doc("options.xml");
 
     if(!xml_doc.open(QIODevice::ReadOnly)){
@@ -72,7 +80,7 @@ void OptionsValues::parse(QWidget *parent)
             QMessageBox::warning(parent,parent->tr("Failed to open XML document"),parent->tr("The XML document '%1' could not be opened. Verify that the name is correct and that the document is well placed.").arg(xml_doc.fileName()));
         return;
     }
-    if (!dom->setContent(&xml_doc)){
+    if(!dom->setContent(&xml_doc)){
         xml_doc.close();
         if(parent)
             QMessageBox::warning(parent,parent->tr("Error opening the XML document"),parent->tr("The XML document could not be assigned to the object QDomDocument."));
@@ -81,7 +89,6 @@ void OptionsValues::parse(QWidget *parent)
 
     QDomElement dom_element = dom->documentElement();
     QDomNode node = dom_element.firstChild();
-
 
     while(!node.isNull())
     {
@@ -99,8 +106,13 @@ void OptionsValues::parse(QWidget *parent)
         if(element.tagName()=="defaultPath"){
             defaultPath = element.text();
         }
+        if(element.tagName()=="openSizeMode"){
+            openSizeMode = element.text().toInt();
+        }
 
         if(element.tagName()=="colors"){
+            colors.clear();
+
             QDomNode child = node.firstChild();
 
             while(!child.isNull()){
@@ -132,74 +144,23 @@ void OptionsValues::parse(QWidget *parent)
 
     xml_doc.close();
 
+    if(colors.isEmpty())
+        setDefaultRegExp();
 }
 
-
-Options::Options(OptionsValues options, QWidget *parent) : options_(options),
-    QDialog(parent)
+void OptionsValues::setDefaultRegExp()
 {
-    QVBoxLayout *mainLayout = new QVBoxLayout(this);
+    colors.clear();
+    colors.push_back(  ColorRegExp("\\b[A-G]#(?!(m|[1-9]))", Qt::darkRed, QFont::Bold)  );
+    colors.push_back(  ColorRegExp("\\b[A-G]#[1-9]\\b", Qt::darkRed, QFont::Bold)  );
+    colors.push_back(  ColorRegExp("\\b[A-G]#m[1-9]\\b", Qt::darkRed, QFont::Bold)  );
+    colors.push_back(  ColorRegExp("\\b[A-G]#m\\b", Qt::darkRed, QFont::Bold)  );
+    colors.push_back(  ColorRegExp("\\b[A-G]b\\b", Qt::darkGreen, QFont::Bold)  );
+    colors.push_back(  ColorRegExp("\\b[A-G]bm\\b", Qt::darkGreen, QFont::Bold)  );
+    colors.push_back(  ColorRegExp("\\b[A-G][1-9]\\b", Qt::darkYellow, QFont::Bold)  );
+    colors.push_back(  ColorRegExp("\\b[A-G]m[1-9]\\b", Qt::darkBlue, QFont::Bold)  );
+    colors.push_back(  ColorRegExp("\\b[A-G]m\\b", Qt::darkBlue, QFont::Bold)  );
+    colors.push_back(  ColorRegExp("\\b[A-G]dim\\b", Qt::darkMagenta, QFont::Bold)  );
 
-    QTabWidget *tabWidget = new QTabWidget;
-    mainLayout->addWidget(tabWidget);
-
-    createColorTab(tabWidget);
-    createOptionsTab(tabWidget);
-
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::RestoreDefaults|QDialogButtonBox::Cancel|QDialogButtonBox::Save);
-    connect(buttonBox,SIGNAL(accepted()),this,SLOT(accept()));
-    connect(buttonBox,SIGNAL(rejected()),this,SLOT(reject()));
-
-    mainLayout->addWidget(buttonBox);
-}
-
-void Options::createColorTab(QTabWidget *tab)
-{
-    QWidget *w = new QWidget;
-
-    QFormLayout *formLayout = new QFormLayout;
-    w->setLayout(formLayout);
-
-    checkEnableColor = new QCheckBox;
-    checkEnableColor->setChecked(options_.enableColors);
-    formLayout->addRow(tr("Enable color:"),checkEnableColor);
-
-    tab->addTab(w,tr("Color"));
-}
-
-void Options::createOptionsTab(QTabWidget *tab)
-{
-    QWidget *w = new QWidget;
-
-    QFormLayout *formLayout = new QFormLayout;
-    w->setLayout(formLayout);
-
-    QComboBox *comboBox = new QComboBox;
-    comboBox->addItem("TEST");
-
-    editDefaultFolder = new QLineEdit;
-    editDefaultFolder->setText(options_.defaultPath);
-
-    checkSelectNewTab = new QCheckBox;
-    checkSelectNewTab->setChecked(options_.selectNewTab);
-
-    checkOpenReadOnly = new QCheckBox;
-    checkOpenReadOnly->setChecked(options_.openReadOnly);
-
-    formLayout->addRow(tr("Default folder:"),editDefaultFolder);
-    formLayout->addRow(tr("Select new tab:"),checkSelectNewTab);
-    formLayout->addRow(tr("Open read only:"),checkOpenReadOnly);
-
-
-
-    tab->addTab(w,tr("Options"));
-}
-
-OptionsValues Options::getOptions()
-{
-    options_.enableColors = checkEnableColor->isChecked();
-    options_.selectNewTab = checkSelectNewTab->isChecked();
-    options_.openReadOnly = checkOpenReadOnly->isChecked();
-    options_.defaultPath = editDefaultFolder->text();
-    return options_;
+    colors.push_back(  ColorRegExp("\\b[A-G](?!(#|'|\\|))\\b", Qt::red, QFont::Bold)  );
 }

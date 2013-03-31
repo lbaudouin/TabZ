@@ -22,8 +22,8 @@ public:
     Highlighter(QTextDocument *parent = 0);
 
     QStringList matches();
-    void addRule(QStringList list, QColor color, QFont::Weight weight, bool isText = false);
-    void addRule(QString text, QColor color, QFont::Weight weight, bool isText = false);
+    void addRule(QStringList list, QColor color, int weight, bool isText = false);
+    void addRule(QString text, QColor color, int weight, bool isText = false);
 
     QStringList getList(QString text);
 
@@ -54,6 +54,8 @@ public slots:
     void enable();
     void disable();
     void setEnabled(bool);
+
+    void update();
 };
 //! [0]
 
