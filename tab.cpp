@@ -424,7 +424,7 @@ void Tab::setOptions(OptionsValues options)
     highlighter->setEnabled(optionsValues.enableColors);
     highlighter->clear();
     foreach(ColorRegExp colorRegExp, optionsValues.colors){
-        highlighter->addRule(colorRegExp.regExp,colorRegExp.color,colorRegExp.weight,colorRegExp.isText);
+        highlighter->addRule(colorRegExp.regExp,colorRegExp.color,colorRegExp.weight,colorRegExp.isText,colorRegExp.caseSensitivity==0?Qt::CaseInsensitive:Qt::CaseSensitive);
     }
     highlighter->update();
 

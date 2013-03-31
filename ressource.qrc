@@ -30,5 +30,6 @@
         <file alias="web">images/web.svg</file>
         <file alias="close">images/window-close.svg</file>
         <file alias="app-close">images/app-close.svg</file>
+        <file alias="TabS">images/TabS.ico</file>
     </qresource>
 </RCC>

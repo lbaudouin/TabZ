@@ -22,8 +22,8 @@ public:
     Highlighter(QTextDocument *parent = 0);
 
     QStringList matches();
-    void addRule(QStringList list, QColor color, int weight, bool isText = false);
-    void addRule(QString text, QColor color, int weight, bool isText = false);
+    void addRule(QStringList list, QColor color, int weight, bool isText = false, Qt::CaseSensitivity caseSensitivity = Qt::CaseSensitive);
+    void addRule(QString text, QColor color, int weight, bool isText = false, Qt::CaseSensitivity caseSensitivity = Qt::CaseSensitive);
 
     QStringList getList(QString text);
 

@@ -9,17 +9,19 @@
 
 struct ColorRegExp
 {
-    ColorRegExp(QString _regExp, QColor _color, int _weight, int _isText = false){
+    ColorRegExp(QString _regExp, QColor _color, int _weight, int _isText = false, int _caseSensitivity = 1){
         regExp = _regExp;
         color = _color;
         weight = _weight;
         isText = _isText;
+        caseSensitivity = _caseSensitivity;
     }
 
     QString regExp;
     QColor color;
     int weight;
     int isText;
+    int caseSensitivity;
 };
 
 struct OptionsValues

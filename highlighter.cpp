@@ -178,7 +178,7 @@ void Highlighter::highlightBlock(const QString &text)
     setCurrentBlockState(0);
 }
 
-void Highlighter::addRule(QStringList list, QColor color, int weight, bool isText)
+void Highlighter::addRule(QStringList list, QColor color, int weight, bool isText, Qt::CaseSensitivity caseSensitivity)
 {
     HighlightingRule rule;
     QTextCharFormat keywordFormat;
@@ -186,14 +186,16 @@ void Highlighter::addRule(QStringList list, QColor color, int weight, bool isTex
     keywordFormat.setFontWeight(weight);
     rule.text = isText;
 
+
     foreach (const QString &pattern, list) {
         rule.pattern = QRegExp(pattern);
+        rule.pattern.setCaseSensitivity(caseSensitivity);
         rule.format = keywordFormat;
         highlightingRules.append(rule);
     }
 }
 
-void Highlighter::addRule(QString text, QColor color, int weight, bool isText)
+void Highlighter::addRule(QString text, QColor color, int weight, bool isText, Qt::CaseSensitivity caseSensitivity)
 {
     HighlightingRule rule;
     QTextCharFormat keywordFormat;
@@ -201,6 +203,7 @@ void Highlighter::addRule(QString text, QColor color, int weight, bool isText)
     keywordFormat.setFontWeight(weight);
     rule.text = isText;
     rule.pattern = QRegExp(text);
+    rule.pattern.setCaseSensitivity(caseSensitivity);
     rule.format = keywordFormat;
     highlightingRules.append(rule);
 }

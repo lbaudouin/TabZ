@@ -8,6 +8,7 @@ TODO list :
 *** select new tab
 *** open in read only mode
 - black/white/color strings for chord
+- size of strings
 - french/english chords
 - change police
 

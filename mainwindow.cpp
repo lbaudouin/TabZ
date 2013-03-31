@@ -88,6 +88,7 @@ void MainWindow::setUpToolBar()
     ui->mainToolBar->addAction(ui->actionOpen);
     ui->mainToolBar->addAction(ui->actionSave);
     ui->mainToolBar->addAction(ui->actionSave_as);
+    ui->mainToolBar->addSeparator();
     ui->mainToolBar->addAction(ui->actionClose);
     ui->mainToolBar->addAction(ui->actionFull_Screen);
 

@@ -55,6 +55,7 @@ void OptionsValues::save(QWidget *parent)
             elem.setAttribute("color",QString("%1,%2,%3").arg(QString::number(colorRegExp.color.red()),QString::number(colorRegExp.color.green()),QString::number(colorRegExp.color.blue())));
             elem.setAttribute("weight",colorRegExp.weight);
             elem.setAttribute("text",colorRegExp.isText);
+            elem.setAttribute("caseSensitivity",colorRegExp.caseSensitivity);
             colorNode.appendChild(elem);
         }
 
@@ -109,6 +110,9 @@ void OptionsValues::parse(QWidget *parent)
         if(element.tagName()=="openSizeMode"){
             openSizeMode = element.text().toInt();
         }
+        if(element.tagName()=="openSizeMode"){
+            openSizeMode = element.text().toInt();
+        }
 
         if(element.tagName()=="colors"){
             colors.clear();
@@ -123,6 +127,7 @@ void OptionsValues::parse(QWidget *parent)
                     QString colorString = colorElement.attribute("color");
                     QString weightText =  colorElement.attribute("weight");
                     int isText = colorElement.attribute("text").toInt();
+                    int caseSensitivity = colorElement.attribute("caseSensitivity").toInt();
 
                     QStringList colorList = colorString.split(",");
                     QColor color(0,0,0);
@@ -130,7 +135,7 @@ void OptionsValues::parse(QWidget *parent)
                         color.setRgb(colorList[0].toInt(),colorList[1].toInt(),colorList[2].toInt());
                     }
 
-                    ColorRegExp cre(regExp,color,weightText.isEmpty()?50:weightText.toInt(),isText);
+                    ColorRegExp cre(regExp,color,weightText.isEmpty()?50:weightText.toInt(),isText,caseSensitivity);
 
                     colors.push_back(cre);
                 }
@@ -163,4 +168,9 @@ void OptionsValues::setDefaultRegExp()
     colors.push_back(  ColorRegExp("\\b[A-G]dim\\b", Qt::darkMagenta, QFont::Bold)  );
 
     colors.push_back(  ColorRegExp("\\b[A-G](?!(#|'|\\|))\\b", Qt::red, QFont::Bold)  );
+
+
+    colors.push_back(  ColorRegExp("\\bIntro\\b", Qt::darkCyan, QFont::Bold, true, Qt::CaseInsensitive)  );
+    colors.push_back(  ColorRegExp("\\bChorus\\b", Qt::darkCyan, QFont::Bold, true, Qt::CaseInsensitive)  );
+    colors.push_back(  ColorRegExp("\\bbis\\b", Qt::darkCyan, QFont::Bold, true, Qt::CaseInsensitive)  );
 }
