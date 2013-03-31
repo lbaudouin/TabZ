@@ -55,6 +55,15 @@ void OptionsForm::createOptionsTab(QTabWidget *tab)
 
     editDefaultFolder = new QLineEdit;
     editDefaultFolder->setText(options_.defaultPath);
+    editDefaultFolder->setReadOnly(true);
+
+    QToolButton *toolFolder = new QToolButton;
+    toolFolder->setIcon(QIcon(":images/open"));
+    connect(toolFolder,SIGNAL(clicked()),this,SLOT(selectFolder()));
+
+    QHBoxLayout *folderLayout = new QHBoxLayout;
+    folderLayout->addWidget(toolFolder);
+    folderLayout->addWidget(editDefaultFolder);
 
     checkSelectNewTab = new QCheckBox;
     checkSelectNewTab->setChecked(options_.selectNewTab);
@@ -67,7 +76,7 @@ void OptionsForm::createOptionsTab(QTabWidget *tab)
     comboOpenSize->setCurrentIndex(options_.openSizeMode);
 
 
-    formLayout->addRow(tr("Default folder:"),editDefaultFolder);
+    formLayout->addRow(tr("Default folder:"),folderLayout);
     formLayout->addRow(tr("Select new tab:"),checkSelectNewTab);
     formLayout->addRow(tr("Open read only:"),checkOpenReadOnly);
     formLayout->addRow(tr("Open size mode:"),comboOpenSize);
@@ -91,4 +100,12 @@ void OptionsForm::showColorExpReg()
 {
     ColorRegExpDialog *cred = new ColorRegExpDialog(options_.colors);
     cred->exec();
+}
+
+void OptionsForm::selectFolder()
+{
+    QString folder = QFileDialog::getExistingDirectory(this,tr("Select folder"),tr("Path:"));
+    if(!folder.isEmpty()){
+        editDefaultFolder->setText(folder);
+    }
 }

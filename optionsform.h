@@ -12,6 +12,8 @@
 #include <QLineEdit>
 #include <QColor>
 #include <QPushButton>
+#include <QToolButton>
+#include <QFileDialog>
 
 #include "options.h"
 
@@ -149,6 +151,7 @@ public slots:
             qDebug() << "Restore";
         }
     }
+    void selectFolder();
 
 };
 

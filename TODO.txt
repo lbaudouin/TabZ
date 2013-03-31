@@ -32,7 +32,7 @@ TODO list :
 - French chord to english
 *** save on exit
 *** save under "$default_folder/$artist" with "$artist - $title.xta" name
-- select existing default folder
+*** select existing default folder
 *** full screen
 *** tab browser menu
 - create assistant
