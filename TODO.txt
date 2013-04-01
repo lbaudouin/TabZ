@@ -53,4 +53,5 @@ TODO list :
 - search lyrics on other site
 - use QButtonGroup to select chord to add
 - associate xta files with TabS
+*** connect Undo/Redo actions
 

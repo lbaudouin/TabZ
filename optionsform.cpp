@@ -18,14 +18,19 @@ OptionsForm::OptionsForm(OptionsValues options, QWidget *parent) : options_(opti
     connect(buttonBox,SIGNAL(clicked(QAbstractButton*)),this,SLOT(buttonClicked(QAbstractButton*)));
 
     mainLayout->addWidget(buttonBox);
+
+    this->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
 }
 
 void OptionsForm::createColorTab(QTabWidget *tab)
 {
     QWidget *w = new QWidget;
 
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    w->setLayout(mainLayout);
+
     QFormLayout *formLayout = new QFormLayout;
-    w->setLayout(formLayout);
+    mainLayout->addLayout(formLayout);
 
     checkEnableColor = new QCheckBox;
     checkEnableColor->setChecked(options_.enableColors);
@@ -35,6 +40,18 @@ void OptionsForm::createColorTab(QTabWidget *tab)
     buttonRegExp->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Minimum);
     formLayout->addRow(tr("Regular expressions:"),buttonRegExp);
     connect(buttonRegExp,SIGNAL(clicked()),this,SLOT(showColorExpReg()));
+
+
+    ColorRegExpForm *cref = new ColorRegExpForm;
+    for(int i=0;i<10;i++)
+    cref->addColorRegExp("\\b[A-G]\\b",Qt::red,QFont::Bold,false,Qt::CaseSensitive);
+
+
+    QScrollArea *area = new QScrollArea;
+    area->setWidgetResizable(true);
+    area->setWidget(cref);
+
+    mainLayout->addWidget(area);
 
 
     //ColorRegExpEdit *editColor = new ColorRegExpEdit("test",Qt::red,75);

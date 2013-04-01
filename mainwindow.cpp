@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setUpToolBar();
 
+    connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(currentTabChanged(int)));
 
     xta = new XTA(this->centralWidget());
 
@@ -72,25 +73,23 @@ MainWindow::~MainWindow()
 
 void MainWindow::setUpToolBar()
 {
-    /*ui->actionNew->setIcon( this->style()->standardIcon(QStyle::SP_FileIcon) );
-    ui->actionSave->setIcon( this->style()->standardIcon(QStyle::SP_DialogSaveButton) );
-    ui->actionSave_as->setIcon( this->style()->standardIcon(QStyle::SP_DriveHDIcon) );
-    ui->actionOpen->setIcon( this->style()->standardIcon(QStyle::SP_DirOpenIcon) );
-    ui->actionClose->setIcon( this->style()->standardIcon(QStyle::SP_DialogCloseButton) );
-    ui->actionQuit->setIcon( this->style()->standardIcon(QStyle::SP_TitleBarCloseButton) );
-    */
     ui->actionPrevious->setIcon( this->style()->standardIcon(QStyle::SP_ArrowLeft) );
     ui->actionNext->setIcon( this->style()->standardIcon(QStyle::SP_ArrowRight) );
-
-    //ui->actionFull_Screen->setIcon( this->style()->standardIcon(QStyle::SP_TitleBarMaxButton) );
 
     ui->mainToolBar->addAction(ui->actionNew);
     ui->mainToolBar->addAction(ui->actionOpen);
     ui->mainToolBar->addAction(ui->actionSave);
     ui->mainToolBar->addAction(ui->actionSave_as);
     ui->mainToolBar->addSeparator();
-    ui->mainToolBar->addAction(ui->actionClose);
+    ui->mainToolBar->addAction(ui->actionUndo);
+    ui->mainToolBar->addAction(ui->actionRedo);
+    ui->mainToolBar->addSeparator();
+    ui->mainToolBar->addAction(ui->actionCut);
+    ui->mainToolBar->addAction(ui->actionCopy);
+    ui->mainToolBar->addAction(ui->actionPaste);
+    ui->mainToolBar->addSeparator();
     ui->mainToolBar->addAction(ui->actionFull_Screen);
+    ui->mainToolBar->addAction(ui->actionClose);
 
     connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(pressNew()));
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(pressOpen()));
@@ -114,10 +113,30 @@ void MainWindow::setUpToolBar()
     connect(ui->actionRedo,SIGNAL(triggered()),this,SLOT(pressRedo()));
 }
 
+void MainWindow::currentTabChanged(int index){
+    if(index<0 || index>=ui->tabWidget->count()) return;
+    ui->actionUndo->setEnabled( getCurrentTab()->isUndoAvailable() );
+    ui->actionRedo->setEnabled( getCurrentTab()->isRedoAvailable() );
+}
+
+void MainWindow::setUndoAvailable(bool state)
+{
+    if(sender()==ui->tabWidget->currentWidget()){
+        ui->actionUndo->setEnabled( state );
+    }
+}
+
+void MainWindow::setRedoAvailable(bool state)
+{
+    if(sender()==ui->tabWidget->currentWidget()){
+        ui->actionRedo->setEnabled( state );
+    }
+}
+
 void MainWindow::tabCloseRequest(int index)
 {
     QWidget *currentWidget = ui->tabWidget->currentWidget();
-    if(index<0 || index>ui->tabWidget->count()) return;
+    if(index<0 || index>=ui->tabWidget->count()) return;
 
     ui->tabWidget->setCurrentIndex(index);
 
@@ -144,6 +163,8 @@ int MainWindow::addTab(XTAinfo info)
     tab->setOptions(options);
     connect(tab,SIGNAL(setSaveIcon(int,bool)),this,SLOT(displaySaveIcon(int,bool)));
     connect(this,SIGNAL(setColorsEnabled(bool)),tab,SLOT(enableColors(bool)));
+    connect(tab,SIGNAL(undoAvailable(bool)),this,SLOT(setUndoAvailable(bool)));
+    connect(tab,SIGNAL(redoAvailable(bool)),this,SLOT(setRedoAvailable(bool)));
 
     QAction *action = new QAction(tabName,this);
     action->setIcon( this->style()->standardIcon(QStyle::SP_DialogSaveButton ) );

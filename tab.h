@@ -25,6 +25,8 @@ public:
 
     void setOptions(OptionsValues options);
     bool isModified();
+    bool isUndoAvailable();
+    bool isRedoAvailable();
 
 protected:
     void addChord(QString name, QString fingers = QString());
@@ -48,9 +50,14 @@ private:
 
     OptionsValues optionsValues;
 
+    bool undoAvailable_, redoAvailable_;
+
 signals:
     void setSaveIcon(int,bool);
     void setSelected(QString name);
+
+    void undoAvailable(bool);
+    void redoAvailable(bool);
 
 private slots:
     void textChanged(QString text = QString());
@@ -76,6 +83,9 @@ public slots:
     void saved();
 
     void enableColors(bool);
+
+    void setUndoAvailable(bool);
+    void setRedoAvailable(bool);
     
 };
 

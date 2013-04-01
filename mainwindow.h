@@ -72,6 +72,10 @@ private slots:
     void displaySaveIcon(int,bool);
 
     void tabCloseRequest(int);
+
+    void currentTabChanged(int);
+    void setUndoAvailable(bool);
+    void setRedoAvailable(bool);
 };
 
 #endif // MAINWINDOW_H

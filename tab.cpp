@@ -1,6 +1,6 @@
 #include "tab.h"
 
-Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta),
+Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta), undoAvailable_(false), redoAvailable_(false),
     QWidget(parent)
 {
     //TODO, move it
@@ -239,6 +239,18 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta),
     updateTitle();
 
     connect(edit,SIGNAL(cursorPositionChanged()),this,SLOT(updateSelectedNote()));
+    connect(edit,SIGNAL(undoAvailable(bool)),this,SLOT(setUndoAvailable(bool)));
+    connect(edit,SIGNAL(redoAvailable(bool)),this,SLOT(setRedoAvailable(bool)));
+}
+
+bool Tab::isUndoAvailable()
+{
+    return undoAvailable_;
+}
+
+bool Tab::isRedoAvailable()
+{
+    return redoAvailable_;
 }
 
 void Tab::updateTitle()
@@ -412,6 +424,8 @@ void Tab::redo() { edit->redo(); }
 void Tab::cut() { edit->cut(); }
 void Tab::copy() { edit->copy(); }
 void Tab::paste() { edit->paste(); }
+void Tab::setUndoAvailable(bool state) { undoAvailable_ = state; emit this->undoAvailable(state); }
+void Tab::setRedoAvailable(bool state) { redoAvailable_ = state; emit this->redoAvailable(state);}
 
 void Tab::enableColors(bool state)
 {
