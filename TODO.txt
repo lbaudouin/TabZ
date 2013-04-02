@@ -2,7 +2,7 @@ TODO list :
 
 #### Options ####
 
-- select colors
+*** select colors
 *** disable colors
 *** default folder
 *** select new tab
@@ -39,7 +39,8 @@ TODO list :
 - recent files
 *** resize scrool area if empty column
 *** overwrite existing file (save as) : suffix not added before checking
-~~~ hide/show icon when file is modified (save chords now)
+*** hide/show icon when file is modified (save chords now)
+- display save icon if chords changed
 *** move tabs
 - move tabs in menu too
 *** open folder
@@ -51,7 +52,7 @@ TODO list :
 *** search on internet for tab on "http://guythoun.free.fr/TabS/xta/index.php?page=search&q=%s"
 *** search lyrics on google
 - search lyrics on other site
-- use QButtonGroup to select chord to add
+*** use QButtonGroup to select chord to add (use QList<QCheckBox> instead)
 - associate xta files with TabS
 *** connect Undo/Redo actions
 

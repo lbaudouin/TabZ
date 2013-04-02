@@ -15,6 +15,20 @@
 #include "guitar.h"
 #include "options.h"
 
+//TODO, move in a separate file
+class QQCheckBox : public QCheckBox{
+    Q_OBJECT
+public:
+    QQCheckBox(QString text) : QCheckBox(text) {}
+public slots:
+    void uncheck(){
+        setChecked(false);
+    }
+    void check(){
+        setChecked(true);
+    }
+};
+
 class Tab : public QWidget
 {
     Q_OBJECT
@@ -55,6 +69,7 @@ private:
 signals:
     void setSaveIcon(int,bool);
     void setSelected(QString name);
+    void removeChord(QString name);
 
     void undoAvailable(bool);
     void redoAvailable(bool);

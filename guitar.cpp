@@ -54,6 +54,13 @@ void Guitar::pressClose()
     emit closeAndDelete();
 }
 
+void Guitar::remove(QString name)
+{
+    if(name==name_){
+        pressClose();
+    }
+}
+
 void Guitar::setSelected(QString name)
 {
     if(name==name_){

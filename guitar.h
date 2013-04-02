@@ -42,6 +42,8 @@ private slots:
 
 public slots:
     void setSelected(QString);
+
+    void remove(QString name);
 };
 
 class Strings : public QWidget

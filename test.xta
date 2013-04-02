@@ -30,14 +30,15 @@ D|---0--------------|
 G|---2--------------|
 B|---2--------------|
 E|---0--------------|</TXT>
-  <TableAccords>B
-B7 X 2 4 2 4 2
-E
-C#m
-F#m
-A
-G#7 4 6 4 5 4 4
-Edim 0 1 2 0 X X
-C7 X 3 5 3 5 3</TableAccords>
+  <TableAccords>B  2 2 4 4 4 2
+B7  X 2 4 2 4 2
+E  0 2 2 1 0 0
+C#m  X 4 6 6 5 4
+F#m  2 4 4 2 2 2
+G#7  4 6 4 5 4 4
+Edim  0 1 2 0 X X
+C7  X 3 5 3 5 3
+F#m7  2 4 2 2 2 2
+</TableAccords>
  </Contenu>
 </XTA>

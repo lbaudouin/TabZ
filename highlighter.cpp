@@ -6,64 +6,9 @@ Highlighter::Highlighter(QTextDocument *parent)
 
 }
 
-void Highlighter::setDefaultRules()
-{
-    QStringList keywordPatterns;
-
-    keywordPatterns.clear();
-    keywordPatterns << "\\b[A-G]#(?!m)";
-    addRule(keywordPatterns,Qt::red,QFont::Bold);
-
-    keywordPatterns.clear();
-    keywordPatterns << "\\b[A-G]#m[1-9]";
-    addRule(keywordPatterns,QColor(255,125,0),QFont::Bold);
-
-    keywordPatterns.clear();
-    keywordPatterns << "\\b[A-G]#m\\b";
-    addRule(keywordPatterns,Qt::red,QFont::Bold);
-
-    keywordPatterns.clear();
-    keywordPatterns << "\\b[A-G]#[1-9]";
-    addRule(keywordPatterns,Qt::green,QFont::Bold);
-
-    keywordPatterns.clear();
-    keywordPatterns << "\\b[A-G]b\\b";
-    addRule(keywordPatterns,Qt::darkCyan,QFont::Bold);
-
-    keywordPatterns.clear();
-    keywordPatterns << "\\b[A-G]bm\\b";
-    addRule(keywordPatterns,QColor(0,125,255),QFont::Bold);
-
-    keywordPatterns.clear();
-    keywordPatterns << "\\b[A-G][1-9]\\b";
-    addRule(keywordPatterns,Qt::darkYellow,QFont::Bold);
-
-    keywordPatterns.clear();
-    keywordPatterns << "\\b[A-G](?!(#|'|\\|))\\b";
-    addRule(keywordPatterns,Qt::darkBlue,QFont::Bold);
-
-    keywordPatterns.clear();
-    keywordPatterns << "\\b[A-G]m\\b";
-    addRule(keywordPatterns,Qt::darkGreen,QFont::Bold);
-
-    keywordPatterns.clear();
-    keywordPatterns << "\\b[A-G]m[1-9]\\b";
-    addRule(keywordPatterns,Qt::blue,QFont::Bold);
-
-    keywordPatterns.clear();
-    keywordPatterns << "\\b[A-G]dim\\b";
-    addRule(keywordPatterns,Qt::magenta,QFont::Bold);
-}
-
 void Highlighter::clear()
 {
     highlightingRules.clear();
-}
-
-void Highlighter::reset()
-{
-    clear();
-    setDefaultRules();
 }
 
 void Highlighter::update()

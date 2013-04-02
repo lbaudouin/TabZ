@@ -222,9 +222,21 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta), undoAvai
 
         while(!stream.atEnd()){
             QString line = stream.readLine();
+            line.replace("\t"," ");
+            line.replace(","," ");
             QStringList temp = line.split(" ",QString::SkipEmptyParts);
             if(temp.size()==0)
                 continue;
+            if(temp.size()==2){
+                QString name = temp.at(0);
+                QString fingers = temp.at(1);
+                temp.clear();
+                temp.push_back( name );
+                for(int i=0;i<fingers.size();i++){
+                    temp.push_back( fingers.mid(i,1) );
+                }
+            }
+            qDebug() << temp;
             QString name = temp.at(0);
             QString fingers = "";
             for(int i=1;i<temp.size();i++)
@@ -285,6 +297,7 @@ void Tab::capoChanged(int)
 
 void Tab::textChanged(QString)
 {
+   //TODO, separate in several function
    modified_info.text = edit->toPlainText();
    modified_info.title = editTitle->text();
    modified_info.artist = editArtist->text();
@@ -311,6 +324,14 @@ void Tab::saved()
 
 XTAinfo Tab::getXTA()
 {
+    modified_info.chords.clear();
+    for(int i=0;i<chords.size();i++){
+        modified_info.chords += chords.at(i);
+        if(mapChord.contains(chords.at(i))){
+            modified_info.chords += " " + mapChord[chords.at(i)];
+        }
+        modified_info.chords += "\n";
+    }
     return modified_info;
 }
 
@@ -391,7 +412,6 @@ void Tab::addChord(QString name, QString fingers)
             }
         }
 
-
         chords << name;
         Guitar *guitar = new Guitar(name,fingers);
         if(v1->count() > v2->count())
@@ -399,6 +419,7 @@ void Tab::addChord(QString name, QString fingers)
         else
             v1->addWidget(guitar);
         connect(guitar,SIGNAL(closeAndDelete()),this,SLOT(deleteGuitar()));
+        connect(this,SIGNAL(removeChord(QString)),guitar,SLOT(remove(QString)));
         connect(this,SIGNAL(setSelected(QString)),guitar,SLOT(setSelected(QString)));
     }
 
@@ -407,15 +428,72 @@ void Tab::addChord(QString name, QString fingers)
 void Tab::read()
 {
     QStringList list = highlighter->getList(edit->toPlainText());
+    QList<QQCheckBox*> boxList;
 
-    foreach(QString name, list){
-        name.remove("\\b");
-        name.remove("(?!#)");
-        name.remove("(?!(#|')");
-        name.remove("(?|m)");
-        addChord(name);
+    //TODO, move in a separate file
+    QDialog *diag = new QDialog(this);
+    QVBoxLayout *vLayout = new QVBoxLayout;
+
+    QPushButton *selectAll = new QPushButton(tr("Select all"));
+    selectAll->setDefault(true);
+    QPushButton *unselectAll = new QPushButton(tr("Unselect all"));
+
+    diag->setLayout(vLayout);
+    foreach(QString item, list){
+        QQCheckBox *box = new QQCheckBox(item);
+        box->setChecked(chords.contains(item));
+
+        connect(selectAll,SIGNAL(clicked()),box,SLOT(check()));
+        connect(unselectAll,SIGNAL(clicked()),box,SLOT(uncheck()));
+
+        vLayout->addWidget(box);
+        boxList.push_back(box);
     }
-    resizeLayout();
+
+    QFrame *line = new QFrame();
+    line->setFrameShape(QFrame::HLine);
+    vLayout->addWidget(line);
+
+    bool found = false;
+    for(int i=0;i<chords.size();i++){
+        if(!list.contains(chords.at(i))){
+            QQCheckBox *box = new QQCheckBox(chords.at(i));
+            box->setChecked(true);
+            vLayout->addWidget(box);
+            boxList.push_back(box);
+            found = true;
+            list.push_back( chords.at(i) );
+
+            connect(selectAll,SIGNAL(clicked()),box,SLOT(check()));
+            connect(unselectAll,SIGNAL(clicked()),box,SLOT(uncheck()));
+        }
+    }
+    line->setVisible(found);
+
+    if(boxList.isEmpty()){
+        QMessageBox::information(this,tr("Information"),tr("No chord found"));
+        return;
+    }
+
+    vLayout->addWidget(selectAll);
+    vLayout->addWidget(unselectAll);
+
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
+    connect(buttonBox,SIGNAL(accepted()),diag,SLOT(accept()));
+    connect(buttonBox,SIGNAL(rejected()),diag,SLOT(reject()));
+    vLayout->addWidget(buttonBox);
+
+
+    if(diag->exec()){
+        for(int i=0;i<list.size();i++){
+            QString name = list.at(i);
+            if(boxList.at(i)->isChecked())
+                addChord(name);
+            else
+                emit removeChord(name);
+        }
+        resizeLayout();
+    }
 }
 
 void Tab::selectAll() { edit->selectAll(); }
