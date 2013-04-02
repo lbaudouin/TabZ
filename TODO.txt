@@ -16,7 +16,7 @@ TODO list :
 
 *** add icon set
 *** save options (xml)
-- manual add chord
+*** manual add chord
 - modify chord
 - add existing chords
 - drag and drop chord
@@ -53,6 +53,7 @@ TODO list :
 *** search lyrics on google
 - search lyrics on other site
 *** use QButtonGroup to select chord to add (use QList<QCheckBox> instead)
-- associate xta files with TabS
+*** associate xta files with TabS on Linux
+- associate xta files with TabS on Windows
 *** connect Undo/Redo actions
 

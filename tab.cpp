@@ -236,7 +236,6 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta), undoAvai
                     temp.push_back( fingers.mid(i,1) );
                 }
             }
-            qDebug() << temp;
             QString name = temp.at(0);
             QString fingers = "";
             for(int i=1;i<temp.size();i++)
@@ -384,15 +383,42 @@ void Tab::resizeLayout()
 
 void Tab::addNewChord()
 {
-    QString name = QInputDialog::getText(this,tr("Note name"),tr("Note:"));
-    if(name.isEmpty()) return;
-    QString fingers = QInputDialog::getText(this,tr("Note fingers"),tr("Fingers:"));
-    if(fingers.isEmpty()) return;
+    QDialog *diag = new QDialog(this);
+    QVBoxLayout *vLayout = new QVBoxLayout;
+    diag->setLayout(vLayout);
 
-    fingers.replace(","," ");
+    QLineEdit *nameEdit = new QLineEdit;
+    QLineEdit *fingersEdit = new QLineEdit;
 
-    addChord(name,fingers);
-    resizeLayout();
+    QFormLayout *formLayout = new QFormLayout;
+    formLayout->addRow(tr("Name"),nameEdit);
+    formLayout->addRow(tr("Fingers"),fingersEdit);
+    vLayout->addLayout(formLayout);
+
+    Strings *strings = new Strings("");
+    vLayout->addWidget(strings,0,Qt::AlignHCenter);
+
+    connect(fingersEdit,SIGNAL(textChanged(QString)),strings,SLOT(setFingers(QString)));
+
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
+    connect(buttonBox,SIGNAL(accepted()),diag,SLOT(accept()));
+    connect(buttonBox,SIGNAL(rejected()),diag,SLOT(reject()));
+    vLayout->addWidget(buttonBox);
+
+    if(diag->exec()){
+        QString name = nameEdit->text();
+        if(name.isEmpty())
+            name = QInputDialog::getText(this,tr("Note name"),tr("Note:"));
+        if(name.isEmpty()) return;
+
+        QString fingers = fingersEdit->text();
+
+        fingers.replace(","," ");
+        fingers.replace("\t"," ");
+
+        addChord(name,fingers);
+        resizeLayout();
+    }
 }
 
 void Tab::addChord(QString name, QString fingers)
@@ -433,12 +459,20 @@ void Tab::read()
     //TODO, move in a separate file
     QDialog *diag = new QDialog(this);
     QVBoxLayout *vLayout = new QVBoxLayout;
+    diag->setLayout(vLayout);
+
+    QFrame *frame = new QFrame;
+    vLayout->addWidget(frame);
+    frame->setFrameShape(QFrame::StyledPanel);
+    frame->setFrameShadow(QFrame::Sunken);
+    frame->setLineWidth(1);
+
+    QVBoxLayout *buttonLayout = new QVBoxLayout(frame);
 
     QPushButton *selectAll = new QPushButton(tr("Select all"));
     selectAll->setDefault(true);
     QPushButton *unselectAll = new QPushButton(tr("Unselect all"));
 
-    diag->setLayout(vLayout);
     foreach(QString item, list){
         QQCheckBox *box = new QQCheckBox(item);
         box->setChecked(chords.contains(item));
@@ -446,20 +480,20 @@ void Tab::read()
         connect(selectAll,SIGNAL(clicked()),box,SLOT(check()));
         connect(unselectAll,SIGNAL(clicked()),box,SLOT(uncheck()));
 
-        vLayout->addWidget(box);
+        buttonLayout->addWidget(box);
         boxList.push_back(box);
     }
 
-    QFrame *line = new QFrame();
+    QFrame *line = new QFrame;
     line->setFrameShape(QFrame::HLine);
-    vLayout->addWidget(line);
+    buttonLayout->addWidget(line);
 
     bool found = false;
     for(int i=0;i<chords.size();i++){
         if(!list.contains(chords.at(i))){
             QQCheckBox *box = new QQCheckBox(chords.at(i));
             box->setChecked(true);
-            vLayout->addWidget(box);
+            buttonLayout->addWidget(box);
             boxList.push_back(box);
             found = true;
             list.push_back( chords.at(i) );

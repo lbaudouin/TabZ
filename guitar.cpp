@@ -80,9 +80,22 @@ QString Guitar::getFingers()
     return fingers_;
 }
 
-Strings::Strings( QString fingers, QWidget *parent) : fingers_(fingers), selected_(false),
+Strings::Strings( QString fingers, QWidget *parent) : selected_(false),
     QWidget(parent)
 {
+
+    setFingers(fingers);
+
+    size_ = QSize(150,200);
+    //size_ = QSize(100,150);
+    this->resize(size_);
+    this->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
+    setMinimumSize( size_ );
+}
+
+void Strings::setFingers(QString fingers)
+{
+    fingers_ = fingers;
     fingers_.replace("\t"," ");
     fingers_.replace(","," ");
 
@@ -94,12 +107,7 @@ Strings::Strings( QString fingers, QWidget *parent) : fingers_(fingers), selecte
         fingers_ = temp;
     }
     fingers_.trimmed();
-
-    size_ = QSize(150,200);
-    //size_ = QSize(100,150);
-    this->resize(size_);
-    this->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
-    setMinimumSize( size_ );
+    this->update();
 }
 
 QSize Strings::sizeHint()
@@ -164,8 +172,14 @@ void Strings::paintEvent(QPaintEvent *)
             poses.push_back(-1);
             continue;
         }
-        int pose = finger.toInt();
-        poses.push_back(pose);
+        bool ok;
+        int pose = finger.toInt(&ok);
+        if(!ok){
+            poses.push_back(-1);
+            continue;
+        }else{
+            poses.push_back(pose);
+        }
 
         if(pose>max) max = pose;
         if(pose<min || min==-1) min = pose;

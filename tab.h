@@ -43,7 +43,6 @@ public:
     bool isRedoAvailable();
 
 protected:
-    void addChord(QString name, QString fingers = QString());
     
 private:
     QTextEdit *edit;
@@ -81,6 +80,8 @@ private slots:
     void updateTitle();
 
     void updateSelectedNote();
+
+    void addChord(QString name, QString fingers = QString());
 
 public slots:
     void resizeLayout();

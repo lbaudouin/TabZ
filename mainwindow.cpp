@@ -28,12 +28,19 @@ MainWindow::MainWindow(QWidget *parent) :
 
     /////////////////////////// TEST /////////////////////////////////////
 
+
     QString testFile = "test.xta";
 
-    XTAinfo info = xta->parse(testFile);
-    int index = addTab(info);
+    if(qApp->argc()==2){
+        testFile = qApp->arguments().at(1);
+    }
 
-    ui->tabWidget->setCurrentIndex( index );
+    if(QFile::exists(testFile)){
+        XTAinfo info = xta->parse(testFile);
+        int index = addTab(info);
+
+        ui->tabWidget->setCurrentIndex( index );
+    }
 
     //this->setWindowState(Qt::WindowMaximized);
 

@@ -70,6 +70,7 @@ signals:
     
 public slots:
     void select(bool);
+    void setFingers(QString);
     
 };
 
