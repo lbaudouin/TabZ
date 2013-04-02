@@ -51,15 +51,27 @@
      <string>File</string>
     </property>
     <widget class="QMenu" name="menuRe_Open">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
      <property name="title">
       <string>Re-Open</string>
      </property>
-     <addaction name="actionOpen_All"/>
+     <widget class="QMenu" name="menuBy_artist">
+      <property name="title">
+       <string>By artist</string>
+      </property>
+      <addaction name="separator"/>
+     </widget>
+     <widget class="QMenu" name="menuBy_date">
+      <property name="title">
+       <string>By date</string>
+      </property>
+      <addaction name="separator"/>
+     </widget>
+     <addaction name="actionOpen_previous_tabs"/>
      <addaction name="actionEdit_List"/>
      <addaction name="actionClear"/>
+     <addaction name="separator"/>
+     <addaction name="menuBy_artist"/>
+     <addaction name="menuBy_date"/>
      <addaction name="separator"/>
     </widget>
     <addaction name="actionNew"/>
@@ -191,6 +203,9 @@
    </property>
   </action>
   <action name="actionEdit_List">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Edit List</string>
    </property>
@@ -494,6 +509,11 @@
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionOpen_previous_tabs">
+   <property name="text">
+    <string>Open previous tabs</string>
    </property>
   </action>
  </widget>

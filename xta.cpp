@@ -11,7 +11,7 @@ XTAinfo XTA::parse(QString filepath)
     QFile xml_doc(filepath);
 
     QFileInfo fi(filepath);
-    XTAinfo xta(filepath,fi.fileName());
+    XTAinfo xta(fi.absoluteFilePath(),fi.fileName());
 
     if(fi.suffix()=="txt" || fi.suffix()=="TXT"){
         QFile file(filepath);

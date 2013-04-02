@@ -14,6 +14,48 @@
 #include "options.h"
 #include "optionsform.h"
 
+struct RecentFile{
+    QString title;
+    QString artist;
+    QString path;
+    QDateTime date;
+    QAction *action;
+};
+struct QPairFirstComparer
+{
+    template<typename T1, typename T2>
+    bool operator()(const QPair<T1,T2> & a, const QPair<T1,T2> & b) const
+    {
+        return a.first < b.first;
+    }
+};
+struct QPairSecondComparer
+{
+    template<typename T1, typename T2>
+    bool operator()(const QPair<T1,T2> & a, const QPair<T1,T2> & b) const
+    {
+        return a.second < b.second;
+    }
+};
+struct QPairFirstComparerInverse
+{
+    template<typename T1, typename T2>
+    bool operator()(const QPair<T1,T2> & a, const QPair<T1,T2> & b) const
+    {
+        return a.first > b.first;
+    }
+};
+struct QPairSecondComparerInverse
+{
+    template<typename T1, typename T2>
+    bool operator()(const QPair<T1,T2> & a, const QPair<T1,T2> & b) const
+    {
+        return a.second > b.second;
+    }
+};
+
+
+
 namespace Ui {
 class MainWindow;
 }
@@ -28,9 +70,15 @@ public:
 
 protected:
     void setUpToolBar();
+    void setUpMenu();
     int addTab(XTAinfo info);
     Tab* getCurrentTab();
     
+    void readRecent();
+    void saveRecent();
+    void updateRecent();
+    void addRecent(XTAinfo &info);
+
 private:
     Ui::MainWindow *ui;
     Qt::WindowStates previousState;
@@ -40,9 +88,16 @@ private:
 
     QMap<QAction*,Tab*> mapTabAction;
 
+    QList<RecentFile> recent;
+    QList<QObject*> recentAction;
+
 signals:
     void setColorsEnabled(bool);
     void setColors(QList<ColorRegExp>);
+
+private slots:
+    void openFile();
+    void clearRecent();
 
 private slots:
     void pressNew(QString text = QString());

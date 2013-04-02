@@ -36,7 +36,7 @@ TODO list :
 *** full screen
 *** tab browser menu
 - create assistant
-- recent files
+*** recent files
 *** resize scrool area if empty column
 *** overwrite existing file (save as) : suffix not added before checking
 *** hide/show icon when file is modified (save chords now)
@@ -56,4 +56,7 @@ TODO list :
 *** associate xta files with TabS on Linux
 - associate xta files with TabS on Windows
 *** connect Undo/Redo actions
+
+#### code ####
+- increase 'recent files' update speed
 
