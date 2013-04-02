@@ -42,9 +42,14 @@ void OptionsForm::createColorTab(QTabWidget *tab)
     connect(buttonRegExp,SIGNAL(clicked()),this,SLOT(showColorExpReg()));
 
 
-    ColorRegExpForm *cref = new ColorRegExpForm;
-    for(int i=0;i<10;i++)
-    cref->addColorRegExp("\\b[A-G]\\b",Qt::red,QFont::Bold,false,Qt::CaseSensitive);
+    cref = new ColorRegExpForm;
+    for(int i=0;i<options_.colors.size();i++)
+        cref->addColorRegExp(options_.colors.at(i).regExp,
+                             options_.colors.at(i).color,
+                             options_.colors.at(i).weight,
+                             options_.colors.at(i).isText,
+                             options_.colors.at(i).caseSensitivity?Qt::CaseSensitive:Qt::CaseInsensitive,
+                             options_.colors.at(i).active);
 
 
     QScrollArea *area = new QScrollArea;
@@ -110,6 +115,9 @@ OptionsValues OptionsForm::getOptions()
     options_.openReadOnly = checkOpenReadOnly->isChecked();
     options_.defaultPath = editDefaultFolder->text();
     options_.openSizeMode = comboOpenSize->currentIndex();
+
+    options_.colors = cref->getListRegExp();
+
     return options_;
 }
 

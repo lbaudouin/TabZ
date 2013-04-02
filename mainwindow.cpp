@@ -165,6 +165,7 @@ int MainWindow::addTab(XTAinfo info)
     connect(this,SIGNAL(setColorsEnabled(bool)),tab,SLOT(enableColors(bool)));
     connect(tab,SIGNAL(undoAvailable(bool)),this,SLOT(setUndoAvailable(bool)));
     connect(tab,SIGNAL(redoAvailable(bool)),this,SLOT(setRedoAvailable(bool)));
+    connect(this,SIGNAL(setColors(QList<ColorRegExp>)),tab,SLOT(setColors(QList<ColorRegExp>)));
 
     QAction *action = new QAction(tabName,this);
     action->setIcon( this->style()->standardIcon(QStyle::SP_DialogSaveButton ) );
@@ -439,6 +440,8 @@ void MainWindow::pressPreference()
 
         if(o.enableColors!=options.enableColors)
             emit setColorsEnabled(o.enableColors);
+
+        emit setColors(o.colors);
 
         options = o;
 

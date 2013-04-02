@@ -42,6 +42,7 @@ private:
 
 signals:
     void setColorsEnabled(bool);
+    void setColors(QList<ColorRegExp>);
 
 private slots:
     void pressNew(QString text = QString());

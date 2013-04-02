@@ -3,7 +3,7 @@
 Highlighter::Highlighter(QTextDocument *parent)
     : QSyntaxHighlighter(parent), enabled_(true)
 {
-    setDefaultRules();
+
 }
 
 void Highlighter::setDefaultRules()
@@ -188,6 +188,8 @@ void Highlighter::addRule(QStringList list, QColor color, int weight, bool isTex
 
 
     foreach (const QString &pattern, list) {
+        if(pattern.isEmpty())
+            continue;
         rule.pattern = QRegExp(pattern);
         rule.pattern.setCaseSensitivity(caseSensitivity);
         rule.format = keywordFormat;

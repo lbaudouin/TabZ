@@ -56,6 +56,7 @@ void OptionsValues::save(QWidget *parent)
             elem.setAttribute("weight",colorRegExp.weight);
             elem.setAttribute("text",colorRegExp.isText);
             elem.setAttribute("caseSensitivity",colorRegExp.caseSensitivity);
+            elem.setAttribute("active",colorRegExp.active);
             colorNode.appendChild(elem);
         }
 
@@ -124,10 +125,11 @@ void OptionsValues::parse(QWidget *parent)
                 QDomElement colorElement = child.toElement();
                 if(colorElement.tagName()=="ColorRegExp"){
                     QString regExp = colorElement.attribute("regexp");
-                    QString colorString = colorElement.attribute("color");
-                    QString weightText =  colorElement.attribute("weight");
-                    int isText = colorElement.attribute("text").toInt();
-                    int caseSensitivity = colorElement.attribute("caseSensitivity").toInt();
+                    QString colorString = colorElement.attribute("color","0,0,0");
+                    QString weightText =  colorElement.attribute("weight","50");
+                    int isText = colorElement.attribute("text","0").toInt();
+                    int caseSensitivity = colorElement.attribute("caseSensitivity","1").toInt();
+                    int active = colorElement.attribute("active","1").toInt();
 
                     QStringList colorList = colorString.split(",");
                     QColor color(0,0,0);
@@ -135,7 +137,7 @@ void OptionsValues::parse(QWidget *parent)
                         color.setRgb(colorList[0].toInt(),colorList[1].toInt(),colorList[2].toInt());
                     }
 
-                    ColorRegExp cre(regExp,color,weightText.isEmpty()?50:weightText.toInt(),isText,caseSensitivity);
+                    ColorRegExp cre(regExp,color,weightText.isEmpty()?50:weightText.toInt(),isText,caseSensitivity,active);
 
                     colors.push_back(cre);
                 }

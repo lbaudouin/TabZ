@@ -86,6 +86,8 @@ public slots:
 
     void setUndoAvailable(bool);
     void setRedoAvailable(bool);
+
+    void setColors(QList<ColorRegExp> list);
     
 };
 

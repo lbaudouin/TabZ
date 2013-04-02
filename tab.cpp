@@ -432,15 +432,21 @@ void Tab::enableColors(bool state)
     highlighter->setEnabled(state);
 }
 
+void Tab::setColors(QList<ColorRegExp> list)
+{
+    highlighter->clear();
+    foreach(ColorRegExp colorRegExp, list){
+        highlighter->addRule(colorRegExp.regExp,colorRegExp.color,colorRegExp.weight,colorRegExp.isText,colorRegExp.caseSensitivity==0?Qt::CaseInsensitive:Qt::CaseSensitive);
+    }
+    highlighter->update();
+}
+
 void Tab::setOptions(OptionsValues options)
 {
     optionsValues = options;
     highlighter->setEnabled(optionsValues.enableColors);
-    highlighter->clear();
-    foreach(ColorRegExp colorRegExp, optionsValues.colors){
-        highlighter->addRule(colorRegExp.regExp,colorRegExp.color,colorRegExp.weight,colorRegExp.isText,colorRegExp.caseSensitivity==0?Qt::CaseInsensitive:Qt::CaseSensitive);
-    }
-    highlighter->update();
+
+    setColors(options.colors);
 
     edit->setReadOnly(options.openReadOnly);
 }
