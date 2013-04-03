@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui xml
+QT       += core gui xml network
 
 TARGET = TabS
 TEMPLATE = app
@@ -17,7 +17,9 @@ SOURCES += main.cpp\
     guitar.cpp \
     xta.cpp \
     options.cpp \
-    optionsform.cpp
+    optionsform.cpp \
+    chords.cpp \
+    httpupdate.cpp
 
 HEADERS  += mainwindow.h \
     tab.h \
@@ -26,7 +28,10 @@ HEADERS  += mainwindow.h \
     xta.h \
     xta_info.h \
     options.h \
-    optionsform.h
+    optionsform.h \
+    chords.h \
+    httpupdate.h \
+    QProgressBarDialog.h
 
 FORMS    += mainwindow.ui
 

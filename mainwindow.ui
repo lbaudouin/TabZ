@@ -128,6 +128,8 @@
     <property name="title">
      <string>Tools</string>
     </property>
+    <addaction name="actionChords_manager"/>
+    <addaction name="separator"/>
     <addaction name="actionTranslate_FR_EN"/>
     <addaction name="actionTranslate_EN_FR"/>
     <addaction name="separator"/>
@@ -514,6 +516,11 @@
   <action name="actionOpen_previous_tabs">
    <property name="text">
     <string>Open previous tabs</string>
+   </property>
+  </action>
+  <action name="actionChords_manager">
+   <property name="text">
+    <string>Chords manager</string>
    </property>
   </action>
  </widget>

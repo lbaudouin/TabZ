@@ -13,13 +13,14 @@
 #include "xta.h"
 #include "options.h"
 #include "optionsform.h"
+#include "chords.h"
 
 struct RecentFile{
     QString title;
     QString artist;
     QString path;
     QDateTime date;
-    QAction *action;
+    bool wasOpen;
 };
 struct QPairFirstComparer
 {
@@ -83,6 +84,7 @@ private:
     Ui::MainWindow *ui;
     Qt::WindowStates previousState;
     XTA *xta;
+    Chords *chords;
 
     OptionsValues options;
 
@@ -103,6 +105,7 @@ private slots:
     void pressNew(QString text = QString());
     void pressOpen();
     void pressOpenFolder();
+    void pressOpenPrevious();
     void pressSave();
     void pressSaveAs();
     void pressClose();
@@ -121,6 +124,7 @@ private slots:
     void pressPaste();
 
     void pressPreference();
+    void pressChordsManager();
 
     void pressSearchLyrics();
     void pressSearchXTA();
@@ -132,6 +136,8 @@ private slots:
     void currentTabChanged(int);
     void setUndoAvailable(bool);
     void setRedoAvailable(bool);
+
+    void restart(QString);
 };
 
 #endif // MAINWINDOW_H

@@ -65,12 +65,19 @@ private:
     QString fingers_;
     QSize size_;
     bool selected_;
+    bool reducable_;
+    bool closable_;
+    bool modifiable_;
 
 signals:
     
 public slots:
     void select(bool);
     void setFingers(QString);
+
+    void setReducable(bool reducable);
+    void setClosable(bool closable);
+    void setModifiable(bool modifiable);
     
 };
 

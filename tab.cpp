@@ -387,18 +387,26 @@ void Tab::addNewChord()
     QVBoxLayout *vLayout = new QVBoxLayout;
     diag->setLayout(vLayout);
 
+    QComboBox *instrumentCombo = new QComboBox;
+
     QLineEdit *nameEdit = new QLineEdit;
     QLineEdit *fingersEdit = new QLineEdit;
+    QComboBox *fingersCombo = new QComboBox;
+    fingersCombo->setEditable(true);
+    fingersCombo->addItems( mapChord.values() );
+    fingersCombo->setCurrentIndex(-1);
+
 
     QFormLayout *formLayout = new QFormLayout;
     formLayout->addRow(tr("Name"),nameEdit);
-    formLayout->addRow(tr("Fingers"),fingersEdit);
+    formLayout->addRow(tr("Instrument"),instrumentCombo);
+    formLayout->addRow(tr("Fingers"),fingersCombo);
     vLayout->addLayout(formLayout);
 
     Strings *strings = new Strings("");
     vLayout->addWidget(strings,0,Qt::AlignHCenter);
 
-    connect(fingersEdit,SIGNAL(textChanged(QString)),strings,SLOT(setFingers(QString)));
+    connect(fingersCombo,SIGNAL(editTextChanged(QString)),strings,SLOT(setFingers(QString)));
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
     connect(buttonBox,SIGNAL(accepted()),diag,SLOT(accept()));

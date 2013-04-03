@@ -83,6 +83,9 @@ QString Guitar::getFingers()
 Strings::Strings( QString fingers, QWidget *parent) : selected_(false),
     QWidget(parent)
 {
+    reducable_ = true;
+    closable_ = true;
+    modifiable_ = true;
 
     setFingers(fingers);
 
@@ -257,18 +260,28 @@ void Strings::paintEvent(QPaintEvent *)
 void Strings::mousePressEvent(QMouseEvent *event)
 {
     if(event->button()==Qt::RightButton){
-        QMenu * menu = new QMenu(this);
-        QAction* actionModify = menu->addAction(tr("Modify"));
-        QAction* actionReduce = menu->addAction(tr("Reduce"));
-        QAction* actionClose = menu->addAction(tr("Close"));
+        if(reducable_ || closable_ || modifiable_){
+            QMenu * menu = new QMenu(this);
 
-        actionModify->setEnabled(false);
+            if(modifiable_){
+                QAction* actionModify = menu->addAction(tr("Modify"));
+                actionModify->setEnabled(false);
+                //connect(actionModify,SIGNAL(triggered()),this,SLOT(()));
+            }
 
-        //connect(actionModify,SIGNAL(triggered()),this,SLOT(()));
-        connect(actionReduce,SIGNAL(triggered()),(Guitar*)this->parent(),SLOT(pressReduce()));
-        connect(actionClose,SIGNAL(triggered()),(Guitar*)this->parent(),SLOT(pressClose()));
-        menu->move(event->globalPos());
-        menu->show();
+            if(modifiable_){
+                QAction* actionReduce = menu->addAction(tr("Reduce"));
+                connect(actionReduce,SIGNAL(triggered()),(Guitar*)this->parent(),SLOT(pressReduce()));
+            }
+
+            if(closable_){
+                QAction* actionClose = menu->addAction(tr("Close"));
+                connect(actionClose,SIGNAL(triggered()),(Guitar*)this->parent(),SLOT(pressClose()));
+            }
+
+            menu->move(event->globalPos());
+            menu->show();
+        }
     }
 }
 
@@ -276,4 +289,19 @@ void Strings::select(bool state)
 {
     selected_ = state;
     this->update();
+}
+
+void Strings::setReducable(bool reducable)
+{
+    reducable_ = reducable;
+}
+
+void Strings::setClosable(bool closable)
+{
+    closable_ = closable;
+}
+
+void Strings::setModifiable(bool modifiable)
+{
+    modifiable_ = modifiable;
 }

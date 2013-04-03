@@ -27,12 +27,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(currentTabChanged(int)));
 
     xta = new XTA(this->centralWidget());
-
+    chords = new Chords(this->centralWidget());
 
     /////////////////////////// TEST /////////////////////////////////////
-
-
-
 
 
     QString testFile = "test.xta";
@@ -44,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     if(QFile::exists(testFile)){
         XTAinfo info = xta->parse(testFile);
         int index = addTab(info);
+        addRecent(info);
 
         ui->tabWidget->setCurrentIndex( index );
     }
@@ -77,10 +75,20 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionSearch_XTA,SIGNAL(triggered()),this,SLOT(pressSearchXTA()));
     connect(ui->actionPreferences,SIGNAL(triggered()),this,SLOT(pressPreference()));
     connect(ui->actionClear,SIGNAL(triggered()),this,SLOT(clearRecent()));
+    connect(ui->actionOpen_previous_tabs,SIGNAL(triggered()),this,SLOT(pressOpenPrevious()));
+    connect(ui->actionChords_manager,SIGNAL(triggered()),this,SLOT(pressChordsManager()));
 }
 
 MainWindow::~MainWindow()
 {
+    QList<QString> paths;
+    for(int i=0;i<ui->tabWidget->count();i++){
+        Tab *tab = (Tab*)ui->tabWidget->widget(i);
+        paths << tab->getXTA().filepath;
+    }
+    for(int i=0;i<recent.size();i++){
+        recent[i].wasOpen = paths.contains( recent[i].path );
+    }
     saveRecent();
     pressCloseAll();
     delete ui;
@@ -320,6 +328,20 @@ void MainWindow::pressOpenFolder()
     }
 }
 
+void MainWindow::pressOpenPrevious()
+{
+    for(int i=0;i<recent.size();i++){
+        if(recent[i].wasOpen){
+            QFileInfo fi(recent[i].path);
+
+            XTAinfo info(fi.absoluteFilePath(), fi.fileName());
+            info = xta->parse(fi.absoluteFilePath());
+
+            addTab( info );
+        }
+    }
+}
+
 void MainWindow::pressSave()
 {
     if(ui->tabWidget->currentIndex()<0) return;
@@ -529,6 +551,13 @@ void MainWindow::pressPreference()
     }
 }
 
+void MainWindow::pressChordsManager()
+{
+    ChordsManager *chordManager = new ChordsManager;
+    chordManager->setChords( chords );
+    chordManager->exec();
+}
+
 void MainWindow::readRecent()
 {
     recent.clear();
@@ -565,6 +594,7 @@ void MainWindow::readRecent()
                 rf.artist = element.attribute("artist",tr("empty_artist"));
                 rf.path = element.attribute("path","");
                 rf.date = QDateTime::fromString(element.attribute("date",""),"dd MM yy HH mm ss");
+                rf.wasOpen = element.attribute("wasOpen","false")=="true";
                 recent.push_back(rf);
             }
             node = node.nextSibling();
@@ -594,6 +624,8 @@ void MainWindow::saveRecent()
             elem.setAttribute("artist",recentFile.artist);
             elem.setAttribute("path",recentFile.path);
             elem.setAttribute("date",recentFile.date.toString("dd MM yy HH mm ss"));
+            if(recentFile.wasOpen)
+                elem.setAttribute("wasOpen","true");
             mainNode.appendChild(elem);
         }
 
@@ -639,7 +671,6 @@ void MainWindow::addRecent(XTAinfo &info)
     rf.artist = info.artist;
     rf.path = info.filepath;
     rf.date = QDateTime::currentDateTime();
-    rf.action = 0;
     recent.push_back(rf);
     updateRecent();
 }
@@ -650,7 +681,15 @@ void MainWindow::openFile()
     QFileInfo fi(filepath);
 
     XTAinfo info(fi.absoluteFilePath(), fi.fileName());
-    info = xta->parse(filepath);
+    info = xta->parse(fi.absoluteFilePath());
 
     addTab( info );
+}
+
+void MainWindow::restart(QString path)
+{
+    qDebug() << path;
+    QProcess process;
+    process.startDetached("\""+path+"\"");
+    exit(1);
 }
