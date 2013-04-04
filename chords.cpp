@@ -11,6 +11,7 @@ void Chords::init()
     Instrument guitar = addInstrument("Guitar",6);
     Instrument bass = addInstrument("Bass",4);
     Instrument yukulele = addInstrument("Yukulele",4);
+    Instrument mandolin = addInstrument("Mandolin",4);
     addChord(guitar,"A","0,0,2,2,2,0");
     addChord(guitar,"B","2,2,4,4,4,2");
     addChord(guitar,"C","0,3,2,0,1,0");

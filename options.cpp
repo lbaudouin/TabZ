@@ -7,6 +7,7 @@ OptionsValues::OptionsValues()
     selectNewTab = true;
     openSizeMode = 0;
     defaultPath = "";
+    reOpenPreviousTabs = false;
 }
 
 void OptionsValues::addNode(QDomDocument &dom, QDomElement &parent, QString tag, QString data)
@@ -42,6 +43,7 @@ void OptionsValues::save(QWidget *parent)
         addNode(dom,mainNode,"selectNewTab",selectNewTab);
         addNode(dom,mainNode,"openReadOnly",openReadOnly);
         addNode(dom,mainNode,"openSizeMode",openSizeMode);
+        addNode(dom,mainNode,"reOpenPreviousTabs",reOpenPreviousTabs);
 
 
 
@@ -104,6 +106,9 @@ void OptionsValues::parse(QWidget *parent)
         }
         if(element.tagName()=="openReadOnly"){
             openReadOnly = element.text().toInt();
+        }
+        if(element.tagName()=="reOpenPreviousTabs"){
+            reOpenPreviousTabs = element.text().toInt();
         }
         if(element.tagName()=="defaultPath"){
             defaultPath = element.text();

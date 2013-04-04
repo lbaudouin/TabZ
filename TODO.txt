@@ -7,6 +7,7 @@ TODO list :
 *** default folder
 *** select new tab
 *** open in read only mode
+*** re open previous tabs
 - black/white/color strings for chord
 - size of strings
 - french/english chords
@@ -25,7 +26,7 @@ TODO list :
 - export PDF
 - read/edit mode
 - 2 pages display
-*** test if it is note or text word
+*** test if it's note or text word
 - vertical selection
 - past image / tab from Guitar Pro or TuxGuitar
 - insert ascii tab (with tool bar)
@@ -59,6 +60,8 @@ TODO list :
 *** connect Undo/Redo actions
 - undo/redo for chords and infos
 - find/replace text
+*** autoupdate for Windows users
+- create ppa for Linux users
 
 #### code ####
 - increase 'recent files' update speed

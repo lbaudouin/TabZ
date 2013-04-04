@@ -105,7 +105,7 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta), undoAvai
 
     edit = new QTextEdit;
     QFont editFont = edit->font();
-    editFont.setFamily("Tahoma");
+    editFont.setFamily("DejaVu Sans Mono");
     //editFont.setFixedPitch(true);
 
     edit->setFont(editFont);

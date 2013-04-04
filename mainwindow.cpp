@@ -31,6 +31,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     /////////////////////////// TEST /////////////////////////////////////
 
+    //QFontDatabase db;
+    //qDebug() << db.families();
 
     QString testFile = "test.xta";
 
@@ -69,6 +71,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     /////////////////////////// TEST /////////////////////////////////////
+
+    if(options.reOpenPreviousTabs){
+        pressOpenPrevious();
+    }
 
     connect(ui->tabWidget,SIGNAL(tabCloseRequested(int)),this,SLOT(tabCloseRequest(int)));
     connect(ui->actionSearch_lyrics,SIGNAL(triggered()),this,SLOT(pressSearchLyrics()));

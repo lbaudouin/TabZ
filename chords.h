@@ -28,10 +28,12 @@ struct Instrument{
 };
 
 inline bool operator<(const Instrument &i1, const Instrument &i2){
-    return i1.name < i2.name;
+    if(i1.name < i2.name) return true;
+    if(i1.nbStrings < i2.nbStrings) return true;
+    return false;
 }
 inline bool operator==(const Instrument &i1, const Instrument &i2){
-    return i1.name == i2.name;
+    return (i1.name == i2.name) && (i1.nbStrings == i2.nbStrings);
 }
 
 class Chords : public QObject

@@ -36,12 +36,6 @@ void OptionsForm::createColorTab(QTabWidget *tab)
     checkEnableColor->setChecked(options_.enableColors);
     formLayout->addRow(tr("Enable color:"),checkEnableColor);
 
-    QPushButton *buttonRegExp = new QPushButton(tr("Edit"));
-    buttonRegExp->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Minimum);
-    formLayout->addRow(tr("Regular expressions:"),buttonRegExp);
-    connect(buttonRegExp,SIGNAL(clicked()),this,SLOT(showColorExpReg()));
-
-
     cref = new ColorRegExpForm;
     for(int i=0;i<options_.colors.size();i++)
         cref->addColorRegExp(options_.colors.at(i).regExp,
@@ -57,10 +51,6 @@ void OptionsForm::createColorTab(QTabWidget *tab)
     area->setWidget(cref);
 
     mainLayout->addWidget(area);
-
-
-    //ColorRegExpEdit *editColor = new ColorRegExpEdit("test",Qt::red,75);
-    //formLayout->addWidget(editColor);
 
     tab->addTab(w,tr("Color"));
 }
@@ -93,6 +83,9 @@ void OptionsForm::createOptionsTab(QTabWidget *tab)
     checkOpenReadOnly = new QCheckBox;
     checkOpenReadOnly->setChecked(options_.openReadOnly);
 
+    checkreOpenPreviousTabs = new QCheckBox;
+    checkreOpenPreviousTabs->setChecked(options_.reOpenPreviousTabs);
+
     comboOpenSize = new QComboBox;
     comboOpenSize->addItems( QStringList() << tr("Normal") << tr("Maximized") << tr("FullScreen") );
     comboOpenSize->setCurrentIndex(options_.openSizeMode);
@@ -101,9 +94,8 @@ void OptionsForm::createOptionsTab(QTabWidget *tab)
     formLayout->addRow(tr("Default folder:"),folderLayout);
     formLayout->addRow(tr("Select new tab:"),checkSelectNewTab);
     formLayout->addRow(tr("Open read only:"),checkOpenReadOnly);
+    formLayout->addRow(tr("Re-open previous tabs:"),checkreOpenPreviousTabs);
     formLayout->addRow(tr("Open size mode:"),comboOpenSize);
-
-
 
     tab->addTab(w,tr("Options"));
 }
@@ -113,18 +105,13 @@ OptionsValues OptionsForm::getOptions()
     options_.enableColors = checkEnableColor->isChecked();
     options_.selectNewTab = checkSelectNewTab->isChecked();
     options_.openReadOnly = checkOpenReadOnly->isChecked();
+    options_.reOpenPreviousTabs = checkreOpenPreviousTabs->isChecked();
     options_.defaultPath = editDefaultFolder->text();
     options_.openSizeMode = comboOpenSize->currentIndex();
 
     options_.colors = cref->getListRegExp();
 
     return options_;
-}
-
-void OptionsForm::showColorExpReg()
-{
-    ColorRegExpDialog *cred = new ColorRegExpDialog(options_.colors);
-    cred->exec();
 }
 
 void OptionsForm::selectFolder()

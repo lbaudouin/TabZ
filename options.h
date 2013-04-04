@@ -34,6 +34,7 @@ struct OptionsValues
     bool openReadOnly;
     QString defaultPath;
     int openSizeMode;
+    bool reOpenPreviousTabs;
 
     QList<ColorRegExp> colors;
 
