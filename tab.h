@@ -9,6 +9,7 @@
 #include <QVBoxLayout>
 #include <QScrollArea>
 #include <QPushButton>
+#include <QPrintPreviewWidget>
 
 #include "highlighter.h"
 #include "xta_info.h"
@@ -36,6 +37,8 @@ public:
     explicit Tab(XTAinfo xta, QWidget *parent = 0);
     XTAinfo getXTA();
 
+    bool isEditable() {return editable_; }
+    void setEditable(bool editable);
 
     void setOptions(OptionsValues options);
     bool isModified();
@@ -65,6 +68,11 @@ private:
 
     bool undoAvailable_, redoAvailable_;
 
+    bool editable_;
+
+    QPrintPreviewWidget *printPreviewWidget;
+    QPrinter *printer;
+
 signals:
     void setSaveIcon(int,bool);
     void setSelected(QString name);
@@ -82,6 +90,8 @@ private slots:
     void updateSelectedNote();
 
     void addChord(QString name, QString fingers = QString());
+
+    void print(QPrinter*);
 
 public slots:
     void resizeLayout();
@@ -104,6 +114,8 @@ public slots:
     void setRedoAvailable(bool);
 
     void setColors(QList<ColorRegExp> list);
+
+    void updateView();
     
 };
 

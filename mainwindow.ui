@@ -122,7 +122,11 @@
      <addaction name="separator"/>
     </widget>
     <addaction name="actionFull_Screen"/>
+    <addaction name="actionEdit_mode"/>
+    <addaction name="actionRead_only_mode"/>
+    <addaction name="separator"/>
     <addaction name="menuTabs"/>
+    <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -521,6 +525,42 @@
   <action name="actionChords_manager">
    <property name="text">
     <string>Chords manager</string>
+   </property>
+  </action>
+  <action name="actionEdit_mode">
+   <property name="icon">
+    <iconset resource="ressource.qrc">
+     <normaloff>:/images/setup</normaloff>:/images/setup</iconset>
+   </property>
+   <property name="text">
+    <string>Edit mode</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
+   </property>
+   <property name="visible">
+    <bool>false</bool>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionRead_only_mode">
+   <property name="icon">
+    <iconset resource="ressource.qrc">
+     <normaloff>:/images/file-icon</normaloff>:/images/file-icon</iconset>
+   </property>
+   <property name="text">
+    <string>Read-only mode</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
    </property>
   </action>
  </widget>

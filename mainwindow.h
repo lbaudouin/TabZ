@@ -116,6 +116,9 @@ private slots:
     void pressNext();
     void pressGoTo();
 
+    void pressEditMode();
+    void pressReadOnlyMode();
+
     void pressSelectAll();
     void pressUndo();
     void pressRedo();

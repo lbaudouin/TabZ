@@ -83,6 +83,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionClear,SIGNAL(triggered()),this,SLOT(clearRecent()));
     connect(ui->actionOpen_previous_tabs,SIGNAL(triggered()),this,SLOT(pressOpenPrevious()));
     connect(ui->actionChords_manager,SIGNAL(triggered()),this,SLOT(pressChordsManager()));
+
+    connect(ui->actionEdit_mode,SIGNAL(triggered()),this,SLOT(pressEditMode()));
+    connect(ui->actionRead_only_mode,SIGNAL(triggered()),this,SLOT(pressReadOnlyMode()));
 }
 
 MainWindow::~MainWindow()
@@ -179,6 +182,8 @@ void MainWindow::setUpToolBar()
     ui->mainToolBar->addAction(ui->actionPaste);
     ui->mainToolBar->addSeparator();
     ui->mainToolBar->addAction(ui->actionFull_Screen);
+    ui->mainToolBar->addAction(ui->actionEdit_mode);
+    ui->mainToolBar->addAction(ui->actionRead_only_mode);
     ui->mainToolBar->addAction(ui->actionClose);
 
     connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(pressNew()));
@@ -698,4 +703,26 @@ void MainWindow::restart(QString path)
     QProcess process;
     process.startDetached("\""+path+"\"");
     exit(1);
+}
+
+void MainWindow::pressEditMode()
+{
+    if(ui->tabWidget->currentIndex()<0) return;
+    Tab *tab = getCurrentTab();
+
+    ui->actionRead_only_mode->setVisible(true);
+    ui->actionEdit_mode->setVisible(false);
+
+    tab->setEditable(true);
+}
+
+void MainWindow::pressReadOnlyMode()
+{
+    if(ui->tabWidget->currentIndex()<0) return;
+    Tab *tab = getCurrentTab();
+
+    ui->actionRead_only_mode->setVisible(false);
+    ui->actionEdit_mode->setVisible(true);
+
+    tab->setEditable(false);
 }

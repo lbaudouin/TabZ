@@ -103,13 +103,32 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta), undoAvai
     connect(hideShow,SIGNAL(clicked()),this,SLOT(updateTitle()));
 
 
+    printer = new QPrinter;
+    printer->setOutputFormat(QPrinter::NativeFormat);
+    printer->setOrientation(QPrinter::Portrait);
+    printer->setPaperSize(QPrinter::A4);
+    printer->setPrintRange(QPrinter::PageRange);
+    printer->setFullPage(true);
+
+    printPreviewWidget = new QPrintPreviewWidget(printer);
+    //printPreviewWidget->setViewMode(QPrintPreviewWidget::FacingPagesView);
+    printPreviewWidget->setViewMode(QPrintPreviewWidget::AllPagesView);
+    printPreviewWidget->setZoomMode(QPrintPreviewWidget::FitInView);
+
+
+    connect(printPreviewWidget, SIGNAL(paintRequested(QPrinter*)), this, SLOT(print(QPrinter*)));
+
     edit = new QTextEdit;
+
+
     QFont editFont = edit->font();
     editFont.setFamily("DejaVu Sans Mono");
     //editFont.setFixedPitch(true);
 
     edit->setFont(editFont);
     edit->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    //edit->document()->setPageSize(QSizeF(10,10));
+
     //Highlighter *highlighter = new Highlighter(edit->document());
     highlighter = new Highlighter(edit->document());
 
@@ -187,6 +206,7 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta), undoAvai
 #if 1
     QHBoxLayout *hlayout = new QHBoxLayout;
     hlayout->addWidget(edit);
+    hlayout->addWidget(printPreviewWidget);
     hlayout->addLayout(chordLayout);
     mainLayout->addLayout(hlayout);
 #else
@@ -214,6 +234,8 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta), undoAvai
     connect(editCapo,SIGNAL(valueChanged(int)),this,SLOT(capoChanged(int)));
 
     edit->setText(info.text);
+
+    printPreviewWidget->setVisible(false);
 
     if(!info.chords.isEmpty()){
 
@@ -570,3 +592,39 @@ void Tab::setOptions(OptionsValues options)
 
     edit->setReadOnly(options.openReadOnly);
 }
+
+void Tab::print(QPrinter *)
+{
+    qDebug() << "void Tab::print(QPrinter *)";
+    QPainter painter(printer);
+    painter.setRenderHints(QPainter::Antialiasing |
+    QPainter::TextAntialiasing |
+    QPainter::SmoothPixmapTransform, true);
+
+    edit->document()->drawContents(&painter);
+
+    for (int page = 0; page < 1; page++){
+        if(page!=0) printer->newPage();
+    }
+}
+
+ void Tab::setEditable(bool editable)
+ {
+     editable_ = editable;
+     if(editable_){
+        edit->setVisible(true);
+        printPreviewWidget->setVisible(false);
+     }else{
+         edit->setVisible(false);
+         printPreviewWidget->setVisible(true);
+         printPreviewWidget->updatePreview();
+     }
+
+ }
+
+ void Tab::updateView()
+ {
+     edit->setVisible(false);
+     edit->document()->setPageSize(QSizeF(1000,1000));
+     printPreviewWidget->updatePreview();
+ }
