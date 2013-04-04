@@ -110,19 +110,23 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta), undoAvai
     printer->setPrintRange(QPrinter::PageRange);
     printer->setFullPage(true);
 
-    printPreviewWidget = new QPrintPreviewWidget(printer);
+    printPreviewWidget = new QPrintPreviewDialog(printer);
     //printPreviewWidget->setViewMode(QPrintPreviewWidget::FacingPagesView);
-    printPreviewWidget->setViewMode(QPrintPreviewWidget::AllPagesView);
-    printPreviewWidget->setZoomMode(QPrintPreviewWidget::FitInView);
+    //printPreviewWidget->setViewMode(QPrintPreviewWidget::AllPagesView);
+    //printPreviewWidget->setZoomMode(QPrintPreviewWidget::FitInView);
 
 
     connect(printPreviewWidget, SIGNAL(paintRequested(QPrinter*)), this, SLOT(print(QPrinter*)));
+
+    previewLayout = new QVBoxLayout;
+    previewLayout->addWidget(printPreviewWidget);
 
     edit = new QTextEdit;
 
 
     QFont editFont = edit->font();
     editFont.setFamily("DejaVu Sans Mono");
+    //editFont.setFamily("Lucida Console");
     //editFont.setFixedPitch(true);
 
     edit->setFont(editFont);
@@ -206,7 +210,8 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta), undoAvai
 #if 1
     QHBoxLayout *hlayout = new QHBoxLayout;
     hlayout->addWidget(edit);
-    hlayout->addWidget(printPreviewWidget);
+    //hlayout->addWidget(printPreviewWidget);
+    hlayout->addLayout(previewLayout);
     hlayout->addLayout(chordLayout);
     mainLayout->addLayout(hlayout);
 #else
@@ -595,11 +600,13 @@ void Tab::setOptions(OptionsValues options)
 
 void Tab::print(QPrinter *)
 {
-    qDebug() << "void Tab::print(QPrinter *)";
+    //qDebug() << "void Tab::print(QPrinter *)";
     QPainter painter(printer);
     painter.setRenderHints(QPainter::Antialiasing |
     QPainter::TextAntialiasing |
     QPainter::SmoothPixmapTransform, true);
+
+    painter.translate(50,50);
 
     edit->document()->drawContents(&painter);
 
@@ -616,8 +623,18 @@ void Tab::print(QPrinter *)
         printPreviewWidget->setVisible(false);
      }else{
          edit->setVisible(false);
+
+         //TODO, find an other way to create preview (custom QPrintPreviewWidget)
+         delete printPreviewWidget;
+         printPreviewWidget = new QPrintPreviewDialog(printer);
+         connect(printPreviewWidget, SIGNAL(paintRequested(QPrinter*)), this, SLOT(print(QPrinter*)));
+         previewLayout->addWidget(printPreviewWidget);
          printPreviewWidget->setVisible(true);
-         printPreviewWidget->updatePreview();
+         //printPreviewWidget->updatePreview();
+         printPreviewWidget->repaint();
+         //printPreviewWidget->
+         printPreviewWidget->update();
+
      }
 
  }
@@ -625,6 +642,6 @@ void Tab::print(QPrinter *)
  void Tab::updateView()
  {
      edit->setVisible(false);
-     edit->document()->setPageSize(QSizeF(1000,1000));
-     printPreviewWidget->updatePreview();
+     //edit->document()->setPageSize(QSizeF(1000,1000));
+     //printPreviewWidget->updatePreview();
  }

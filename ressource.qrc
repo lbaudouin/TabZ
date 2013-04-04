@@ -33,4 +33,10 @@
         <file alias="TabS">images/TabS.png</file>
         <file alias="help">images/help.png</file>
     </qresource>
+    <qresource prefix="/fonts">
+        <file alias="DejaVuSansMono">font/ttf-dejavu-mono/DejaVuSansMono.ttf</file>
+        <file alias="DejaVuSansMono-Bold">font/ttf-dejavu-mono/DejaVuSansMono-Bold.ttf</file>
+        <file alias="DejaVuSansMono-BoldOblique">font/ttf-dejavu-mono/DejaVuSansMono-BoldOblique.ttf</file>
+        <file alias="DejaVuSansMono-Oblique">font/ttf-dejavu-mono/DejaVuSansMono-Oblique.ttf</file>
+    </qresource>
 </RCC>

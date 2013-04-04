@@ -52,6 +52,8 @@ private:
     QLabel *labelInfo,*specialInfo;
     XTAinfo info,modified_info;
 
+    QVBoxLayout *previewLayout;
+
     QLineEdit *editTitle,*editArtist,*editAlbum,*editTuning;
     QSpinBox *editCapo;
 
@@ -70,7 +72,7 @@ private:
 
     bool editable_;
 
-    QPrintPreviewWidget *printPreviewWidget;
+    QPrintPreviewDialog *printPreviewWidget;
     QPrinter *printer;
 
 signals:

@@ -1,6 +1,6 @@
 #include <QtGui/QApplication>
 #include "mainwindow.h"
-#define CURRENT_VERSION "0.0.3"
+#define CURRENT_VERSION "0.0.4"
 
 #include "httpupdate.h"
 
@@ -19,11 +19,9 @@ int main(int argc, char *argv[])
             return ID;
         }
         if(!strcmp(argv[i],"-n")){              //return 1 if CURRENT_VERSION > version
-            QStringList currentVersion = QString(CURRENT_VERSION).split(".");
-            QStringList version = QString(argv[i+1]).split(".");
-            if(currentVersion.at(0)>version.at(0)) return 1;
-            if(currentVersion.at(1)>version.at(1)) return 1;
-            if(currentVersion.at(2)>version.at(2)) return 1;
+            Version currentVersion(CURRENT_VERSION);
+            Version version(argv[i+1]);
+            if(currentVersion>version) return 1;
             return 0;
         }
     }

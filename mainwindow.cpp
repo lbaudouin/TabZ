@@ -18,6 +18,21 @@ MainWindow::MainWindow(QWidget *parent) :
     default : this->setWindowState(Qt::WindowNoState); break;
     }
 
+    //int fontIndex = QFontDatabase::addApplicationFont("./font/lucida console/lucida.ttf");
+    //qDebug() << QFontDatabase::applicationFontFamilies(fontIndex);
+
+    //Set Font
+    QFontDatabase db;
+    QStringList fontStyles = db.styles("DejaVu Sans Mono");
+    if(!fontStyles.contains("Bold")){
+        QFontDatabase::addApplicationFont(":fonts/DejaVuSansMono");
+        QFontDatabase::addApplicationFont(":fonts/DejaVuSansMono-Bold");
+        QFontDatabase::addApplicationFont(":fonts/DejaVuSansMono-BoldOblique");
+        QFontDatabase::addApplicationFont(":fonts/DejaVuSansMono-Oblique");
+        qDebug() << db.styles("DejaVu Sans Mono");
+        //qDebug() << db.styles("Lucida Console");
+    }
+
     readRecent();
 
     setUpMenu();
