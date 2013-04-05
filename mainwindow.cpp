@@ -5,6 +5,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    startTime = QTime::currentTime();
+
     ui->setupUi(this);
 
     options.parse(this);
@@ -42,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
     chords = new Chords(this);
 
     //Open file if need
-    for(int i=1;i<qApp->argc();i++){
+    /*for(int i=1;i<qApp->argc();i++){
         QString filepath = qApp->arguments().at(i);
 
         if(QFile::exists(filepath)){
@@ -52,7 +54,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
             ui->tabWidget->setCurrentIndex( index );
         }
-    }
+    }*/
 
 
     /////////////////////////// TEST /////////////////////////////////////
@@ -355,6 +357,7 @@ void MainWindow::pressOpenPrevious()
             info = xta->parse(fi.absoluteFilePath());
 
             addTab( info );
+            addRecent(info);
         }
     }
 }
@@ -707,15 +710,21 @@ void MainWindow::addRecent(XTAinfo &info)
     updateRecent();
 }
 
-void MainWindow::openFile()
+void MainWindow::openFile(QString filepath)
 {
-    QString filepath = ((QAction*)sender())->data().toString();
     QFileInfo fi(filepath);
 
     XTAinfo info(fi.absoluteFilePath(), fi.fileName());
     info = xta->parse(fi.absoluteFilePath());
 
     addTab( info );
+    addRecent(info);
+}
+
+void MainWindow::openFile()
+{
+    QString filepath = ((QAction*)sender())->data().toString();
+    openFile(filepath);
 }
 
 void MainWindow::restart(QString path)
@@ -746,4 +755,47 @@ void MainWindow::pressReadOnlyMode()
     ui->actionEdit_mode->setVisible(true);
 
     tab->setEditable(false);
+}
+
+void MainWindow::handleMessage(const QString& message)
+{
+    enum Action { Nothing, Open, Print } action;
+
+    action = Nothing;
+    QString filename = message;
+    if (message.toLower().startsWith("/print ")) {
+        filename = filename.mid(7);
+        action = Print;
+    } else if (!message.isEmpty()) {
+        action = Open;
+    }
+    if (action == Nothing) {
+        emit needToShow();
+        return;
+    }
+
+
+    QString mymessage = message + " (" + QString(startTime.toString("ss zzz")) + ")";
+
+    /*QFile file(filename);
+    QString contents;
+    if (file.open(QIODevice::ReadOnly))
+        contents = file.readAll();
+    else
+        contents = "[[Error: Could not load file " + filename + "]]";*/
+
+    switch(action) {
+    case Print:
+    break;
+
+    case Open:
+    {
+        openFile(filename);
+        //QMessageBox::information(this,"message",mymessage);
+        emit needToShow();
+    }
+    break;
+    default:
+    break;
+    };
 }

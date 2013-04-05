@@ -40,3 +40,5 @@ OTHER_FILES += \
 
 RESOURCES += \
     ressource.qrc
+
+include(qtsingleapplication/qtsingleapplication.pri)

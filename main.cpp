@@ -1,8 +1,9 @@
 #include <QtGui/QApplication>
 #include "mainwindow.h"
-#define CURRENT_VERSION "0.0.5"
+#define CURRENT_VERSION "0.0.7"
 
 #include "httpupdate.h"
+#include "qtsingleapplication/qtsingleapplication.h"
 
 
 int main(int argc, char *argv[])
@@ -25,6 +26,18 @@ int main(int argc, char *argv[])
             return 0;
         }
     }
+
+    QtSingleApplication instance("TabS", argc, argv);
+    instance.setWindowIcon( QIcon(":images/TabS" ) );
+    QString message;
+    for (int a = 1; a < argc; ++a) {
+        message += QString::fromUtf8(argv[a]);
+        if (a < argc-1)
+            message += " ";
+    }
+
+    if (instance.sendMessage(message))
+    return 0;
 
 #if defined(__WIN32__)
     if(path.contains("-update.exe")){
@@ -71,9 +84,17 @@ int main(int argc, char *argv[])
     }
 #endif
 
-    QApplication a(argc, argv);
+    //QApplication a(argc, argv);
+    //a.setWindowIcon( QIcon(":images/TabS" ) );
     MainWindow w;
+    w.handleMessage(message);
     w.show();
+
+    QObject::connect(&instance, SIGNAL(messageReceived(const QString&)), &w, SLOT(handleMessage(const QString&)));
+
+    instance.setActivationWindow(&w, false);
+
+    QObject::connect(&w, SIGNAL(needToShow()), &instance, SLOT(activateWindow()));
 
 #if defined(__WIN32__)
     QString updateFilename = path;
@@ -87,5 +108,5 @@ int main(int argc, char *argv[])
 #endif
 
     
-    return a.exec();
+    return instance.exec();
 }

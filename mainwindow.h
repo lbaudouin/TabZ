@@ -93,16 +93,22 @@ private:
     QList<RecentFile> recent;
     QList<QObject*> recentAction;
 
+    QTime startTime;
+
 signals:
     void setColorsEnabled(bool);
     void setColors(QList<ColorRegExp>);
     void optionsChanged(OptionsValues);
 
-private slots:
-    void openFile();
-    void clearRecent();
+    //For single instance
+    void needToShow();
 
 private slots:
+    void openFile();
+    void openFile(QString);
+    void clearRecent();
+
+public slots:
     void pressNew(QString text = QString());
     void pressOpen();
     void pressOpenFolder();
@@ -142,6 +148,11 @@ private slots:
     void setRedoAvailable(bool);
 
     void restart(QString);
+
+
+    //For single instance
+    void handleMessage(const QString& message);
+
 };
 
 #endif // MAINWINDOW_H
