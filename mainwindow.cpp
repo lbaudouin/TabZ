@@ -186,6 +186,11 @@ void MainWindow::setUpToolBar()
     ui->mainToolBar->addAction(ui->actionRead_only_mode);
     ui->mainToolBar->addAction(ui->actionClose);
 
+    ui->menuBar->addSeparator();
+    exitFullScreenAction = ui->menuBar->addAction(tr("Exit Full Screen"),this,SLOT(pressExitFullScreen()));
+    exitFullScreenAction->setShortcut(Qt::Key_Escape);
+    exitFullScreenAction->setVisible(false);
+
     connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(pressNew()));
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(pressOpen()));
     connect(ui->actionOpen_Folder,SIGNAL(triggered()),this,SLOT(pressOpenFolder()));
@@ -452,6 +457,7 @@ void MainWindow::pressSetFullScreen()
         ui->statusBar->setVisible(false);
         if(ui->tabWidget->currentIndex()>=0){
             getCurrentTab()->setExpertMode(true);
+            exitFullScreenAction->setVisible(true);
         }
         //ui->mainToolBar->setOrientation(Qt::Vertical);
     }else{
@@ -461,7 +467,15 @@ void MainWindow::pressSetFullScreen()
         //ui->mainToolBar->setOrientation(Qt::Horizontal);
         if(ui->tabWidget->currentIndex()>=0){
             getCurrentTab()->setExpertMode(false);
+            exitFullScreenAction->setVisible(false);
         }
+    }
+}
+
+void MainWindow::pressExitFullScreen()
+{
+    if(this->windowState()==Qt::WindowFullScreen){
+        pressSetFullScreen();
     }
 }
 

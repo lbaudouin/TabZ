@@ -95,6 +95,8 @@ private:
 
     QTime startTime;
 
+    QAction *exitFullScreenAction;
+
 signals:
     void setColorsEnabled(bool);
     void setColors(QList<ColorRegExp>);
@@ -118,6 +120,7 @@ public slots:
     void pressClose();
     void pressCloseAll();
     void pressSetFullScreen();
+    void pressExitFullScreen();
 
     void pressPrevious();
     void pressNext();
