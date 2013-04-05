@@ -238,6 +238,10 @@ signals:
      void setSelected(bool);
 
 public slots:
+     void setEditFont(QFont font){
+         edit->setFont(font);
+     }
+
      void weightChanged(int index){
          QComboBox *box = (QComboBox*)sender();
          box->setFont( ((QListWidget*)box->view())->item(index)->font() );

@@ -46,6 +46,7 @@ void OptionsForm::createColorTab(QTabWidget *tab)
                              options_.colors.at(i).caseSensitivity?Qt::CaseSensitive:Qt::CaseInsensitive,
                              options_.colors.at(i).active);
 
+    cref->setEditFont(options_.font);
 
     QScrollArea *area = new QScrollArea;
     area->setWidgetResizable(true);
@@ -144,5 +145,6 @@ void OptionsForm::selectFont()
     if(ok){
         fontLabel->setText(font.toString());
         fontLabel->setFont(font);
+        cref->setEditFont(font);
     }
 }
