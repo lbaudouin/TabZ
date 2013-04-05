@@ -65,6 +65,7 @@ TODO list :
 *** add chors frommiltiline edit
 *** autofill from text selection
 *** create expert mode
+- single instance
 
 #### code ####
 - increase 'recent files' update speed

@@ -19,27 +19,31 @@ class Highlighter : public QSyntaxHighlighter
     Q_OBJECT
 
 public:
-    Highlighter(QTextDocument *parent = 0);
-
-    QStringList matches();
-    void addRule(QStringList list, QColor color, int weight, bool isText = false, Qt::CaseSensitivity caseSensitivity = Qt::CaseSensitive);
-    void addRule(QString text, QColor color, int weight, bool isText = false, Qt::CaseSensitivity caseSensitivity = Qt::CaseSensitive);
-
-    QStringList getList(QString text);
-
-    void clear();
-
-protected:
-    void highlightBlock(const QString &text);
-
-
-private:
     struct HighlightingRule
     {
         QRegExp pattern;
         QTextCharFormat format;
         bool text;
     };
+
+    Highlighter(QTextDocument *parent = 0);
+
+    QStringList matches();
+    void addRule(QStringList list, QColor color, int weight = QFont::Normal, bool italic = false, bool isText = false, Qt::CaseSensitivity caseSensitivity = Qt::CaseSensitive);
+    void addRule(QString text, QColor color, int weight = QFont::Normal, bool italic = false, bool isText = false, Qt::CaseSensitivity caseSensitivity = Qt::CaseSensitive);
+
+    QStringList getList(QString text);
+
+    void clear();
+
+    QVector<HighlightingRule> getRules();
+    void setRules(QVector<HighlightingRule> rules);
+
+protected:
+    void highlightBlock(const QString &text);
+
+
+private:
     QVector<HighlightingRule> highlightingRules;
 
     QTextCharFormat keywordFormat;
@@ -54,6 +58,7 @@ public slots:
     void setEnabled(bool);
 
     void update();
+
 };
 //! [0]
 

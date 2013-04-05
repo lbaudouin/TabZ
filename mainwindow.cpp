@@ -18,9 +18,6 @@ MainWindow::MainWindow(QWidget *parent) :
     default : this->setWindowState(Qt::WindowNoState); break;
     }
 
-    //int fontIndex = QFontDatabase::addApplicationFont("./font/lucida console/lucida.ttf");
-    //qDebug() << QFontDatabase::applicationFontFamilies(fontIndex);
-
     //Set Font
     /*QFontDatabase db;
     QStringList fontStyles = db.styles("DejaVu Sans Mono");
@@ -33,57 +30,40 @@ MainWindow::MainWindow(QWidget *parent) :
         //qDebug() << db.styles("Lucida Console");
     }*/
 
+    //Read recent files list
     readRecent();
 
+    //Setup UI
     setUpMenu();
-
     setUpToolBar();
 
-    connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(currentTabChanged(int)));
+    //Init objects
+    xta = new XTA(this);
+    chords = new Chords(this);
 
-    xta = new XTA(this->centralWidget());
-    chords = new Chords(this->centralWidget());
+    //Open file if need
+    for(int i=1;i<qApp->argc();i++){
+        QString filepath = qApp->arguments().at(i);
+
+        if(QFile::exists(filepath)){
+            XTAinfo info = xta->parse(filepath);
+            int index = addTab(info);
+            addRecent(info);
+
+            ui->tabWidget->setCurrentIndex( index );
+        }
+    }
+
 
     /////////////////////////// TEST /////////////////////////////////////
 
-    //QFontDatabase db;
-    //qDebug() << db.families();
-
-    QString testFile = "test.xta";
-
-    if(qApp->argc()==2){
-        testFile = qApp->arguments().at(1);
-    }
-
-    if(QFile::exists(testFile)){
-        XTAinfo info = xta->parse(testFile);
+    if(QFile::exists("test.xta")){
+        XTAinfo info = xta->parse("test.xta");
         int index = addTab(info);
         addRecent(info);
 
         ui->tabWidget->setCurrentIndex( index );
     }
-
-    //this->setWindowState(Qt::WindowMaximized);
-
-    /*QPrinter *printer = new QPrinter;
-
-    QPrintPreviewWidget *pre = new QPrintPreviewWidget(printer);
-
-    ui->tabWidget->addTab(pre,"preview");
-
-
-    QTextEdit *edit = new QTextEdit;
-    edit->setText(info.text);
-
-    QPrintEngine *pe = new QPrintEngine;
-    QPaintEngine *ppe = new QPaintEngine;
-
-    printer->setEngines(pe,ppe);*/
-
-
-    //QPrintDialog *pd = new QPrintDialog(printer,this);
-    //pd->show();
-
 
     /////////////////////////// TEST /////////////////////////////////////
 
@@ -91,6 +71,7 @@ MainWindow::MainWindow(QWidget *parent) :
         pressOpenPrevious();
     }
 
+    connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(currentTabChanged(int)));
     connect(ui->tabWidget,SIGNAL(tabCloseRequested(int)),this,SLOT(tabCloseRequest(int)));
     connect(ui->actionSearch_lyrics,SIGNAL(triggered()),this,SLOT(pressSearchLyrics()));
     connect(ui->actionSearch_XTA,SIGNAL(triggered()),this,SLOT(pressSearchXTA()));
@@ -227,8 +208,14 @@ void MainWindow::setUpToolBar()
 
 void MainWindow::currentTabChanged(int index){
     if(index<0 || index>=ui->tabWidget->count()) return;
-    ui->actionUndo->setEnabled( getCurrentTab()->isUndoAvailable() );
-    ui->actionRedo->setEnabled( getCurrentTab()->isRedoAvailable() );
+    Tab* tab = getCurrentTab();
+
+    ui->actionUndo->setEnabled( tab->isUndoAvailable() );
+    ui->actionRedo->setEnabled( tab->isRedoAvailable() );
+
+    ui->actionRead_only_mode->setVisible(tab->isEditable());
+    ui->actionEdit_mode->setVisible(!tab->isEditable());
+
 }
 
 void MainWindow::setUndoAvailable(bool state)
@@ -273,6 +260,7 @@ int MainWindow::addTab(XTAinfo info)
 
     Tab *tab = new Tab(info, ui->tabWidget);
     tab->setOptions(options);
+
     connect(tab,SIGNAL(setSaveIcon(int,bool)),this,SLOT(displaySaveIcon(int,bool)));
     connect(this,SIGNAL(setColorsEnabled(bool)),tab,SLOT(enableColors(bool)));
     connect(tab,SIGNAL(undoAvailable(bool)),this,SLOT(setUndoAvailable(bool)));

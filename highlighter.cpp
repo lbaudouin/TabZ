@@ -123,12 +123,13 @@ void Highlighter::highlightBlock(const QString &text)
     setCurrentBlockState(0);
 }
 
-void Highlighter::addRule(QStringList list, QColor color, int weight, bool isText, Qt::CaseSensitivity caseSensitivity)
+void Highlighter::addRule(QStringList list, QColor color, int weight, bool italic, bool isText, Qt::CaseSensitivity caseSensitivity)
 {
     HighlightingRule rule;
     QTextCharFormat keywordFormat;
     keywordFormat.setForeground(color);
     keywordFormat.setFontWeight(weight);
+    keywordFormat.setFontItalic(italic);
     rule.text = isText;
 
 
@@ -142,12 +143,13 @@ void Highlighter::addRule(QStringList list, QColor color, int weight, bool isTex
     }
 }
 
-void Highlighter::addRule(QString text, QColor color, int weight, bool isText, Qt::CaseSensitivity caseSensitivity)
+void Highlighter::addRule(QString text, QColor color, int weight, bool italic, bool isText, Qt::CaseSensitivity caseSensitivity)
 {
     HighlightingRule rule;
     QTextCharFormat keywordFormat;
     keywordFormat.setForeground(color);
     keywordFormat.setFontWeight(weight);
+    keywordFormat.setFontItalic(italic);
     rule.text = isText;
     rule.pattern = QRegExp(text);
     rule.pattern.setCaseSensitivity(caseSensitivity);
@@ -171,4 +173,14 @@ void Highlighter::setEnabled(bool state)
 {
     enabled_ = state;
     this->rehighlight();
+}
+
+QVector<Highlighter::HighlightingRule> Highlighter::getRules()
+{
+    return highlightingRules;
+}
+
+void Highlighter::setRules(QVector<Highlighter::HighlightingRule> rules)
+{
+    highlightingRules = rules;
 }

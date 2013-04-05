@@ -1,6 +1,6 @@
 #include "tab.h"
 
-Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta), undoAvailable_(false), redoAvailable_(false),
+Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta), undoAvailable_(false), redoAvailable_(false), editable_(true),
     QWidget(parent)
 {
     //TODO, move it
@@ -596,7 +596,7 @@ void Tab::setColors(QList<ColorRegExp> list)
 {
     highlighter->clear();
     foreach(ColorRegExp colorRegExp, list){
-        highlighter->addRule(colorRegExp.regExp,colorRegExp.color,colorRegExp.weight,colorRegExp.isText,colorRegExp.caseSensitivity==0?Qt::CaseInsensitive:Qt::CaseSensitive);
+        highlighter->addRule(colorRegExp.regExp,colorRegExp.color,colorRegExp.weight,colorRegExp.italic,colorRegExp.isText,colorRegExp.caseSensitivity==0?Qt::CaseInsensitive:Qt::CaseSensitive);
     }
     highlighter->update();
 }
@@ -620,15 +620,103 @@ void Tab::print(QPrinter *)
     QPainter::TextAntialiasing |
     QPainter::SmoothPixmapTransform, true);
 
-    painter.translate(50,50);
+    int margin = 50;
+    int pageHeight = painter.window().height() - 2 * margin;
+    int pageWidth = painter.window().width() - 2 * margin;
 
-    edit->document()->drawContents(&painter);
+    QTextDocument *doc = edit->document()->clone(this);
+    doc->setTextWidth(pageWidth);
+    Highlighter *h = new Highlighter(doc);
+    h->setRules( highlighter->getRules() );
+    h->rehighlight();
 
-    qDebug() << edit->document()->size();
+    //qDebug() << edit->document()->size();
+    //qDebug() << pageWidth;
+    //qDebug() << printer->paperSize(QPrinter::Millimeter);
 
-    for (int page = 0; page < 1; page++){
-        if(page!=0) printer->newPage();
+    int currentRow = 0;
+    int previousH = 0;
+
+    painter.setFont( optionsValues.font );
+    QList<int> hBlocks;
+    for(QTextBlock line = doc->begin(); line!= doc->end(); line = line.next()){
+        QRect titleRect = painter.boundingRect(0, 0, pageWidth, pageHeight, Qt::TextWordWrap, line.text().isEmpty()?" ":line.text()  );
+        hBlocks << titleRect.height();
     }
+
+
+    painter.setFont( QFont("Ubuntu",12) );
+
+    for(int page=0;;page++){
+        painter.save();
+        painter.translate(margin,margin);
+
+
+        int maxHeight = pageHeight;
+
+        if(page==0){
+            if(!modified_info.title.isEmpty()){
+                painter.drawText(QPointF(0,0),modified_info.title);
+                painter.translate(0,20);
+                maxHeight-=20;
+            }
+            if(!modified_info.artist.isEmpty()){
+                painter.drawText(QPointF(0,0),modified_info.artist);
+                painter.translate(0,20);
+                maxHeight-=20;
+            }
+            if(!modified_info.album.isEmpty()){
+                painter.drawText(QPointF(0,0),modified_info.album);
+                painter.translate(0,20);
+                maxHeight-=20;
+            }
+            QFont font = painter.font();
+            font.setPointSize(8);
+            painter.setFont(font);
+            if(modified_info.capo>0 && modified_info.tuning!="EADGBE"){
+                painter.drawText(QPointF(0,0),QString(tr("[Capo: %1, Tuning: %2]")).arg(QString::number(modified_info.capo),modified_info.tuning));
+                painter.translate(0,20);
+                maxHeight-=20;
+            }else if(modified_info.capo>0){
+                painter.drawText(QPointF(0,0),QString("[Capo: %1]").arg(QString::number(modified_info.capo)));
+                painter.translate(0,20);
+                maxHeight-=20;
+            }else if(modified_info.tuning!="EADGBE") {
+                painter.drawText(QPointF(0,0),QString("[Tuning: %1]").arg(modified_info.tuning));
+                painter.translate(0,20);
+                maxHeight-=20;
+            }
+            painter.drawLine(QPointF(0,0),QPointF(pageWidth,0));
+            painter.translate(0,40);
+            maxHeight-=40;
+        }
+
+        painter.setFont( optionsValues.font );
+
+        int h = 0;
+        for(int i=currentRow;i<hBlocks.size();i++){
+            h += hBlocks.at(i);
+            if(h>maxHeight){
+                h -= hBlocks.at(i);
+                break;
+            }else{
+                currentRow++;
+            }
+        }
+        if(h==0)
+            break;
+        if(page>0)
+            printer->newPage();
+
+        painter.translate(0,-previousH);
+        QRectF rect(0,previousH,pageWidth,h);
+
+        doc->drawContents(&painter,rect);
+        previousH = h;
+        painter.restore();
+    }
+
+    painter.restore();
 }
 
 void Tab::setEditable(bool editable)

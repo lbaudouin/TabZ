@@ -41,6 +41,7 @@ void OptionsForm::createColorTab(QTabWidget *tab)
         cref->addColorRegExp(options_.colors.at(i).regExp,
                              options_.colors.at(i).color,
                              options_.colors.at(i).weight,
+                             options_.colors.at(i).italic,
                              options_.colors.at(i).isText,
                              options_.colors.at(i).caseSensitivity?Qt::CaseSensitive:Qt::CaseInsensitive,
                              options_.colors.at(i).active);

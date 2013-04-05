@@ -42,9 +42,10 @@ public:
         gridLayout->addWidget(new QLabel(tr("Regular Expression")),0,1,Qt::AlignHCenter);
         gridLayout->addWidget(new QLabel(tr("Color")),0,2,Qt::AlignHCenter);
         gridLayout->addWidget(new QLabel(tr("Weight")),0,3,Qt::AlignHCenter);
-        gridLayout->addWidget(new QLabel(tr("Text")),0,4,Qt::AlignHCenter);
-        gridLayout->addWidget(new QLabel(tr("Case Sensitive")),0,5,Qt::AlignHCenter);
-        gridLayout->addWidget(new QLabel(tr("Delete")),0,6,Qt::AlignHCenter);
+        gridLayout->addWidget(new QLabel(tr("Italic")),0,4,Qt::AlignHCenter);
+        gridLayout->addWidget(new QLabel(tr("Text")),0,5,Qt::AlignHCenter);
+        gridLayout->addWidget(new QLabel(tr("Case Sensitive")),0,6,Qt::AlignHCenter);
+        gridLayout->addWidget(new QLabel(tr("Delete")),0,7,Qt::AlignHCenter);
 
         mainLayout->addLayout(gridLayout);
 
@@ -82,13 +83,14 @@ public:
 
     }
 
-    void addColorRegExp(QString regExp = "", QColor _color = Qt::black, int _weight = QFont::Normal, int isText = false, int caseSensitive = 1, int active = 1)
+    void addColorRegExp(QString regExp = "", QColor _color = Qt::black, int _weight = QFont::Normal, int italic = false, int isText = false, int caseSensitive = 1, int active = 1)
     {
         int currentRow = gridLayout->rowCount();
         QCheckBox *checkActivate = new QCheckBox;
         QLineEdit *editRegExp = new QLineEdit(regExp);
         QComboBox *comboColor = new QComboBox;
         QComboBox *comboWeight = new QComboBox;
+        QCheckBox *checkItalic = new QCheckBox;
         QCheckBox *checkText = new QCheckBox;
         QCheckBox *checkCase = new QCheckBox;
         QToolButton *toolClose = new QToolButton;
@@ -107,6 +109,7 @@ public:
         checkActivate->setChecked(active);
         checkText->setChecked(isText);
         checkCase->setChecked(caseSensitive);
+        checkItalic->setChecked(italic);
 
 
         editRegExp->setMinimumWidth(200);
@@ -148,9 +151,10 @@ public:
         gridLayout->addWidget(editRegExp,currentRow,1);
         gridLayout->addWidget(comboColor,currentRow,2,Qt::AlignHCenter);
         gridLayout->addWidget(comboWeight,currentRow,3,Qt::AlignHCenter);
-        gridLayout->addWidget(checkText,currentRow,4,Qt::AlignHCenter);
-        gridLayout->addWidget(checkCase,currentRow,5,Qt::AlignHCenter);
-        gridLayout->addWidget(toolClose,currentRow,6,Qt::AlignHCenter);
+        gridLayout->addWidget(checkItalic,currentRow,4,Qt::AlignHCenter);
+        gridLayout->addWidget(checkText,currentRow,5,Qt::AlignHCenter);
+        gridLayout->addWidget(checkCase,currentRow,6,Qt::AlignHCenter);
+        gridLayout->addWidget(toolClose,currentRow,7,Qt::AlignHCenter);
 
 
         connect(this,SIGNAL(setSelected(bool)),checkActivate,SLOT(setChecked(bool)));
@@ -171,6 +175,7 @@ public:
         colorItem.editRegExp = editRegExp;
         colorItem.comboColor = comboColor;
         colorItem.comboWeight = comboWeight;
+        colorItem.checkItalic = checkItalic;
         colorItem.checkText = checkText;
         colorItem.checkCase = checkCase;
         colorItem.toolClose = toolClose;
@@ -180,6 +185,7 @@ public:
 
         connect(checkActivate,SIGNAL(stateChanged(int)),this,SLOT(updateHighlight(int)));
         connect(checkText,SIGNAL(stateChanged(int)),this,SLOT(updateHighlight(int)));
+        connect(checkItalic,SIGNAL(stateChanged(int)),this,SLOT(updateHighlight(int)));
         connect(checkCase,SIGNAL(stateChanged(int)),this,SLOT(updateHighlight(int)));
         connect(comboColor,SIGNAL(currentIndexChanged(int)),this,SLOT(updateHighlight(int)));
         connect(comboWeight,SIGNAL(currentIndexChanged(int)),this,SLOT(updateHighlight(int)));
@@ -202,7 +208,7 @@ public:
            default: weight = QFont::Normal; break;
            }
 
-           ColorRegExp colorRegExp(c.editRegExp->text(),QColor(c.comboColor->currentText()),weight,c.checkText->isChecked(), c.checkCase->isChecked(), c.checkActivate->isChecked());
+           ColorRegExp colorRegExp(c.editRegExp->text(),QColor(c.comboColor->currentText()), weight, c.checkItalic->isChecked(), c.checkText->isChecked(), c.checkCase->isChecked(), c.checkActivate->isChecked());
            list.push_back(colorRegExp);
         }
         return list;
@@ -216,6 +222,7 @@ private:
         QLineEdit *editRegExp;
         QComboBox *comboColor;
         QComboBox *comboWeight;
+        QCheckBox *checkItalic;
         QCheckBox *checkText;
         QCheckBox *checkCase;
         QToolButton *toolClose;
@@ -304,7 +311,7 @@ public slots:
                 default: weight = QFont::Normal; break;
                 }
 
-                highlighter->addRule(c.editRegExp->text(),QColor(c.comboColor->currentText()),weight,c.checkText->isChecked(),
+                highlighter->addRule(c.editRegExp->text(),QColor(c.comboColor->currentText()),weight,c.checkItalic->isChecked(), c.checkText->isChecked(),
                                      c.checkCase->isChecked()?Qt::CaseSensitive:Qt::CaseInsensitive);
             }
          }
