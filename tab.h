@@ -12,6 +12,7 @@
 #include <QPrintPreviewWidget>
 
 #include "highlighter.h"
+#include "xta.h"
 #include "xta_info.h"
 #include "guitar.h"
 #include "options.h"
@@ -40,12 +41,13 @@ public:
     bool isEditable() {return editable_; }
     void setEditable(bool editable);
 
-    void setOptions(OptionsValues options);
     bool isModified();
     bool isUndoAvailable();
     bool isRedoAvailable();
 
 protected:
+    void addChordsFromText(QString text);
+    //void setUpToolBar();
     
 private:
     QTextEdit *edit;
@@ -53,6 +55,8 @@ private:
     XTAinfo info,modified_info;
 
     QVBoxLayout *previewLayout;
+
+    QWidget *allInfoWidget;
 
     QLineEdit *editTitle,*editArtist,*editAlbum,*editTuning;
     QSpinBox *editCapo;
@@ -100,6 +104,8 @@ public slots:
     void addNewChord();
 
     void read();
+    void import();
+    void importFromXTA();
 
     void selectAll();
     void undo();
@@ -118,6 +124,11 @@ public slots:
     void setColors(QList<ColorRegExp> list);
 
     void updateView();
+
+    void setExpertMode(bool);
+
+
+    void setOptions(OptionsValues options);
     
 };
 

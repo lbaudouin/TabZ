@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //qDebug() << QFontDatabase::applicationFontFamilies(fontIndex);
 
     //Set Font
-    QFontDatabase db;
+    /*QFontDatabase db;
     QStringList fontStyles = db.styles("DejaVu Sans Mono");
     if(!fontStyles.contains("Bold")){
         QFontDatabase::addApplicationFont(":fonts/DejaVuSansMono");
@@ -31,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent) :
         QFontDatabase::addApplicationFont(":fonts/DejaVuSansMono-Oblique");
         qDebug() << db.styles("DejaVu Sans Mono");
         //qDebug() << db.styles("Lucida Console");
-    }
+    }*/
 
     readRecent();
 
@@ -181,6 +181,8 @@ void MainWindow::setUpMenu()
 
 void MainWindow::setUpToolBar()
 {
+    ui->mainToolBar->setFloatable(false);
+
     ui->actionPrevious->setIcon( this->style()->standardIcon(QStyle::SP_ArrowLeft) );
     ui->actionNext->setIcon( this->style()->standardIcon(QStyle::SP_ArrowRight) );
 
@@ -276,6 +278,7 @@ int MainWindow::addTab(XTAinfo info)
     connect(tab,SIGNAL(undoAvailable(bool)),this,SLOT(setUndoAvailable(bool)));
     connect(tab,SIGNAL(redoAvailable(bool)),this,SLOT(setRedoAvailable(bool)));
     connect(this,SIGNAL(setColors(QList<ColorRegExp>)),tab,SLOT(setColors(QList<ColorRegExp>)));
+    connect(this,SIGNAL(optionsChanged(OptionsValues)),tab,SLOT(setOptions(OptionsValues)));
 
     QAction *action = new QAction(tabName,this);
     action->setIcon( this->style()->standardIcon(QStyle::SP_DialogSaveButton ) );
@@ -454,8 +457,20 @@ void MainWindow::pressSetFullScreen()
     if(this->windowState()!=Qt::WindowFullScreen){
         previousState = this->windowState();
         this->setWindowState(Qt::WindowFullScreen);
+        ui->mainToolBar->setVisible(false);
+        ui->statusBar->setVisible(false);
+        if(ui->tabWidget->currentIndex()>=0){
+            getCurrentTab()->setExpertMode(true);
+        }
+        //ui->mainToolBar->setOrientation(Qt::Vertical);
     }else{
         this->setWindowState(previousState);
+        ui->mainToolBar->setVisible(true);
+        ui->statusBar->setVisible(true);
+        //ui->mainToolBar->setOrientation(Qt::Horizontal);
+        if(ui->tabWidget->currentIndex()>=0){
+            getCurrentTab()->setExpertMode(false);
+        }
     }
 }
 
@@ -569,11 +584,14 @@ void MainWindow::pressPreference()
         if(o.enableColors!=options.enableColors)
             emit setColorsEnabled(o.enableColors);
 
-        emit setColors(o.colors);
+        //emit setColors(o.colors);
 
         options = o;
 
         options.save(this);
+
+
+        emit optionsChanged(options);
     }
 }
 

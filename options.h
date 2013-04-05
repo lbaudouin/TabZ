@@ -24,6 +24,7 @@ struct ColorRegExp
     int isText;
     int caseSensitivity;
     int active;
+    int oblique;
 };
 
 struct OptionsValues
@@ -35,6 +36,7 @@ struct OptionsValues
     QString defaultPath;
     int openSizeMode;
     bool reOpenPreviousTabs;
+    QFont font;
 
     QList<ColorRegExp> colors;
 

@@ -8,6 +8,11 @@ OptionsValues::OptionsValues()
     openSizeMode = 0;
     defaultPath = "";
     reOpenPreviousTabs = false;
+#if defined(__WIN32__)
+    font =  QFont("Lucida Console",12);
+#else
+    font = QFont("DejaVu Sans Mono",12);
+#endif
 }
 
 void OptionsValues::addNode(QDomDocument &dom, QDomElement &parent, QString tag, QString data)
@@ -44,6 +49,7 @@ void OptionsValues::save(QWidget *parent)
         addNode(dom,mainNode,"openReadOnly",openReadOnly);
         addNode(dom,mainNode,"openSizeMode",openSizeMode);
         addNode(dom,mainNode,"reOpenPreviousTabs",reOpenPreviousTabs);
+        addNode(dom,mainNode,"font",font.toString());
 
 
 
@@ -118,6 +124,11 @@ void OptionsValues::parse(QWidget *parent)
         }
         if(element.tagName()=="openSizeMode"){
             openSizeMode = element.text().toInt();
+        }
+        if(element.tagName()=="font"){
+            QString fontString = element.text();
+            if(!fontString.isEmpty())
+                font.fromString(fontString);
         }
 
         if(element.tagName()=="colors"){

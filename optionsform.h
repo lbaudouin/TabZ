@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QDialogButtonBox>
+#include <QFontDialog>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QFormLayout>
@@ -328,6 +329,7 @@ private:
     QCheckBox *checkreOpenPreviousTabs;
     QLineEdit *editDefaultFolder;
     QComboBox *comboOpenSize;
+    QLabel *fontLabel;
     ColorRegExpForm *cref;
 
     QDialogButtonBox *buttonBox;
@@ -346,6 +348,7 @@ public slots:
         }
     }
     void selectFolder();
+    void selectFont();
 
 };
 

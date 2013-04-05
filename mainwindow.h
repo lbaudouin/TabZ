@@ -96,6 +96,7 @@ private:
 signals:
     void setColorsEnabled(bool);
     void setColors(QList<ColorRegExp>);
+    void optionsChanged(OptionsValues);
 
 private slots:
     void openFile();

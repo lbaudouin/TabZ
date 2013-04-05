@@ -1,6 +1,6 @@
 #include <QtGui/QApplication>
 #include "mainwindow.h"
-#define CURRENT_VERSION "0.0.4"
+#define CURRENT_VERSION "0.0.5"
 
 #include "httpupdate.h"
 

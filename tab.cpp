@@ -40,9 +40,11 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta), undoAvai
     //layout->setContentsMargins(11, 11, 11, 11);
     mainLayout->setObjectName(QString::fromUtf8("mainLayout"));
 
+    allInfoWidget = new QWidget;
 
     QHBoxLayout *infoLayout = new QHBoxLayout;
-    mainLayout->addLayout(infoLayout);
+    allInfoWidget->setLayout(infoLayout);
+    mainLayout->addWidget(allInfoWidget);
 
     QHBoxLayout *i1 = new QHBoxLayout;
     QVBoxLayout *i2 = new QVBoxLayout;
@@ -141,25 +143,32 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta), undoAvai
     //Buttons
     QToolButton *buttonAdd = new QToolButton();
     buttonAdd->setIcon( QIcon(":images/add") );
-    //QToolButton *buttonResize = new QToolButton();
+    buttonAdd->setToolTip(tr("Add new chord"));
+    buttonAdd->setStatusTip(tr("Add new chord"));
+    QToolButton *buttonCopy = new QToolButton();
+    buttonCopy->setIcon( QIcon(":images/copy") );
+    buttonCopy->setToolTip(tr("Import from text"));
+    buttonCopy->setStatusTip(tr("Import from text"));
+    QToolButton *buttonImport = new QToolButton();
+    buttonImport->setIcon( QIcon(":images/import") );
+    buttonImport->setToolTip(tr("Import from XTA"));
+    buttonImport->setStatusTip(tr("Import from XTA"));
     QToolButton *buttonRead = new QToolButton();
     buttonRead->setIcon( QIcon(":images/search") );
-    //buttonAdd->setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Fixed);
-    //buttonResize->setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Fixed);
-    //buttonRead->setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Fixed);
-
-    //QSpacerItem *buttonSpacer = new QSpacerItem(10,10,QSizePolicy::Preferred,QSizePolicy::Ignored);
+    buttonRead->setToolTip(tr("Manage"));
+    buttonRead->setStatusTip(tr("Manage"));
 
     QHBoxLayout *buttonLayout = new QHBoxLayout;
     buttonLayout->addWidget(buttonAdd);
-    //buttonLayout->addWidget(buttonResize);
+    buttonLayout->addWidget(buttonCopy);
+    buttonLayout->addWidget(buttonImport);
     buttonLayout->addWidget(buttonRead);
-    //buttonLayout->addSpacerItem(buttonSpacer);
 
     chordLayout->addLayout(buttonLayout);
 
     connect(buttonAdd,SIGNAL(clicked()),this,SLOT(addNewChord()));
-    //connect(buttonResize,SIGNAL(clicked()),this,SLOT(resizeLayout()));
+    connect(buttonImport,SIGNAL(clicked()),this,SLOT(importFromXTA()));
+    connect(buttonCopy,SIGNAL(clicked()),this,SLOT(import()));
     connect(buttonRead,SIGNAL(clicked()),this,SLOT(read()));
 
 
@@ -242,43 +251,47 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta), undoAvai
 
     printPreviewWidget->setVisible(false);
 
-    if(!info.chords.isEmpty()){
-
-
-        QTextStream stream(&info.chords);
-
-        while(!stream.atEnd()){
-            QString line = stream.readLine();
-            line.replace("\t"," ");
-            line.replace(","," ");
-            QStringList temp = line.split(" ",QString::SkipEmptyParts);
-            if(temp.size()==0)
-                continue;
-            if(temp.size()==2){
-                QString name = temp.at(0);
-                QString fingers = temp.at(1);
-                temp.clear();
-                temp.push_back( name );
-                for(int i=0;i<fingers.size();i++){
-                    temp.push_back( fingers.mid(i,1) );
-                }
-            }
-            QString name = temp.at(0);
-            QString fingers = "";
-            for(int i=1;i<temp.size();i++)
-                fingers += " " + temp.at(i);
-            fingers.trimmed();
-
-            addChord(name,fingers);
-        }
-        resizeLayout();
-    }
+    addChordsFromText(info.chords);
 
     updateTitle();
 
     connect(edit,SIGNAL(cursorPositionChanged()),this,SLOT(updateSelectedNote()));
     connect(edit,SIGNAL(undoAvailable(bool)),this,SLOT(setUndoAvailable(bool)));
     connect(edit,SIGNAL(redoAvailable(bool)),this,SLOT(setRedoAvailable(bool)));
+}
+
+void Tab::addChordsFromText(QString text)
+{
+    if(text.isEmpty())
+        return;
+
+    QTextStream stream(&text);
+
+    while(!stream.atEnd()){
+        QString line = stream.readLine();
+        line.replace("\t"," ");
+        line.replace(","," ");
+        QStringList temp = line.split(" ",QString::SkipEmptyParts);
+        if(temp.size()==0)
+            continue;
+        if(temp.size()==2){
+            QString name = temp.at(0);
+            QString fingers = temp.at(1);
+            temp.clear();
+            temp.push_back( name );
+            for(int i=0;i<fingers.size();i++){
+                temp.push_back( fingers.mid(i,1) );
+            }
+        }
+        QString name = temp.at(0);
+        QString fingers = "";
+        for(int i=1;i<temp.size();i++)
+            fingers += " " + temp.at(i);
+        fingers.trimmed();
+
+        addChord(name,fingers);
+    }
+    resizeLayout();
 }
 
 bool Tab::isUndoAvailable()
@@ -596,6 +609,7 @@ void Tab::setOptions(OptionsValues options)
     setColors(options.colors);
 
     edit->setReadOnly(options.openReadOnly);
+    edit->setFont(options.font);
 }
 
 void Tab::print(QPrinter *)
@@ -610,38 +624,79 @@ void Tab::print(QPrinter *)
 
     edit->document()->drawContents(&painter);
 
+    qDebug() << edit->document()->size();
+
     for (int page = 0; page < 1; page++){
         if(page!=0) printer->newPage();
     }
 }
 
- void Tab::setEditable(bool editable)
- {
-     editable_ = editable;
-     if(editable_){
+void Tab::setEditable(bool editable)
+{
+    editable_ = editable;
+    if(editable_){
         edit->setVisible(true);
         printPreviewWidget->setVisible(false);
-     }else{
-         edit->setVisible(false);
+    }else{
+        edit->setVisible(false);
 
-         //TODO, find an other way to create preview (custom QPrintPreviewWidget)
-         delete printPreviewWidget;
-         printPreviewWidget = new QPrintPreviewDialog(printer);
-         connect(printPreviewWidget, SIGNAL(paintRequested(QPrinter*)), this, SLOT(print(QPrinter*)));
-         previewLayout->addWidget(printPreviewWidget);
-         printPreviewWidget->setVisible(true);
-         //printPreviewWidget->updatePreview();
-         printPreviewWidget->repaint();
-         //printPreviewWidget->
-         printPreviewWidget->update();
+        //TODO, find an other way to create preview (custom QPrintPreviewWidget)
+        delete printPreviewWidget;
+        printPreviewWidget = new QPrintPreviewDialog(printer);
+        connect(printPreviewWidget, SIGNAL(paintRequested(QPrinter*)), this, SLOT(print(QPrinter*)));
+        previewLayout->addWidget(printPreviewWidget);
+        printPreviewWidget->setVisible(true);
+        //printPreviewWidget->updatePreview();
+        printPreviewWidget->repaint();
+        //printPreviewWidget->
+        printPreviewWidget->update();
+    }
+}
 
-     }
+void Tab::updateView()
+{
+    edit->setVisible(false);
+    //edit->document()->setPageSize(QSizeF(1000,1000));
+    //printPreviewWidget->updatePreview();
+}
 
- }
+void Tab::setExpertMode(bool state)
+{
+    if(state){
+        allInfoWidget->setVisible(false);
+    }else{
+        allInfoWidget->setVisible(true);
+    }
+}
 
- void Tab::updateView()
- {
-     edit->setVisible(false);
-     //edit->document()->setPageSize(QSizeF(1000,1000));
-     //printPreviewWidget->updatePreview();
- }
+void Tab::import()
+{
+    QString selectedText = edit->textCursor().selectedText();
+
+    QDialog *diag = new QDialog(this);
+    QVBoxLayout *vLayout = new QVBoxLayout;
+    diag->setLayout(vLayout);
+
+    QTextEdit *inputText = new QTextEdit;
+    inputText->setText(selectedText);
+    vLayout->addWidget(inputText);
+
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
+    connect(buttonBox,SIGNAL(accepted()),diag,SLOT(accept()));
+    connect(buttonBox,SIGNAL(rejected()),diag,SLOT(reject()));
+    vLayout->addWidget(buttonBox);
+
+    if(diag->exec()){
+        addChordsFromText(inputText->toPlainText());
+    }
+}
+
+void Tab::importFromXTA()
+{
+    QString filepath = QFileDialog::getOpenFileName(this,tr("Import from file"),optionsValues.defaultPath,tr("XTA files (*.xta)"));
+    if(filepath.isEmpty())
+        return;
+    XTA xta(this);
+    XTAinfo imported_info = xta.parse(filepath);
+    addChordsFromText(imported_info.text);
+}

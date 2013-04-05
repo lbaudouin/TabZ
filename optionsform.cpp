@@ -90,7 +90,20 @@ void OptionsForm::createOptionsTab(QTabWidget *tab)
     comboOpenSize->addItems( QStringList() << tr("Normal") << tr("Maximized") << tr("FullScreen") );
     comboOpenSize->setCurrentIndex(options_.openSizeMode);
 
+    fontLabel = new QLabel;
+    fontLabel->setFrameStyle(QFrame::Sunken | QFrame::Panel);
+    fontLabel->setText(options_.font.toString());
+    fontLabel->setFont(options_.font);
 
+    QToolButton *toolFont = new QToolButton;
+    toolFont->setIcon(QIcon(":images/open"));
+    connect(toolFont,SIGNAL(clicked()),this,SLOT(selectFont()));
+
+    QHBoxLayout *fontLayout = new QHBoxLayout;
+    fontLayout->addWidget(toolFont);
+    fontLayout->addWidget(fontLabel);
+
+    formLayout->addRow(tr("Default font:"),fontLayout);
     formLayout->addRow(tr("Default folder:"),folderLayout);
     formLayout->addRow(tr("Select new tab:"),checkSelectNewTab);
     formLayout->addRow(tr("Open read only:"),checkOpenReadOnly);
@@ -108,6 +121,7 @@ OptionsValues OptionsForm::getOptions()
     options_.reOpenPreviousTabs = checkreOpenPreviousTabs->isChecked();
     options_.defaultPath = editDefaultFolder->text();
     options_.openSizeMode = comboOpenSize->currentIndex();
+    options_.font.fromString( fontLabel->text() );
 
     options_.colors = cref->getListRegExp();
 
@@ -119,5 +133,15 @@ void OptionsForm::selectFolder()
     QString folder = QFileDialog::getExistingDirectory(this,tr("Select folder"),tr("Path:"));
     if(!folder.isEmpty()){
         editDefaultFolder->setText(folder);
+    }
+}
+
+void OptionsForm::selectFont()
+{
+    bool ok;
+    QFont font = QFontDialog::getFont(&ok, options_.font, this);
+    if(ok){
+        fontLabel->setText(font.toString());
+        fontLabel->setFont(font);
     }
 }

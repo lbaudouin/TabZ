@@ -11,7 +11,7 @@ TODO list :
 - black/white/color strings for chord
 - size of strings
 - french/english chords
-- change police
+*** change font
 
 #### Functions ####
 
@@ -50,7 +50,7 @@ TODO list :
 - auto scrolling
 - sync MP3 and lines
 *** highlight selected chord
-- import chords from other xta
+*** import chords from other xta
 *** search on internet for tab on "http://guythoun.free.fr/TabS/xta/index.php?page=search&q=%s"
 *** search lyrics on google
 - search lyrics on other site
@@ -62,6 +62,9 @@ TODO list :
 - find/replace text
 *** autoupdate for Windows users
 - create ppa for Linux users
+*** add chors frommiltiline edit
+*** autofill from text selection
+*** create expert mode
 
 #### code ####
 - increase 'recent files' update speed
