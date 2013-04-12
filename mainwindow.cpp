@@ -84,6 +84,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->actionEdit_mode,SIGNAL(triggered()),this,SLOT(pressEditMode()));
     connect(ui->actionRead_only_mode,SIGNAL(triggered()),this,SLOT(pressReadOnlyMode()));
+
+    connect(ui->actionPreview,SIGNAL(triggered()),this,SLOT(pressPreview()));
+    connect(ui->actionPrint,SIGNAL(triggered()),this,SLOT(pressPrint()));
+    connect(ui->actionInsert_Tab,SIGNAL(triggered()),this,SLOT(pressInsertTab()));
 }
 
 MainWindow::~MainWindow()
@@ -267,6 +271,7 @@ int MainWindow::addTab(XTAinfo info)
 
     Tab *tab = new Tab(info, ui->tabWidget);
     tab->setOptions(options);
+    tab->setChords(chords);
 
     connect(tab,SIGNAL(setSaveIcon(int,bool)),this,SLOT(displaySaveIcon(int,bool)));
     connect(this,SIGNAL(setColorsEnabled(bool)),tab,SLOT(enableColors(bool)));
@@ -771,6 +776,30 @@ void MainWindow::pressReadOnlyMode()
     tab->setEditable(false);
 }
 
+void MainWindow::pressPreview()
+{
+    if(ui->tabWidget->currentIndex()<0) return;
+    Tab* tab = getCurrentTab();
+
+    QPrintPreviewDialog *pDialog = new QPrintPreviewDialog(this);
+    connect(pDialog, SIGNAL(paintRequested(QPrinter*)), tab, SLOT(print(QPrinter*)));
+    pDialog->exec();
+
+    disconnect(pDialog, SIGNAL(paintRequested(QPrinter*)), tab, SLOT(print(QPrinter*)));
+    delete pDialog;
+}
+
+void MainWindow::pressPrint()
+{
+    pressPreview();
+}
+
+void MainWindow::pressInsertTab()
+{
+    if(ui->tabWidget->currentIndex()<0) return;
+    getCurrentTab()->insertTab();
+}
+
 void MainWindow::handleMessage(const QString& message)
 {
     enum Action { Nothing, Open, Print } action;
@@ -788,16 +817,6 @@ void MainWindow::handleMessage(const QString& message)
         return;
     }
 
-
-    QString mymessage = message + " (" + QString(startTime.toString("ss zzz")) + ")";
-
-    /*QFile file(filename);
-    QString contents;
-    if (file.open(QIODevice::ReadOnly))
-        contents = file.readAll();
-    else
-        contents = "[[Error: Could not load file " + filename + "]]";*/
-
     switch(action) {
     case Print:
     break;
@@ -805,7 +824,6 @@ void MainWindow::handleMessage(const QString& message)
     case Open:
     {
         openFile(filename);
-        //QMessageBox::information(this,"message",mymessage);
         emit needToShow();
     }
     break;

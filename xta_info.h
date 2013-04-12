@@ -3,7 +3,8 @@
 
 #include <QString>
 
-struct XTAinfo{
+class XTAinfo{
+public:
     XTAinfo(QString path, QString name) : filepath(path), filename(name), capo(0), tuning("EADGBE") {}
 
     QString version;

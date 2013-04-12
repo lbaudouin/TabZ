@@ -9,13 +9,15 @@
 #include <QVBoxLayout>
 #include <QScrollArea>
 #include <QPushButton>
-#include <QPrintPreviewWidget>
+//#include <QPrintPreviewWidget>
+#include "qprintpreview.h"
 
 #include "highlighter.h"
 #include "xta.h"
 #include "xta_info.h"
 #include "guitar.h"
 #include "options.h"
+#include "chords.h"
 
 //TODO, move in a separate file
 class QQCheckBox : public QCheckBox{
@@ -45,6 +47,9 @@ public:
     bool isUndoAvailable();
     bool isRedoAvailable();
 
+
+    void setChords(Chords* chordsList) { chordsList_ = chordsList; }
+
 protected:
     void addChordsFromText(QString text);
     //void setUpToolBar();
@@ -70,14 +75,18 @@ private:
     QStringList chords;
     QMap<QString,QString> mapChord;
 
+    QList<Chord> currentChords;
+
     OptionsValues optionsValues;
 
     bool undoAvailable_, redoAvailable_;
 
     bool editable_;
 
-    QPrintPreviewDialog *printPreviewWidget;
+    QPrintPreview *printPreviewWidget;
     QPrinter *printer;
+
+    Chords *chordsList_;
 
 signals:
     void setSaveIcon(int,bool);
@@ -129,6 +138,8 @@ public slots:
 
 
     void setOptions(OptionsValues options);
+
+    void insertTab();
     
 };
 

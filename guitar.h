@@ -25,6 +25,8 @@ public:
     QString getName();
     QString getFingers();
 
+    void setMenu(bool modify, bool reduce, bool close);
+
 private:
     QString name_;
     QString fingers_;
@@ -51,6 +53,10 @@ class Strings : public QWidget
     Q_OBJECT
 public:
     explicit Strings(QString fingers, QWidget *parent = 0);
+
+    void paint(QPainter*, bool printMode = false);
+
+    void setMenu(bool modify, bool reduce, bool close);
     
 protected:
     void mousePressEvent(QMouseEvent *);
@@ -78,6 +84,8 @@ public slots:
     void setReducable(bool reducable);
     void setClosable(bool closable);
     void setModifiable(bool modifiable);
+
+    void setSize(QSize);
     
 };
 

@@ -136,8 +136,13 @@ public slots:
     void pressCopy();
     void pressPaste();
 
+    void pressPreview();
+    void pressPrint();
+
     void pressPreference();
     void pressChordsManager();
+
+    void pressInsertTab();
 
     void pressSearchLyrics();
     void pressSearchXTA();

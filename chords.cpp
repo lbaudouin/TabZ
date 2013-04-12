@@ -8,10 +8,11 @@ Chords::Chords(QWidget *parent) : parent_(parent)
 void Chords::init()
 {
     chords.clear();
-    Instrument guitar = addInstrument(tr("Guitar"),6);
-    Instrument bass = addInstrument(tr("Bass"),4);
-    Instrument ukulele = addInstrument(tr("Ukulele"),4);
-    Instrument mandolin = addInstrument(tr("Mandolin"),4);
+    Instrument guitar = addInstrument(tr("Guitar"),"guitar",6);
+    Instrument bass = addInstrument(tr("Bass"),"bass",4);
+    Instrument ukulele = addInstrument(tr("Ukulele"),"ukulele",4);
+    Instrument mandolin = addInstrument(tr("Mandolin"),"mandolin",8);
+    Instrument banjo = addInstrument(tr("Banjo"),"banjo",5);
     addChord(guitar,"A","0,0,2,2,2,0");
     addChord(guitar,"B","2,2,4,4,4,2");
     addChord(guitar,"C","0,3,2,0,1,0");
@@ -85,8 +86,9 @@ void Chords::parse()
             QDomElement element = node.toElement();
             if(element.tagName()=="instrument"){
                 QString instrumentName = element.attribute("name");
+                QString instrumentLabel = element.attribute("label");
                 int nbStrings = element.attribute("strings").toInt();
-                Instrument instrument = addInstrument(instrumentName,nbStrings);
+                Instrument instrument = addInstrument(instrumentName,instrumentLabel,nbStrings);
 
                 QDomNode instrumentNode = element.firstChild();
                 while(!instrumentNode.isNull()){
@@ -128,6 +130,7 @@ void Chords::save()
 
             QDomElement instrumentNode = dom.createElement("instrument");
             instrumentNode.setAttribute("name",instrument.name);
+            instrumentNode.setAttribute("label",instrument.label);
             instrumentNode.setAttribute("strings",instrument.nbStrings);
             mainNode.appendChild(instrumentNode);
 
@@ -157,10 +160,11 @@ void Chords::addChord(Instrument instrument, QString name, QString fingers, QStr
     chords[instrument].push_back(chord);
 }
 
-Instrument Chords::addInstrument(QString name, int nbStrings)
+Instrument Chords::addInstrument(QString name, QString label, int nbStrings)
 {
     Instrument instrument;
     instrument.name = name;
+    instrument.label = label;
     instrument.nbStrings = nbStrings;
     if(!chords.contains(instrument)){
         chords.insert(instrument,QList<Chord>());
@@ -190,6 +194,16 @@ QList<Chord> Chords::getChords(Instrument instrument)
         return QList<Chord>();
     }
 }
+
+
+
+
+
+
+
+
+
+
 
 ChordsManager::ChordsManager(QWidget *parent) : QDialog(parent)
 {
@@ -240,12 +254,14 @@ void ChordsManager::updateManager()
         int nb = this->width() / 200;
 
         for(int i=0;i<list.size();i++){
-            gridLayout->addWidget( new Guitar(list[i].name, list[i].fingers), i/nb, i%nb );
+            Guitar *guitar = new Guitar(list[i].name, list[i].fingers);
+            guitar->setMenu(true,false,false);
+            gridLayout->addWidget( guitar , i/nb, i%nb);
         }
 
         int index =  tabWidget->addTab(area, instrument.name );
 
-        if(instrument.name=="Guitar"){
+        if(instrument.label=="guitar"){
             tabWidget->setCurrentIndex(index);
         }
 
@@ -255,4 +271,63 @@ void ChordsManager::updateManager()
 void ChordsManager::resizeEvent(QResizeEvent *)
 {
     updateManager();
+}
+
+Chord ChordsManager::addNewChord(QWidget *parent)
+{
+    if(parent==0)
+        parent = this;
+
+    QDialog *diag = new QDialog(parent);
+    QVBoxLayout *vLayout = new QVBoxLayout;
+    diag->setLayout(vLayout);
+
+    QComboBox *instrumentCombo = new QComboBox;
+    instrumentCombo->addItems(chords_->getInstrumentsNames());
+    instrumentCombo->setCurrentIndex(chords_->getInstrumentsNames().indexOf(tr("Guitar")));
+
+    QLineEdit *nameEdit = new QLineEdit;
+    QComboBox *fingersCombo = new QComboBox;
+    fingersCombo->setEditable(true);
+    //fingersCombo->addItems( mapChord.values() );
+    fingersCombo->setCurrentIndex(-1);
+
+
+    QFormLayout *formLayout = new QFormLayout;
+    formLayout->addRow(tr("Instrument"),instrumentCombo);
+    formLayout->addRow(tr("Name"),nameEdit);
+    formLayout->addRow(tr("Fingers"),fingersCombo);
+    vLayout->addLayout(formLayout);
+
+    Strings *strings = new Strings("");
+    vLayout->addWidget(strings,0,Qt::AlignHCenter);
+
+    connect(fingersCombo,SIGNAL(editTextChanged(QString)),strings,SLOT(setFingers(QString)));
+
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
+    connect(buttonBox,SIGNAL(accepted()),diag,SLOT(accept()));
+    connect(buttonBox,SIGNAL(rejected()),diag,SLOT(reject()));
+    vLayout->addWidget(buttonBox);
+
+    Chord chord;
+
+    if(diag->exec()){
+        QString name = nameEdit->text();
+        if(name.isEmpty())
+            name = QInputDialog::getText(this,tr("Note name"),tr("Note:"));
+        if(name.isEmpty()) return chord;
+
+        QString fingers = fingersCombo->currentText();
+
+        fingers.replace(","," ");
+        fingers.replace("\t"," ");
+
+        chord.name = name;
+        chord.fingers = fingers;
+        chord.comment = "";
+
+        return chord;
+    }else{
+        return chord;
+    }
 }

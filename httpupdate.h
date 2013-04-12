@@ -8,7 +8,7 @@
 #include <QMessageBox>
 #include <QProcess>
 
-#include "QProgressBarDialog.h"
+#include "qprogressbardialog.h"
 
 struct Version {
     Version(int major, int minor, int revision) : major_(major), minor_(minor), revision_(revision), valid(true) {}

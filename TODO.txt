@@ -22,14 +22,14 @@ TODO list :
 - add existing chords
 - drag and drop chord
 - chords manager
-- print
-- export PDF
-- read/edit mode
-- 2 pages display
+*** print
+*** export PDF
+*** read/edit mode
+*** 2 pages display
 *** test if it's note or text word
 - vertical selection
 - past image / tab from Guitar Pro or TuxGuitar
-- insert ascii tab (with tool bar)
+*** insert ascii tab
 - French chord to english
 *** save on exit
 *** save under "$default_folder/$artist" with "$artist - $title.xta" name
@@ -66,8 +66,11 @@ TODO list :
 *** autofill from text selection
 *** create expert mode
 *** single instance
+- chose witch chord to print
 
 #### code ####
 - increase 'recent files' update speed
 - add translations
-
+- Rewrite QPrintPreviewWidget to add an option to display first page on the left in double page page
+*** Rewrite QPrintPreviewDialog to add updatePreview slot
+*** Remove QPrintPreviewDialog closing on printing

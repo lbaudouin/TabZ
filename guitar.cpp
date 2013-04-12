@@ -44,6 +44,13 @@ Guitar::Guitar(QString name, QString fingers, QWidget *parent) : name_(name), fi
     vlayout->addWidget(strings);
 }
 
+void Guitar::setMenu(bool modify, bool reduce, bool close)
+{
+    buttonClose_->setVisible(close);
+    buttonReduce_->setVisible(reduce);
+    strings->setMenu(modify,reduce,close);
+}
+
 void Guitar::pressReduce()
 {
     buttonReduce_->setChecked(true);
@@ -96,6 +103,19 @@ Strings::Strings( QString fingers, QWidget *parent) : selected_(false),
     setMinimumSize( size_ );
 }
 
+void Strings::setMenu(bool modify, bool reduce, bool close)
+{
+    modifiable_ = modify;
+    reducable_ = reduce;
+    closable_ = close;
+}
+
+void Strings::setSize(QSize size)
+{
+    size_ = size;
+    this->update();
+}
+
 void Strings::setFingers(QString fingers)
 {
     fingers_ = fingers;
@@ -126,20 +146,29 @@ QSize Strings::minimumSizeHint()
 void Strings::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
+    paint(&painter);
+}
 
-    painter.setRenderHint(QPainter::Antialiasing);
+void Strings::paint(QPainter *painter, bool printMode)
+{
+    painter->save();
 
-    painter.drawRect(0,0,size_.width(),size_.height());
+    painter->setRenderHint(QPainter::Antialiasing);
 
-    if(selected_){
-        painter.setBrush(Qt::darkBlue);
-        painter.setPen(Qt::darkBlue);
+    if(!printMode){
+        if(selected_){
+            painter->setBrush(Qt::darkBlue);
+            painter->setPen(Qt::darkBlue);
+        }else{
+            painter->setBrush(Qt::black);
+            painter->setPen(Qt::black);
+        }
     }else{
-        painter.setBrush(Qt::black);
-        painter.setPen(Qt::black);
+        painter->setPen(Qt::lightGray);
+        painter->setBrush(Qt::NoBrush);
     }
 
-    painter.drawRect(0,0,size_.width(),size_.height());
+    painter->drawRect(0,0,size_.width(),size_.height());
 
     //Base point
     QPoint base(20,25);
@@ -148,15 +177,22 @@ void Strings::paintEvent(QPaintEvent *)
     QRect strings(base,QSize(size_.width()-base.x()-10,size_.height()-base.y()-10));
 
     //Main Fret
-    painter.setPen(Qt::white);
-    painter.drawRect(strings);
+    if(printMode){
+        painter->setPen(Qt::darkGray);
+        painter->setBrush(Qt::darkGray);
+    }else{
+        painter->setPen(Qt::white);
+        painter->setBrush(Qt::white);
+    }
+
+    painter->drawRect(base.x(),base.y()-5,strings.width(),5);
+
+    painter->setBrush(Qt::NoBrush);
+
+    painter->drawRect(strings);
 
 
-    painter.setBrush(Qt::white);
-    painter.drawRect(base.x(),base.y()-5,strings.width(),5);
 
-
-    painter.setBrush(Qt::NoBrush);
 
 
     QList<int> poses;
@@ -167,8 +203,12 @@ void Strings::paintEvent(QPaintEvent *)
     QList<QString> fingers = fingers_.split(" ", QString::SkipEmptyParts);
     int nbString = fingers.size();
 
-    if(nbString<2|| nbString>12)
+    if(nbString<2|| nbString>12){
+        painter->restore();
         return;
+    }
+
+    bool containEmpty = false;
 
     foreach(QString finger, fingers){
         if(finger=="X"||finger=="x"){
@@ -184,6 +224,11 @@ void Strings::paintEvent(QPaintEvent *)
             poses.push_back(pose);
         }
 
+        if(pose==0){
+            containEmpty = true;
+            continue;
+        }
+
         if(pose>max) max = pose;
         if(pose<min || min==-1) min = pose;
     }
@@ -195,66 +240,96 @@ void Strings::paintEvent(QPaintEvent *)
     //Strings
     double incr_v = (double)(strings.width()) / (double)(nbString-1);
     for(int i=0;i<nbString;i++){
-        painter.drawLine(base.x()+incr_v*i,base.y(),
+        painter->drawLine(base.x()+incr_v*i,base.y(),
                          base.x()+incr_v*i,base.y()+strings.height());
     }
 
     //Frets
     double incr_h = (double)(strings.height()) / 5;
     for(int i=0;i<6;i++){
-        painter.drawLine(base.x(),base.y()+incr_h*i,
+        painter->drawLine(base.x(),base.y()+incr_h*i,
                          base.x()+strings.width(),base.y()+incr_h*i);
     }
+
+
+    int s = 5.0 * size_.width() / 150.0;
 
 
     for(int i=0;i<nbString;i++){
         //Draw a cross in case of no playing string
         if(poses[i]<0){
-            painter.setPen(QPen(Qt::red,2));
-            painter.drawLine(base.x()+incr_v*i-5,5,
-                             base.x()+incr_v*i+5,15);
-            painter.drawLine(base.x()+incr_v*i+5,5,
-                             base.x()+incr_v*i-5,15);
+            if(printMode)
+                painter->setPen(Qt::black);
+            else
+                painter->setPen(QPen(Qt::red,2));
+            painter->drawLine(base.x()+incr_v*i-s,10-s,
+                             base.x()+incr_v*i+s,10+s);
+            painter->drawLine(base.x()+incr_v*i+s,10-s,
+                             base.x()+incr_v*i-s,10+s);
             continue;
         }
-        int pose = poses[i] - shift;
+        int pose = poses[i];
+
+        //Draw a circle in case of empty string
+        if(pose==0){
+            if(printMode)
+                painter->setPen(Qt::black);
+            else
+                painter->setPen(QPen(Qt::red,2));
+
+            painter->setBrush(Qt::NoBrush);
+            painter->drawEllipse(QPointF(base.x()+i*incr_v,10),s,s);
+            continue;
+        }
+
+        pose -= shift;
 
         //If pose is out of the drawing
         if(pose>5) continue;
 
-        painter.setPen(Qt::red);
 
-        //Draw a circle in case of empty string
-        if(pose==0){
-            painter.setPen(QPen(Qt::red,2));
-            painter.setBrush(Qt::NoBrush);
-            painter.drawEllipse(QPointF(base.x()+i*incr_v,10),5,5);
+        if(printMode){
+            painter->setPen(Qt::black);
+            painter->setBrush(Qt::black);
         }else{
-            painter.setBrush(Qt::red);
-            painter.drawEllipse(QPointF(base.x()+i*incr_v,base.y()+pose*incr_h - (double)incr_h/2.0),7,7);
+            painter->setPen(Qt::red);
+            painter->setBrush(Qt::red);
         }
+        painter->drawEllipse(QPointF(base.x()+i*incr_v,base.y()+pose*incr_h - (double)incr_h/2.0),s+2,s+2);
     }
 
     //Draw a bar if needed
-    if(min>0){
+    if(min>0 && !containEmpty){
         QList<int> list;
         for(int i=0;i<nbString;i++){
             if(poses[i]==min)
                 list.push_back(i);
-        }
+        }       
 
         //If there are several minima, draw a bar
         if(list.size()>1){
-            painter.setBrush(Qt::red);
-            painter.drawRect(base.x()+list.first()*incr_v, base.y()+(double)(min-shift)*incr_h-7 - (double)incr_h/2.0,
-                             (double)(list.last()-list.first())*incr_v,15);
+            if(printMode){
+                painter->setPen(Qt::black);
+                painter->setBrush(Qt::black);
+            }else{
+                painter->setPen(Qt::red);
+                painter->setBrush(Qt::red);
+            }
+            painter->drawRect(base.x()+list.first()*incr_v, base.y()+(double)(min-shift)*incr_h-(s+2) - (double)incr_h/2.0,
+                             (double)(list.last()-list.first())*incr_v,2*s+5);
         }
     }
 
     //Print first fret
-    painter.setPen(Qt::white);
-    painter.setBrush(Qt::NoBrush);
-    painter.drawText(0,18,20,10,Qt::AlignCenter,QString::number(1+shift));
+    if(printMode){
+        painter->setPen(Qt::black);
+    }else{
+        painter->setPen(Qt::white);
+    }
+    painter->setBrush(Qt::NoBrush);
+    painter->drawText(0,18,20,10,Qt::AlignCenter,QString::number(1+shift));
+
+    painter->restore();
 }
 
 void Strings::mousePressEvent(QMouseEvent *event)
@@ -269,7 +344,7 @@ void Strings::mousePressEvent(QMouseEvent *event)
                 //connect(actionModify,SIGNAL(triggered()),this,SLOT(()));
             }
 
-            if(modifiable_){
+            if(reducable_){
                 QAction* actionReduce = menu->addAction(tr("Reduce"));
                 connect(actionReduce,SIGNAL(triggered()),(Guitar*)this->parent(),SLOT(pressReduce()));
             }

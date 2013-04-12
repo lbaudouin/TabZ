@@ -11,6 +11,11 @@
 #include <QHBoxLayout>
 #include <QScrollArea>
 #include <QDialogButtonBox>
+#include <QComboBox>
+#include <QPushButton>
+#include <QFormLayout>
+#include <QLineEdit>
+#include <QInputDialog>
 
 #include <QDebug>
 
@@ -24,6 +29,7 @@ struct Chord{
 
 struct Instrument{
     QString name;
+    QString label;
     int nbStrings;
 };
 
@@ -58,8 +64,12 @@ private:
 
 public:
     void addChord(Instrument instrument, QString name, QString fingers, QString comment = "");
-    Instrument addInstrument(QString name, int nbStrings);
+    Instrument addInstrument(QString name, QString label, int nbStrings);
 };
+
+
+
+
 
 class ChordsManager : public QDialog
 {
@@ -69,6 +79,8 @@ public:
     void setChords(Chords *chords);
 
     void updateManager();
+
+    Chord addNewChord(QWidget *parent = 0);
 
 protected:
     void resizeEvent(QResizeEvent *);

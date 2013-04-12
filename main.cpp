@@ -1,6 +1,6 @@
 #include <QtGui/QApplication>
 #include "mainwindow.h"
-#define CURRENT_VERSION "0.0.7"
+#define CURRENT_VERSION "0.0.9"
 
 #include "httpupdate.h"
 #include "qtsingleapplication/qtsingleapplication.h"
@@ -30,14 +30,14 @@ int main(int argc, char *argv[])
     QtSingleApplication instance("TabS", argc, argv);
     instance.setWindowIcon( QIcon(":images/TabS" ) );
     QString message;
-    for (int a = 1; a < argc; ++a) {
+    for(int a = 1; a < argc; ++a) {
         message += QString::fromUtf8(argv[a]);
         if (a < argc-1)
             message += " ";
     }
 
-    if (instance.sendMessage(message))
-    return 0;
+    if(instance.sendMessage(message))
+        return 0;
 
 #if defined(__WIN32__)
     if(path.contains("-update.exe")){

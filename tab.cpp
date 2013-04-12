@@ -112,7 +112,7 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta), undoAvai
     printer->setPrintRange(QPrinter::PageRange);
     printer->setFullPage(true);
 
-    printPreviewWidget = new QPrintPreviewDialog(printer);
+    printPreviewWidget = new QPrintPreview(printer);
     //printPreviewWidget->setViewMode(QPrintPreviewWidget::FacingPagesView);
     //printPreviewWidget->setViewMode(QPrintPreviewWidget::AllPagesView);
     //printPreviewWidget->setZoomMode(QPrintPreviewWidget::FitInView);
@@ -423,11 +423,26 @@ void Tab::resizeLayout()
 
 void Tab::addNewChord()
 {
-    QDialog *diag = new QDialog(this);
+    ChordsManager *cm = new ChordsManager;
+    cm->setChords(chordsList_);
+    Chord c = cm->addNewChord();
+
+    if(c.name.isEmpty()){
+        return;
+    }
+
+    currentChords.push_back(c);
+
+    addChord(c.name,c.fingers);
+    resizeLayout();
+
+
+    /*QDialog *diag = new QDialog(this);
     QVBoxLayout *vLayout = new QVBoxLayout;
     diag->setLayout(vLayout);
 
     QComboBox *instrumentCombo = new QComboBox;
+    instrumentCombo->addItems(chordsList_->getInstrumentsNames());
 
     QLineEdit *nameEdit = new QLineEdit;
     QLineEdit *fingersEdit = new QLineEdit;
@@ -438,8 +453,8 @@ void Tab::addNewChord()
 
 
     QFormLayout *formLayout = new QFormLayout;
-    formLayout->addRow(tr("Name"),nameEdit);
     formLayout->addRow(tr("Instrument"),instrumentCombo);
+    formLayout->addRow(tr("Name"),nameEdit);
     formLayout->addRow(tr("Fingers"),fingersCombo);
     vLayout->addLayout(formLayout);
 
@@ -466,11 +481,12 @@ void Tab::addNewChord()
 
         addChord(name,fingers);
         resizeLayout();
-    }
+    }*/
 }
 
 void Tab::addChord(QString name, QString fingers)
 {
+    //qDebug() << name << " " << fingers;
     if(chords.contains(name)){
 
     }else{
@@ -612,10 +628,10 @@ void Tab::setOptions(OptionsValues options)
     edit->setFont(options.font);
 }
 
-void Tab::print(QPrinter *)
+void Tab::print(QPrinter *_printer)
 {
     //qDebug() << "void Tab::print(QPrinter *)";
-    QPainter painter(printer);
+    QPainter painter(_printer);
     painter.setRenderHints(QPainter::Antialiasing |
     QPainter::TextAntialiasing |
     QPainter::SmoothPixmapTransform, true);
@@ -623,6 +639,24 @@ void Tab::print(QPrinter *)
     int margin = 50;
     int pageHeight = painter.window().height() - 2 * margin;
     int pageWidth = painter.window().width() - 2 * margin;
+    int firstPageHeight = pageHeight;
+
+    if(!modified_info.title.isEmpty()){
+        firstPageHeight-=20;
+    }
+    if(!modified_info.artist.isEmpty()){
+        firstPageHeight-=20;
+    }
+    if(!modified_info.album.isEmpty()){
+        firstPageHeight-=20;
+    }
+    if(modified_info.capo>0 || modified_info.tuning!="EADGBE"){
+        firstPageHeight-=20;
+    }
+    firstPageHeight-=40;
+
+    QSize chordSize(75,100);
+
 
     QTextDocument *doc = edit->document()->clone(this);
     doc->setTextWidth(pageWidth);
@@ -638,16 +672,45 @@ void Tab::print(QPrinter *)
     int previousH = 0;
 
     painter.setFont( optionsValues.font );
+    int hSum = 0;
     QList<int> hBlocks;
     for(QTextBlock line = doc->begin(); line!= doc->end(); line = line.next()){
-        QRect titleRect = painter.boundingRect(0, 0, pageWidth, pageHeight, Qt::TextWordWrap, line.text().isEmpty()?" ":line.text()  );
-        hBlocks << titleRect.height();
+        QRect lineRect = painter.boundingRect(0, 0, pageWidth, pageHeight, Qt::TextWordWrap, line.text().isEmpty()?" ":line.text()  );
+        hBlocks << lineRect.height();
+        hSum += lineRect.height();
     }
 
 
-    painter.setFont( QFont("Ubuntu",12) );
+    painter.setFont( this->font() );
 
-    for(int page=0;;page++){
+    int sSum = 0;
+    QList<int> sBlocks;
+    for(int i=0;i<chords.size();i++){
+        Strings str(mapChord[chords[i]]);
+        str.setSize(chordSize);
+        QRect chordRect = painter.boundingRect(0, 0, str.width(), chordSize.width(), Qt::AlignLeft, chords.at(i)  );
+        sBlocks.push_back(str.height()/2 + 10 + chordRect.height());
+        sSum += str.height()/2 + 10 + chordRect.height();
+    }
+
+    int nbPages = 0;
+    if(hSum<firstPageHeight){
+        nbPages = 1;
+    }else{
+        int temp = hSum - firstPageHeight;
+        nbPages++;
+        while(temp>0){
+            temp = temp - pageHeight;
+            nbPages++;
+        }
+    }
+
+
+    int currentChordPrinted = 0;
+
+
+
+    for(int page=0;page<nbPages;page++){
         painter.save();
         painter.translate(margin,margin);
 
@@ -689,7 +752,9 @@ void Tab::print(QPrinter *)
             painter.drawLine(QPointF(0,0),QPointF(pageWidth,0));
             painter.translate(0,40);
             maxHeight-=40;
+
         }
+
 
         painter.setFont( optionsValues.font );
 
@@ -703,10 +768,104 @@ void Tab::print(QPrinter *)
                 currentRow++;
             }
         }
+
+
         if(h==0)
             break;
         if(page>0)
             printer->newPage();
+
+        //last page
+        if(page==nbPages-1){
+
+            int hSumChords = 0;
+            for(int i=currentChordPrinted;i<chords.size();i++){
+                hSumChords += sBlocks.at(i);
+            }
+
+            int nbColumns = 1;
+
+            if(hSumChords>pageHeight){
+                nbColumns = 2;
+            }
+
+            painter.save();
+            painter.translate(pageWidth-chordSize.width(),0);
+
+            if(nbColumns>1){
+                painter.translate(-(nbColumns-1)*(chordSize.width()+10),0);
+            }
+
+            int currentColumn = 1;
+
+            hSumChords = 0;
+            for(int i=currentChordPrinted;i<chords.size();i++){
+
+                hSumChords += sBlocks.at(i);
+
+                if(hSumChords>(page==0?firstPageHeight:pageHeight)){
+
+                    if(currentColumn<nbColumns){
+                        currentColumn++;
+                        painter.restore();
+                        painter.save();
+                        painter.translate(pageWidth-chordSize.width(),0);
+
+                    }else{
+                        break;
+                    }
+
+                }
+
+                Strings str(mapChord[chords[i]]);
+
+                str.setSize(chordSize);
+
+                QRect chordRect = painter.boundingRect(0, 0, str.width(), chordSize.width(), Qt::AlignLeft, chords.at(i)  );
+                painter.drawText(chordRect,Qt::AlignHCenter,chords.at(i));
+                painter.translate(0,chordRect.height());
+
+
+                str.paint(&painter,true);
+
+                painter.translate(0,str.height()/2 + 10);
+
+                currentChordPrinted++;
+            }
+
+            painter.restore();
+
+        }else{
+
+            painter.save();
+            painter.translate(pageWidth-chordSize.width(),0);
+
+            int hSumChords = 0;
+            for(int i=currentChordPrinted;i<chords.size();i++){
+
+                hSumChords += sBlocks.at(i);
+
+                if(hSumChords>(page==0?firstPageHeight:pageHeight)){
+                    break;
+                }else{
+                    Strings str(mapChord[chords[i]]);
+
+                    str.setSize(chordSize);
+
+                    QRect chordRect = painter.boundingRect(0, 0, str.width(), chordSize.width(), Qt::AlignLeft, chords.at(i)  );
+                    painter.drawText(chordRect,Qt::AlignHCenter,chords.at(i));
+                    painter.translate(0,chordRect.height());
+
+
+                    str.paint(&painter,true);
+
+                    painter.translate(0,str.height()/2 + 10);
+
+                    currentChordPrinted++;
+                }
+            }
+            painter.restore();
+        }
 
         painter.translate(0,-previousH);
         QRectF rect(0,previousH,pageWidth,h);
@@ -716,7 +875,7 @@ void Tab::print(QPrinter *)
         painter.restore();
     }
 
-    painter.restore();
+    //painter.restore();
 }
 
 void Tab::setEditable(bool editable)
@@ -725,27 +884,19 @@ void Tab::setEditable(bool editable)
     if(editable_){
         edit->setVisible(true);
         printPreviewWidget->setVisible(false);
+        allInfoWidget->setVisible(true);
     }else{
         edit->setVisible(false);
-
-        //TODO, find an other way to create preview (custom QPrintPreviewWidget)
-        delete printPreviewWidget;
-        printPreviewWidget = new QPrintPreviewDialog(printer);
-        connect(printPreviewWidget, SIGNAL(paintRequested(QPrinter*)), this, SLOT(print(QPrinter*)));
-        previewLayout->addWidget(printPreviewWidget);
+        allInfoWidget->setVisible(false);
         printPreviewWidget->setVisible(true);
-        //printPreviewWidget->updatePreview();
-        printPreviewWidget->repaint();
-        //printPreviewWidget->
-        printPreviewWidget->update();
+
+        printPreviewWidget->updatePreview();
     }
 }
 
 void Tab::updateView()
 {
-    edit->setVisible(false);
-    //edit->document()->setPageSize(QSizeF(1000,1000));
-    //printPreviewWidget->updatePreview();
+    printPreviewWidget->updatePreview();
 }
 
 void Tab::setExpertMode(bool state)
@@ -764,6 +915,9 @@ void Tab::import()
     QDialog *diag = new QDialog(this);
     QVBoxLayout *vLayout = new QVBoxLayout;
     diag->setLayout(vLayout);
+
+    QLabel *label = new QLabel(tr("Insert text"));
+    vLayout->addWidget(label);
 
     QTextEdit *inputText = new QTextEdit;
     inputText->setText(selectedText);
@@ -787,4 +941,70 @@ void Tab::importFromXTA()
     XTA xta(this);
     XTAinfo imported_info = xta.parse(filepath);
     addChordsFromText(imported_info.text);
+}
+
+void Tab::insertTab()
+{
+    bool ok;
+    int length = QInputDialog::getInt(this,tr("Insert length"),tr("Length:"),20,5,100,1,&ok);
+    if(!ok) return;
+
+    QStringList keys;
+    QString tunning = modified_info.tuning;
+    tunning.replace("A",",A");
+    tunning.replace("B",",B");
+    tunning.replace("C",",C");
+    tunning.replace("D",",D");
+    tunning.replace("E",",E");
+    tunning.replace("F",",F");
+    tunning.replace("G",",G");
+    keys = tunning.split(",",QString::SkipEmptyParts);
+
+    int maxLength = 0;
+    for(int i=0;i<keys.size();i++)
+        if(keys.at(i).size()>maxLength)
+            maxLength = keys.at(i).size();
+
+    QString text = "\n";
+    for(int i=0;i<keys.size();i++){
+        text += QString("%1").arg(keys.at(i),maxLength,QChar(' ')) + "|";
+        for(int j=0;j<length;j++)
+            text += "-";
+        text += "|\n";
+    }
+
+    QString ins;
+    ins.fill('-',length);
+
+    QTextCursor initial_cursor = edit->textCursor();
+
+    bool newTab = true;
+
+    int position =  initial_cursor.positionInBlock();
+    QString line = initial_cursor.block().text();
+
+    if(position>0 && position<line.length()){
+        if((line[position-1]=='-' || line[position-1]=='|') &&
+            (line[position]=='-' || line[position]=='|'))
+            newTab = false;
+    }
+
+    if(newTab){
+        QTextCursor cursor = edit->textCursor();
+        cursor.movePosition(QTextCursor::StartOfLine);
+        edit->setTextCursor(cursor);
+        edit->insertPlainText(text);
+    }else{
+        for(int i=0;i<keys.size();i++){
+
+            edit->insertPlainText(ins);
+            QTextCursor cursor = edit->textCursor();
+            cursor.movePosition(QTextCursor::NextBlock);
+            cursor.movePosition(QTextCursor::Right,QTextCursor::MoveAnchor,position);
+            edit->setTextCursor(cursor);
+        }
+    }
+
+    edit->setTextCursor(initial_cursor);
+
 }

@@ -134,6 +134,8 @@
     </property>
     <addaction name="actionChords_manager"/>
     <addaction name="separator"/>
+    <addaction name="actionInsert_Tab"/>
+    <addaction name="separator"/>
     <addaction name="actionTranslate_FR_EN"/>
     <addaction name="actionTranslate_EN_FR"/>
     <addaction name="separator"/>
@@ -275,9 +277,6 @@
    </property>
   </action>
   <action name="actionPreview">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
    <property name="icon">
     <iconset resource="ressource.qrc">
      <normaloff>:/images/print-preview</normaloff>:/images/print-preview</iconset>
@@ -290,9 +289,6 @@
    </property>
   </action>
   <action name="actionPrint">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
    <property name="icon">
     <iconset resource="ressource.qrc">
      <normaloff>:/images/print</normaloff>:/images/print</iconset>
@@ -561,6 +557,11 @@
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionInsert_Tab">
+   <property name="text">
+    <string>Insert Tab</string>
    </property>
   </action>
  </widget>

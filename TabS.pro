@@ -19,7 +19,10 @@ SOURCES += main.cpp\
     options.cpp \
     optionsform.cpp \
     chords.cpp \
-    httpupdate.cpp
+    httpupdate.cpp \
+    qprintpreview.cpp #\
+    #myprintpreviewwidget.cpp# \
+    #myprinterprivate.cpp
 
 HEADERS  += mainwindow.h \
     tab.h \
@@ -31,7 +34,10 @@ HEADERS  += mainwindow.h \
     optionsform.h \
     chords.h \
     httpupdate.h \
-    QProgressBarDialog.h
+    qprintpreview.h \
+    qprogressbardialog.h #\
+    #myprintpreviewwidget.h #\
+    #myprinterprivate.h
 
 FORMS    += mainwindow.ui
 
