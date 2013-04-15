@@ -9,6 +9,7 @@ QT       += core gui xml network
 TARGET = TabS
 TEMPLATE = app
 
+TRANSLATIONS = TabS_fr.ts
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -42,7 +43,7 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui
 
 OTHER_FILES += \
-    TODO.txt
+    TODO.diff
 
 RESOURCES += \
     ressource.qrc

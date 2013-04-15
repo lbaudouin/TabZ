@@ -254,34 +254,44 @@ public slots:
                  break;
              }
          }
+         deleteLine(i);
+     }
+     void deleteLine(int index){
+         disconnect(colors.at(index).checkActivate,SIGNAL(stateChanged(int)),this,SLOT(updateHighlight(int)));
+         disconnect(colors.at(index).checkText,SIGNAL(stateChanged(int)),this,SLOT(updateHighlight(int)));
+         disconnect(colors.at(index).checkCase,SIGNAL(stateChanged(int)),this,SLOT(updateHighlight(int)));
+         disconnect(colors.at(index).comboColor,SIGNAL(currentIndexChanged(int)),this,SLOT(updateHighlight(int)));
+         disconnect(colors.at(index).comboWeight,SIGNAL(currentIndexChanged(int)),this,SLOT(updateHighlight(int)));
+         disconnect(colors.at(index).checkItalic,SIGNAL(stateChanged(int)),this,SLOT(updateHighlight(int)));
+         disconnect(colors.at(index).editRegExp,SIGNAL(textChanged(QString)),this,SLOT(updateHighlight(QString)));
+         disconnect(colors.at(index).toolClose,SIGNAL(clicked()),this,SLOT(deleteLine()));
 
-         disconnect(colors.at(i).checkActivate,SIGNAL(stateChanged(int)),this,SLOT(updateHighlight(int)));
-         disconnect(colors.at(i).checkText,SIGNAL(stateChanged(int)),this,SLOT(updateHighlight(int)));
-         disconnect(colors.at(i).checkCase,SIGNAL(stateChanged(int)),this,SLOT(updateHighlight(int)));
-         disconnect(colors.at(i).comboColor,SIGNAL(currentIndexChanged(int)),this,SLOT(updateHighlight(int)));
-         disconnect(colors.at(i).comboWeight,SIGNAL(currentIndexChanged(int)),this,SLOT(updateHighlight(int)));
-         disconnect(colors.at(i).editRegExp,SIGNAL(textChanged(QString)),this,SLOT(updateHighlight(QString)));
-         disconnect(colors.at(i).toolClose,SIGNAL(clicked()),this,SLOT(deleteLine()));
+         gridLayout->removeWidget(colors.at(index).checkActivate);
+         gridLayout->removeWidget(colors.at(index).editRegExp);
+         gridLayout->removeWidget(colors.at(index).comboColor);
+         gridLayout->removeWidget(colors.at(index).comboWeight);
+         gridLayout->removeWidget(colors.at(index).checkItalic);
+         gridLayout->removeWidget(colors.at(index).checkText);
+         gridLayout->removeWidget(colors.at(index).checkCase);
+         gridLayout->removeWidget(colors.at(index).toolClose);
 
-         gridLayout->removeWidget(colors.at(i).checkActivate);
-         gridLayout->removeWidget(colors.at(i).editRegExp);
-         gridLayout->removeWidget(colors.at(i).comboColor);
-         gridLayout->removeWidget(colors.at(i).comboWeight);
-         gridLayout->removeWidget(colors.at(i).checkText);
-         gridLayout->removeWidget(colors.at(i).checkCase);
-         gridLayout->removeWidget(colors.at(i).toolClose);
+         delete colors.at(index).checkActivate;
+         delete colors.at(index).editRegExp;
+         delete colors.at(index).comboColor;
+         delete colors.at(index).comboWeight;
+         delete colors.at(index).checkItalic;
+         delete colors.at(index).checkText;
+         delete colors.at(index).checkCase;
+         delete colors.at(index).toolClose;
 
-         delete colors.at(i).checkActivate;
-         delete colors.at(i).editRegExp;
-         delete colors.at(i).comboColor;
-         delete colors.at(i).comboWeight;
-         delete colors.at(i).checkText;
-         delete colors.at(i).checkCase;
-         delete colors.at(i).toolClose;
-
-         colors.removeAt(i);
+         colors.removeAt(index);
          updateHighlight();
 
+     }
+     void clear(){
+         while(colors.size()!=0){
+             deleteLine(0);
+         }
      }
      void selectAll(){
          emit setSelected(true);
@@ -353,11 +363,7 @@ protected:
 signals:
 
 public slots:
-    void buttonClicked(QAbstractButton *button){
-        if(buttonBox->buttonRole(button)==QDialogButtonBox::ResetRole){
-            qDebug() << "Restore";
-        }
-    }
+    void buttonClicked(QAbstractButton *button);
     void selectFolder();
     void selectFont();
 

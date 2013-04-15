@@ -1,6 +1,6 @@
 #include <QtGui/QApplication>
 #include "mainwindow.h"
-#define CURRENT_VERSION "0.0.9"
+#define CURRENT_VERSION "0.0.11"
 
 #include "httpupdate.h"
 #include "qtsingleapplication/qtsingleapplication.h"
@@ -84,8 +84,19 @@ int main(int argc, char *argv[])
     }
 #endif
 
-    //QApplication a(argc, argv);
-    //a.setWindowIcon( QIcon(":images/TabS" ) );
+    QString lang = QLocale::system().name().section('_', 0, 0);
+    lang = lang.toLower();
+
+    if(lang=="fr"){
+        QTranslator *translator = new QTranslator();
+        translator->load(QString(":/lang/lang_") + lang);
+        qApp->installTranslator( translator );
+
+        /*QTranslator translatorQt = new QTranslator();
+        translatorQt->load(QString("qt_") + lang, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+        qApp->installTranslator( translatorQt );*/
+    }
+
     MainWindow w;
     w.handleMessage(message);
     w.show();

@@ -64,9 +64,6 @@ void OptionsForm::createOptionsTab(QTabWidget *tab)
     QFormLayout *formLayout = new QFormLayout;
     w->setLayout(formLayout);
 
-    QComboBox *comboBox = new QComboBox;
-    comboBox->addItem("TEST");
-
     editDefaultFolder = new QLineEdit;
     editDefaultFolder->setText(options_.defaultPath);
     editDefaultFolder->setReadOnly(true);
@@ -98,7 +95,8 @@ void OptionsForm::createOptionsTab(QTabWidget *tab)
     fontLabel->setFont(options_.font);
 
     QToolButton *toolFont = new QToolButton;
-    toolFont->setIcon(QIcon(":images/open"));
+    //toolFont->setIcon(QIcon(":images/open"));
+    toolFont->setIcon(QIcon(QLatin1String(":/trolltech/styles/commonstyle/images/fonttruetype-16.png")));
     connect(toolFont,SIGNAL(clicked()),this,SLOT(selectFont()));
 
     QHBoxLayout *fontLayout = new QHBoxLayout;
@@ -146,5 +144,32 @@ void OptionsForm::selectFont()
         fontLabel->setText(font.toString());
         fontLabel->setFont(font);
         cref->setEditFont(font);
+    }
+}
+
+void OptionsForm::buttonClicked(QAbstractButton *button){
+    if(buttonBox->buttonRole(button)==QDialogButtonBox::ResetRole){
+        options_ = OptionsValues();
+        options_.setDefaultRegExp();
+
+        checkEnableColor->setChecked(options_.enableColors);
+        checkSelectNewTab->setChecked(options_.selectNewTab);
+        checkOpenReadOnly->setChecked(options_.openReadOnly);
+        checkreOpenPreviousTabs->setChecked(options_.reOpenPreviousTabs);
+        editDefaultFolder->setText(options_.defaultPath);
+        comboOpenSize->setCurrentIndex(options_.openSizeMode);
+        fontLabel->setText(options_.font.toString());
+
+        cref->clear();
+        for(int i=0;i<options_.colors.size();i++)
+            cref->addColorRegExp(options_.colors.at(i).regExp,
+                                 options_.colors.at(i).color,
+                                 options_.colors.at(i).weight,
+                                 options_.colors.at(i).italic,
+                                 options_.colors.at(i).isText,
+                                 options_.colors.at(i).caseSensitivity?Qt::CaseSensitive:Qt::CaseInsensitive,
+                                 options_.colors.at(i).active);
+
+        cref->setEditFont(options_.font);
     }
 }

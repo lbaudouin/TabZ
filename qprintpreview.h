@@ -192,6 +192,8 @@ signals:
     
 public slots:
     void updatePreview();
+    void exportPDF(QString filename);
+    void pressPrint(QString filename = "");
     
 };
 

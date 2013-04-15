@@ -8,6 +8,7 @@ OptionsValues::OptionsValues()
     openSizeMode = 0;
     defaultPath = "";
     reOpenPreviousTabs = false;
+    chordSize = QSize(150,200);
 #if defined(__WIN32__)
     font =  QFont("Lucida Console",12);
 #else
@@ -187,7 +188,7 @@ void OptionsValues::setDefaultRegExp()
     colors.push_back(  ColorRegExp("\\b[A-G]m\\b", Qt::darkBlue, QFont::Bold)  );
     colors.push_back(  ColorRegExp("\\b[A-G]dim\\b", Qt::darkMagenta, QFont::Bold)  );
 
-    colors.push_back(  ColorRegExp("\\b[A-G](?!(#|'|\\|))\\b", Qt::red, QFont::Bold)  );
+    colors.push_back(  ColorRegExp("\\b[A-G](?!(#|'))\\b", Qt::red, QFont::Bold)  );
 
 
     colors.push_back(  ColorRegExp("\\bIntro\\b", Qt::darkCyan, QFont::Bold, true, true, Qt::CaseInsensitive)  );

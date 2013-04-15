@@ -31,6 +31,8 @@ struct ColorRegExp
 struct OptionsValues
 {
     OptionsValues();
+
+    //Values
     bool enableColors;
     bool selectNewTab;
     bool openReadOnly;
@@ -38,11 +40,12 @@ struct OptionsValues
     int openSizeMode;
     bool reOpenPreviousTabs;
     QFont font;
+    QSize chordSize;
 
     QList<ColorRegExp> colors;
 
+    //Functions
     void setDefaultRegExp();
-
     void save(QWidget* parent = 0);
     void parse(QWidget* parent = 0);
     void addNode(QDomDocument &dom, QDomElement &parent, QString tag, QString data);

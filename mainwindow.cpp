@@ -177,6 +177,7 @@ void MainWindow::setUpToolBar()
     ui->mainToolBar->addAction(ui->actionOpen);
     ui->mainToolBar->addAction(ui->actionSave);
     ui->mainToolBar->addAction(ui->actionSave_as);
+    ui->mainToolBar->addAction(ui->actionExport_PDF);
     ui->mainToolBar->addSeparator();
     ui->mainToolBar->addAction(ui->actionUndo);
     ui->mainToolBar->addAction(ui->actionRedo);
@@ -200,6 +201,7 @@ void MainWindow::setUpToolBar()
     connect(ui->actionOpen_Folder,SIGNAL(triggered()),this,SLOT(pressOpenFolder()));
     connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(pressSave()));
     connect(ui->actionSave_as,SIGNAL(triggered()),this,SLOT(pressSaveAs()));
+    connect(ui->actionExport_PDF,SIGNAL(triggered()),this,SLOT(pressExportPDF()));
     connect(ui->actionClose,SIGNAL(triggered()),this,SLOT(pressClose()));
     connect(ui->actionClose_All,SIGNAL(triggered()),this,SLOT(pressCloseAll()));
 
@@ -396,9 +398,7 @@ void MainWindow::pressSaveAs()
     QString selectedFilter;
 
     QString sample = (options.defaultPath.isEmpty()?QDir::homePath():options.defaultPath) + QDir::separator();
-    if(!info.artist.isEmpty() && !info.title.isEmpty())
-        sample += info.artist + " - " + info.title + ".xta";
-
+    sample += info.createFileName() +  ".xta";
 
     QString filepath = QFileDialog::getSaveFileName(this,tr("Save as"),sample,QString("%1;;%2").arg(tr("XTA files (*.xta)"),tr("TXT files (*.txt)")),&selectedFilter,QFileDialog::DontConfirmOverwrite);
 
@@ -781,17 +781,43 @@ void MainWindow::pressPreview()
     if(ui->tabWidget->currentIndex()<0) return;
     Tab* tab = getCurrentTab();
 
-    QPrintPreviewDialog *pDialog = new QPrintPreviewDialog(this);
+    QPrintPreviewDialog *pDialog = new QPrintPreviewDialog(this,Qt::Dialog);
     connect(pDialog, SIGNAL(paintRequested(QPrinter*)), tab, SLOT(print(QPrinter*)));
     pDialog->exec();
 
-    disconnect(pDialog, SIGNAL(paintRequested(QPrinter*)), tab, SLOT(print(QPrinter*)));
-    delete pDialog;
 }
 
 void MainWindow::pressPrint()
 {
-    pressPreview();
+    if(ui->tabWidget->currentIndex()<0) return;
+    Tab* tab = getCurrentTab();
+
+    QPrintPreview *pDialog = new QPrintPreview(this,Qt::Dialog);
+    connect(pDialog, SIGNAL(paintRequested(QPrinter*)), tab, SLOT(print(QPrinter*)));
+
+    QString default_filename = tab->getXTA().createFileName();
+    pDialog->pressPrint(default_filename);
+}
+
+void MainWindow::pressExportPDF()
+{
+    if(ui->tabWidget->currentIndex()<0) return;
+    Tab* tab = getCurrentTab();
+
+    QString default_filename = tab->getXTA().createFileName();
+    default_filename += ".pdf";
+
+    QString filename = QFileDialog::getSaveFileName(this,tr("Export PDF"),QDir::homePath() + QDir::separator() + default_filename, "PDF (*.pdf)");
+    if(filename.isEmpty()) return;
+
+    if(filename.right(4)!=".pdf")
+        filename += ".pdf";
+
+    QPrintPreview *pDialog = new QPrintPreview(this,Qt::Dialog);
+    connect(pDialog, SIGNAL(paintRequested(QPrinter*)), tab, SLOT(print(QPrinter*)));
+    pDialog->exportPDF(filename);
+
+    QMessageBox::information(this,tr("Export PDF"),tr("PDF exported : %1").arg(filename));
 }
 
 void MainWindow::pressInsertTab()

@@ -11,8 +11,9 @@
 
 #include "xta_info.h"
 
-class XTA
+class XTA : public QObject
 {
+    Q_OBJECT
 public:
     XTA(QWidget *parent = 0);
 

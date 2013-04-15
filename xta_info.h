@@ -46,6 +46,20 @@ public:
         if(info.chords!=chords) return false;
         return true;
     }
+
+    QString createFileName(QString defaultFileName = "output"){
+        QString output;
+        if(!artist.isEmpty() && !title.isEmpty()){
+            output = artist + " - " + title;
+        }else if(artist.isEmpty() && !title.isEmpty()){
+            output = title;
+        }else if(!artist.isEmpty() && title.isEmpty()){
+            output = artist;
+        }else{
+            output = defaultFileName;
+        }
+        return output;
+    }
 };
 
 #endif // XTA_INFO_H

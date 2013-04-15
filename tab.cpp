@@ -113,6 +113,8 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta), undoAvai
     printer->setFullPage(true);
 
     printPreviewWidget = new QPrintPreview(printer);
+
+    printer->setDocName( info.createFileName() );
     //printPreviewWidget->setViewMode(QPrintPreviewWidget::FacingPagesView);
     //printPreviewWidget->setViewMode(QPrintPreviewWidget::AllPagesView);
     //printPreviewWidget->setZoomMode(QPrintPreviewWidget::FitInView);
@@ -342,6 +344,8 @@ void Tab::textChanged(QString)
    modified_info.artist = editArtist->text();
    modified_info.album = editAlbum->text();
    modified_info.tuning = editTuning->text();
+
+   printer->setDocName( modified_info.createFileName() );
 
    if(!info.isEqual(modified_info)){
        emit setSaveIcon(-1,true);
@@ -710,30 +714,39 @@ void Tab::print(QPrinter *_printer)
 
 
 
-    for(int page=0;page<nbPages;page++){
+    for(int page=0;page<nbPages;page++){       
+        if(page>0)
+            printer->newPage();
+
         painter.save();
         painter.translate(margin,margin);
 
 
         int maxHeight = pageHeight;
 
-        if(page==0){
+        //TODO, make an option
+        if(page==0 || true){
+            QFont font = painter.font();
+            font.setPointSize(12);
+            font.setBold(true);
+            painter.setFont(font);
             if(!modified_info.title.isEmpty()){
                 painter.drawText(QPointF(0,0),modified_info.title);
                 painter.translate(0,20);
                 maxHeight-=20;
             }
+            font.setBold(false);
+            painter.setFont(font);
             if(!modified_info.artist.isEmpty()){
                 painter.drawText(QPointF(0,0),modified_info.artist);
                 painter.translate(0,20);
                 maxHeight-=20;
             }
-            if(!modified_info.album.isEmpty()){
+            /*if(!modified_info.album.isEmpty()){
                 painter.drawText(QPointF(0,0),modified_info.album);
                 painter.translate(0,20);
                 maxHeight-=20;
-            }
-            QFont font = painter.font();
+            }*/
             font.setPointSize(8);
             painter.setFont(font);
             if(modified_info.capo>0 && modified_info.tuning!="EADGBE"){
@@ -755,6 +768,28 @@ void Tab::print(QPrinter *_printer)
 
         }
 
+        if(nbPages>1){
+            painter.save();
+
+            QFont font = painter.font();
+            font.setPointSize(8);
+            font.setItalic(true);
+            painter.setFont(font);
+            QString pageNumberText =  tr("Page %1 of %2").arg(QString::number(page+1)).arg(QString::number(nbPages));
+            QRect rect = painter.boundingRect(0, 0, pageWidth, pageHeight, Qt::TextWordWrap, pageNumberText  );
+
+            //if only on  header, put page number on bottom, else on the top
+#if 0
+            painter.resetTransform();
+            painter.translate(margin+pageWidth/2-rect.width()/2,margin+pageHeight+20);
+#else
+            painter.translate(pageWidth-rect.width(),-50);
+#endif
+            painter.drawText(QPointF(0,0),pageNumberText);
+
+            painter.restore();
+        }
+
 
         painter.setFont( optionsValues.font );
 
@@ -768,12 +803,8 @@ void Tab::print(QPrinter *_printer)
                 currentRow++;
             }
         }
-
-
         if(h==0)
             break;
-        if(page>0)
-            printer->newPage();
 
         //last page
         if(page==nbPages-1){

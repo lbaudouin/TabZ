@@ -27,13 +27,13 @@ XTAinfo XTA::parse(QString filepath)
 
         if(!xml_doc.open(QIODevice::ReadOnly)){
             if(parent_)
-                QMessageBox::warning(parent_,parent_->tr("Failed to open XML document"),parent_->tr("The XML document '%1' could not be opened. Verify that the name is correct and that the document is well placed.").arg(filepath));
+                QMessageBox::warning(parent_,tr("Failed to open XML document"),tr("The XML document '%1' could not be opened. Verify that the name is correct and that the document is well placed.").arg(filepath));
             return XTAinfo("","");
         }
         if (!dom->setContent(&xml_doc)){
             xml_doc.close();
             if(parent_)
-                QMessageBox::warning(parent_,parent_->tr("Error opening the XML document"),parent_->tr("The XML document could not be assigned to the object QDomDocument."));
+                QMessageBox::warning(parent_,tr("Error opening the XML document"),tr("The XML document could not be assigned to the object QDomDocument."));
             return XTAinfo("","");
         }
 

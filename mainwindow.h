@@ -138,6 +138,7 @@ public slots:
 
     void pressPreview();
     void pressPrint();
+    void pressExportPDF();
 
     void pressPreference();
     void pressChordsManager();

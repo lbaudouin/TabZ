@@ -464,3 +464,29 @@ QPrinter *QPrintPreview::getPrinter()
 {
     return this->printer;
 }
+
+void QPrintPreview::pressPrint(QString filename)
+{
+    if(!filename.isEmpty()){
+        if(filename.right(4)!=".pdf")
+            filename += ".pdf";
+
+        printer->setOutputFileName(QDir::homePath() + QDir::separator() + filename);
+    }
+    _q_print();
+}
+
+void QPrintPreview::exportPDF(QString filename)
+{
+    //Save
+    QPrinter::OutputFormat previousFormat = printer->outputFormat();
+    QString previousOutputFilename = printer->outputFileName();
+    //Set new
+    printer->setOutputFormat(QPrinter::PdfFormat);
+    printer->setOutputFileName(filename);
+    //Print
+    preview->print();
+    //Restore
+    printer->setOutputFormat(previousFormat);
+    printer->setOutputFileName(previousOutputFilename);
+}

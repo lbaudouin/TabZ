@@ -59,10 +59,12 @@ QStringList Highlighter::getList(QString text)
             chords = chords.remove( QRegExp( "\\(.*\\)" ) );
         }
 
-        int nb_char = chords.size();
+        int nbDash = line.count("-");
+
+        int nbChar = chords.size();
 
         //If there is more than 0.5 of total characters for chords then, paint them
-        if(lenght_total>=0.5*nb_char){
+        if(lenght_total>=0.5*nbChar && nbDash<0.5*nbChar){
             list << temp;
         }
     }
@@ -105,10 +107,11 @@ void Highlighter::highlightBlock(const QString &text)
         chords = chords.remove( QRegExp( "\\(.*\\)" ) );
     }
 
-    int nb_char = chords.size();
+    int nbDash = text.count("-");
+    int nbChar = chords.size();
 
     //If there is more than 0.5 of total characters for chords then, paint them
-    if(lenght_total>=0.5*nb_char){
+    if(lenght_total>=0.5*nbChar && nbDash<0.5*nbChar){
         foreach (const HighlightingRule &rule, highlightingRules) {
             QRegExp expression(rule.pattern);
             int index = expression.indexIn(text);

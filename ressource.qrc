@@ -32,5 +32,9 @@
         <file alias="app-close">images/app-close.png</file>
         <file alias="TabS">images/TabS.png</file>
         <file alias="help">images/help.png</file>
+        <file alias="pdf">images/pdf.png</file>
+    </qresource>
+    <qresource prefix="/lang">
+        <file alias="lang_fr">TabS_fr.qm</file>
     </qresource>
 </RCC>

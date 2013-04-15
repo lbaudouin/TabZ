@@ -20,6 +20,8 @@ public:
         progress->setMaximum(0);
         progress->setValue(0);
         vlayout->addWidget(progress);
+
+        //TODO, use standard button ?
         QPushButton *button = new QPushButton(tr("Cancel"));
         connect(button,SIGNAL(clicked()),this,SLOT(pressCancel()));
         vlayout->addWidget(button);

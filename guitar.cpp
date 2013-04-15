@@ -321,13 +321,19 @@ void Strings::paint(QPainter *painter, bool printMode)
     }
 
     //Print first fret
+    QFont font  = painter->font();
+
     if(printMode){
         painter->setPen(Qt::black);
+        font.setPointSize(8);
     }else{
         painter->setPen(Qt::white);
+        font.setPointSize(12);
     }
+    painter->setFont(font);
+
     painter->setBrush(Qt::NoBrush);
-    painter->drawText(0,18,20,10,Qt::AlignCenter,QString::number(1+shift));
+    painter->drawText(0,16,20,16,Qt::AlignCenter,QString::number(1+shift));
 
     painter->restore();
 }

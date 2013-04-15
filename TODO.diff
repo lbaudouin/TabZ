@@ -1,4 +1,4 @@
-TODO list :
+TODO list
 
 #### Options ####
 
@@ -8,10 +8,12 @@ TODO list :
 *** select new tab
 *** open in read only mode
 *** re open previous tabs
+- remove colors in black/white only mode
 - black/white/color strings for chord
 - size of strings
 - french/english chords
 *** change font
+*** restore to default
 
 #### Functions ####
 
@@ -30,7 +32,7 @@ TODO list :
 - vertical selection
 - past image / tab from Guitar Pro or TuxGuitar
 *** insert ascii tab
-- French chord to english
+- French chord to english (RegExp : \bLa(?(\b|m|#|[1-9])) -> replace fisrt 2 char by A
 *** save on exit
 *** save under "$default_folder/$artist" with "$artist - $title.xta" name
 *** select existing default folder
@@ -66,11 +68,12 @@ TODO list :
 *** autofill from text selection
 *** create expert mode
 *** single instance
-- chose witch chord to print
+- select chords to print
+*** print page number
 
 #### code ####
 - increase 'recent files' update speed
-- add translations
+*** add translations
 - Rewrite QPrintPreviewWidget to add an option to display first page on the left in double page page
 *** Rewrite QPrintPreviewDialog to add updatePreview slot
 *** Remove QPrintPreviewDialog closing on printing
