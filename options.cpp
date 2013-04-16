@@ -194,4 +194,5 @@ void OptionsValues::setDefaultRegExp()
     colors.push_back(  ColorRegExp("\\bIntro\\b", Qt::darkCyan, QFont::Bold, true, true, Qt::CaseInsensitive)  );
     colors.push_back(  ColorRegExp("\\bChorus\\b", Qt::darkCyan, QFont::Bold, true, true, Qt::CaseInsensitive)  );
     colors.push_back(  ColorRegExp("\\bbis\\b", Qt::darkCyan, QFont::Bold, true, true, Qt::CaseInsensitive)  );
+    colors.push_back(  ColorRegExp("(arp)", Qt::darkCyan, QFont::Bold, true, true, Qt::CaseInsensitive)  );
 }

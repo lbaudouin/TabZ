@@ -22,6 +22,7 @@ struct RecentFile{
     QDateTime date;
     bool wasOpen;
 };
+
 struct QPairFirstComparer
 {
     template<typename T1, typename T2>
@@ -119,7 +120,7 @@ public slots:
     void pressSaveAs();
     void pressClose();
     void pressCloseAll();
-    void pressSetFullScreen();
+    void pressSetFullScreen(bool);
     void pressExitFullScreen();
 
     void pressPrevious();

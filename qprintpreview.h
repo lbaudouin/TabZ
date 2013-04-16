@@ -112,6 +112,7 @@ public:
 
 
     QPrinter* getPrinter();
+    QPrintPreviewWidget* getPreview();
 
     //void setVisible(bool visible);
     //void done(int result);
@@ -194,6 +195,9 @@ public slots:
     void updatePreview();
     void exportPDF(QString filename);
     void pressPrint(QString filename = "");
+    void setCurrentPage(int page);
+    void setViewMode( QPrintPreviewWidget::ViewMode viewMode );
+    void setZoomMode( QPrintPreviewWidget::ZoomMode zoomMode );
     
 };
 

@@ -12,6 +12,7 @@ TODO list
 - black/white/color strings for chord
 - size of strings
 - french/english chords
+- default margins
 *** change font
 *** restore to default
 
@@ -29,8 +30,8 @@ TODO list
 *** read/edit mode
 *** 2 pages display
 *** test if it's note or text word
+- past image / tab from Guitar Pro or TuxGuitar (QTextDocument::addRessource)
 - vertical selection
-- past image / tab from Guitar Pro or TuxGuitar
 *** insert ascii tab
 - French chord to english (RegExp : \bLa(?(\b|m|#|[1-9])) -> replace fisrt 2 char by A
 *** save on exit
@@ -47,6 +48,7 @@ TODO list
 - display save icon if chords changed
 *** move tabs
 - move tabs in menu too
+- renumber action shortcut
 *** open folder
 *** open/save txt
 - auto scrolling
@@ -54,6 +56,7 @@ TODO list
 *** highlight selected chord
 *** import chords from other xta
 *** search on internet for tab on "http://guythoun.free.fr/TabS/xta/index.php?page=search&q=%s"
+- download XTA from a server
 *** search lyrics on google
 - search lyrics on other site
 *** use QButtonGroup to select chord to add (use QList<QCheckBox> instead)
@@ -70,6 +73,7 @@ TODO list
 *** single instance
 - select chords to print
 *** print page number
+*** goto tab with Ctrl+<NUM>
 
 #### code ####
 - increase 'recent files' update speed
@@ -77,3 +81,11 @@ TODO list
 - Rewrite QPrintPreviewWidget to add an option to display first page on the left in double page page
 *** Rewrite QPrintPreviewDialog to add updatePreview slot
 *** Remove QPrintPreviewDialog closing on printing
+
+#### XTA v2.0 ####
+- add external lyrics filepath
+- translate xta keys in english
+- insert image (and image link in text)
+- separate intro/chorus/...
+- save chord comment
+- add instrument type/name/strings

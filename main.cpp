@@ -1,6 +1,6 @@
 #include <QtGui/QApplication>
 #include "mainwindow.h"
-#define CURRENT_VERSION "0.0.11"
+#define CURRENT_VERSION "0.0.13"
 
 #include "httpupdate.h"
 #include "qtsingleapplication/qtsingleapplication.h"
@@ -92,9 +92,9 @@ int main(int argc, char *argv[])
         translator->load(QString(":/lang/lang_") + lang);
         qApp->installTranslator( translator );
 
-        /*QTranslator translatorQt = new QTranslator();
+        QTranslator *translatorQt = new QTranslator();
         translatorQt->load(QString("qt_") + lang, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-        qApp->installTranslator( translatorQt );*/
+        qApp->installTranslator( translatorQt );
     }
 
     MainWindow w;

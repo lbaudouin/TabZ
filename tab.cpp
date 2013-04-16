@@ -105,20 +105,20 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta), undoAvai
     connect(hideShow,SIGNAL(clicked()),this,SLOT(updateTitle()));
 
 
-    printer = new QPrinter;
+    /*printer = new QPrinter;
     printer->setOutputFormat(QPrinter::NativeFormat);
     printer->setOrientation(QPrinter::Portrait);
     printer->setPaperSize(QPrinter::A4);
     printer->setPrintRange(QPrinter::PageRange);
-    printer->setFullPage(true);
+    printer->setFullPage(true);*/
 
-    printPreviewWidget = new QPrintPreview(printer);
+    printPreviewWidget = new QPrintPreview(/*printer*/);
+    printer = printPreviewWidget->getPrinter();
+    printer->setPageMargins(10,10,10,10,QPrinter::Millimeter);
 
     printer->setDocName( info.createFileName() );
-    //printPreviewWidget->setViewMode(QPrintPreviewWidget::FacingPagesView);
-    //printPreviewWidget->setViewMode(QPrintPreviewWidget::AllPagesView);
-    //printPreviewWidget->setZoomMode(QPrintPreviewWidget::FitInView);
-
+    printPreviewWidget->setViewMode(QPrintPreviewWidget::AllPagesView);
+    printPreviewWidget->setZoomMode(QPrintPreviewWidget::FitInView);
 
     connect(printPreviewWidget, SIGNAL(paintRequested(QPrinter*)), this, SLOT(print(QPrinter*)));
 
@@ -439,53 +439,6 @@ void Tab::addNewChord()
 
     addChord(c.name,c.fingers);
     resizeLayout();
-
-
-    /*QDialog *diag = new QDialog(this);
-    QVBoxLayout *vLayout = new QVBoxLayout;
-    diag->setLayout(vLayout);
-
-    QComboBox *instrumentCombo = new QComboBox;
-    instrumentCombo->addItems(chordsList_->getInstrumentsNames());
-
-    QLineEdit *nameEdit = new QLineEdit;
-    QLineEdit *fingersEdit = new QLineEdit;
-    QComboBox *fingersCombo = new QComboBox;
-    fingersCombo->setEditable(true);
-    fingersCombo->addItems( mapChord.values() );
-    fingersCombo->setCurrentIndex(-1);
-
-
-    QFormLayout *formLayout = new QFormLayout;
-    formLayout->addRow(tr("Instrument"),instrumentCombo);
-    formLayout->addRow(tr("Name"),nameEdit);
-    formLayout->addRow(tr("Fingers"),fingersCombo);
-    vLayout->addLayout(formLayout);
-
-    Strings *strings = new Strings("");
-    vLayout->addWidget(strings,0,Qt::AlignHCenter);
-
-    connect(fingersCombo,SIGNAL(editTextChanged(QString)),strings,SLOT(setFingers(QString)));
-
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
-    connect(buttonBox,SIGNAL(accepted()),diag,SLOT(accept()));
-    connect(buttonBox,SIGNAL(rejected()),diag,SLOT(reject()));
-    vLayout->addWidget(buttonBox);
-
-    if(diag->exec()){
-        QString name = nameEdit->text();
-        if(name.isEmpty())
-            name = QInputDialog::getText(this,tr("Note name"),tr("Note:"));
-        if(name.isEmpty()) return;
-
-        QString fingers = fingersEdit->text();
-
-        fingers.replace(","," ");
-        fingers.replace("\t"," ");
-
-        addChord(name,fingers);
-        resizeLayout();
-    }*/
 }
 
 void Tab::addChord(QString name, QString fingers)
@@ -522,6 +475,7 @@ void Tab::addChord(QString name, QString fingers)
 void Tab::read()
 {
     QStringList list = highlighter->getList(edit->toPlainText());
+    list.sort();
     QList<QQCheckBox*> boxList;
 
     //TODO, move in a separate file
@@ -607,11 +561,6 @@ void Tab::paste() { edit->paste(); }
 void Tab::setUndoAvailable(bool state) { undoAvailable_ = state; emit this->undoAvailable(state); }
 void Tab::setRedoAvailable(bool state) { redoAvailable_ = state; emit this->redoAvailable(state);}
 
-void Tab::enableColors(bool state)
-{
-    highlighter->setEnabled(state);
-}
-
 void Tab::setColors(QList<ColorRegExp> list)
 {
     highlighter->clear();
@@ -624,87 +573,112 @@ void Tab::setColors(QList<ColorRegExp> list)
 void Tab::setOptions(OptionsValues options)
 {
     optionsValues = options;
-    highlighter->setEnabled(optionsValues.enableColors);
 
     setColors(options.colors);
 
-    edit->setReadOnly(options.openReadOnly);
+    //edit->setReadOnly(options.openReadOnly);
+    //setEditable(!options.openReadOnly);
     edit->setFont(options.font);
+
+    updateView();
 }
 
 void Tab::print(QPrinter *_printer)
 {
-    //qDebug() << "void Tab::print(QPrinter *)";
+    _printer->setDocName( modified_info.createFileName() );
+
     QPainter painter(_printer);
     painter.setRenderHints(QPainter::Antialiasing |
     QPainter::TextAntialiasing |
     QPainter::SmoothPixmapTransform, true);
 
-    int margin = 50;
-    int pageHeight = painter.window().height() - 2 * margin;
-    int pageWidth = painter.window().width() - 2 * margin;
-    int firstPageHeight = pageHeight;
+    QRect paperRect = _printer->paperRect();
+    QRect pageRect = _printer->pageRect();
 
-    if(!modified_info.title.isEmpty()){
-        firstPageHeight-=20;
-    }
-    if(!modified_info.artist.isEmpty()){
-        firstPageHeight-=20;
-    }
-    if(!modified_info.album.isEmpty()){
-        firstPageHeight-=20;
-    }
-    if(modified_info.capo>0 || modified_info.tuning!="EADGBE"){
-        firstPageHeight-=20;
-    }
-    firstPageHeight-=40;
+    painter.setBrush(Qt::transparent);
+    painter.setPen(Qt::black);
+
+    /*int leftMargin   = _printer->paperRect().left()   -  _printer->pageRect().left();
+    int rightMargin  = _printer->paperRect().right()  -  _printer->pageRect().right();
+    int topMargin    = _printer->paperRect().top()    -  _printer->pageRect().top();
+    int bottomMargin = _printer->paperRect().bottom() -  _printer->pageRect().bottom();*/
+
+    painter.resetTransform();
+    painter.translate(paperRect.left(),paperRect.top());
+
+    int pageHeight = pageRect.height();
+    int pageWidth = pageRect.width();
+
 
     QSize chordSize(75,100);
 
+    QTextDocument *doc = new QTextDocument;//edit->document()->clone(this);
+    doc->setPlainText( edit->toPlainText() );
+    doc->setDefaultFont( optionsValues.font );
 
-    QTextDocument *doc = edit->document()->clone(this);
+    if(!optionsValues.enableColors){
+        QTextOption opt;
+        opt.setFlags(QTextOption::SuppressColors);
+        doc->setDefaultTextOption(opt);
+    }
+
+    //TODO (remove space for chords)
     doc->setTextWidth(pageWidth);
     Highlighter *h = new Highlighter(doc);
     h->setRules( highlighter->getRules() );
     h->rehighlight();
 
-    //qDebug() << edit->document()->size();
-    //qDebug() << pageWidth;
-    //qDebug() << printer->paperSize(QPrinter::Millimeter);
-
     int currentRow = 0;
     int previousH = 0;
 
+    //Compute header height
+    int headersHeight = 0;
+    if(!modified_info.title.isEmpty()) headersHeight+=20;
+    if(!modified_info.artist.isEmpty()) headersHeight+=20;
+    /*if(!modified_info.album.isEmpty()) headersHeight+=20; */
+    if(modified_info.capo>0 || modified_info.tuning!="EADGBE") headersHeight+=20;
+    headersHeight+=35;
+
     painter.setFont( optionsValues.font );
-    int hSum = 0;
-    QList<int> hBlocks;
+
+    //Compute text height
+    int textHeight = 0;
+    QList<int> textBlocksHeight;
     for(QTextBlock line = doc->begin(); line!= doc->end(); line = line.next()){
-        QRect lineRect = painter.boundingRect(0, 0, pageWidth, pageHeight, Qt::TextWordWrap, line.text().isEmpty()?" ":line.text()  );
-        hBlocks << lineRect.height();
-        hSum += lineRect.height();
+        QRect lineRect = painter.boundingRect(0, 0, pageWidth, -1, Qt::TextWordWrap, line.text().isEmpty()?"|":line.text()  );
+        textBlocksHeight << lineRect.height();
+        textHeight += lineRect.height();
     }
 
+    QFont font = painter.font();
+    font.setPointSize(10);
+    painter.setFont( font );
 
-    painter.setFont( this->font() );
-
-    int sSum = 0;
-    QList<int> sBlocks;
+    //Compute chords height
+    int chordsHeight = 0;
+    QList<int>chordBlocksHeight;
     for(int i=0;i<chords.size();i++){
         Strings str(mapChord[chords[i]]);
         str.setSize(chordSize);
         QRect chordRect = painter.boundingRect(0, 0, str.width(), chordSize.width(), Qt::AlignLeft, chords.at(i)  );
-        sBlocks.push_back(str.height()/2 + 10 + chordRect.height());
-        sSum += str.height()/2 + 10 + chordRect.height();
+        chordBlocksHeight << str.height()/2 + 10 + chordRect.height();
+        chordsHeight += str.height()/2 + 10 + chordRect.height();
     }
 
+    //TODO, make an option
+    bool printHeadersOnAllPages = true;
+
     int nbPages = 0;
-    if(hSum<firstPageHeight){
+    if(textHeight<pageHeight-headersHeight){
         nbPages = 1;
     }else{
-        int temp = hSum - firstPageHeight;
         nbPages++;
+        int temp = textHeight - (pageHeight-headersHeight);
         while(temp>0){
-            temp = temp - pageHeight;
+            if(printHeadersOnAllPages)
+                temp -= pageHeight - headersHeight;
+            else
+                temp -= pageHeight;
             nbPages++;
         }
     }
@@ -713,61 +687,56 @@ void Tab::print(QPrinter *_printer)
     int currentChordPrinted = 0;
 
 
-
     for(int page=0;page<nbPages;page++){       
         if(page>0)
             printer->newPage();
-
         painter.save();
-        painter.translate(margin,margin);
 
+        int maxHeight;
 
-        int maxHeight = pageHeight;
+        //Print header
+        if(page==0 || printHeadersOnAllPages){
+            maxHeight = pageHeight - headersHeight;
 
-        //TODO, make an option
-        if(page==0 || true){
             QFont font = painter.font();
             font.setPointSize(12);
             font.setBold(true);
             painter.setFont(font);
             if(!modified_info.title.isEmpty()){
-                painter.drawText(QPointF(0,0),modified_info.title);
                 painter.translate(0,20);
-                maxHeight-=20;
+                painter.drawText(QPointF(0,0),modified_info.title);
             }
             font.setBold(false);
             painter.setFont(font);
             if(!modified_info.artist.isEmpty()){
-                painter.drawText(QPointF(0,0),modified_info.artist);
                 painter.translate(0,20);
-                maxHeight-=20;
+                painter.drawText(QPointF(0,0),modified_info.artist);
             }
             /*if(!modified_info.album.isEmpty()){
                 painter.drawText(QPointF(0,0),modified_info.album);
                 painter.translate(0,20);
-                maxHeight-=20;
             }*/
             font.setPointSize(8);
             painter.setFont(font);
             if(modified_info.capo>0 && modified_info.tuning!="EADGBE"){
+                painter.translate(0,20);
                 painter.drawText(QPointF(0,0),QString(tr("[Capo: %1, Tuning: %2]")).arg(QString::number(modified_info.capo),modified_info.tuning));
-                painter.translate(0,20);
-                maxHeight-=20;
             }else if(modified_info.capo>0){
+                painter.translate(0,20);
                 painter.drawText(QPointF(0,0),QString("[Capo: %1]").arg(QString::number(modified_info.capo)));
-                painter.translate(0,20);
-                maxHeight-=20;
             }else if(modified_info.tuning!="EADGBE") {
-                painter.drawText(QPointF(0,0),QString("[Tuning: %1]").arg(modified_info.tuning));
                 painter.translate(0,20);
-                maxHeight-=20;
+                painter.drawText(QPointF(0,0),QString("[Tuning: %1]").arg(modified_info.tuning));
             }
+            painter.translate(0,15);
             painter.drawLine(QPointF(0,0),QPointF(pageWidth,0));
-            painter.translate(0,40);
-            maxHeight-=40;
+            painter.translate(0,20);
 
+        }else{
+            maxHeight = pageHeight;
         }
 
+        //Print page number
         if(nbPages>1){
             painter.save();
 
@@ -778,40 +747,25 @@ void Tab::print(QPrinter *_printer)
             QString pageNumberText =  tr("Page %1 of %2").arg(QString::number(page+1)).arg(QString::number(nbPages));
             QRect rect = painter.boundingRect(0, 0, pageWidth, pageHeight, Qt::TextWordWrap, pageNumberText  );
 
-            //if only on  header, put page number on bottom, else on the top
-#if 0
-            painter.resetTransform();
-            painter.translate(margin+pageWidth/2-rect.width()/2,margin+pageHeight+20);
-#else
-            painter.translate(pageWidth-rect.width(),-50);
-#endif
-            painter.drawText(QPointF(0,0),pageNumberText);
+            //If only on  header, put page number on bottom, else on the top
+            if(printHeadersOnAllPages){
+                painter.translate(pageWidth-rect.width(),-30);
+            }else{
+                painter.resetTransform();
+                painter.translate(pageWidth/2-rect.width()/2,pageHeight-5);
+            }
 
+            painter.drawText(QPointF(0,0),pageNumberText);
             painter.restore();
         }
 
 
-        painter.setFont( optionsValues.font );
-
-        int h = 0;
-        for(int i=currentRow;i<hBlocks.size();i++){
-            h += hBlocks.at(i);
-            if(h>maxHeight){
-                h -= hBlocks.at(i);
-                break;
-            }else{
-                currentRow++;
-            }
-        }
-        if(h==0)
-            break;
-
-        //last page
+        //Print chords
         if(page==nbPages-1){
 
             int hSumChords = 0;
             for(int i=currentChordPrinted;i<chords.size();i++){
-                hSumChords += sBlocks.at(i);
+                hSumChords += chordBlocksHeight.at(i);
             }
 
             int nbColumns = 1;
@@ -832,9 +786,9 @@ void Tab::print(QPrinter *_printer)
             hSumChords = 0;
             for(int i=currentChordPrinted;i<chords.size();i++){
 
-                hSumChords += sBlocks.at(i);
+                hSumChords += chordBlocksHeight.at(i);
 
-                if(hSumChords>(page==0?firstPageHeight:pageHeight)){
+                if(hSumChords>(maxHeight)){
 
                     if(currentColumn<nbColumns){
                         currentColumn++;
@@ -874,9 +828,9 @@ void Tab::print(QPrinter *_printer)
             int hSumChords = 0;
             for(int i=currentChordPrinted;i<chords.size();i++){
 
-                hSumChords += sBlocks.at(i);
+                hSumChords += chordBlocksHeight.at(i);
 
-                if(hSumChords>(page==0?firstPageHeight:pageHeight)){
+                if(hSumChords>(maxHeight)){
                     break;
                 }else{
                     Strings str(mapChord[chords[i]]);
@@ -898,11 +852,31 @@ void Tab::print(QPrinter *_printer)
             painter.restore();
         }
 
-        painter.translate(0,-previousH);
-        QRectF rect(0,previousH,pageWidth,h);
 
+        painter.setFont( optionsValues.font );
+
+        int h = 0;
+        for(int i=currentRow;i<textBlocksHeight.size();i++){
+            if(h+textBlocksHeight.at(i) > maxHeight){
+                break;
+            }else{
+                currentRow++;
+                //painter.drawRect(QRectF(0,h,pageWidth,textBlocksHeight.at(i)));
+                h += textBlocksHeight.at(i);
+            }
+        }
+        if(h==0){
+            painter.restore();
+            break;
+        }
+
+
+        //Print text
+        painter.translate(0,-previousH);
+        QRectF rect(0,previousH,pageWidth,h+3);
         doc->drawContents(&painter,rect);
-        previousH = h;
+        previousH = h+3;
+
         painter.restore();
     }
 
@@ -921,6 +895,7 @@ void Tab::setEditable(bool editable)
         allInfoWidget->setVisible(false);
         printPreviewWidget->setVisible(true);
 
+        printPreviewWidget->setCurrentPage(1);
         printPreviewWidget->updatePreview();
     }
 }
@@ -1038,4 +1013,9 @@ void Tab::insertTab()
 
     edit->setTextCursor(initial_cursor);
 
+}
+
+void Tab::setAction(QAction *action)
+{
+    menuAction = action;
 }

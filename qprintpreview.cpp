@@ -465,6 +465,11 @@ QPrinter *QPrintPreview::getPrinter()
     return this->printer;
 }
 
+QPrintPreviewWidget *QPrintPreview::getPreview()
+{
+    return this->preview;
+}
+
 void QPrintPreview::pressPrint(QString filename)
 {
     if(!filename.isEmpty()){
@@ -489,4 +494,29 @@ void QPrintPreview::exportPDF(QString filename)
     //Restore
     printer->setOutputFormat(previousFormat);
     printer->setOutputFileName(previousOutputFilename);
+}
+
+void QPrintPreview::setCurrentPage(int page)
+{
+    preview->setCurrentPage(page);
+}
+
+void QPrintPreview::setViewMode ( QPrintPreviewWidget::ViewMode viewMode )
+{
+    switch(viewMode){
+    case QPrintPreviewWidget::SinglePageView: singleModeAction->setChecked(true); break;
+    case QPrintPreviewWidget::FacingPagesView: facingModeAction->setChecked(true); break;
+    case QPrintPreviewWidget::AllPagesView: overviewModeAction->setChecked(true); break;
+    }
+    preview->setViewMode(viewMode);
+}
+
+void QPrintPreview::setZoomMode(QPrintPreviewWidget::ZoomMode zoomMode)
+{
+    switch(zoomMode){
+    case QPrintPreviewWidget::FitToWidth: fitWidthAction->setChecked(true); break;
+    case QPrintPreviewWidget::FitInView: fitPageAction->setChecked(true); break;
+    }
+    preview->setZoomMode(zoomMode);
+
 }

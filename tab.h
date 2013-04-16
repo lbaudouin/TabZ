@@ -50,6 +50,8 @@ public:
 
     void setChords(Chords* chordsList) { chordsList_ = chordsList; }
 
+    QAction* getAction() { return menuAction; }
+
 protected:
     void addChordsFromText(QString text);
     //void setUpToolBar();
@@ -88,6 +90,8 @@ private:
 
     Chords *chordsList_;
 
+    QAction *menuAction;
+
 signals:
     void setSaveIcon(int,bool);
     void setSelected(QString name);
@@ -125,8 +129,6 @@ public slots:
 
     void saved();
 
-    void enableColors(bool);
-
     void setUndoAvailable(bool);
     void setRedoAvailable(bool);
 
@@ -140,6 +142,8 @@ public slots:
     void setOptions(OptionsValues options);
 
     void insertTab();
+
+    void setAction(QAction*);
     
 };
 

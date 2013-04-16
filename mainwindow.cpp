@@ -11,27 +11,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     options.parse(this);
 
-    ui->actionFull_Screen->setChecked(options.openSizeMode==2);
-
-    switch(options.openSizeMode){
-    case 0 : this->setWindowState(Qt::WindowNoState); break;
-    case 1 : this->setWindowState(Qt::WindowMaximized); break;
-    case 2 : this->setWindowState(Qt::WindowFullScreen); break;
-    default : this->setWindowState(Qt::WindowNoState); break;
-    }
-
-    //Set Font
-    /*QFontDatabase db;
-    QStringList fontStyles = db.styles("DejaVu Sans Mono");
-    if(!fontStyles.contains("Bold")){
-        QFontDatabase::addApplicationFont(":fonts/DejaVuSansMono");
-        QFontDatabase::addApplicationFont(":fonts/DejaVuSansMono-Bold");
-        QFontDatabase::addApplicationFont(":fonts/DejaVuSansMono-BoldOblique");
-        QFontDatabase::addApplicationFont(":fonts/DejaVuSansMono-Oblique");
-        qDebug() << db.styles("DejaVu Sans Mono");
-        //qDebug() << db.styles("Lucida Console");
-    }*/
-
     //Read recent files list
     readRecent();
 
@@ -43,35 +22,23 @@ MainWindow::MainWindow(QWidget *parent) :
     xta = new XTA(this);
     chords = new Chords(this);
 
-    //Open file if need
-    /*for(int i=1;i<qApp->argc();i++){
-        QString filepath = qApp->arguments().at(i);
+    if(options.reOpenPreviousTabs){
+        pressOpenPrevious();
+    }
 
-        if(QFile::exists(filepath)){
-            XTAinfo info = xta->parse(filepath);
+    /////////////////////////// TEST /////////////////////////////////////
+#if 1
+    if(ui->tabWidget->count()==0){
+        if(QFile::exists("test.xta")){
+            XTAinfo info = xta->parse("test.xta");
             int index = addTab(info);
             addRecent(info);
 
             ui->tabWidget->setCurrentIndex( index );
         }
-    }*/
-
-
-    /////////////////////////// TEST /////////////////////////////////////
-
-    if(QFile::exists("test.xta")){
-        XTAinfo info = xta->parse("test.xta");
-        int index = addTab(info);
-        addRecent(info);
-
-        ui->tabWidget->setCurrentIndex( index );
     }
-
+#endif
     /////////////////////////// TEST /////////////////////////////////////
-
-    if(options.reOpenPreviousTabs){
-        pressOpenPrevious();
-    }
 
     connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(currentTabChanged(int)));
     connect(ui->tabWidget,SIGNAL(tabCloseRequested(int)),this,SLOT(tabCloseRequest(int)));
@@ -88,6 +55,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionPreview,SIGNAL(triggered()),this,SLOT(pressPreview()));
     connect(ui->actionPrint,SIGNAL(triggered()),this,SLOT(pressPrint()));
     connect(ui->actionInsert_Tab,SIGNAL(triggered()),this,SLOT(pressInsertTab()));
+
+    switch(options.openSizeMode){
+    case 0 : this->setWindowState(Qt::WindowNoState); break;
+    case 1 : this->setWindowState(Qt::WindowMaximized); break;
+    case 2 : /*this->setWindowState(Qt::WindowFullScreen);*/ ui->actionFull_Screen->setChecked(true); break;
+    default : this->setWindowState(Qt::WindowNoState); break;
+    }
+    //ui->actionFull_Screen->setChecked(options.openSizeMode==2);
 }
 
 MainWindow::~MainWindow()
@@ -208,7 +183,7 @@ void MainWindow::setUpToolBar()
     connect(ui->actionPrevious,SIGNAL(triggered()),this,SLOT(pressPrevious()));
     connect(ui->actionNext,SIGNAL(triggered()),this,SLOT(pressNext()));
 
-    connect(ui->actionFull_Screen,SIGNAL(triggered()),this,SLOT(pressSetFullScreen()));
+    connect(ui->actionFull_Screen,SIGNAL(toggled(bool)),this,SLOT(pressSetFullScreen(bool)));
 
     connect(ui->actionSelect_All,SIGNAL(triggered()),this,SLOT(pressSelectAll()));
     connect(ui->actionCut,SIGNAL(triggered()),this,SLOT(pressCut()));
@@ -217,10 +192,11 @@ void MainWindow::setUpToolBar()
 
     connect(ui->actionUndo,SIGNAL(triggered()),this,SLOT(pressUndo()));
     connect(ui->actionRedo,SIGNAL(triggered()),this,SLOT(pressRedo()));
+
 }
 
 void MainWindow::currentTabChanged(int index){
-    if(index<0 || index>=ui->tabWidget->count()) return;
+    if(index<0 || index>ui->tabWidget->count()) return;
     Tab* tab = getCurrentTab();
 
     ui->actionUndo->setEnabled( tab->isUndoAvailable() );
@@ -228,7 +204,6 @@ void MainWindow::currentTabChanged(int index){
 
     ui->actionRead_only_mode->setVisible(tab->isEditable());
     ui->actionEdit_mode->setVisible(!tab->isEditable());
-
 }
 
 void MainWindow::setUndoAvailable(bool state)
@@ -276,7 +251,7 @@ int MainWindow::addTab(XTAinfo info)
     tab->setChords(chords);
 
     connect(tab,SIGNAL(setSaveIcon(int,bool)),this,SLOT(displaySaveIcon(int,bool)));
-    connect(this,SIGNAL(setColorsEnabled(bool)),tab,SLOT(enableColors(bool)));
+    //connect(this,SIGNAL(setColorsEnabled(bool)),tab,SLOT(enableColors(bool)));
     connect(tab,SIGNAL(undoAvailable(bool)),this,SLOT(setUndoAvailable(bool)));
     connect(tab,SIGNAL(redoAvailable(bool)),this,SLOT(setRedoAvailable(bool)));
     connect(this,SIGNAL(setColors(QList<ColorRegExp>)),tab,SLOT(setColors(QList<ColorRegExp>)));
@@ -284,6 +259,8 @@ int MainWindow::addTab(XTAinfo info)
 
     QAction *action = new QAction(tabName,this);
     action->setIcon( this->style()->standardIcon(QStyle::SP_DialogSaveButton ) );
+    action->setShortcut("Ctrl+"+QString::number(ui->tabWidget->count()+1));
+    tab->setAction( action );
 
     mapTabAction.insert(action,tab);
 
@@ -292,8 +269,14 @@ int MainWindow::addTab(XTAinfo info)
 
     int index = ui->tabWidget->addTab(tab,tabName);
 
-    if(options.selectNewTab)
+    if(options.selectNewTab || ui->tabWidget->count()==1){
         ui->tabWidget->setCurrentIndex( index );
+        if(options.openReadOnly){
+            pressReadOnlyMode();
+        }else{
+            pressEditMode();
+        }
+    }
 
     return index;
 }
@@ -429,21 +412,28 @@ void MainWindow::pressSaveAs()
 
 void MainWindow::pressClose()
 {
-    if(ui->tabWidget->currentIndex()<0) return;
-    Tab* currentTab = getCurrentTab();
-    if(currentTab->isModified()){
-        int button = QMessageBox::warning(this,"modified",QString("Do you want to save : %1").arg(ui->tabWidget->tabText(ui->tabWidget->currentIndex())),QMessageBox::Yes,QMessageBox::No);
-        if(button==QMessageBox::Yes){
-            pressSave();
+    if(ui->tabWidget->count()<=0){
+        this->close();
+    }else{
+        Tab* currentTab = getCurrentTab();
+        if(currentTab->isModified()){
+            int button = QMessageBox::warning(this,"modified",QString("Do you want to save : %1").arg(ui->tabWidget->tabText(ui->tabWidget->currentIndex())),QMessageBox::Yes,QMessageBox::No);
+            if(button==QMessageBox::Yes){
+                pressSave();
+            }
+        }
+
+        QAction* action = mapTabAction.key(currentTab);
+
+        mapTabAction.remove(action);
+
+        delete action;
+        delete ui->tabWidget->currentWidget();
+
+        for(int i=0;i<ui->tabWidget->count();i++){
+            ((Tab*)ui->tabWidget->widget(i))->getAction()->setShortcut("Ctrl+"+QString::number(i+1));
         }
     }
-
-    QAction* action = mapTabAction.key(currentTab);
-
-    mapTabAction.remove(action);
-
-    delete action;
-    delete ui->tabWidget->currentWidget();
 }
 
 void MainWindow::pressCloseAll()
@@ -453,9 +443,9 @@ void MainWindow::pressCloseAll()
     }
 }
 
-void MainWindow::pressSetFullScreen()
+void MainWindow::pressSetFullScreen(bool state)
 {
-    if(this->windowState()!=Qt::WindowFullScreen){
+    if(state){
         previousState = this->windowState();
         this->setWindowState(Qt::WindowFullScreen);
         ui->mainToolBar->setVisible(false);
@@ -479,9 +469,7 @@ void MainWindow::pressSetFullScreen()
 
 void MainWindow::pressExitFullScreen()
 {
-    if(this->windowState()==Qt::WindowFullScreen){
-        pressSetFullScreen();
-    }
+    ui->actionFull_Screen->setChecked(false);
 }
 
 void MainWindow::pressPrevious()
@@ -591,8 +579,8 @@ void MainWindow::pressPreference()
     if(opt->exec()){
         OptionsValues o = opt->getOptions();
 
-        if(o.enableColors!=options.enableColors)
-            emit setColorsEnabled(o.enableColors);
+        //if(o.enableColors!=options.enableColors)
+        //    emit setColorsEnabled(o.enableColors);
 
         //emit setColors(o.colors);
 
@@ -665,6 +653,8 @@ void MainWindow::saveRecent()
     file.open(QFile::WriteOnly);
 
     QTextStream stream(&file);
+    stream.setCodec("UTF-8");
+    //stream.setCodec(QTextStream::UnicodeUTF8);
 
     QDomDocument dom;
 
@@ -720,11 +710,15 @@ void MainWindow::addRecent(XTAinfo &info)
             return;
         }
     }
+    if(info.filepath.isEmpty())
+        return;
+
     RecentFile rf;
     rf.title = info.title;
     rf.artist = info.artist;
     rf.path = info.filepath;
     rf.date = QDateTime::currentDateTime();
+
     recent.push_back(rf);
     updateRecent();
 }
@@ -783,8 +777,11 @@ void MainWindow::pressPreview()
 
     QPrintPreviewDialog *pDialog = new QPrintPreviewDialog(this,Qt::Dialog);
     connect(pDialog, SIGNAL(paintRequested(QPrinter*)), tab, SLOT(print(QPrinter*)));
+    QPrinter *printer = pDialog->printer();
+    printer->setPageMargins(10,10,10,10,QPrinter::Millimeter);
+    QString default_filename = tab->getXTA().createFileName();
+    printer->setOutputFileName(default_filename);
     pDialog->exec();
-
 }
 
 void MainWindow::pressPrint()
@@ -794,7 +791,8 @@ void MainWindow::pressPrint()
 
     QPrintPreview *pDialog = new QPrintPreview(this,Qt::Dialog);
     connect(pDialog, SIGNAL(paintRequested(QPrinter*)), tab, SLOT(print(QPrinter*)));
-
+    QPrinter *printer = pDialog->getPrinter();
+    printer->setPageMargins(10,10,10,10,QPrinter::Millimeter);
     QString default_filename = tab->getXTA().createFileName();
     pDialog->pressPrint(default_filename);
 }
@@ -815,6 +813,8 @@ void MainWindow::pressExportPDF()
 
     QPrintPreview *pDialog = new QPrintPreview(this,Qt::Dialog);
     connect(pDialog, SIGNAL(paintRequested(QPrinter*)), tab, SLOT(print(QPrinter*)));
+    QPrinter *printer = pDialog->getPrinter();
+    printer->setPageMargins(10,10,10,10,QPrinter::Millimeter);
     pDialog->exportPDF(filename);
 
     QMessageBox::information(this,tr("Export PDF"),tr("PDF exported : %1").arg(filename));
