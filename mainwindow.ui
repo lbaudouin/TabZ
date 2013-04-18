@@ -142,6 +142,7 @@
     <addaction name="separator"/>
     <addaction name="actionSearch_lyrics"/>
     <addaction name="actionSearch_XTA"/>
+    <addaction name="actionDownload_XTA"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -578,6 +579,18 @@
    </property>
    <property name="text">
     <string>Export PDF</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionDownload_XTA">
+   <property name="icon">
+    <iconset resource="ressource.qrc">
+     <normaloff>:/images/web</normaloff>:/images/web</iconset>
+   </property>
+   <property name="text">
+    <string>Download XTA</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>

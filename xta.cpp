@@ -5,7 +5,7 @@ XTA::XTA(QWidget *parent) : parent_(parent)
 
 }
 
-XTAinfo XTA::parse(QString filepath)
+XTAinfo XTA::parse(QString filepath, bool *ok)
 {
     QDomDocument *dom = new QDomDocument("docXML");
     QFile xml_doc(filepath);
@@ -28,12 +28,16 @@ XTAinfo XTA::parse(QString filepath)
         if(!xml_doc.open(QIODevice::ReadOnly)){
             if(parent_)
                 QMessageBox::warning(parent_,tr("Failed to open XML document"),tr("The XML document '%1' could not be opened. Verify that the name is correct and that the document is well placed.").arg(filepath));
+            if(ok!=0)
+                *ok = false;
             return XTAinfo("","");
         }
         if (!dom->setContent(&xml_doc)){
             xml_doc.close();
             if(parent_)
                 QMessageBox::warning(parent_,tr("Error opening the XML document"),tr("The XML document could not be assigned to the object QDomDocument."));
+            if(ok!=0)
+                *ok = false;
             return XTAinfo("","");
         }
 
@@ -58,6 +62,8 @@ XTAinfo XTA::parse(QString filepath)
             node = node.nextSibling();
         }
 
+        if(ok!=0)
+            *ok = true;
         xml_doc.close();
     }
 
@@ -142,6 +148,7 @@ void XTA::save(QString filepath, XTAinfo xta)
     file.open(QFile::WriteOnly);
 
     QTextStream stream(&file);
+    stream.setCodec("UTF-8");
 
     QFileInfo fi(filepath);
     if(fi.suffix()=="txt" || fi.suffix()=="TXT"){

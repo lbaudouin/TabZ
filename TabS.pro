@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     optionsform.cpp \
     chords.cpp \
     httpupdate.cpp \
-    qprintpreview.cpp #\
+    qprintpreview.cpp \ #\
+    downloadxta.cpp
     #myprintpreviewwidget.cpp# \
     #myprinterprivate.cpp
 
@@ -36,14 +37,16 @@ HEADERS  += mainwindow.h \
     chords.h \
     httpupdate.h \
     qprintpreview.h \
-    qprogressbardialog.h #\
+    qprogressbardialog.h \ #\
+    downloadxta.h
     #myprintpreviewwidget.h #\
     #myprinterprivate.h
 
 FORMS    += mainwindow.ui
 
 OTHER_FILES += \
-    TODO.diff
+    TODO.diff \
+    win32/TABS_VERSION
 
 RESOURCES += \
     ressource.qrc

@@ -44,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->tabWidget,SIGNAL(tabCloseRequested(int)),this,SLOT(tabCloseRequest(int)));
     connect(ui->actionSearch_lyrics,SIGNAL(triggered()),this,SLOT(pressSearchLyrics()));
     connect(ui->actionSearch_XTA,SIGNAL(triggered()),this,SLOT(pressSearchXTA()));
+    connect(ui->actionDownload_XTA,SIGNAL(triggered()),this,SLOT(pressDownloadXTA()));
     connect(ui->actionPreferences,SIGNAL(triggered()),this,SLOT(pressPreference()));
     connect(ui->actionClear,SIGNAL(triggered()),this,SLOT(clearRecent()));
     connect(ui->actionOpen_previous_tabs,SIGNAL(triggered()),this,SLOT(pressOpenPrevious()));
@@ -349,10 +350,13 @@ void MainWindow::pressOpenPrevious()
             QFileInfo fi(recent[i].path);
 
             XTAinfo info(fi.absoluteFilePath(), fi.fileName());
-            info = xta->parse(fi.absoluteFilePath());
+            bool ok;
+            info = xta->parse(fi.absoluteFilePath(),&ok);
 
-            addTab( info );
-            addRecent(info);
+            if(ok){
+                addTab( info );
+                addRecent(info);
+            }
         }
     }
 }
@@ -573,22 +577,20 @@ void MainWindow::pressSearchXTA()
     QDesktopServices::openUrl(QUrl(search));
 }
 
+void MainWindow::pressDownloadXTA()
+{
+    DownloadXTA *dXTA = new DownloadXTA(this);
+    dXTA->setFolder( options.defaultPath );
+    dXTA->exec();
+}
+
 void MainWindow::pressPreference()
 {
     OptionsForm *opt = new OptionsForm(options,this);
     if(opt->exec()){
         OptionsValues o = opt->getOptions();
-
-        //if(o.enableColors!=options.enableColors)
-        //    emit setColorsEnabled(o.enableColors);
-
-        //emit setColors(o.colors);
-
         options = o;
-
         options.save(this);
-
-
         emit optionsChanged(options);
     }
 }
@@ -844,16 +846,12 @@ void MainWindow::handleMessage(const QString& message)
     }
 
     switch(action) {
-    case Print:
-    break;
-
-    case Open:
-    {
-        openFile(filename);
-        emit needToShow();
-    }
-    break;
-    default:
-    break;
+        case Print: break;
+        case Open: {
+            openFile(filename);
+            emit needToShow();
+            break;
+        }
+        default: break;
     };
 }

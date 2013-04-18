@@ -14,6 +14,7 @@
 #include "options.h"
 #include "optionsform.h"
 #include "chords.h"
+#include "downloadxta.h"
 
 struct RecentFile{
     QString title;
@@ -148,6 +149,7 @@ public slots:
 
     void pressSearchLyrics();
     void pressSearchXTA();
+    void pressDownloadXTA();
 
     void displaySaveIcon(int,bool);
 

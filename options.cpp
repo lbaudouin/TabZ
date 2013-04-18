@@ -36,6 +36,7 @@ void OptionsValues::save(QWidget *parent)
     file.open(QFile::WriteOnly);
 
     QTextStream stream(&file);
+    stream.setCodec("UTF-8");
 
     QDomDocument dom;
 

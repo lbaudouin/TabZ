@@ -74,6 +74,7 @@ TODO list
 - select chords to print
 *** print page number
 *** goto tab with Ctrl+<NUM>
+- rename Tab & action on artiste & title changes
 
 #### code ####
 - increase 'recent files' update speed

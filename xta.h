@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QFile>
 #include <QFileInfo>
+#include <QTextCodec>
 
 #include <QDebug>
 
@@ -17,7 +18,7 @@ class XTA : public QObject
 public:
     XTA(QWidget *parent = 0);
 
-    XTAinfo parse(QString filepath);
+    XTAinfo parse(QString filepath, bool *ok = 0);
     void save(QString filepath, XTAinfo xta);
 
 protected:

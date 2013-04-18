@@ -1,6 +1,6 @@
 #include <QtGui/QApplication>
 #include "mainwindow.h"
-#define CURRENT_VERSION "0.0.13"
+#define CURRENT_VERSION "0.0.14"
 
 #include "httpupdate.h"
 #include "qtsingleapplication/qtsingleapplication.h"
