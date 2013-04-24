@@ -39,6 +39,20 @@ public:
     QVector<HighlightingRule> getRules();
     void setRules(QVector<HighlightingRule> rules);
 
+    void addPersonalText(QStringList list) {
+        for(int i=0;i<list.size();i++){
+            personal << "\\b" + list[i] + "\\b";
+        }
+        //personal << list; }
+    }
+    void addPersonalRegExp(QStringList list) {
+        personal << list;
+    }
+    void resetPersonal() { personal.clear(); }
+    QStringList getPersonalRegExp(){
+        return personal;
+    }
+
 protected:
     void highlightBlock(const QString &text);
 
@@ -48,7 +62,8 @@ private:
 
     QTextCharFormat keywordFormat;
 
-    QStringList found;
+    QStringList personal;
+    HighlightingRule personalRule;
 
     bool enabled_;
 

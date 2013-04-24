@@ -15,6 +15,7 @@
 #include "optionsform.h"
 #include "chords.h"
 #include "downloadxta.h"
+#include "mytabwidget.h"
 
 struct RecentFile{
     QString title;
@@ -22,6 +23,51 @@ struct RecentFile{
     QString path;
     QDateTime date;
     bool wasOpen;
+
+
+    QString getName() const {
+        QString name;
+        if(title.isEmpty()){
+            name = path;
+        }else{
+            if(artist.isEmpty()){
+                name = title;
+            }else{
+                name = artist + " - " + title;
+            }
+        }
+        return name;
+    }
+
+    friend QDebug& operator<<( QDebug &stream, const RecentFile &info)
+    {
+        stream << info.date << info.getName();
+        return stream;
+    }
+};
+
+struct RecentDateComparer
+{
+    bool operator()(const RecentFile & a, const RecentFile & b) const
+    {
+        return a.date > b.date;
+    }
+};
+
+struct RecentTitleComparer
+{
+    bool operator()(const RecentFile & a, const RecentFile & b) const
+    {
+        return a.title < b.title;
+    }
+};
+
+struct RecentNameComparer
+{
+    bool operator()(const RecentFile & a, const RecentFile & b) const
+    {
+        return a.getName() < b.getName();
+    }
 };
 
 struct QPairFirstComparer
@@ -57,8 +103,6 @@ struct QPairSecondComparerInverse
     }
 };
 
-
-
 namespace Ui {
 class MainWindow;
 }
@@ -70,6 +114,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    void setVersion(QString _version) { version = _version; }
 
 protected:
     void setUpToolBar();
@@ -90,6 +136,8 @@ private:
 
     OptionsValues options;
 
+    QList<QAction*> listTabAction;
+
     QMap<QAction*,Tab*> mapTabAction;
 
     QList<RecentFile> recent;
@@ -98,6 +146,8 @@ private:
     QTime startTime;
 
     QAction *exitFullScreenAction;
+
+    QString version;
 
 signals:
     void setColorsEnabled(bool);
@@ -145,14 +195,13 @@ public slots:
     void pressPreference();
     void pressChordsManager();
 
-    void pressInsertTab();
-
     void pressSearchLyrics();
     void pressSearchXTA();
     void pressDownloadXTA();
 
     void displaySaveIcon(int,bool);
 
+    void tabMoved(int,int);
     void tabCloseRequest(int);
 
     void currentTabChanged(int);
@@ -161,6 +210,7 @@ public slots:
 
     void restart(QString);
 
+    void pressAbout();
 
     //For single instance
     void handleMessage(const QString& message);

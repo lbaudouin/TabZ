@@ -23,7 +23,7 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="QTabWidget" name="tabWidget">
+     <widget class="MyTabWidget" name="tabWidget">
       <property name="currentIndex">
        <number>-1</number>
       </property>
@@ -114,19 +114,9 @@
     <property name="title">
      <string>Display</string>
     </property>
-    <widget class="QMenu" name="menuTabs">
-     <property name="title">
-      <string>Tabs</string>
-     </property>
-     <addaction name="actionPrevious"/>
-     <addaction name="actionNext"/>
-     <addaction name="separator"/>
-    </widget>
     <addaction name="actionFull_Screen"/>
     <addaction name="actionEdit_mode"/>
     <addaction name="actionRead_only_mode"/>
-    <addaction name="separator"/>
-    <addaction name="menuTabs"/>
     <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menuTools">
@@ -135,19 +125,31 @@
     </property>
     <addaction name="actionChords_manager"/>
     <addaction name="separator"/>
-    <addaction name="actionInsert_Tab"/>
-    <addaction name="separator"/>
-    <addaction name="actionTranslate_FR_EN"/>
-    <addaction name="actionTranslate_EN_FR"/>
-    <addaction name="separator"/>
     <addaction name="actionSearch_lyrics"/>
     <addaction name="actionSearch_XTA"/>
     <addaction name="actionDownload_XTA"/>
    </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>?</string>
+    </property>
+    <addaction name="actionHelp"/>
+    <addaction name="actionAbout"/>
+   </widget>
+   <widget class="QMenu" name="menuTabs">
+    <property name="title">
+     <string>Tabs</string>
+    </property>
+    <addaction name="actionPrevious"/>
+    <addaction name="actionNext"/>
+    <addaction name="separator"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuDisplay"/>
+   <addaction name="menuTabs"/>
    <addaction name="menuTools"/>
+   <addaction name="menu"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -475,28 +477,6 @@
     <bool>true</bool>
    </property>
   </action>
-  <action name="actionPrevious">
-   <property name="text">
-    <string>Previous</string>
-   </property>
-   <property name="shortcut">
-    <string>Alt+Left</string>
-   </property>
-   <property name="iconVisibleInMenu">
-    <bool>true</bool>
-   </property>
-  </action>
-  <action name="actionNext">
-   <property name="text">
-    <string>Next</string>
-   </property>
-   <property name="shortcut">
-    <string>Alt+Right</string>
-   </property>
-   <property name="iconVisibleInMenu">
-    <bool>true</bool>
-   </property>
-  </action>
   <action name="actionSearch_lyrics">
    <property name="icon">
     <iconset resource="ressource.qrc">
@@ -527,8 +507,15 @@
    </property>
   </action>
   <action name="actionChords_manager">
+   <property name="icon">
+    <iconset resource="ressource.qrc">
+     <normaloff>:/images/chord</normaloff>:/images/chord</iconset>
+   </property>
    <property name="text">
     <string>Chords manager</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
    </property>
   </action>
   <action name="actionEdit_mode">
@@ -596,8 +583,65 @@
     <bool>true</bool>
    </property>
   </action>
+  <action name="actionHelp">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="ressource.qrc">
+     <normaloff>:/images/help</normaloff>:/images/help</iconset>
+   </property>
+   <property name="text">
+    <string>Help</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="icon">
+    <iconset resource="ressource.qrc">
+     <normaloff>:/images/info</normaloff>:/images/info</iconset>
+   </property>
+   <property name="text">
+    <string>About</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionPrevious">
+   <property name="text">
+    <string>Previous</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+Left</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionNext">
+   <property name="text">
+    <string>Next</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+Right</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>MyTabWidget</class>
+   <extends>QTabWidget</extends>
+   <header location="global">mytabwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="ressource.qrc"/>
  </resources>

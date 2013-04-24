@@ -33,6 +33,13 @@
         <file alias="TabS">images/TabS.png</file>
         <file alias="help">images/help.png</file>
         <file alias="pdf">images/pdf.png</file>
+        <file alias="hint">images/hint.png</file>
+        <file alias="info">images/info.png</file>
+        <file alias="chord">images/chord.png</file>
+        <file alias="A-La">images/A-La.png</file>
+        <file alias="insert-image">images/insert-image.png</file>
+        <file alias="La-A">images/La-A.png</file>
+        <file alias="tab">images/tab.png</file>
     </qresource>
     <qresource prefix="/lang">
         <file alias="lang_fr">TabS_fr.qm</file>

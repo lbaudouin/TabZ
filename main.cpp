@@ -1,11 +1,17 @@
+#define CURRENT_VERSION "0.0.19"
+
 #include <QtGui/QApplication>
 #include "mainwindow.h"
-#define CURRENT_VERSION "0.0.14"
 
 #include "httpupdate.h"
 #include "qtsingleapplication/qtsingleapplication.h"
 
-
+/** Main function
+ * Read arguments and return id/version if needed
+ * Test if one instance is already running
+ * Translate in french if needed
+ * Download update for WIN32
+**/
 int main(int argc, char *argv[])
 {
     QString path(argv[0]);
@@ -28,7 +34,7 @@ int main(int argc, char *argv[])
     }
 
     QtSingleApplication instance("TabS", argc, argv);
-    instance.setWindowIcon( QIcon(":images/TabS" ) );
+    instance.setWindowIcon( QIcon(":/images/TabS.png" ) );
     QString message;
     for(int a = 1; a < argc; ++a) {
         message += QString::fromUtf8(argv[a]);
@@ -99,6 +105,7 @@ int main(int argc, char *argv[])
 
     MainWindow w;
     w.handleMessage(message);
+    w.setVersion(CURRENT_VERSION);
     w.show();
 
     QObject::connect(&instance, SIGNAL(messageReceived(const QString&)), &w, SLOT(handleMessage(const QString&)));

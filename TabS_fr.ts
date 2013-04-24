@@ -161,6 +161,94 @@
     </message>
 </context>
 <context>
+    <name>DownloadXTA</name>
+    <message>
+        <location filename="downloadxta.cpp" line="50"/>
+        <source>Failed to open XML document</source>
+        <translation>Echec de l&apos;ouverture du document XML</translation>
+    </message>
+    <message>
+        <location filename="downloadxta.cpp" line="50"/>
+        <source>The XML document &apos;%1&apos; could not be opened. Verify that the name is correct and that the document is well placed.</source>
+        <translation>Le document XML &apos;%1&apos; ne peut être ouvert. Vérifiez que le nom est correct et que le document est placé au bon endroit.</translation>
+    </message>
+    <message>
+        <location filename="downloadxta.cpp" line="55"/>
+        <source>Error opening the XML document</source>
+        <translation>Erreur en ouvrant le fichier XML</translation>
+    </message>
+    <message>
+        <location filename="downloadxta.cpp" line="55"/>
+        <source>The XML document could not be assigned to the object QDomDocument.</source>
+        <translation>Le fichier XML ne peux pas être associé à un objet QDomDocument.</translation>
+    </message>
+    <message>
+        <location filename="downloadxta.cpp" line="107"/>
+        <source>Available songs</source>
+        <translation>Chansons disponibles</translation>
+    </message>
+    <message>
+        <location filename="downloadxta.cpp" line="173"/>
+        <source>The host name lookup failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="downloadxta.cpp" line="174"/>
+        <source>The server refused the connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="downloadxta.cpp" line="175"/>
+        <source>The server closed the connection unexpectedly</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="downloadxta.cpp" line="176"/>
+        <source>The server sent an invalid response header</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="downloadxta.cpp" line="177"/>
+        <source>The client could not read the content correctly because an error with respect to the content length occurred</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="downloadxta.cpp" line="178"/>
+        <source>The request was aborted with abort()</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="downloadxta.cpp" line="179"/>
+        <source>QHttp is using a proxy, and the proxy server requires authentication to establish a connection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="downloadxta.cpp" line="180"/>
+        <source>The web server requires authentication to complete the request</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="downloadxta.cpp" line="181"/>
+        <source>An unknown error occurred</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="downloadxta.cpp" line="186"/>
+        <source>Error</source>
+        <translation>Erreur</translation>
+    </message>
+    <message>
+        <location filename="downloadxta.cpp" line="195"/>
+        <source>Select output folder</source>
+        <translation>Choisir un dossier</translation>
+    </message>
+    <message>
+        <location filename="downloadxta.cpp" line="195"/>
+        <source>Folder path</source>
+        <translation>Dossier</translation>
+    </message>
+</context>
+<context>
     <name>HttpUpdate</name>
     <message>
         <location filename="httpupdate.cpp" line="18"/>
@@ -256,19 +344,19 @@
         <translation>Pas de nouvelle version disponible</translation>
     </message>
     <message>
-        <location filename="httpupdate.cpp" line="115"/>
+        <location filename="httpupdate.cpp" line="124"/>
         <source>%1Kb downloaded
 Please restart software to use the new version</source>
         <translation>%1ko téléchargés
 Merci de redémarrer le programme pour utiliser la nouvelle version</translation>
     </message>
     <message>
-        <location filename="httpupdate.cpp" line="116"/>
+        <location filename="httpupdate.cpp" line="125"/>
         <source>Restart</source>
         <translation>Redémarrer</translation>
     </message>
     <message>
-        <location filename="httpupdate.cpp" line="117"/>
+        <location filename="httpupdate.cpp" line="126"/>
         <source>Do not restart</source>
         <translation>Ne pas redémarrer</translation>
     </message>
@@ -321,380 +409,395 @@ Merci de redémarrer le programme pour utiliser la nouvelle version</translation
         <translation>Outils</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="166"/>
+        <location filename="mainwindow.ui" line="167"/>
         <source>Open</source>
         <translation>Ouvrir</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="169"/>
+        <location filename="mainwindow.ui" line="170"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="181"/>
-        <location filename="mainwindow.cpp" line="272"/>
+        <location filename="mainwindow.ui" line="182"/>
+        <location filename="mainwindow.cpp" line="275"/>
         <source>New</source>
         <translation>Nouveau</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="184"/>
+        <location filename="mainwindow.ui" line="185"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="195"/>
+        <location filename="mainwindow.ui" line="196"/>
         <source>Assist</source>
         <translation>Assistant</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="198"/>
+        <location filename="mainwindow.ui" line="199"/>
         <source>Ctrl+Shift+N</source>
         <translation>Ctrl+Shift+N</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="203"/>
+        <location filename="mainwindow.ui" line="204"/>
         <source>Open Folder</source>
         <translation>Ouvrir un dossier</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="206"/>
-        <location filename="mainwindow.ui" line="416"/>
+        <location filename="mainwindow.ui" line="207"/>
+        <location filename="mainwindow.ui" line="417"/>
         <source>Ctrl+F</source>
         <translation>Ctrl+F</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="211"/>
+        <location filename="mainwindow.ui" line="212"/>
         <source>Open All</source>
         <translation>Ouvrir tout</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="219"/>
+        <location filename="mainwindow.ui" line="220"/>
         <source>Edit List</source>
         <translation>Modifier la liste</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="224"/>
+        <location filename="mainwindow.ui" line="225"/>
         <source>Clear</source>
         <translation>Vider</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="233"/>
+        <location filename="mainwindow.ui" line="234"/>
         <source>Save</source>
         <translation>Enregistrer</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="236"/>
+        <location filename="mainwindow.ui" line="237"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="248"/>
-        <location filename="mainwindow.cpp" line="403"/>
+        <location filename="mainwindow.ui" line="249"/>
+        <location filename="mainwindow.cpp" line="417"/>
         <source>Save as</source>
         <translation>Enregistrer sous</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="251"/>
+        <location filename="mainwindow.ui" line="252"/>
         <source>Ctrl+Shift+S</source>
         <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="263"/>
+        <location filename="mainwindow.ui" line="264"/>
         <source>Close</source>
         <translation>Fermer</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="266"/>
+        <location filename="mainwindow.ui" line="267"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="274"/>
+        <location filename="mainwindow.ui" line="275"/>
         <source>Close All</source>
         <translation>Fermer tout</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="277"/>
+        <location filename="mainwindow.ui" line="278"/>
         <source>Ctrl+Shift+W</source>
         <translation>Ctrl+Shift+W</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="286"/>
+        <location filename="mainwindow.ui" line="287"/>
         <source>Preview</source>
         <translation>Aperçu</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="289"/>
+        <location filename="mainwindow.ui" line="290"/>
         <source>Ctrl+Shift+P</source>
         <translation>Ctrl+Shift+P</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="301"/>
+        <location filename="mainwindow.ui" line="302"/>
         <source>Print</source>
         <translation>Imprimer</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="304"/>
+        <location filename="mainwindow.ui" line="305"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="316"/>
+        <location filename="mainwindow.ui" line="317"/>
         <source>Quit</source>
         <translation>Quitter</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="319"/>
+        <location filename="mainwindow.ui" line="320"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="331"/>
+        <location filename="mainwindow.ui" line="332"/>
         <source>Undo</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="334"/>
+        <location filename="mainwindow.ui" line="335"/>
         <source>Ctrl+Z</source>
         <translation>Ctrl+Z</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="346"/>
+        <location filename="mainwindow.ui" line="347"/>
         <source>Redo</source>
         <translation>Rétablir</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="349"/>
+        <location filename="mainwindow.ui" line="350"/>
         <source>Ctrl+Shift+Z</source>
         <translation>Ctrl+Shift+Z</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="361"/>
+        <location filename="mainwindow.ui" line="362"/>
         <source>Cut</source>
         <translation>Couper</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="364"/>
+        <location filename="mainwindow.ui" line="365"/>
         <source>Ctrl+X</source>
         <translation>Ctrl+X</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="376"/>
+        <location filename="mainwindow.ui" line="377"/>
         <source>Copy</source>
         <translation>Copier</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="379"/>
+        <location filename="mainwindow.ui" line="380"/>
         <source>Ctrl+C</source>
         <translation>Ctrl+C</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="391"/>
+        <location filename="mainwindow.ui" line="392"/>
         <source>Paste</source>
         <translation>Coller</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="394"/>
+        <location filename="mainwindow.ui" line="395"/>
         <source>Ctrl+V</source>
         <translation>Ctrl+V</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="402"/>
+        <location filename="mainwindow.ui" line="403"/>
         <source>Select All</source>
         <translation>Sélectionner tout</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="405"/>
+        <location filename="mainwindow.ui" line="406"/>
         <source>Ctrl+A</source>
         <translation>Ctrl+A</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="413"/>
+        <location filename="mainwindow.ui" line="414"/>
         <source>Find</source>
         <translation>Rechercher</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="424"/>
+        <location filename="mainwindow.ui" line="425"/>
         <source>Find next</source>
         <translation>Rechercher suivant</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="427"/>
+        <location filename="mainwindow.ui" line="428"/>
         <source>F3</source>
         <translation>F3</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="436"/>
+        <location filename="mainwindow.ui" line="437"/>
         <source>Preferences</source>
         <translation>Préférences</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="447"/>
+        <location filename="mainwindow.ui" line="448"/>
         <source>Translate FR -&gt; EN</source>
         <translation>Traduire FR -&gt; AN</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="455"/>
+        <location filename="mainwindow.ui" line="456"/>
         <source>Translate EN -&gt; FR</source>
         <translation>Traduire AN -&gt; FR</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="468"/>
+        <location filename="mainwindow.ui" line="469"/>
         <source>Full Screen</source>
         <translation>Plein écran</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="471"/>
+        <location filename="mainwindow.ui" line="472"/>
         <source>Ctrl+Return</source>
         <translation>Ctrl+Return</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="479"/>
+        <location filename="mainwindow.ui" line="480"/>
         <source>Previous</source>
         <translation>Précédent</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="482"/>
+        <location filename="mainwindow.ui" line="483"/>
         <source>Alt+Left</source>
         <translation>Alt+Left</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="490"/>
+        <location filename="mainwindow.ui" line="491"/>
         <source>Next</source>
         <translation>Next</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="493"/>
+        <location filename="mainwindow.ui" line="494"/>
         <source>Alt+Right</source>
         <translation>Alt+Right</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="505"/>
-        <location filename="mainwindow.cpp" line="560"/>
+        <location filename="mainwindow.ui" line="506"/>
         <location filename="mainwindow.cpp" line="579"/>
+        <location filename="mainwindow.cpp" line="598"/>
         <source>Search lyrics</source>
         <translation>Rechercher les paroles</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="517"/>
+        <location filename="mainwindow.ui" line="518"/>
         <source>Search XTA</source>
         <translation>Rechercher des XTA</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="525"/>
+        <location filename="mainwindow.ui" line="526"/>
         <source>Open previous tabs</source>
         <translation>Ouvrir les onglets précédents</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="530"/>
+        <location filename="mainwindow.ui" line="531"/>
         <source>Chords manager</source>
         <translation>Gestionnaire d&apos;accords</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="539"/>
+        <location filename="mainwindow.ui" line="540"/>
         <source>Edit mode</source>
         <translation>Mode édition</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="542"/>
+        <location filename="mainwindow.ui" line="543"/>
         <source>Ctrl+E</source>
         <translation>Ctrl+E</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="557"/>
+        <location filename="mainwindow.ui" line="558"/>
         <source>Read-only mode</source>
         <translation>Mode lecture seule</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="560"/>
+        <location filename="mainwindow.ui" line="561"/>
         <source>Ctrl+R</source>
         <translation>Ctrl+R</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="571"/>
+        <location filename="mainwindow.ui" line="572"/>
         <source>Insert Tab</source>
         <translation>Insérer une tablature</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="580"/>
-        <location filename="mainwindow.cpp" line="810"/>
-        <location filename="mainwindow.cpp" line="820"/>
+        <location filename="mainwindow.ui" line="581"/>
+        <location filename="mainwindow.cpp" line="837"/>
+        <location filename="mainwindow.cpp" line="849"/>
         <source>Export PDF</source>
         <translation>Exporter en PDF</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="195"/>
+        <location filename="mainwindow.ui" line="593"/>
+        <source>Download XTA</source>
+        <translation>Télécharger des XTA</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="186"/>
         <source>Exit Full Screen</source>
         <translation>Sortir du plein-écran</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="323"/>
-        <location filename="mainwindow.cpp" line="341"/>
+        <location filename="mainwindow.cpp" line="334"/>
+        <location filename="mainwindow.cpp" line="352"/>
         <source>Open file</source>
         <translation>Ouvrir</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="403"/>
-        <location filename="mainwindow.cpp" line="407"/>
+        <location filename="mainwindow.cpp" line="417"/>
+        <location filename="mainwindow.cpp" line="421"/>
         <source>XTA files (*.xta)</source>
         <translation>Fichier XTA (*.xta)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="403"/>
-        <location filename="mainwindow.cpp" line="410"/>
+        <location filename="mainwindow.cpp" line="417"/>
+        <location filename="mainwindow.cpp" line="424"/>
         <source>TXT files (*.txt)</source>
         <translation>Fichier texte (*.txt)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="416"/>
+        <location filename="mainwindow.cpp" line="430"/>
         <source>&apos;%1&apos; already exists.
 Do you want to replace it?</source>
         <translation>&apos;%1&apos; existe déjà.
 Voulez-vous le remplacer ?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="557"/>
+        <location filename="mainwindow.cpp" line="451"/>
+        <source>Modified</source>
+        <translation>Modification</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="451"/>
+        <source>Do you want to save : %1</source>
+        <translation>Voulez-vous sauvegarder : %1</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="576"/>
         <source>lyrics</source>
         <translation>lyrics</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="560"/>
         <location filename="mainwindow.cpp" line="579"/>
+        <location filename="mainwindow.cpp" line="598"/>
         <source>Search text:</source>
         <translation>Texte de la recherche :</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="626"/>
+        <location filename="mainwindow.cpp" line="643"/>
         <source>Failed to open XML document</source>
         <translation>Echec de l&apos;ouverture du document XML</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="626"/>
+        <location filename="mainwindow.cpp" line="643"/>
         <source>The XML document &apos;%1&apos; could not be opened. Verify that the name is correct and that the document is well placed.</source>
         <translation>Le document XML &apos;%1&apos; ne peut être ouvert. Vérifiez que le nom est correct et que le document est placé au bon endroit.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="633"/>
+        <location filename="mainwindow.cpp" line="650"/>
         <source>Error opening the XML document</source>
         <translation>Erreur en ouvrant le fichier XML</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="633"/>
+        <location filename="mainwindow.cpp" line="650"/>
         <source>The XML document could not be assigned to the object QDomDocument.</source>
         <translation>Le fichier XML ne peux pas être associé à un objet QDomDocument.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="647"/>
+        <location filename="mainwindow.cpp" line="664"/>
         <source>empty_title</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="648"/>
+        <location filename="mainwindow.cpp" line="665"/>
         <source>empty_artist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="820"/>
+        <location filename="mainwindow.cpp" line="849"/>
         <source>PDF exported : %1</source>
         <translation>PDF exporté : %1</translation>
     </message>
@@ -775,24 +878,24 @@ Voulez-vous le remplacer ?</translation>
 <context>
     <name>OptionsValues</name>
     <message>
-        <location filename="options.cpp" line="92"/>
+        <location filename="options.cpp" line="93"/>
         <source>Failed to open XML document</source>
-        <translation type="unfinished">Echec de l&apos;ouverture du document XML</translation>
+        <translation>Echec de l&apos;ouverture du document XML</translation>
     </message>
     <message>
-        <location filename="options.cpp" line="92"/>
+        <location filename="options.cpp" line="93"/>
         <source>The XML document &apos;%1&apos; could not be opened. Verify that the name is correct and that the document is well placed.</source>
-        <translation type="unfinished">Le document XML &apos;%1&apos; ne peut être ouvert. Vérifiez que le nom est correct et que le document est placé au bon endroit.</translation>
+        <translation>Le document XML &apos;%1&apos; ne peut être ouvert. Vérifiez que le nom est correct et que le document est placé au bon endroit.</translation>
     </message>
     <message>
-        <location filename="options.cpp" line="98"/>
+        <location filename="options.cpp" line="99"/>
         <source>Error opening the XML document</source>
-        <translation type="unfinished">Erreur en ouvrant le fichier XML</translation>
+        <translation>Erreur en ouvrant le fichier XML</translation>
     </message>
     <message>
-        <location filename="options.cpp" line="98"/>
+        <location filename="options.cpp" line="99"/>
         <source>The XML document could not be assigned to the object QDomDocument.</source>
-        <translation type="unfinished">Le fichier XML ne peux pas être associé à un objet QDomDocument.</translation>
+        <translation>Le fichier XML ne peux pas être associé à un objet QDomDocument.</translation>
     </message>
 </context>
 <context>
@@ -805,27 +908,27 @@ Voulez-vous le remplacer ?</translation>
     <message>
         <location filename="qprintpreview.cpp" line="133"/>
         <source>Print Preview</source>
-        <translation type="unfinished"></translation>
+        <translation>Aperçu avant impression</translation>
     </message>
     <message>
         <location filename="qprintpreview.cpp" line="161"/>
         <source>Next page</source>
-        <translation type="unfinished"></translation>
+        <translation>Page suivante</translation>
     </message>
     <message>
         <location filename="qprintpreview.cpp" line="162"/>
         <source>Previous page</source>
-        <translation type="unfinished"></translation>
+        <translation>Page précédente</translation>
     </message>
     <message>
         <location filename="qprintpreview.cpp" line="163"/>
         <source>First page</source>
-        <translation type="unfinished"></translation>
+        <translation>Première page</translation>
     </message>
     <message>
         <location filename="qprintpreview.cpp" line="164"/>
         <source>Last page</source>
-        <translation type="unfinished"></translation>
+        <translation>Dernière page</translation>
     </message>
     <message>
         <location filename="qprintpreview.cpp" line="173"/>
@@ -850,12 +953,12 @@ Voulez-vous le remplacer ?</translation>
     <message>
         <location filename="qprintpreview.cpp" line="192"/>
         <source>Portrait</source>
-        <translation type="unfinished"></translation>
+        <translation>Portrait</translation>
     </message>
     <message>
         <location filename="qprintpreview.cpp" line="193"/>
         <source>Landscape</source>
-        <translation type="unfinished"></translation>
+        <translation>Paysage</translation>
     </message>
     <message>
         <location filename="qprintpreview.cpp" line="203"/>
@@ -875,17 +978,17 @@ Voulez-vous le remplacer ?</translation>
     <message>
         <location filename="qprintpreview.cpp" line="220"/>
         <source>Print</source>
-        <translation type="unfinished">Imprimer</translation>
+        <translation>Imprimer</translation>
     </message>
     <message>
         <location filename="qprintpreview.cpp" line="221"/>
         <source>Page setup</source>
-        <translation type="unfinished"></translation>
+        <translation>Mise en page</translation>
     </message>
     <message>
         <location filename="qprintpreview.cpp" line="227"/>
         <source>Close</source>
-        <translation type="unfinished">Fermer</translation>
+        <translation>Fermer</translation>
     </message>
     <message>
         <location filename="qprintpreview.cpp" line="372"/>
@@ -914,17 +1017,17 @@ Voulez-vous le remplacer ?</translation>
 <context>
     <name>Strings</name>
     <message>
-        <location filename="guitar.cpp" line="342"/>
+        <location filename="guitar.cpp" line="348"/>
         <source>Modify</source>
         <translation>Modifier</translation>
     </message>
     <message>
-        <location filename="guitar.cpp" line="348"/>
+        <location filename="guitar.cpp" line="354"/>
         <source>Reduce</source>
         <translation>Réduire</translation>
     </message>
     <message>
-        <location filename="guitar.cpp" line="353"/>
+        <location filename="guitar.cpp" line="359"/>
         <source>Close</source>
         <translation>Fermer</translation>
     </message>
@@ -957,97 +1060,111 @@ Voulez-vous le remplacer ?</translation>
         <translation>Capo :</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="148"/>
-        <location filename="tab.cpp" line="149"/>
+        <location filename="tab.cpp" line="151"/>
+        <location filename="tab.cpp" line="152"/>
         <source>Add new chord</source>
         <translation>Ajouter un nouvel accord</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="152"/>
-        <location filename="tab.cpp" line="153"/>
+        <location filename="tab.cpp" line="155"/>
+        <location filename="tab.cpp" line="156"/>
         <source>Import from text</source>
         <translation>Importer depuis le texte</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="156"/>
-        <location filename="tab.cpp" line="157"/>
+        <location filename="tab.cpp" line="159"/>
+        <location filename="tab.cpp" line="160"/>
         <source>Import from XTA</source>
         <translation>Importer depuis un fichier XTA</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="160"/>
-        <location filename="tab.cpp" line="161"/>
+        <location filename="tab.cpp" line="163"/>
+        <location filename="tab.cpp" line="164"/>
         <source>Manage</source>
         <translation>Gestion</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="312"/>
         <source>(No title)</source>
-        <translation>(Pas de titre)</translation>
+        <translation type="obsolete">(Pas de titre)</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="314"/>
+        <location filename="tab.cpp" line="339"/>
         <source>%1 - %2</source>
         <comment>artist - title</comment>
         <translation>%1 - %2</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="318"/>
         <source>	 [Capo: %1, Tuning: %2]</source>
-        <translation>	 [Capo: %1, Accordage: %2]</translation>
+        <translation type="obsolete">	 [Capo: %1, Accordage: %2]</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="540"/>
+        <location filename="tab.cpp" line="519"/>
         <source>Select all</source>
         <translation>Sélectionner tout</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="542"/>
+        <location filename="tab.cpp" line="521"/>
         <source>Unselect all</source>
         <translation>Désélectionner tout</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="576"/>
+        <location filename="tab.cpp" line="555"/>
         <source>Information</source>
         <translation>Information</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="576"/>
+        <location filename="tab.cpp" line="555"/>
         <source>No chord found</source>
         <translation>Pas d&apos;accords trouvé</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="749"/>
+        <location filename="tab.cpp" line="343"/>
+        <location filename="tab.cpp" line="747"/>
         <source>[Capo: %1, Tuning: %2]</source>
         <translation>[Capo: %1, Accordage: %2]</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="775"/>
+        <location filename="tab.cpp" line="337"/>
+        <source>No title</source>
+        <translation>(Pas de titre)</translation>
+    </message>
+    <message>
+        <location filename="tab.cpp" line="345"/>
+        <source>[Capo: %1]</source>
+        <translation>[Capo : %1]</translation>
+    </message>
+    <message>
+        <location filename="tab.cpp" line="347"/>
+        <source>[Tuning: %1]</source>
+        <translation>[Accordage : %1 ]</translation>
+    </message>
+    <message>
+        <location filename="tab.cpp" line="771"/>
         <source>Page %1 of %2</source>
         <translation>Page %1 sur %2</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="940"/>
+        <location filename="tab.cpp" line="949"/>
         <source>Insert text</source>
         <translation>Insérer du texte</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="959"/>
+        <location filename="tab.cpp" line="968"/>
         <source>Import from file</source>
         <translation>Importer depuis un fichier</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="959"/>
+        <location filename="tab.cpp" line="968"/>
         <source>XTA files (*.xta)</source>
         <translation>Fichier XTA (*.xta)</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="970"/>
+        <location filename="tab.cpp" line="979"/>
         <source>Insert length</source>
         <translation>Choisir la longueur</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="970"/>
+        <location filename="tab.cpp" line="979"/>
         <source>Length:</source>
         <translation>Longueur :</translation>
     </message>
@@ -1065,14 +1182,24 @@ Voulez-vous le remplacer ?</translation>
         <translation>Le document XML &apos;%1&apos; ne peut être ouvert. Vérifiez que le nom est correct et que le document est placé au bon endroit.</translation>
     </message>
     <message>
-        <location filename="xta.cpp" line="36"/>
+        <location filename="xta.cpp" line="38"/>
         <source>Error opening the XML document</source>
         <translation>Erreur en ouvrant le fichier XML</translation>
     </message>
     <message>
-        <location filename="xta.cpp" line="36"/>
+        <location filename="xta.cpp" line="38"/>
         <source>The XML document could not be assigned to the object QDomDocument.</source>
         <translation>Le fichier XML ne peux pas être associé à un objet QDomDocument.</translation>
+    </message>
+    <message>
+        <location filename="xta.cpp" line="148"/>
+        <source>Error</source>
+        <translation>Erreur</translation>
+    </message>
+    <message>
+        <location filename="xta.cpp" line="148"/>
+        <source>Invalid file suffix, must be &apos;txt&apos;&apos; or &apos;xta&apos;</source>
+        <translation>Extension invalide, utiliser les fichiers &apos;txt&apos; ou &apos;xta&apos;</translation>
     </message>
 </context>
 </TS>

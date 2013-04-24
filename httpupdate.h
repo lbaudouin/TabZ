@@ -25,8 +25,8 @@ struct Version {
         }
     }
 
-    bool valid;
     int major_,minor_,revision_;
+    bool valid;
 };
 
 inline bool operator<(const Version &v1, const Version &v2){

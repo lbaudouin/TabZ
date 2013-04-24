@@ -144,19 +144,23 @@ void XTA::readSongInfo(QDomNode &node, XTAinfo &xta)
 
 void XTA::save(QString filepath, XTAinfo xta)
 {
+    if(!filepath.endsWith("txt",Qt::CaseInsensitive) && !filepath.endsWith("xta",Qt::CaseInsensitive)){
+        QMessageBox::critical(this,tr("Error"),tr("Invalid file suffix, must be 'txt'' or 'xta'"));
+        return;
+    }
+
     QFile file(filepath);
     file.open(QFile::WriteOnly);
 
     QTextStream stream(&file);
     stream.setCodec("UTF-8");
 
-    QFileInfo fi(filepath);
-    if(fi.suffix()=="txt" || fi.suffix()=="TXT"){
+    if(filepath.endsWith("txt",Qt::CaseInsensitive)){
         qDebug() << "Save txt";
         stream << xta.text;
     }
 
-    if(fi.suffix()=="xta" || fi.suffix()=="XTA"){
+    if(filepath.endsWith("xta",Qt::CaseInsensitive)){
         QDomDocument dom;
 
         QDomElement nodeXTA = dom.createElement("XTA");
@@ -176,7 +180,6 @@ void XTA::save(QString filepath, XTAinfo xta)
             addNode(dom,node2,"titre",xta.title);
             addNode(dom,node2,"artiste",xta.artist);
             addNode(dom,node2,"album",xta.album);
-
 
             addNode(dom,node1,"FichierGTP",xta.file_gp);
             addNode(dom,node1,"FichierMP3",xta.file_mp3);

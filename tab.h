@@ -18,20 +18,7 @@
 #include "guitar.h"
 #include "options.h"
 #include "chords.h"
-
-//TODO, move in a separate file
-class QQCheckBox : public QCheckBox{
-    Q_OBJECT
-public:
-    QQCheckBox(QString text) : QCheckBox(text) {}
-public slots:
-    void uncheck(){
-        setChecked(false);
-    }
-    void check(){
-        setChecked(true);
-    }
-};
+#include "mycheckbox.h"
 
 class Tab : public QWidget
 {
@@ -60,6 +47,8 @@ private:
     QTextEdit *edit;
     QLabel *labelInfo,*specialInfo;
     XTAinfo info,modified_info;
+
+    QToolBar *tabToolBar;
 
     QVBoxLayout *previewLayout;
 
@@ -142,8 +131,12 @@ public slots:
     void setOptions(OptionsValues options);
 
     void insertTab();
+    void insertImage();
 
     void setAction(QAction*);
+
+    void translateFrEn();
+    void translateEnFr();
     
 };
 

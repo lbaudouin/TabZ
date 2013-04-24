@@ -21,7 +21,7 @@ SOURCES += main.cpp\
     optionsform.cpp \
     chords.cpp \
     httpupdate.cpp \
-    qprintpreview.cpp \ #\
+    qprintpreview.cpp \
     downloadxta.cpp
     #myprintpreviewwidget.cpp# \
     #myprinterprivate.cpp
@@ -38,7 +38,9 @@ HEADERS  += mainwindow.h \
     httpupdate.h \
     qprintpreview.h \
     qprogressbardialog.h \ #\
-    downloadxta.h
+    downloadxta.h \
+    mycheckbox.h \
+    mytabwidget.h
     #myprintpreviewwidget.h #\
     #myprinterprivate.h
 
@@ -50,5 +52,7 @@ OTHER_FILES += \
 
 RESOURCES += \
     ressource.qrc
+
+RC_FILE = TabS.rc
 
 include(qtsingleapplication/qtsingleapplication.pri)

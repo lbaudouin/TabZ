@@ -7,7 +7,7 @@
 * @param name of the file on local
 * @warning Download on lbaudouin.chez.com
 */
-HttpUpdate::HttpUpdate(QString version, QString versionFile, QString softwareFile, QString updateFile, QWidget* parent) : QWidget(parent), download(0), http(0), buf(0)
+HttpUpdate::HttpUpdate(QString version, QString versionFile, QString softwareFile, QString updateFile, QWidget* parent) : QWidget(parent), http(0), download(0), buf(0)
 {
     currentVersionString = version;
     setVersionFileName(versionFile);
@@ -110,6 +110,15 @@ void HttpUpdate::downloadFinished(int id, bool error)
         download->close();
         int size = download->size()/1000.0;
 
+        progress->close();
+
+        //TODO : Force restart (create an options ?)
+        bool forceRestart = true;
+        if(forceRestart){
+            emit this->restart(currentExecutable);
+            return;
+        }
+
         //Restart software
         QMessageBox mess;
         mess.setText(tr("%1Kb downloaded\nPlease restart software to use the new version").arg(size));
@@ -123,7 +132,6 @@ void HttpUpdate::downloadFinished(int id, bool error)
         if(button==QMessageBox::AcceptRole){
             emit this->restart(currentExecutable);
         }
-        progress->close();
         return;
     }
 }

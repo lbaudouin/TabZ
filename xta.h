@@ -12,7 +12,7 @@
 
 #include "xta_info.h"
 
-class XTA : public QObject
+class XTA : public QWidget
 {
     Q_OBJECT
 public:

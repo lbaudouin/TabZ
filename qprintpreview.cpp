@@ -54,6 +54,7 @@ void QPrintPreview::init(QPrinter *_printer)
 
     QPrintPreviewMainWindow *mw = new QPrintPreviewMainWindow(this);
     QToolBar *toolbar = new QToolBar(mw);
+    toolbar->setFloatable(false);
     toolbar->addAction(fitWidthAction);
     toolbar->addAction(fitPageAction);
     toolbar->addSeparator();

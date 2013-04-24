@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
 
+    //Parse options (read optionqs.xml file)
     options.parse(this);
 
     //Read recent files list
@@ -42,6 +43,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(currentTabChanged(int)));
     connect(ui->tabWidget,SIGNAL(tabCloseRequested(int)),this,SLOT(tabCloseRequest(int)));
+    connect(ui->tabWidget,SIGNAL(tabMoved(int,int)),this,SLOT(tabMoved(int,int)));
+
     connect(ui->actionSearch_lyrics,SIGNAL(triggered()),this,SLOT(pressSearchLyrics()));
     connect(ui->actionSearch_XTA,SIGNAL(triggered()),this,SLOT(pressSearchXTA()));
     connect(ui->actionDownload_XTA,SIGNAL(triggered()),this,SLOT(pressDownloadXTA()));
@@ -55,17 +58,21 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->actionPreview,SIGNAL(triggered()),this,SLOT(pressPreview()));
     connect(ui->actionPrint,SIGNAL(triggered()),this,SLOT(pressPrint()));
-    connect(ui->actionInsert_Tab,SIGNAL(triggered()),this,SLOT(pressInsertTab()));
 
+
+    //Set selected window mode
     switch(options.openSizeMode){
     case 0 : this->setWindowState(Qt::WindowNoState); break;
     case 1 : this->setWindowState(Qt::WindowMaximized); break;
     case 2 : /*this->setWindowState(Qt::WindowFullScreen);*/ ui->actionFull_Screen->setChecked(true); break;
     default : this->setWindowState(Qt::WindowNoState); break;
     }
-    //ui->actionFull_Screen->setChecked(options.openSizeMode==2);
 }
 
+/** Destroy main window
+  Save current tab state (open or not) in recent.xml
+  Close all tabs
+*/
 MainWindow::~MainWindow()
 {
     QList<QString> paths;
@@ -81,67 +88,77 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+/** Set up the menu (recent files)
+  Sort recent files by artist or by date
+  Display in the main menu
+*/
 void MainWindow::setUpMenu()
 {
-    QMap<QString,QMenu*> mapMenu;   //QMap< artsit, QMenu* >
-    QMap<QString,QList<QPair<QString,QString> > > mapTitle; //QMap< artist, QList< QPair < title, path > > >
-    QList< QPair<QDateTime,QPair<QString,QString> > > listDate; //QList < QPair< date, QPair< "artiste - title", path > > >
+    //Sort list by date
+    qSort(recent.begin(),recent.end(),RecentDateComparer());
+
+    //Add all recent files to 're-open/by date' menu
+    for(int i=0;i<recent.size();i++){
+        QAction *action = ui->menuBy_date->addAction( recent.at(i).getName() );
+        action->setData( recent.at(i).path );
+        recentAction.push_back( action );
+        connect(action,SIGNAL(triggered()),this,SLOT(openFile()));
+    }
+
+    //Add 5 first recent file to the 're-open' menu
+    for(int i=0;i<qMin(5,recent.size());i++){
+        QAction *action = ui->menuRe_Open->addAction( recent.at(i).getName() );
+        action->setData( recent.at(i).path );
+        recentAction.push_back( action );
+        connect(action,SIGNAL(triggered()),this,SLOT(openFile()));
+    }
+
+    //Sort list by artist
+    qSort(recent.begin(),recent.end(),RecentNameComparer());
+    //rf_listqDebug() << rf_list;
+
+    QMap<QString,QList<RecentFile> > mapArtist;
+    QMap<QString,QMenu*> mapMenu;
 
     for(int i=0;i<recent.size();i++){
-        QString text;
-        if(recent[i].title.isEmpty())
-            text = recent[i].path;
-        else
-            text = recent[i].artist + " - " + recent[i].title;
+        RecentFile rf = recent[i];
 
-        listDate.push_back( QPair<QDateTime,QPair<QString,QString> >( recent[i].date, QPair<QString,QString>(text,recent[i].path) ) );
+        //Create menu with artist name
+        if(!rf.artist.isEmpty() && !rf.title.isEmpty()){
+            if(!mapMenu.contains(rf.artist)){
+                QMenu *menu = new QMenu(rf.artist);
+                mapMenu.insert(rf.artist, menu);
 
-        if(!recent[i].artist.isEmpty() && !recent[i].title.isEmpty()){
-            if(!mapMenu.contains(recent[i].artist)){
-                mapMenu.insert(recent[i].artist,new QMenu(recent[i].artist));
+                ui->menuBy_artist->addMenu( menu );
             }
-            mapTitle[recent[i].artist].push_back( QPair<QString,QString>(recent[i].title,recent[i].path) );
+            mapArtist[rf.artist].push_back( rf );
         }
     }
 
-    qSort(listDate.begin(),listDate.end(),QPairFirstComparerInverse());
+    QList<QString> listArtist = mapArtist.keys();
+    for(int i=0;i<listArtist.size();i++){
+        //Sort by title
+        QList<RecentFile> list = mapArtist[listArtist[i]];
+        qSort(list.begin(),list.end(),RecentTitleComparer());
 
-    for(int i=0;i<listDate.size();i++){
-        QAction *action = ui->menuBy_date->addAction( listDate.at(i).second.first );
-        action->setData( listDate.at(i).second.second );
-        recentAction.push_back( action );
-        connect(action,SIGNAL(triggered()),this,SLOT(openFile()));
-    }
-
-    for(int i=0;i<qMin(5,listDate.size());i++){
-        QAction *action = ui->menuRe_Open->addAction( listDate.at(i).second.first );
-        action->setData( listDate.at(i).second.second );
-        recentAction.push_back( action );
-        connect(action,SIGNAL(triggered()),this,SLOT(openFile()));
-    }
-
-
-    QList<QString> listMenu = mapMenu.keys();
-    for(int i=0;i<listMenu.size();i++){
-        QMenu *menu = mapMenu[listMenu[i]];
-        ui->menuBy_artist->addMenu( menu );
-        recentAction.push_back( menu );
-
-        QList<QPair<QString,QString> > list = mapTitle[listMenu[i]];
-        qSort(list.begin(),list.end(),QPairFirstComparer());
+        //get artist menu
+        QMenu *menu = mapMenu[listArtist[i]];
 
         for(int j=0;j<list.size();j++){
-            QAction *action = menu->addAction( list[j].first );
-            action->setData( list[j].second );
-            //recentAction.push_back( action );
+            QAction *action = menu->addAction( list[j].title );
+            action->setData( list[j].path );
+            recentAction.push_back( action );
             connect(action,SIGNAL(triggered()),this,SLOT(openFile()));
         }
     }
 
-    ui->menuBy_artist->setEnabled(!listMenu.isEmpty());
-    ui->menuBy_date->setEnabled(!listDate.isEmpty());
+    //Enable menus
+    ui->menuBy_artist->setEnabled(!listArtist.isEmpty());
+    ui->menuBy_date->setEnabled(!recent.isEmpty());
 }
 
+/** Set up the tool bar
+**/
 void MainWindow::setUpToolBar()
 {
     ui->mainToolBar->setFloatable(false);
@@ -194,8 +211,13 @@ void MainWindow::setUpToolBar()
     connect(ui->actionUndo,SIGNAL(triggered()),this,SLOT(pressUndo()));
     connect(ui->actionRedo,SIGNAL(triggered()),this,SLOT(pressRedo()));
 
+    connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(pressAbout()));
+
 }
 
+/** Function called when current tab changed
+  @param index numero of current tab
+**/
 void MainWindow::currentTabChanged(int index){
     if(index<0 || index>ui->tabWidget->count()) return;
     Tab* tab = getCurrentTab();
@@ -207,15 +229,52 @@ void MainWindow::currentTabChanged(int index){
     ui->actionEdit_mode->setVisible(!tab->isEditable());
 }
 
+/** Function called when a tab moved
+  @param from previous index
+  @param to new index
+  @warning only automatically moved tab
+**/
+void MainWindow::tabMoved(int /*from*/, int /*to*/)
+{
+    /*qDebug() << from << to;
+    QAction *action = ((Tab*)ui->tabWidget->widget(from))->getAction();
+    if(to+1<ui->tabWidget->count()){
+        QAction *actionNext = ((Tab*)ui->tabWidget->widget(to+1))->getAction();
+        ui->menuTabs->insertAction(actionNext,action);
+        qDebug() << "before" << to+1;
+    }else{
+        ui->menuTabs->removeAction(action);
+        ui->menuTabs->insertAction(0,action);
+        qDebug() << "At end";
+    }*/
+    for(int i=0;i<listTabAction.size();i++){
+        ui->menuTabs->removeAction(listTabAction[i]);
+    }
+
+    for(int i=0;i<ui->tabWidget->count();i++){
+        QAction *action = ((Tab*)ui->tabWidget->widget(i))->getAction();
+        action->setShortcut("Ctrl+"+QString::number(i+1));
+        ui->menuTabs->insertAction(0,action);
+    }
+}
+
+/** Enable/Disable undo icon
+  @param state new state sended by a tab
+**/
 void MainWindow::setUndoAvailable(bool state)
 {
+    //sender() is the tab who send the signal
     if(sender()==ui->tabWidget->currentWidget()){
         ui->actionUndo->setEnabled( state );
     }
 }
 
+/** Enable/Disable redo icon
+  @param state new state sended by a tab
+**/
 void MainWindow::setRedoAvailable(bool state)
 {
+    //sender() is the tab who send the signal
     if(sender()==ui->tabWidget->currentWidget()){
         ui->actionRedo->setEnabled( state );
     }
@@ -262,6 +321,8 @@ int MainWindow::addTab(XTAinfo info)
     action->setIcon( this->style()->standardIcon(QStyle::SP_DialogSaveButton ) );
     action->setShortcut("Ctrl+"+QString::number(ui->tabWidget->count()+1));
     tab->setAction( action );
+
+    listTabAction << action;
 
     mapTabAction.insert(action,tab);
 
@@ -369,7 +430,7 @@ void MainWindow::pressSave()
     if(info.filename.isEmpty()){
         pressSaveAs();
     }else{
-        xta->save(info.filename,info);
+        xta->save(info.filepath,info);
         addRecent(info);
         currentTab->saved();
         displaySaveIcon(ui->tabWidget->indexOf(currentTab),false);
@@ -421,7 +482,7 @@ void MainWindow::pressClose()
     }else{
         Tab* currentTab = getCurrentTab();
         if(currentTab->isModified()){
-            int button = QMessageBox::warning(this,"modified",QString("Do you want to save : %1").arg(ui->tabWidget->tabText(ui->tabWidget->currentIndex())),QMessageBox::Yes,QMessageBox::No);
+            int button = QMessageBox::warning(this,tr("Modified"),tr("Do you want to save : %1").arg(ui->tabWidget->tabText(ui->tabWidget->currentIndex())),QMessageBox::Yes,QMessageBox::No);
             if(button==QMessageBox::Yes){
                 pressSave();
             }
@@ -430,6 +491,7 @@ void MainWindow::pressClose()
         QAction* action = mapTabAction.key(currentTab);
 
         mapTabAction.remove(action);
+        listTabAction.removeAll(action);
 
         delete action;
         delete ui->tabWidget->currentWidget();
@@ -810,7 +872,7 @@ void MainWindow::pressExportPDF()
     QString filename = QFileDialog::getSaveFileName(this,tr("Export PDF"),QDir::homePath() + QDir::separator() + default_filename, "PDF (*.pdf)");
     if(filename.isEmpty()) return;
 
-    if(filename.right(4)!=".pdf")
+    if(!filename.endsWith(".pdf",Qt::CaseInsensitive))
         filename += ".pdf";
 
     QPrintPreview *pDialog = new QPrintPreview(this,Qt::Dialog);
@@ -822,10 +884,9 @@ void MainWindow::pressExportPDF()
     QMessageBox::information(this,tr("Export PDF"),tr("PDF exported : %1").arg(filename));
 }
 
-void MainWindow::pressInsertTab()
+void MainWindow::pressAbout()
 {
-    if(ui->tabWidget->currentIndex()<0) return;
-    getCurrentTab()->insertTab();
+    QMessageBox::information(this,tr("About"), tr("Written by %1 (%2)\nVersion: %3","author, year, version").arg(QString::fromUtf8("Léo Baudouin"),"2013",version));
 }
 
 void MainWindow::handleMessage(const QString& message)

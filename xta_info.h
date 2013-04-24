@@ -2,10 +2,14 @@
 #define XTA_INFO_H
 
 #include <QString>
+#include <QImage>
 
 class XTAinfo{
 public:
     XTAinfo(QString path, QString name) : filepath(path), filename(name), capo(0), tuning("EADGBE") {}
+
+    QString filepath;
+    QString filename;
 
     QString version;
     int capo;
@@ -19,8 +23,7 @@ public:
     QString text;
     QString chords;
 
-    QString filename;
-    QString filepath;
+    QList<QImage> images;
 
     void diff(XTAinfo &info){
         if(info.capo!=capo) qDebug() << "Capo";

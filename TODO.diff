@@ -47,8 +47,8 @@ TODO list
 *** hide/show icon when file is modified (save chords now)
 - display save icon if chords changed
 *** move tabs
-- move tabs in menu too
-- renumber action shortcut
+*** move tabs in menu too
+*** renumber action shortcut
 *** open folder
 *** open/save txt
 - auto scrolling
@@ -56,7 +56,7 @@ TODO list
 *** highlight selected chord
 *** import chords from other xta
 *** search on internet for tab on "http://guythoun.free.fr/TabS/xta/index.php?page=search&q=%s"
-- download XTA from a server
+*** download XTA from a server
 *** search lyrics on google
 - search lyrics on other site
 *** use QButtonGroup to select chord to add (use QList<QCheckBox> instead)
@@ -75,6 +75,9 @@ TODO list
 *** print page number
 *** goto tab with Ctrl+<NUM>
 - rename Tab & action on artiste & title changes
+
+#### bug ####
+- info appear in read-only mode on full screen exit
 
 #### code ####
 - increase 'recent files' update speed

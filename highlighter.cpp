@@ -3,7 +3,13 @@
 Highlighter::Highlighter(QTextDocument *parent)
     : QSyntaxHighlighter(parent), enabled_(true)
 {
-
+    QTextCharFormat keywordFormat;
+    keywordFormat.setForeground(Qt::darkMagenta);
+    keywordFormat.setFontWeight(QFont::Bold);
+    keywordFormat.setFontItalic(false);
+    personalRule.text = false;
+    personalRule.pattern.setCaseSensitivity(Qt::CaseSensitive);
+    personalRule.format = keywordFormat;
 }
 
 void Highlighter::clear()
@@ -79,6 +85,8 @@ void Highlighter::highlightBlock(const QString &text)
         return;
 
     int lenght_total = 0;
+    QStringList found;
+
     foreach (const HighlightingRule &rule, highlightingRules) {
         QRegExp expression(rule.pattern);
         int index = expression.indexIn(text);
@@ -88,10 +96,26 @@ void Highlighter::highlightBlock(const QString &text)
                 setFormat(index, length, rule.format);
             }else{
                 lenght_total += length;
+                found << text.mid(index,length);
             }
             index = expression.indexIn(text, index + length);
         }
     }
+
+    foreach(QString perso, personal){
+        QString t = perso;
+        t.remove("\\b");
+        if(!found.contains(t)){
+            QRegExp expression(perso);
+            int index = expression.indexIn(text);
+            while (index >= 0) {
+                int length = expression.matchedLength();
+                lenght_total += length;
+                index = expression.indexIn(text, index + length);
+            }
+        }
+    }
+
     if(lenght_total==0)
         return;
 
@@ -119,6 +143,19 @@ void Highlighter::highlightBlock(const QString &text)
                 int length = expression.matchedLength();
                 setFormat(index, length, rule.format);
                 index = expression.indexIn(text, index + length);
+            }
+        }
+        foreach(QString perso, personal){
+            QString t = perso;
+            t.remove("\\b");
+            if(!found.contains(t)){
+                QRegExp expression(perso);
+                int index = expression.indexIn(text);
+                while (index >= 0) {
+                    int length = expression.matchedLength();
+                    setFormat(index, length, personalRule.format);
+                    index = expression.indexIn(text, index + length);
+                }
             }
         }
     }

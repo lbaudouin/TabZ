@@ -135,13 +135,16 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta), undoAvai
 
     edit->setFont(editFont);
     edit->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+
+    highlighter = new Highlighter(edit->document());
+
+
     //edit->document()->setPageSize(QSizeF(10,10));
 
     //Highlighter *highlighter = new Highlighter(edit->document());
-    highlighter = new Highlighter(edit->document());
 
     chordLayout = new QVBoxLayout;
-
+#if 0
     //Buttons
     QToolButton *buttonAdd = new QToolButton();
     buttonAdd->setIcon( QIcon(":images/add") );
@@ -166,13 +169,22 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta), undoAvai
     buttonLayout->addWidget(buttonImport);
     buttonLayout->addWidget(buttonRead);
 
-    chordLayout->addLayout(buttonLayout);
-
     connect(buttonAdd,SIGNAL(clicked()),this,SLOT(addNewChord()));
     connect(buttonImport,SIGNAL(clicked()),this,SLOT(importFromXTA()));
     connect(buttonCopy,SIGNAL(clicked()),this,SLOT(import()));
     connect(buttonRead,SIGNAL(clicked()),this,SLOT(read()));
 
+    chordLayout->addLayout(buttonLayout);
+#else
+    QToolBar *chordToolBar = new QToolBar;
+    chordToolBar->setMovable(false);
+    chordToolBar->addAction(QIcon(":images/add"), tr("Add new chord"), this, SLOT(addNewChord()) );
+    chordToolBar->addAction(QIcon(":images/copy"), tr("Import from text"), this, SLOT(import()) );
+    chordToolBar->addAction(QIcon(":images/import"), tr("Import from XTA"), this, SLOT(importFromXTA()) );
+    chordToolBar->addAction(QIcon(":images/search"), tr("Manage"), this, SLOT(read()) );
+
+    chordLayout->addWidget(chordToolBar);
+#endif
 
 
     //two columns displayer
@@ -218,8 +230,20 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta), undoAvai
     //QSpacerItem *spacer = new QSpacerItem(10,10,QSizePolicy::Minimum,QSizePolicy::Maximum);
     //chordsLayout->addSpacerItem(spacer);
 
+    tabToolBar = new QToolBar;
+    tabToolBar->setOrientation(Qt::Vertical);
+    tabToolBar->setMovable(false);
+    tabToolBar->addAction(QIcon(":images/insert-image"),tr("Insert image"), this, SLOT(insertImage()) );
+    tabToolBar->addAction(QIcon(":images/tab"),tr("Insert tab"), this, SLOT(insertTab()) );
+    //tabToolBar->addAction(QIcon("images/tab2.png"),tr("Insert tab"));
+    //tabToolBar->addAction(QIcon("images/tab3.png"),tr("Insert tab"));
+    //tabToolBar->addAction(QIcon("images/tab4.png"),tr("Insert tab"));
+    tabToolBar->addAction(QIcon(":images/La-A"),tr("French to English"), this, SLOT(translateFrEn()) );
+    tabToolBar->addAction(QIcon(":images/A-La"),tr("English to French"), this, SLOT(translateEnFr()) );
+
 #if 1
     QHBoxLayout *hlayout = new QHBoxLayout;
+    hlayout->addWidget(tabToolBar,Qt::AlignTrailing);
     hlayout->addWidget(edit);
     //hlayout->addWidget(printPreviewWidget);
     hlayout->addLayout(previewLayout);
@@ -260,6 +284,21 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta), undoAvai
     connect(edit,SIGNAL(cursorPositionChanged()),this,SLOT(updateSelectedNote()));
     connect(edit,SIGNAL(undoAvailable(bool)),this,SLOT(setUndoAvailable(bool)));
     connect(edit,SIGNAL(redoAvailable(bool)),this,SLOT(setRedoAvailable(bool)));
+
+
+    /*edit->document()->addResource(QTextDocument::ImageResource,
+                                QUrl("mydata://image.png"), QVariant(QImage("/home/lbaudouin/Images/logo_lulu.png")));
+
+    QTextImageFormat imgTextFormat;
+    //imgTextFormat.setName(":/images/TabS");
+    imgTextFormat.setName("mydata://image.png");
+
+
+    QTextCursor cursor = edit->textCursor();
+    cursor.insertText(QString(QChar::ObjectReplacementCharacter), imgTextFormat);
+    //cursor.setCharFormat(imgTextFormat);
+    edit->setTextCursor(cursor);*/
+
 }
 
 void Tab::addChordsFromText(QString text)
@@ -268,6 +307,8 @@ void Tab::addChordsFromText(QString text)
         return;
 
     QTextStream stream(&text);
+
+    QStringList list;
 
     while(!stream.atEnd()){
         QString line = stream.readLine();
@@ -291,9 +332,14 @@ void Tab::addChordsFromText(QString text)
             fingers += " " + temp.at(i);
         fingers.trimmed();
 
+        list << name;
         addChord(name,fingers);
     }
     resizeLayout();
+
+    highlighter->addPersonalText(list);
+    highlighter->rehighlight();
+    printPreviewWidget->updatePreview();
 }
 
 bool Tab::isUndoAvailable()
@@ -309,17 +355,17 @@ bool Tab::isRedoAvailable()
 void Tab::updateTitle()
 {
     if(modified_info.title.isEmpty()){
-        labelInfo->setText( tr("(No title)"));
+        labelInfo->setText( "(" + tr("No title") + ")");
     }else{
         labelInfo->setText( QString(tr("%1 - %2","artist - title")).arg(modified_info.artist,modified_info.title));
     }
 
     if(modified_info.capo>0 && modified_info.tuning!="EADGBE"){
-        specialInfo->setText(QString(tr("\t [Capo: %1, Tuning: %2]")).arg(QString::number(modified_info.capo),modified_info.tuning));
+        specialInfo->setText("\t " + tr("[Capo: %1, Tuning: %2]").arg(QString::number(modified_info.capo),modified_info.tuning));
     }else if(modified_info.capo>0){
-        specialInfo->setText(QString("\t [Capo: %1]").arg(QString::number(modified_info.capo)));
+        specialInfo->setText("\t " +tr("[Capo: %1]").arg(QString::number(modified_info.capo)));
     }else if(modified_info.tuning!="EADGBE") {
-        specialInfo->setText(QString("\t [Tuning: %1]").arg(modified_info.tuning));
+        specialInfo->setText("\t " +tr("[Tuning: %1]").arg(modified_info.tuning));
     }else{
         specialInfo->clear();
     }
@@ -476,7 +522,7 @@ void Tab::read()
 {
     QStringList list = highlighter->getList(edit->toPlainText());
     list.sort();
-    QList<QQCheckBox*> boxList;
+    QList<MyQCheckBox*> boxList;
 
     //TODO, move in a separate file
     QDialog *diag = new QDialog(this);
@@ -496,7 +542,7 @@ void Tab::read()
     QPushButton *unselectAll = new QPushButton(tr("Unselect all"));
 
     foreach(QString item, list){
-        QQCheckBox *box = new QQCheckBox(item);
+        MyQCheckBox *box = new MyQCheckBox(item);
         box->setChecked(chords.contains(item));
 
         connect(selectAll,SIGNAL(clicked()),box,SLOT(check()));
@@ -513,7 +559,7 @@ void Tab::read()
     bool found = false;
     for(int i=0;i<chords.size();i++){
         if(!list.contains(chords.at(i))){
-            QQCheckBox *box = new QQCheckBox(chords.at(i));
+            MyQCheckBox *box = new MyQCheckBox(chords.at(i));
             box->setChecked(true);
             buttonLayout->addWidget(box);
             boxList.push_back(box);
@@ -627,6 +673,7 @@ void Tab::print(QPrinter *_printer)
     Highlighter *h = new Highlighter(doc);
     h->setRules( highlighter->getRules() );
     h->rehighlight();
+    h->addPersonalRegExp( highlighter->getPersonalRegExp() );
 
     int currentRow = 0;
     int previousH = 0;
@@ -683,13 +730,11 @@ void Tab::print(QPrinter *_printer)
         }
     }
 
-
     int currentChordPrinted = 0;
-
 
     for(int page=0;page<nbPages;page++){       
         if(page>0)
-            printer->newPage();
+            _printer->newPage();
         painter.save();
 
         int maxHeight;
@@ -699,6 +744,7 @@ void Tab::print(QPrinter *_printer)
             maxHeight = pageHeight - headersHeight;
 
             QFont font = painter.font();
+            font.setFamily("Arial");
             font.setPointSize(12);
             font.setBold(true);
             painter.setFont(font);
@@ -890,9 +936,11 @@ void Tab::setEditable(bool editable)
         edit->setVisible(true);
         printPreviewWidget->setVisible(false);
         allInfoWidget->setVisible(true);
+        tabToolBar->setVisible(true);
     }else{
         edit->setVisible(false);
         allInfoWidget->setVisible(false);
+        tabToolBar->setVisible(false);
         printPreviewWidget->setVisible(true);
 
         printPreviewWidget->setCurrentPage(1);
@@ -1014,6 +1062,37 @@ void Tab::insertTab()
     edit->setTextCursor(initial_cursor);
 
 }
+
+void Tab::insertImage()
+{
+    QString path = QFileDialog::getOpenFileName(this,tr("Load image"),QDir::homePath(),tr("Image (*.png)"));
+    if(path.isEmpty()) return;
+
+    QString url = QString("mydata://image%1.png").arg(modified_info.images.size());
+    QImage img(path);
+    modified_info.images << img;
+
+    edit->document()->addResource(QTextDocument::ImageResource,
+                                QUrl(url), QVariant(img));
+
+    QTextImageFormat imgTextFormat;
+    imgTextFormat.setName(url);
+
+    QTextCursor cursor = edit->textCursor();
+    cursor.insertText(QString(QChar::ObjectReplacementCharacter), imgTextFormat);
+    edit->setTextCursor(cursor);
+}
+
+void Tab::translateFrEn()
+{
+    QMessageBox::critical(this,"Error","Not available, coming soon");
+}
+
+void Tab::translateEnFr()
+{
+    QMessageBox::critical(this,"Error","Not available, coming soon");
+}
+
 
 void Tab::setAction(QAction *action)
 {
