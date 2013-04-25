@@ -153,19 +153,13 @@ void Chords::save()
 
 void Chords::addChord(Instrument instrument, QString name, QString fingers, QString comment)
 {
-    Chord chord;
-    chord.name = name;
-    chord.fingers = fingers;
-    chord.comment = comment;
+    Chord chord(name,fingers,comment);
     chords[instrument].push_back(chord);
 }
 
 Instrument Chords::addInstrument(QString name, QString label, int nbStrings)
 {
-    Instrument instrument;
-    instrument.name = name;
-    instrument.label = label;
-    instrument.nbStrings = nbStrings;
+    Instrument instrument(name,label,nbStrings);
     if(!chords.contains(instrument)){
         chords.insert(instrument,QList<Chord>());
     }
@@ -195,139 +189,23 @@ QList<Chord> Chords::getChords(Instrument instrument)
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-ChordsManager::ChordsManager(QWidget *parent) : QDialog(parent)
+QList<Chord> Chords::getChords(Instrument instrument, QString name)
 {
-    QVBoxLayout *mainLayout = new QVBoxLayout(this);
-    tabWidget = new QTabWidget;
-    mainLayout->addWidget(tabWidget);
-
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::RestoreDefaults|QDialogButtonBox::Cancel|QDialogButtonBox::Save);
-    connect(buttonBox,SIGNAL(accepted()),this,SLOT(accept()));
-    connect(buttonBox,SIGNAL(rejected()),this,SLOT(reject()));
-    connect(buttonBox,SIGNAL(clicked(QAbstractButton*)),this,SLOT(buttonClicked(QAbstractButton*)));
-    mainLayout->addWidget(buttonBox);
-}
-
-void ChordsManager::buttonClicked(QAbstractButton *button){
-    QDialogButtonBox* buttonBox = (QDialogButtonBox*)sender();
-    if(buttonBox->buttonRole(button)==QDialogButtonBox::ResetRole){
-        qDebug() << "Restore";
-    }
-}
-
-void ChordsManager::setChords(Chords *chords)
-{
-    chords_ = chords;
-    updateManager();
-}
-
-void ChordsManager::updateManager()
-{
-    if(chords_==0){
-        return;
-    }
-
-    tabWidget->clear();
-    QList<Instrument> instruments = chords_->getInstruments();
-    foreach(Instrument instrument, instruments){
-        QScrollArea *area = new QScrollArea();
-        QList<Chord> list = chords_->getChords(instrument);
-
-        QGridLayout *gridLayout = new QGridLayout;
-
-        area->setWidgetResizable(true);
-        QWidget *w = new QWidget;
-        w->setLayout(gridLayout);
-
-        area->setWidget(w);
-
-        int nb = this->width() / 200;
-
-        for(int i=0;i<list.size();i++){
-            Guitar *guitar = new Guitar(list[i].name, list[i].fingers);
-            guitar->setMenu(true,false,false);
-            gridLayout->addWidget( guitar , i/nb, i%nb);
-        }
-
-        int index =  tabWidget->addTab(area, instrument.name );
-
-        if(instrument.label=="guitar"){
-            tabWidget->setCurrentIndex(index);
-        }
-
-    }
-}
-
-void ChordsManager::resizeEvent(QResizeEvent *)
-{
-    updateManager();
-}
-
-Chord ChordsManager::addNewChord(QWidget *parent)
-{
-    if(parent==0)
-        parent = this;
-
-    QDialog *diag = new QDialog(parent);
-    QVBoxLayout *vLayout = new QVBoxLayout;
-    diag->setLayout(vLayout);
-
-    QComboBox *instrumentCombo = new QComboBox;
-    instrumentCombo->addItems(chords_->getInstrumentsNames());
-    instrumentCombo->setCurrentIndex(chords_->getInstrumentsNames().indexOf(tr("Guitar")));
-
-    QLineEdit *nameEdit = new QLineEdit;
-    QComboBox *fingersCombo = new QComboBox;
-    fingersCombo->setEditable(true);
-    //fingersCombo->addItems( mapChord.values() );
-    fingersCombo->setCurrentIndex(-1);
-
-
-    QFormLayout *formLayout = new QFormLayout;
-    formLayout->addRow(tr("Instrument"),instrumentCombo);
-    formLayout->addRow(tr("Name"),nameEdit);
-    formLayout->addRow(tr("Fingers"),fingersCombo);
-    vLayout->addLayout(formLayout);
-
-    Strings *strings = new Strings("");
-    vLayout->addWidget(strings,0,Qt::AlignHCenter);
-
-    connect(fingersCombo,SIGNAL(editTextChanged(QString)),strings,SLOT(setFingers(QString)));
-
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
-    connect(buttonBox,SIGNAL(accepted()),diag,SLOT(accept()));
-    connect(buttonBox,SIGNAL(rejected()),diag,SLOT(reject()));
-    vLayout->addWidget(buttonBox);
-
-    Chord chord;
-
-    if(diag->exec()){
-        QString name = nameEdit->text();
-        if(name.isEmpty())
-            name = QInputDialog::getText(this,tr("Note name"),tr("Note:"));
-        if(name.isEmpty()) return chord;
-
-        QString fingers = fingersCombo->currentText();
-
-        fingers.replace(","," ");
-        fingers.replace("\t"," ");
-
-        chord.name = name;
-        chord.fingers = fingers;
-        chord.comment = "";
-
-        return chord;
+    if(chords.contains(instrument)){
+        QList<Chord> list = chords[instrument];
+        QList<Chord> out;
+        for(int i=0;i<list.size();i++)
+            if(list[i].name==name)
+                out << list[i];
+        return out;
     }else{
-        return chord;
+        return QList<Chord>();
     }
+}
+
+QString Chords::getFingers(Instrument instrument, QString name)
+{
+    QList<Chord> list = getChords(instrument,name);
+    if(list.isEmpty()) return "";
+    return list[0].fingers;
 }

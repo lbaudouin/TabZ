@@ -22,12 +22,16 @@
 #include "guitar.h"
 
 struct Chord{
+    Chord() {}
+    Chord(QString _name, QString _fingers, QString _comment = "") {name=_name; fingers=_fingers; comment=_comment; }
     QString name;
     QString fingers;
     QString comment;
 };
 
 struct Instrument{
+    Instrument() { nbStrings = 6; }
+    Instrument(QString _name, QString _label, int _nbStrings = 6) {name=_name; label=_label; nbStrings=_nbStrings; }
     QString name;
     QString label;
     int nbStrings;
@@ -53,6 +57,8 @@ public:
     QStringList getInstrumentsNames();
     QList<Instrument> getInstruments();
     QList<Chord> getChords(Instrument);
+    QList<Chord> getChords(Instrument, QString name);
+    QString getFingers(Instrument, QString name);
 
 protected:
     void init();
@@ -67,30 +73,5 @@ public:
     Instrument addInstrument(QString name, QString label, int nbStrings);
 };
 
-
-
-
-
-class ChordsManager : public QDialog
-{
-    Q_OBJECT
-public:
-    ChordsManager(QWidget *parent = 0);
-    void setChords(Chords *chords);
-
-    void updateManager();
-
-    Chord addNewChord(QWidget *parent = 0);
-
-protected:
-    void resizeEvent(QResizeEvent *);
-
-private:
-    QTabWidget *tabWidget;
-    Chords *chords_;
-
-private slots:
-    void buttonClicked(QAbstractButton *button);
-};
 
 #endif // CHORDS_H

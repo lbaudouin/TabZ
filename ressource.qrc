@@ -40,6 +40,7 @@
         <file alias="insert-image">images/insert-image.png</file>
         <file alias="La-A">images/La-A.png</file>
         <file alias="tab">images/tab.png</file>
+        <file alias="insert-clipboard">images/insert-clipboard.png</file>
     </qresource>
     <qresource prefix="/lang">
         <file alias="lang_fr">TabS_fr.qm</file>

@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     chords.cpp \
     httpupdate.cpp \
     qprintpreview.cpp \
-    downloadxta.cpp
+    downloadxta.cpp \
+    chordsmanager.cpp
     #myprintpreviewwidget.cpp# \
     #myprinterprivate.cpp
 
@@ -40,7 +41,9 @@ HEADERS  += mainwindow.h \
     qprogressbardialog.h \ #\
     downloadxta.h \
     mycheckbox.h \
-    mytabwidget.h
+    mytabwidget.h \
+    chordsmanager.h \
+    tools.h
     #myprintpreviewwidget.h #\
     #myprinterprivate.h
 

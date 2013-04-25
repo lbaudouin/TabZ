@@ -44,6 +44,7 @@ private slots:
 
 public slots:
     void setSelected(QString);
+    void setChordSize(QSize size);
 
     void remove(QString name);
 };

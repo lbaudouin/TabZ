@@ -1,7 +1,7 @@
 #include "optionsform.h"
 
-OptionsForm::OptionsForm(OptionsValues options, QWidget *parent) : options_(options),
-    QDialog(parent)
+OptionsForm::OptionsForm(OptionsValues options, QWidget *parent) : QDialog(parent), options_(options)
+
 {
     this->setMinimumSize(640,480);
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
@@ -9,8 +9,9 @@ OptionsForm::OptionsForm(OptionsValues options, QWidget *parent) : options_(opti
     QTabWidget *tabWidget = new QTabWidget;
     mainLayout->addWidget(tabWidget);
 
+    createGeneralTab(tabWidget);
     createColorTab(tabWidget);
-    createOptionsTab(tabWidget);
+    createPrintTab(tabWidget);
 
     buttonBox = new QDialogButtonBox(QDialogButtonBox::RestoreDefaults|QDialogButtonBox::Cancel|QDialogButtonBox::Save);
     connect(buttonBox,SIGNAL(accepted()),this,SLOT(accept()));
@@ -32,9 +33,9 @@ void OptionsForm::createColorTab(QTabWidget *tab)
     QFormLayout *formLayout = new QFormLayout;
     mainLayout->addLayout(formLayout);
 
-    checkEnableColor = new QCheckBox;
-    checkEnableColor->setChecked(options_.enableColors);
-    formLayout->addRow(tr("Enable color:"),checkEnableColor);
+    checkEnableColors = new QCheckBox;
+    checkEnableColors->setChecked(options_.enableColors);
+    formLayout->addRow(tr("Enable color:"),checkEnableColors);
 
     cref = new ColorRegExpForm;
     for(int i=0;i<options_.colors.size();i++)
@@ -54,10 +55,10 @@ void OptionsForm::createColorTab(QTabWidget *tab)
 
     mainLayout->addWidget(area);
 
-    tab->addTab(w,tr("Color"));
+    tab->addTab(w,tr("Colors"));
 }
 
-void OptionsForm::createOptionsTab(QTabWidget *tab)
+void OptionsForm::createGeneralTab(QTabWidget *tab)
 {
     QWidget *w = new QWidget;
 
@@ -89,6 +90,14 @@ void OptionsForm::createOptionsTab(QTabWidget *tab)
     comboOpenSize->addItems( QStringList() << tr("Normal") << tr("Maximized") << tr("FullScreen") );
     comboOpenSize->setCurrentIndex(options_.openSizeMode);
 
+    QStringList sizes;
+    sizes << "100x150" << "125x175" << "150x200";
+    int sizeIndex = sizes.indexOf(options_.fromSize(options_.chordSize));
+    if(sizeIndex<0) sizeIndex = 1;
+    comboChordSize = new QComboBox;
+    comboChordSize->addItems( sizes );
+    comboChordSize->setCurrentIndex(sizeIndex);
+
     fontLabel = new QLabel;
     fontLabel->setFrameStyle(QFrame::Sunken | QFrame::Panel);
     fontLabel->setText(options_.font.toString());
@@ -109,19 +118,48 @@ void OptionsForm::createOptionsTab(QTabWidget *tab)
     formLayout->addRow(tr("Open read only:"),checkOpenReadOnly);
     formLayout->addRow(tr("Re-open previous tabs:"),checkreOpenPreviousTabs);
     formLayout->addRow(tr("Open size mode:"),comboOpenSize);
+    formLayout->addRow(tr("Chord size:"),comboChordSize);
 
-    tab->addTab(w,tr("Options"));
+    tab->addTab(w,tr("General"));
+}
+
+void OptionsForm::createPrintTab(QTabWidget *tab)
+{
+    QWidget *w = new QWidget;
+
+    QFormLayout *formLayout = new QFormLayout;
+    w->setLayout(formLayout);
+
+    //Enable colors on printig
+    checkEnableColorsOnPrinting = new QCheckBox;
+    checkEnableColorsOnPrinting->setChecked(options_.enableColorsOnPrinting);
+
+    //Print headers on each pages
+    checkPrintHeaderOnEachPages = new QCheckBox;
+    checkPrintHeaderOnEachPages->setChecked(options_.printHearderOnEachPages);
+
+    //Default margins
+
+    //Chord size
+
+    formLayout->addRow(tr("Enable colors on printing:"),checkEnableColorsOnPrinting);
+    formLayout->addRow(tr("Print header on each pages:"),checkPrintHeaderOnEachPages);
+
+    tab->addTab(w,tr("Print"));
 }
 
 OptionsValues OptionsForm::getOptions()
 {
-    options_.enableColors = checkEnableColor->isChecked();
+    options_.enableColors = checkEnableColors->isChecked();
     options_.selectNewTab = checkSelectNewTab->isChecked();
     options_.openReadOnly = checkOpenReadOnly->isChecked();
     options_.reOpenPreviousTabs = checkreOpenPreviousTabs->isChecked();
     options_.defaultPath = editDefaultFolder->text();
     options_.openSizeMode = comboOpenSize->currentIndex();
     options_.font.fromString( fontLabel->text() );
+    options_.chordSize = options_ .toSize( comboChordSize->currentText() );
+    options_.printHearderOnEachPages = checkPrintHeaderOnEachPages->isChecked();
+    options_.enableColorsOnPrinting = checkEnableColorsOnPrinting->isChecked();
 
     options_.colors = cref->getListRegExp();
 
@@ -152,13 +190,15 @@ void OptionsForm::buttonClicked(QAbstractButton *button){
         options_ = OptionsValues();
         options_.setDefaultRegExp();
 
-        checkEnableColor->setChecked(options_.enableColors);
+        checkEnableColors->setChecked(options_.enableColors);
         checkSelectNewTab->setChecked(options_.selectNewTab);
         checkOpenReadOnly->setChecked(options_.openReadOnly);
         checkreOpenPreviousTabs->setChecked(options_.reOpenPreviousTabs);
         editDefaultFolder->setText(options_.defaultPath);
         comboOpenSize->setCurrentIndex(options_.openSizeMode);
         fontLabel->setText(options_.font.toString());
+        checkPrintHeaderOnEachPages->setChecked(options_.printHearderOnEachPages);
+        checkEnableColorsOnPrinting->setChecked(options_.enableColorsOnPrinting);
 
         cref->clear();
         for(int i=0;i<options_.colors.size();i++)

@@ -24,6 +24,7 @@ public:
     QString chords;
 
     QList<QImage> images;
+    QList<int> refImages;
 
     void diff(XTAinfo &info){
         if(info.capo!=capo) qDebug() << "Capo";
@@ -61,6 +62,8 @@ public:
         }else{
             output = defaultFileName;
         }
+        output.replace("/","_");
+        output.replace("\\","_");
         return output;
     }
 };

@@ -30,7 +30,10 @@ TODO list
 *** read/edit mode
 *** 2 pages display
 *** test if it's note or text word
-- past image / tab from Guitar Pro or TuxGuitar (QTextDocument::addRessource)
+*** past image / tab from Guitar Pro or TuxGuitar (QTextDocument::addRessource)
+*** move images inside xta
+*** import image from clipboard
+- clip/reduce images
 - vertical selection
 *** insert ascii tab
 - French chord to english (RegExp : \bLa(?(\b|m|#|[1-9])) -> replace fisrt 2 char by A
@@ -74,13 +77,14 @@ TODO list
 - select chords to print
 *** print page number
 *** goto tab with Ctrl+<NUM>
-- rename Tab & action on artiste & title changes
+*** rename Tab & action on artiste & title changes
 
 #### bug ####
 - info appear in read-only mode on full screen exit
+- utf8 files name in Windows jump list
 
 #### code ####
-- increase 'recent files' update speed
+*** increase 'recent files' update speed
 *** add translations
 - Rewrite QPrintPreviewWidget to add an option to display first page on the left in double page page
 *** Rewrite QPrintPreviewDialog to add updatePreview slot
@@ -89,7 +93,7 @@ TODO list
 #### XTA v2.0 ####
 - add external lyrics filepath
 - translate xta keys in english
-- insert image (and image link in text)
+*** insert image (and image link in text)
 - separate intro/chorus/...
 - save chord comment
 - add instrument type/name/strings

@@ -87,6 +87,12 @@ QString Guitar::getFingers()
     return fingers_;
 }
 
+void Guitar::setChordSize(QSize size)
+{
+    strings->setSize(size);
+    this->repaint();
+}
+
 Strings::Strings( QString fingers, QWidget *parent) : selected_(false),
     QWidget(parent)
 {
@@ -96,8 +102,8 @@ Strings::Strings( QString fingers, QWidget *parent) : selected_(false),
 
     setFingers(fingers);
 
-    size_ = QSize(150,200);
-    //size_ = QSize(100,150);
+    //size_ = QSize(150,200);
+    size_ = QSize(100,150);
     this->resize(size_);
     this->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
     setMinimumSize( size_ );
@@ -113,6 +119,7 @@ void Strings::setMenu(bool modify, bool reduce, bool close)
 void Strings::setSize(QSize size)
 {
     size_ = size;
+    setMinimumSize( size_ );
     this->update();
 }
 

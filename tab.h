@@ -18,6 +18,7 @@
 #include "guitar.h"
 #include "options.h"
 #include "chords.h"
+#include "chordsmanager.h"
 #include "mycheckbox.h"
 
 class Tab : public QWidget
@@ -42,6 +43,7 @@ public:
 protected:
     void addChordsFromText(QString text);
     //void setUpToolBar();
+    void addImage(QImage &img);
     
 private:
     QTextEdit *edit;
@@ -63,16 +65,16 @@ private:
 
     Highlighter *highlighter;
 
-    QStringList chords;
-    QMap<QString,QString> mapChord;
-
-    QList<Chord> currentChords;
-
     OptionsValues optionsValues;
 
     bool undoAvailable_, redoAvailable_;
 
     bool editable_;
+
+
+    QStringList chords;
+    Instrument instrument_;
+    QList<Chord> currentChords;
 
     QPrintPreview *printPreviewWidget;
     QPrinter *printer;
@@ -89,7 +91,12 @@ signals:
     void undoAvailable(bool);
     void redoAvailable(bool);
 
+    void setChordSize(QSize);
+
+    void changeTabName(QString name);
+
 private slots:
+    void infoChanged(QString text = QString());
     void textChanged(QString text = QString());
     void capoChanged(int);
     void deleteGuitar();
@@ -116,7 +123,7 @@ public slots:
     void copy();
     void paste();
 
-    void saved();
+    void saved(QString path = QString());
 
     void setUndoAvailable(bool);
     void setRedoAvailable(bool);
@@ -132,6 +139,7 @@ public slots:
 
     void insertTab();
     void insertImage();
+    void insertClipboard();
 
     void setAction(QAction*);
 

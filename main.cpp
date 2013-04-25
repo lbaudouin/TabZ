@@ -1,4 +1,4 @@
-#define CURRENT_VERSION "0.0.19"
+#define CURRENT_VERSION "0.0.23"
 
 #include <QtGui/QApplication>
 #include "mainwindow.h"

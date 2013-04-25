@@ -21,6 +21,8 @@
 #include "options.h"
 #include "highlighter.h"
 
+#include "tools.h"
+
 #include <QDebug>
 
 #include <QColorDialog>
@@ -80,6 +82,17 @@ public:
 
         highlighter = new Highlighter(edit->document());
 
+        QList<QColor> colorsTemp;
+
+        QStringList colorNames = QColor::colorNames();
+        for(int i=0;i<colorNames.size();i++){
+            QColor c = QColor(colorNames[i]);
+            if(!colorsTemp.contains(c)){
+                listColors << QPair<QString,QString>(colorNames[i],translateColorName(colorNames[i]));
+                colorsTemp << c;
+            }
+        }
+        qSort(listColors.begin(),listColors.end(),QPairSecondStringComparer());
 
     }
 
@@ -96,12 +109,11 @@ public:
         QToolButton *toolClose = new QToolButton;
 
 
-        QStringList colorNames = QColor::colorNames();
-        for(int i=0;i<colorNames.size();i++){
-            QColor color(colorNames[i]);
+        for(int i=0;i<listColors.size();i++){
+            QColor color(listColors[i].first);
             QPixmap pixmap(16,16);
             pixmap.fill(color);
-            comboColor->addItem(QIcon(pixmap),colorNames[i]);
+            comboColor->addItem(QIcon(pixmap),listColors[i].second,QVariant(listColors[i].first));
             if(color==_color)
                 comboColor->setCurrentIndex(i);
         }
@@ -208,10 +220,164 @@ public:
            default: weight = QFont::Normal; break;
            }
 
-           ColorRegExp colorRegExp(c.editRegExp->text(),QColor(c.comboColor->currentText()), weight, c.checkItalic->isChecked(), c.checkText->isChecked(), c.checkCase->isChecked(), c.checkActivate->isChecked());
+           QColor color = QColor(c.comboColor->itemData(c.comboColor->currentIndex()).toString());
+           ColorRegExp colorRegExp(c.editRegExp->text(), color, weight, c.checkItalic->isChecked(), c.checkText->isChecked(), c.checkCase->isChecked(), c.checkActivate->isChecked());
            list.push_back(colorRegExp);
         }
         return list;
+    }
+
+protected:
+    QString translateColorName(QString colorName){
+        if(colorName=="aliceblue") return tr("aliceblue");
+        if(colorName=="antiquewhite") return tr("antiquewhite");
+        if(colorName=="aqua") return tr("aqua");
+        if(colorName=="aquamarine") return tr("aquamarine");
+        if(colorName=="azure") return tr("azure");
+        if(colorName=="beige") return tr("beige");
+        if(colorName=="bisque") return tr("bisque");
+        if(colorName=="black") return tr("black");
+        if(colorName=="blanchedalmond") return tr("blanchedalmond");
+        if(colorName=="blue") return tr("blue");
+        if(colorName=="blueviolet") return tr("blueviolet");
+        if(colorName=="brown") return tr("brown");
+        if(colorName=="burlywood") return tr("burlywood");
+        if(colorName=="cadetblue") return tr("cadetblue");
+        if(colorName=="chartreuse") return tr("chartreuse");
+        if(colorName=="chocolate") return tr("chocolate");
+        if(colorName=="coral") return tr("coral");
+        if(colorName=="cornflowerblue") return tr("cornflowerblue");
+        if(colorName=="cornsilk") return tr("cornsilk");
+        if(colorName=="crimson") return tr("crimson");
+        if(colorName=="cyan") return tr("cyan");
+        if(colorName=="darkblue") return tr("darkblue");
+        if(colorName=="darkcyan") return tr("darkcyan");
+        if(colorName=="darkgoldenrod") return tr("darkgoldenrod");
+        if(colorName=="darkgray") return tr("darkgray");
+        if(colorName=="darkgreen") return tr("darkgreen");
+        if(colorName=="darkgrey") return tr("darkgrey");
+        if(colorName=="darkkhaki") return tr("darkkhaki");
+        if(colorName=="darkmagenta") return tr("darkmagenta");
+        if(colorName=="darkolivegreen") return tr("darkolivegreen");
+        if(colorName=="darkorange") return tr("darkorange");
+        if(colorName=="darkorchid") return tr("darkorchid");
+        if(colorName=="darkred") return tr("darkred");
+        if(colorName=="darksalmon") return tr("darksalmon");
+        if(colorName=="darkseagreen") return tr("darkseagreen");
+        if(colorName=="darkslateblue") return tr("darkslateblue");
+        if(colorName=="darkslategray") return tr("darkslategray");
+        if(colorName=="darkslategrey") return tr("darkslategrey");
+        if(colorName=="darkturquoise") return tr("darkturquoise");
+        if(colorName=="darkviolet") return tr("darkviolet");
+        if(colorName=="deeppink") return tr("deeppink");
+        if(colorName=="deepskyblue") return tr("deepskyblue");
+        if(colorName=="dimgray") return tr("dimgray");
+        if(colorName=="dimgrey") return tr("dimgrey");
+        if(colorName=="dodgerblue") return tr("dodgerblue");
+        if(colorName=="firebrick") return tr("firebrick");
+        if(colorName=="floralwhite") return tr("floralwhite");
+        if(colorName=="forestgreen") return tr("forestgreen");
+        if(colorName=="fuchsia") return tr("fuchsia");
+        if(colorName=="gainsboro") return tr("gainsboro");
+        if(colorName=="ghostwhite") return tr("ghostwhite");
+        if(colorName=="gold") return tr("gold");
+        if(colorName=="goldenrod") return tr("goldenrod");
+        if(colorName=="gray") return tr("gray");
+        if(colorName=="green") return tr("green");
+        if(colorName=="greenyellow") return tr("greenyellow");
+        if(colorName=="grey") return tr("grey");
+        if(colorName=="honeydew") return tr("honeydew");
+        if(colorName=="hotpink") return tr("hotpink");
+        if(colorName=="indianred") return tr("indianred");
+        if(colorName=="indigo") return tr("indigo");
+        if(colorName=="ivory") return tr("ivory");
+        if(colorName=="khaki") return tr("khaki");
+        if(colorName=="lavender") return tr("lavender");
+        if(colorName=="lavenderblush") return tr("lavenderblush");
+        if(colorName=="lawngreen") return tr("lawngreen");
+        if(colorName=="lemonchiffon") return tr("lemonchiffon");
+        if(colorName=="lightblue") return tr("lightblue");
+        if(colorName=="lightcoral") return tr("lightcoral");
+        if(colorName=="lightcyan") return tr("lightcyan");
+        if(colorName=="lightgoldenrodyellow") return tr("lightgoldenrodyellow");
+        if(colorName=="lightgray") return tr("lightgray");
+        if(colorName=="lightgreen") return tr("lightgreen");
+        if(colorName=="lightgrey") return tr("lightgrey");
+        if(colorName=="lightpink") return tr("lightpink");
+        if(colorName=="lightsalmon") return tr("lightsalmon");
+        if(colorName=="lightseagreen") return tr("lightseagreen");
+        if(colorName=="lightskyblue") return tr("lightskyblue");
+        if(colorName=="lightslategray") return tr("lightslategray");
+        if(colorName=="lightslategrey") return tr("lightslategrey");
+        if(colorName=="lightsteelblue") return tr("lightsteelblue");
+        if(colorName=="lightyellow") return tr("lightyellow");
+        if(colorName=="lime") return tr("lime");
+        if(colorName=="limegreen") return tr("limegreen");
+        if(colorName=="linen") return tr("linen");
+        if(colorName=="magenta") return tr("magenta");
+        if(colorName=="maroon") return tr("maroon");
+        if(colorName=="mediumaquamarine") return tr("mediumaquamarine");
+        if(colorName=="mediumblue") return tr("mediumblue");
+        if(colorName=="mediumorchid") return tr("mediumorchid");
+        if(colorName=="mediumpurple") return tr("mediumpurple");
+        if(colorName=="mediumseagreen") return tr("mediumseagreen");
+        if(colorName=="mediumslateblue") return tr("mediumslateblue");
+        if(colorName=="mediumspringgreen") return tr("mediumspringgreen");
+        if(colorName=="mediumturquoise") return tr("mediumturquoise");
+        if(colorName=="mediumvioletred") return tr("mediumvioletred");
+        if(colorName=="midnightblue") return tr("midnightblue");
+        if(colorName=="mintcream") return tr("mintcream");
+        if(colorName=="mistyrose") return tr("mistyrose");
+        if(colorName=="moccasin") return tr("moccasin");
+        if(colorName=="navajowhite") return tr("navajowhite");
+        if(colorName=="navy") return tr("navy");
+        if(colorName=="oldlace") return tr("oldlace");
+        if(colorName=="olive") return tr("olive");
+        if(colorName=="olivedrab") return tr("olivedrab");
+        if(colorName=="orange") return tr("orange");
+        if(colorName=="orangered") return tr("orangered");
+        if(colorName=="orchid") return tr("orchid");
+        if(colorName=="palegoldenrod") return tr("palegoldenrod");
+        if(colorName=="palegreen") return tr("palegreen");
+        if(colorName=="paleturquoise") return tr("paleturquoise");
+        if(colorName=="palevioletred") return tr("palevioletred");
+        if(colorName=="papayawhip") return tr("papayawhip");
+        if(colorName=="peachpuff") return tr("peachpuff");
+        if(colorName=="peru") return tr("peru");
+        if(colorName=="pink") return tr("pink");
+        if(colorName=="plum") return tr("plum");
+        if(colorName=="powderblue") return tr("powderblue");
+        if(colorName=="purple") return tr("purple");
+        if(colorName=="red") return tr("red");
+        if(colorName=="rosybrown") return tr("rosybrown");
+        if(colorName=="royalblue") return tr("royalblue");
+        if(colorName=="saddlebrown") return tr("saddlebrown");
+        if(colorName=="salmon") return tr("salmon");
+        if(colorName=="sandybrown") return tr("sandybrown");
+        if(colorName=="seagreen") return tr("seagreen");
+        if(colorName=="seashell") return tr("seashell");
+        if(colorName=="sienna") return tr("sienna");
+        if(colorName=="silver") return tr("silver");
+        if(colorName=="skyblue") return tr("skyblue");
+        if(colorName=="slateblue") return tr("slateblue");
+        if(colorName=="slategray") return tr("slategray");
+        if(colorName=="slategrey") return tr("slategrey");
+        if(colorName=="snow") return tr("snow");
+        if(colorName=="springgreen") return tr("springgreen");
+        if(colorName=="steelblue") return tr("steelblue");
+        if(colorName=="tan") return tr("tan");
+        if(colorName=="teal") return tr("teal");
+        if(colorName=="thistle") return tr("thistle");
+        if(colorName=="tomato") return tr("tomato");
+        if(colorName=="transparent") return tr("transparent");
+        if(colorName=="turquoise") return tr("turquoise");
+        if(colorName=="violet") return tr("violet");
+        if(colorName=="wheat") return tr("wheat");
+        if(colorName=="white") return tr("white");
+        if(colorName=="whitesmoke") return tr("whitesmoke");
+        if(colorName=="yellow") return tr("yellow");
+        if(colorName=="yellowgreen") return tr("yellowgreen");
+        return colorName;
     }
 
 private:
@@ -233,6 +399,8 @@ private:
     QGridLayout *gridLayout;
     QTextEdit *edit;
     Highlighter *highlighter;
+
+    QList<QPair<QString,QString> > listColors;
 
 signals:
      void setSelected(bool);
@@ -325,7 +493,8 @@ public slots:
                 default: weight = QFont::Normal; break;
                 }
 
-                highlighter->addRule(c.editRegExp->text(),QColor(c.comboColor->currentText()),weight,c.checkItalic->isChecked(), c.checkText->isChecked(),
+                QColor color = QColor(c.comboColor->itemData(c.comboColor->currentIndex()).toString());
+                highlighter->addRule(c.editRegExp->text(),color,weight,c.checkItalic->isChecked(), c.checkText->isChecked(),
                                      c.checkCase->isChecked()?Qt::CaseSensitive:Qt::CaseInsensitive);
             }
          }
@@ -333,6 +502,18 @@ public slots:
          highlighter->rehighlight();
      }
 };
+
+
+
+
+
+
+
+
+
+
+
+
 
 class OptionsForm : public QDialog
 {
@@ -344,20 +525,30 @@ public:
 private:
     OptionsValues options_;
 
-    QCheckBox *checkEnableColor;
+    //Colors
+    QCheckBox *checkEnableColors;
+    ColorRegExpForm *cref;
+
+    //General
     QCheckBox *checkSelectNewTab;
     QCheckBox *checkOpenReadOnly;
     QCheckBox *checkreOpenPreviousTabs;
     QLineEdit *editDefaultFolder;
     QComboBox *comboOpenSize;
+    QComboBox *comboChordSize;
     QLabel *fontLabel;
-    ColorRegExpForm *cref;
 
+    //Print
+    QCheckBox *checkEnableColorsOnPrinting;
+    QCheckBox *checkPrintHeaderOnEachPages;
+
+    //Other
     QDialogButtonBox *buttonBox;
 
 protected:
     void createColorTab(QTabWidget *tab);
-    void createOptionsTab(QTabWidget *tab);
+    void createGeneralTab(QTabWidget *tab);
+    void createPrintTab(QTabWidget *tab);
 
 
 signals:

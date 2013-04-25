@@ -41,6 +41,8 @@ struct OptionsValues
     bool reOpenPreviousTabs;
     QFont font;
     QSize chordSize;
+    bool enableColorsOnPrinting;
+    bool printHearderOnEachPages;
 
     QList<ColorRegExp> colors;
 
@@ -50,6 +52,16 @@ struct OptionsValues
     void parse(QWidget* parent = 0);
     void addNode(QDomDocument &dom, QDomElement &parent, QString tag, QString data);
     void addNode(QDomDocument &dom, QDomElement &parent, QString tag, int data);
+
+    QSize toSize(QString str){
+        QSize size;
+        size.setWidth( str.section("x",0,0).toInt() );
+        size.setHeight( str.section("x",1).toInt() );
+        return size;
+    }
+    QString fromSize(QSize size){
+        return QString::number(size.width()) + "x" + QString::number(size.height());
+    }
 };
 
 #endif // OPTIONS_H

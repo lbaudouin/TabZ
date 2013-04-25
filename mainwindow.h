@@ -14,8 +14,10 @@
 #include "options.h"
 #include "optionsform.h"
 #include "chords.h"
+#include "chordsmanager.h"
 #include "downloadxta.h"
 #include "mytabwidget.h"
+#include "tools.h"
 
 struct RecentFile{
     QString title;
@@ -67,39 +69,6 @@ struct RecentNameComparer
     bool operator()(const RecentFile & a, const RecentFile & b) const
     {
         return a.getName() < b.getName();
-    }
-};
-
-struct QPairFirstComparer
-{
-    template<typename T1, typename T2>
-    bool operator()(const QPair<T1,T2> & a, const QPair<T1,T2> & b) const
-    {
-        return a.first < b.first;
-    }
-};
-struct QPairSecondComparer
-{
-    template<typename T1, typename T2>
-    bool operator()(const QPair<T1,T2> & a, const QPair<T1,T2> & b) const
-    {
-        return a.second < b.second;
-    }
-};
-struct QPairFirstComparerInverse
-{
-    template<typename T1, typename T2>
-    bool operator()(const QPair<T1,T2> & a, const QPair<T1,T2> & b) const
-    {
-        return a.first > b.first;
-    }
-};
-struct QPairSecondComparerInverse
-{
-    template<typename T1, typename T2>
-    bool operator()(const QPair<T1,T2> & a, const QPair<T1,T2> & b) const
-    {
-        return a.second > b.second;
     }
 };
 
@@ -211,6 +180,8 @@ public slots:
     void restart(QString);
 
     void pressAbout();
+
+    void changeTabName(QString name);
 
     //For single instance
     void handleMessage(const QString& message);

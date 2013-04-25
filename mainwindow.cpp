@@ -292,6 +292,14 @@ void MainWindow::tabCloseRequest(int index)
     ui->tabWidget->setCurrentWidget(currentWidget);
 }
 
+void MainWindow::changeTabName(QString name)
+{
+    Tab *tab = (Tab*)sender();
+    int index = ui->tabWidget->indexOf(tab);
+    if(index<0) return;
+    ui->tabWidget->setTabText(index,name);
+}
+
 Tab* MainWindow::getCurrentTab()
 {
     if(ui->tabWidget->count()==0) return 0;
@@ -314,6 +322,7 @@ int MainWindow::addTab(XTAinfo info)
     //connect(this,SIGNAL(setColorsEnabled(bool)),tab,SLOT(enableColors(bool)));
     connect(tab,SIGNAL(undoAvailable(bool)),this,SLOT(setUndoAvailable(bool)));
     connect(tab,SIGNAL(redoAvailable(bool)),this,SLOT(setRedoAvailable(bool)));
+    connect(tab,SIGNAL(changeTabName(QString)),this,SLOT(changeTabName(QString)));
     connect(this,SIGNAL(setColors(QList<ColorRegExp>)),tab,SLOT(setColors(QList<ColorRegExp>)));
     connect(this,SIGNAL(optionsChanged(OptionsValues)),tab,SLOT(setOptions(OptionsValues)));
 
@@ -427,7 +436,7 @@ void MainWindow::pressSave()
     if(ui->tabWidget->currentIndex()<0) return;
     Tab *currentTab = getCurrentTab();
     XTAinfo info = currentTab->getXTA();
-    if(info.filename.isEmpty()){
+    if(info.filepath.isEmpty()){
         pressSaveAs();
     }else{
         xta->save(info.filepath,info);
@@ -452,10 +461,10 @@ void MainWindow::pressSaveAs()
 
     if(!filepath.isEmpty()){
         QFileInfo fi(filepath);
-        if(selectedFilter==tr("XTA files (*.xta)") && fi.suffix()!="xta"){
+        if(selectedFilter==tr("XTA files (*.xta)") && !fi.absoluteFilePath().endsWith(".xta",Qt::CaseInsensitive)){
             filepath.push_back(".xta");
         }
-        if(selectedFilter==tr("TXT files (*.txt)") && fi.suffix()!="txt"){
+        if(selectedFilter==tr("TXT files (*.txt)") && !fi.absoluteFilePath().endsWith(".txt",Qt::CaseInsensitive)){
             filepath.push_back(".txt");
         }
         fi.setFile(filepath);
@@ -470,7 +479,7 @@ void MainWindow::pressSaveAs()
 
         xta->save(filepath,info);
         addRecent(info);
-        currentTab->saved();
+        currentTab->saved(fi.absoluteFilePath());
         displaySaveIcon(ui->tabWidget->indexOf(currentTab),false);
     }
 }

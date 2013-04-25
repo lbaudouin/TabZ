@@ -1,39 +1,8 @@
 #include "tab.h"
 
-Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta), undoAvailable_(false), redoAvailable_(false), editable_(true),
-    QWidget(parent)
+Tab::Tab(XTAinfo xta, QWidget *parent) : QWidget(parent), info(xta), modified_info(xta), undoAvailable_(false), redoAvailable_(false), editable_(true), instrument_("Guitar","guitar",6)
 {
-    //TODO, move it
-    mapChord.insert("A","0 0 2 2 1 0");
-    mapChord.insert("B","2 2 4 4 4 2");
-    mapChord.insert("C","0 3 2 0 1 0");
-    mapChord.insert("D","0 0 0 2 3 2");
-    mapChord.insert("E","0 2 2 1 0 0");
-    mapChord.insert("F","1 3 3 2 1 1");
-    mapChord.insert("G","3 2 0 0 0 3");
-    mapChord.insert("Am","0 0 2 2 1 0");
-    mapChord.insert("Bm","2 2 4 4 3 2");
-    mapChord.insert("Cm","X 3 5 5 4 3");
-    mapChord.insert("Dm","0 0 0 2 3 1");
-    mapChord.insert("Em","0 2 2 0 0 0");
-    mapChord.insert("Fm","1 3 3 1 1 1");
-    mapChord.insert("Gm","3 5 5 3 3 3");
-    mapChord.insert("A#","X 1 3 3 3 1");
-    mapChord.insert("C#","X 4 6 6 6 4");
-    mapChord.insert("D#","X 6 8 8 8 6");
-    mapChord.insert("F#","2 4 4 3 2 2");
-    mapChord.insert("G#","4 6 6 5 4 4");
-    mapChord.insert("Bb","X 1 3 3 3 1");
-    mapChord.insert("Db","X 4 6 6 6 4");
-    mapChord.insert("Eb","X 6 8 8 8 6");
-    mapChord.insert("Gb","2 4 4 3 2 2");
-    mapChord.insert("Ab","4 6 6 5 4 4");
-    mapChord.insert("A#m","X 1 3 3 2 1");
-    mapChord.insert("C#m","X 4 6 6 5 4");
-    mapChord.insert("D#m","X 6 8 8 7 6");
-    mapChord.insert("F#m","2 4 4 2 2 2");
-    mapChord.insert("G#m","4 6 6 4 4 4");
-
+    //TODO read instrument
 
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
     mainLayout->setSpacing(6);
@@ -124,6 +93,7 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta), undoAvai
 
     previewLayout = new QVBoxLayout;
     previewLayout->addWidget(printPreviewWidget);
+    printPreviewWidget->setVisible(false);
 
     edit = new QTextEdit;
 
@@ -233,7 +203,8 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta), undoAvai
     tabToolBar = new QToolBar;
     tabToolBar->setOrientation(Qt::Vertical);
     tabToolBar->setMovable(false);
-    tabToolBar->addAction(QIcon(":images/insert-image"),tr("Insert image"), this, SLOT(insertImage()) );
+    tabToolBar->addAction(QIcon(":images/insert-image"),tr("Insert image from file"), this, SLOT(insertImage()) );
+    tabToolBar->addAction(QIcon(":images/insert-clipboard"),tr("Insert image from clipboard"), this, SLOT(insertClipboard()) );
     tabToolBar->addAction(QIcon(":images/tab"),tr("Insert tab"), this, SLOT(insertTab()) );
     //tabToolBar->addAction(QIcon("images/tab2.png"),tr("Insert tab"));
     //tabToolBar->addAction(QIcon("images/tab3.png"),tr("Insert tab"));
@@ -267,15 +238,35 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta), undoAvai
     editTuning->setText( info.tuning );
     editCapo->setValue( info.capo );
     connect(edit,SIGNAL(textChanged()),this,SLOT(textChanged()));
-    connect(editTitle,SIGNAL(textChanged(QString)),this,SLOT(textChanged(QString)));
-    connect(editArtist,SIGNAL(textChanged(QString)),this,SLOT(textChanged(QString)));
-    connect(editAlbum,SIGNAL(textChanged(QString)),this,SLOT(textChanged(QString)));
-    connect(editTuning,SIGNAL(textChanged(QString)),this,SLOT(textChanged(QString)));
+    connect(editTitle,SIGNAL(textChanged(QString)),this,SLOT(infoChanged(QString)));
+    connect(editArtist,SIGNAL(textChanged(QString)),this,SLOT(infoChanged(QString)));
+    connect(editAlbum,SIGNAL(textChanged(QString)),this,SLOT(infoChanged(QString)));
+    connect(editTuning,SIGNAL(textChanged(QString)),this,SLOT(infoChanged(QString)));
     connect(editCapo,SIGNAL(valueChanged(int)),this,SLOT(capoChanged(int)));
 
     edit->setText(info.text);
 
-    printPreviewWidget->setVisible(false);
+    if(info.images.size()>0){
+        QTextCursor cursor = edit->textCursor();
+        for(int i=0;i<info.images.size();i++){
+            QString url = QString("mydata://image%1.png").arg(i);
+
+            edit->document()->addResource(QTextDocument::ImageResource, QUrl(url), QVariant(info.images[i]));
+
+            QTextImageFormat imgTextFormat;
+            imgTextFormat.setName(url);
+
+            cursor =  edit->document()->find(QString(QChar::ObjectReplacementCharacter),cursor);
+            cursor.insertText(QString(QChar::ObjectReplacementCharacter), imgTextFormat);
+            //cursor.insertText(QString::fromUtf8("@@@image%1@@@").arg(i), imgTextFormat);
+            edit->setTextCursor(cursor);
+        }
+    }
+
+    edit->setTextInteractionFlags(Qt::TextEditorInteraction);
+    edit->setAutoFormatting(QTextEdit::AutoNone);
+    edit->setAcceptRichText(false);
+
 
     addChordsFromText(info.chords);
 
@@ -284,20 +275,6 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : info(xta), modified_info(xta), undoAvai
     connect(edit,SIGNAL(cursorPositionChanged()),this,SLOT(updateSelectedNote()));
     connect(edit,SIGNAL(undoAvailable(bool)),this,SLOT(setUndoAvailable(bool)));
     connect(edit,SIGNAL(redoAvailable(bool)),this,SLOT(setRedoAvailable(bool)));
-
-
-    /*edit->document()->addResource(QTextDocument::ImageResource,
-                                QUrl("mydata://image.png"), QVariant(QImage("/home/lbaudouin/Images/logo_lulu.png")));
-
-    QTextImageFormat imgTextFormat;
-    //imgTextFormat.setName(":/images/TabS");
-    imgTextFormat.setName("mydata://image.png");
-
-
-    QTextCursor cursor = edit->textCursor();
-    cursor.insertText(QString(QChar::ObjectReplacementCharacter), imgTextFormat);
-    //cursor.setCharFormat(imgTextFormat);
-    edit->setTextCursor(cursor);*/
 
 }
 
@@ -382,14 +359,36 @@ void Tab::capoChanged(int)
     }
 }
 
+void Tab::infoChanged(QString)
+{
+    modified_info.title = editTitle->text();
+    modified_info.artist = editArtist->text();
+    modified_info.album = editAlbum->text();
+    modified_info.tuning = editTuning->text();
+
+    QString name;
+    if(modified_info.title.isEmpty()){
+        name = info.filename;
+    }else{
+        if(modified_info.artist.isEmpty()){
+            name = modified_info.title;
+        }else{
+            name = modified_info.artist + " - " + modified_info.title;
+        }
+    }
+    emit changeTabName(name);
+    menuAction->setText(name);
+
+    if(!info.isEqual(modified_info)){
+        emit setSaveIcon(-1,true);
+    }else{
+        emit setSaveIcon(-1,false);
+    }
+}
+
 void Tab::textChanged(QString)
 {
-   //TODO, separate in several function
    modified_info.text = edit->toPlainText();
-   modified_info.title = editTitle->text();
-   modified_info.artist = editArtist->text();
-   modified_info.album = editAlbum->text();
-   modified_info.tuning = editTuning->text();
 
    printer->setDocName( modified_info.createFileName() );
 
@@ -406,20 +405,38 @@ bool Tab::isModified()
     return !info.isEqual(modified_info);
 }
 
-void Tab::saved()
+void Tab::saved(QString path)
 {
+    if(!path.isEmpty()){
+        QFileInfo fi(path);
+        modified_info.filepath = fi.absoluteFilePath();
+        modified_info.filename = fi.fileName();
+    }
     info = modified_info;
 }
 
 XTAinfo Tab::getXTA()
 {
     modified_info.chords.clear();
-    for(int i=0;i<chords.size();i++){
-        modified_info.chords += chords.at(i);
-        if(mapChord.contains(chords.at(i))){
-            modified_info.chords += " " + mapChord[chords.at(i)];
+    for(int i=0;i<currentChords.size();i++){
+        modified_info.chords += currentChords.at(i).name;
+        if(!currentChords[i].fingers.isEmpty()){
+            modified_info.chords += " " + currentChords[i].fingers;
         }
         modified_info.chords += "\n";
+    }
+
+    QTextCursor cursor = edit->textCursor();
+    cursor.setPosition(0);
+    modified_info.refImages.clear();
+    while(1){
+        cursor = edit->document()->find(QString(QChar::ObjectReplacementCharacter),cursor);
+        if(cursor.isNull()) break;
+        bool ok;
+        int index = cursor.charFormat().property(QTextFormat::ImageName).toString().section("image",1).section(".png",0,0).toInt(&ok);
+        if(ok){
+            modified_info.refImages << index;
+        }
     }
     return modified_info;
 }
@@ -448,6 +465,12 @@ void Tab::updateSelectedNote()
 void Tab::deleteGuitar()
 {
     Guitar *g = (Guitar*)sender();
+    for(int i=0;i<currentChords.size();i++){
+        if(currentChords[i].name==g->getName()){
+            currentChords.removeAt(i);
+            i--;
+        }
+    }
     chords.removeAll(g->getName());
     v1->removeWidget(g);
     v2->removeWidget(g);
@@ -457,13 +480,11 @@ void Tab::deleteGuitar()
 
 void Tab::resizeLayout()
 {
-    //qDebug() << QSize(v1->count(),v2->count());
-
     if(v1->count()>0 && v2->count()>0){
-        scrollArea->setMinimumWidth(400);
+        scrollArea->setMinimumWidth(2.0 * 1.4 * optionsValues.chordSize.width());
     }else{
         if(v1->count()>0 || v2->count()>0){
-            scrollArea->setMinimumWidth(200);
+            scrollArea->setMinimumWidth(1.4 * optionsValues.chordSize.width());
         }else{
             scrollArea->setMinimumWidth(0);
         }
@@ -489,24 +510,27 @@ void Tab::addNewChord()
 
 void Tab::addChord(QString name, QString fingers)
 {
-    //qDebug() << name << " " << fingers;
     if(chords.contains(name)){
 
     }else{
 
-        if(!fingers.isEmpty())
-            mapChord.insert(name,fingers);
+        if(!fingers.isEmpty()){
+            //TODO save if not already exist
+        }
 
         if(fingers.isEmpty()){
-            if(mapChord.contains(name)){
-                fingers = mapChord[name];
-            }else{
+            fingers = chordsList_->getFingers(instrument_, name);
+            if(fingers.isEmpty()){
                 fingers = "X X X X X X";
             }
         }
 
+        Chord c(name,fingers);
+        currentChords << c;
+
         chords << name;
         Guitar *guitar = new Guitar(name,fingers);
+        guitar->setChordSize( optionsValues.chordSize );
         if(v1->count() > v2->count())
             v2->addWidget(guitar);
         else
@@ -514,6 +538,7 @@ void Tab::addChord(QString name, QString fingers)
         connect(guitar,SIGNAL(closeAndDelete()),this,SLOT(deleteGuitar()));
         connect(this,SIGNAL(removeChord(QString)),guitar,SLOT(remove(QString)));
         connect(this,SIGNAL(setSelected(QString)),guitar,SLOT(setSelected(QString)));
+        connect(this,SIGNAL(setChordSize(QSize)),guitar,SLOT(setChordSize(QSize)));
     }
 
 }
@@ -626,6 +651,10 @@ void Tab::setOptions(OptionsValues options)
     //setEditable(!options.openReadOnly);
     edit->setFont(options.font);
 
+    emit setChordSize(optionsValues.chordSize);
+
+    resizeLayout();
+
     updateView();
 }
 
@@ -658,22 +687,28 @@ void Tab::print(QPrinter *_printer)
 
     QSize chordSize(75,100);
 
-    QTextDocument *doc = new QTextDocument;//edit->document()->clone(this);
+    QTextDocument *doc;
+#if 0
+    doc = new QTextDocument;
     doc->setPlainText( edit->toPlainText() );
     doc->setDefaultFont( optionsValues.font );
+#else
+    doc = edit->document()->clone(this);
+#endif
 
-    if(!optionsValues.enableColors){
+    if(!optionsValues.enableColorsOnPrinting){
         QTextOption opt;
         opt.setFlags(QTextOption::SuppressColors);
         doc->setDefaultTextOption(opt);
     }
 
-    //TODO (remove space for chords)
-    doc->setTextWidth(pageWidth);
     Highlighter *h = new Highlighter(doc);
     h->setRules( highlighter->getRules() );
-    h->rehighlight();
     h->addPersonalRegExp( highlighter->getPersonalRegExp() );
+    h->rehighlight();
+
+    //TODO (remove space for chords)
+    doc->setTextWidth(pageWidth);
 
     int currentRow = 0;
     int previousH = 0;
@@ -691,8 +726,10 @@ void Tab::print(QPrinter *_printer)
     //Compute text height
     int textHeight = 0;
     QList<int> textBlocksHeight;
+    QAbstractTextDocumentLayout *layout = doc->documentLayout();
     for(QTextBlock line = doc->begin(); line!= doc->end(); line = line.next()){
-        QRect lineRect = painter.boundingRect(0, 0, pageWidth, -1, Qt::TextWordWrap, line.text().isEmpty()?"|":line.text()  );
+        QRectF lineRect = layout->blockBoundingRect(line);
+        //QRect lineRect = painter.boundingRect(0, 0, pageWidth, -1, Qt::TextWordWrap, line.text().isEmpty()?"|":line.text()  );
         textBlocksHeight << lineRect.height();
         textHeight += lineRect.height();
     }
@@ -705,15 +742,15 @@ void Tab::print(QPrinter *_printer)
     int chordsHeight = 0;
     QList<int>chordBlocksHeight;
     for(int i=0;i<chords.size();i++){
-        Strings str(mapChord[chords[i]]);
-        str.setSize(chordSize);
-        QRect chordRect = painter.boundingRect(0, 0, str.width(), chordSize.width(), Qt::AlignLeft, chords.at(i)  );
-        chordBlocksHeight << str.height()/2 + 10 + chordRect.height();
-        chordsHeight += str.height()/2 + 10 + chordRect.height();
+        //Strings str(mapChord[chords[i]]);
+        //str.setSize(chordSize);
+        QRect chordRect = painter.boundingRect(0, 0, chordSize.width(), chordSize.width(), Qt::AlignLeft, chords.at(i)  );
+        chordBlocksHeight << chordSize.height() + 10 + chordRect.height();
+        chordsHeight += chordSize.height() + 10 + chordRect.height();
     }
 
     //TODO, make an option
-    bool printHeadersOnAllPages = true;
+    bool printHeadersOnAllPages = optionsValues.printHearderOnEachPages;
 
     int nbPages = 0;
     if(textHeight<pageHeight-headersHeight){
@@ -848,7 +885,7 @@ void Tab::print(QPrinter *_printer)
 
                 }
 
-                Strings str(mapChord[chords[i]]);
+                Strings str(currentChords[i].fingers);
 
                 str.setSize(chordSize);
 
@@ -859,7 +896,7 @@ void Tab::print(QPrinter *_printer)
 
                 str.paint(&painter,true);
 
-                painter.translate(0,str.height()/2 + 10);
+                painter.translate(0,chordSize.height() + 10);
 
                 currentChordPrinted++;
             }
@@ -879,7 +916,7 @@ void Tab::print(QPrinter *_printer)
                 if(hSumChords>(maxHeight)){
                     break;
                 }else{
-                    Strings str(mapChord[chords[i]]);
+                    Strings str(currentChords[i].fingers);
 
                     str.setSize(chordSize);
 
@@ -1068,8 +1105,23 @@ void Tab::insertImage()
     QString path = QFileDialog::getOpenFileName(this,tr("Load image"),QDir::homePath(),tr("Image (*.png)"));
     if(path.isEmpty()) return;
 
-    QString url = QString("mydata://image%1.png").arg(modified_info.images.size());
     QImage img(path);
+    addImage(img);
+}
+
+void Tab::insertClipboard()
+{
+    QClipboard *clipboard = QApplication::clipboard();
+    QImage img = clipboard->image();
+    if(img.isNull()) return;
+
+    addImage(img);
+}
+
+void Tab::addImage(QImage &img)
+{
+    int index = modified_info.images.size();
+    QString url = QString("mydata://image%1.png").arg(index);
     modified_info.images << img;
 
     edit->document()->addResource(QTextDocument::ImageResource,

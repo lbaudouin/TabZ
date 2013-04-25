@@ -7,6 +7,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QTextCodec>
+#include <QBuffer>
 
 #include <QDebug>
 
@@ -25,6 +26,7 @@ protected:
     void readHeaders(QDomNode &node, XTAinfo &xta);
     void readContent(QDomNode &node, XTAinfo &xta);
     void readSongInfo(QDomNode &node, XTAinfo &xta);
+    void readImagesInfo(QDomNode &node, XTAinfo &xta);
 
     void addNode(QDomDocument &dom, QDomElement &parent, QString tag, QString data);
     void addNode(QDomDocument &dom, QDomElement &parent, QString tag, int data);

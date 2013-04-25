@@ -116,6 +116,9 @@ void XTA::readContent(QDomNode &node, XTAinfo &xta)
             xta.text = element.text();
         if(element.tagName()=="TableAccords")
             xta.chords = element.text();
+        if(element.tagName()=="images"){
+            readImagesInfo(child,xta);
+        }
 
         child = child.nextSibling();
     }
@@ -142,10 +145,30 @@ void XTA::readSongInfo(QDomNode &node, XTAinfo &xta)
     }
 }
 
+void XTA::readImagesInfo(QDomNode &node, XTAinfo &xta)
+{
+    QDomNode child = node.firstChild();
+
+    while(!child.isNull())
+    {
+        QDomElement element = child.toElement();
+
+        if(element.tagName()=="image"){
+            QString ref = element.attribute("ref");
+            QByteArray ba( element.text().toUtf8() );
+            QImage img = QImage::fromData( QByteArray::fromBase64(ba) );
+            xta.images << img;
+        }
+
+
+        child = child.nextSibling();
+    }
+}
+
 void XTA::save(QString filepath, XTAinfo xta)
 {
     if(!filepath.endsWith("txt",Qt::CaseInsensitive) && !filepath.endsWith("xta",Qt::CaseInsensitive)){
-        QMessageBox::critical(this,tr("Error"),tr("Invalid file suffix, must be 'txt'' or 'xta'"));
+        QMessageBox::critical(this,tr("Error"),tr("Invalid file suffix, must be 'txt' or 'xta'\nFilename: %1").arg(filepath));
         return;
     }
 
@@ -192,6 +215,26 @@ void XTA::save(QString filepath, XTAinfo xta)
 
             addNode(dom,node1,"TXT",xta.text);
             addNode(dom,node1,"TableAccords",xta.chords);
+
+            if(xta.images.size()>0){
+                QDomElement nodeImages = dom.createElement("images");
+                node1.appendChild(nodeImages);
+
+                for(int i=0;i<xta.refImages.size();i++){
+                    QDomElement node2 = dom.createElement("image");
+                    node2.setAttribute("ref", QString("image%1").arg(i));
+                    nodeImages.appendChild(node2);
+
+                    QImage image = xta.images[xta.refImages[i]];
+
+                    QByteArray ba;
+                    QBuffer buf(&ba);
+                    image.save(&buf, "png");
+
+                    QDomText textNode = dom.createTextNode(ba.toBase64());
+                    node2.appendChild(textNode);
+                }
+            }
         }
 
         stream << dom.toString();

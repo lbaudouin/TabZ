@@ -209,11 +209,6 @@
     <string>Ctrl+F</string>
    </property>
   </action>
-  <action name="actionOpen_All">
-   <property name="text">
-    <string>Open All</string>
-   </property>
-  </action>
   <action name="actionEdit_List">
    <property name="enabled">
     <bool>false</bool>
@@ -442,22 +437,6 @@
     <bool>true</bool>
    </property>
   </action>
-  <action name="actionTranslate_FR_EN">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Translate FR -&gt; EN</string>
-   </property>
-  </action>
-  <action name="actionTranslate_EN_FR">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Translate EN -&gt; FR</string>
-   </property>
-  </action>
   <action name="actionFull_Screen">
    <property name="checkable">
     <bool>true</bool>
@@ -552,11 +531,6 @@
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
-   </property>
-  </action>
-  <action name="actionInsert_Tab">
-   <property name="text">
-    <string>Insert Tab</string>
    </property>
   </action>
   <action name="actionExport_PDF">

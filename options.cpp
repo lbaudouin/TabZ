@@ -9,6 +9,8 @@ OptionsValues::OptionsValues()
     defaultPath = "";
     reOpenPreviousTabs = false;
     chordSize = QSize(150,200);
+    enableColorsOnPrinting = true;
+    printHearderOnEachPages = true;
 #if defined(__WIN32__)
     font =  QFont("Lucida Console",12);
 #else
@@ -50,8 +52,11 @@ void OptionsValues::save(QWidget *parent)
         addNode(dom,mainNode,"selectNewTab",selectNewTab);
         addNode(dom,mainNode,"openReadOnly",openReadOnly);
         addNode(dom,mainNode,"openSizeMode",openSizeMode);
+        addNode(dom,mainNode,"chordSize",fromSize(chordSize));
         addNode(dom,mainNode,"reOpenPreviousTabs",reOpenPreviousTabs);
         addNode(dom,mainNode,"font",font.toString());
+        addNode(dom,mainNode,"enableColorsOnPrinting",enableColorsOnPrinting);
+        addNode(dom,mainNode,"printHearderOnEachPages",printHearderOnEachPages);
 
 
 
@@ -127,6 +132,15 @@ void OptionsValues::parse(QWidget *parent)
         }
         if(element.tagName()=="openSizeMode"){
             openSizeMode = element.text().toInt();
+        }
+        if(element.tagName()=="enableColorsOnPrinting"){
+            enableColorsOnPrinting = element.text().toInt();
+        }
+        if(element.tagName()=="printHearderOnEachPages"){
+            printHearderOnEachPages = element.text().toInt();
+        }
+        if(element.tagName()=="chordSize"){
+            chordSize = toSize(element.text());;
         }
         if(element.tagName()=="font"){
             QString fontString = element.text();
