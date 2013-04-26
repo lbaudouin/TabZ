@@ -213,6 +213,18 @@ void MainWindow::setUpToolBar()
 
     connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(pressAbout()));
 
+    moveToolBar(options.mainToolBarPosition);
+}
+
+void MainWindow::moveToolBar(int toolBarPosition)
+{
+    switch(toolBarPosition){
+    case 0: this->addToolBar(Qt::TopToolBarArea,ui->mainToolBar); break;
+    case 1: this->addToolBar(Qt::LeftToolBarArea,ui->mainToolBar); break;
+    case 2: this->addToolBar(Qt::RightToolBarArea,ui->mainToolBar); break;
+    case 3: this->addToolBar(Qt::BottomToolBarArea,ui->mainToolBar); break;
+    default: this->addToolBar(Qt::TopToolBarArea,ui->mainToolBar); break;
+    }
 }
 
 /** Function called when current tab changed
@@ -314,9 +326,8 @@ int MainWindow::addTab(XTAinfo info)
     if(tabName.isEmpty())
         tabName = tr("New");
 
-    Tab *tab = new Tab(info, ui->tabWidget);
+    Tab *tab = new Tab(info, chords, ui->tabWidget);
     tab->setOptions(options);
-    tab->setChords(chords);
 
     connect(tab,SIGNAL(setSaveIcon(int,bool)),this,SLOT(displaySaveIcon(int,bool)));
     //connect(this,SIGNAL(setColorsEnabled(bool)),tab,SLOT(enableColors(bool)));
@@ -662,15 +673,17 @@ void MainWindow::pressPreference()
         OptionsValues o = opt->getOptions();
         options = o;
         options.save(this);
+        moveToolBar(options.mainToolBarPosition);
         emit optionsChanged(options);
     }
 }
 
 void MainWindow::pressChordsManager()
 {
-    ChordsManager *chordManager = new ChordsManager;
-    chordManager->setChords( chords );
-    chordManager->exec();
+    ChordsManager *chordManager = new ChordsManager(chords);
+    if(chordManager->exec()){
+        chordManager->save();
+    }
 }
 
 void MainWindow::readRecent()
@@ -851,7 +864,7 @@ void MainWindow::pressPreview()
     QPrintPreviewDialog *pDialog = new QPrintPreviewDialog(this,Qt::Dialog);
     connect(pDialog, SIGNAL(paintRequested(QPrinter*)), tab, SLOT(print(QPrinter*)));
     QPrinter *printer = pDialog->printer();
-    printer->setPageMargins(10,10,10,10,QPrinter::Millimeter);
+    printer->setPageMargins(options.topMargin,options.leftMargin,options.rightMargin,options.bottomMargin,QPrinter::Millimeter);
     QString default_filename = tab->getXTA().createFileName();
     printer->setOutputFileName(default_filename);
     pDialog->exec();
@@ -865,7 +878,7 @@ void MainWindow::pressPrint()
     QPrintPreview *pDialog = new QPrintPreview(this,Qt::Dialog);
     connect(pDialog, SIGNAL(paintRequested(QPrinter*)), tab, SLOT(print(QPrinter*)));
     QPrinter *printer = pDialog->getPrinter();
-    printer->setPageMargins(10,10,10,10,QPrinter::Millimeter);
+    printer->setPageMargins(options.topMargin,options.leftMargin,options.rightMargin,options.bottomMargin,QPrinter::Millimeter);
     QString default_filename = tab->getXTA().createFileName();
     pDialog->pressPrint(default_filename);
 }
@@ -887,7 +900,7 @@ void MainWindow::pressExportPDF()
     QPrintPreview *pDialog = new QPrintPreview(this,Qt::Dialog);
     connect(pDialog, SIGNAL(paintRequested(QPrinter*)), tab, SLOT(print(QPrinter*)));
     QPrinter *printer = pDialog->getPrinter();
-    printer->setPageMargins(10,10,10,10,QPrinter::Millimeter);
+    printer->setPageMargins(options.topMargin,options.leftMargin,options.rightMargin,options.bottomMargin,QPrinter::Millimeter);
     pDialog->exportPDF(filename);
 
     QMessageBox::information(this,tr("Export PDF"),tr("PDF exported : %1").arg(filename));

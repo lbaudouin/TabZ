@@ -1,9 +1,7 @@
 #include "tab.h"
 
-Tab::Tab(XTAinfo xta, QWidget *parent) : QWidget(parent), info(xta), modified_info(xta), undoAvailable_(false), redoAvailable_(false), editable_(true), instrument_("Guitar","guitar",6)
+Tab::Tab(XTAinfo xta, Chords* chordsList, QWidget *parent) : QWidget(parent), info(xta), modified_info(xta), chordsList_(chordsList), undoAvailable_(false), redoAvailable_(false), editable_(true), instrument_("Guitar","guitar",6)
 {
-    //TODO read instrument
-
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
     mainLayout->setSpacing(6);
     //layout->setContentsMargins(11, 11, 11, 11);
@@ -23,7 +21,6 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : QWidget(parent), info(xta), modified_in
     font.setBold(true);
     labelInfo->setFont(font);
     specialInfo = new QLabel("Info");
-    //labelInfo->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
     i1->addWidget(labelInfo);
     i1->addWidget(specialInfo);
 
@@ -38,8 +35,16 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : QWidget(parent), info(xta), modified_in
     formLayout->addRow(tr("Album:"),editAlbum);
     editTuning = new QLineEdit;
     formLayout->addRow(tr("Tuning:"),editTuning);
-    editCapo = new QSpinBox();
+    comboInstrument = new QComboBox;
+    formLayout->addRow(tr("Instrument:"),comboInstrument);
 
+    QList<Instrument> instruments = chordsList_->getInstruments();
+    for(int i=0;i<instruments.size();i++){
+        comboInstrument->addItem(instruments[i].name, instruments[i].label);
+    }
+
+
+    editCapo = new QSpinBox();
     QSpacerItem *spacerSpinBox = new QSpacerItem(10,10,QSizePolicy::Expanding,QSizePolicy::Ignored);
     QHBoxLayout *layoutSpinBox = new QHBoxLayout;
     editCapo->setMinimum(0);
@@ -62,9 +67,6 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : QWidget(parent), info(xta), modified_in
     hideShow->setIcon(icon);
     i2->addWidget(hideShow);
 
-    //QSpacerItem *buttonSpacer = new QSpacerItem(10,10,QSizePolicy::Ignored,QSizePolicy::Expanding);
-    //i2->addSpacerItem(buttonSpacer);
-
     infoLayout->addLayout(i1);
     infoLayout->addLayout(i2);
 
@@ -72,14 +74,6 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : QWidget(parent), info(xta), modified_in
     connect(hideShow,SIGNAL(toggled(bool)),specialInfo,SLOT(setHidden(bool)));
     connect(hideShow,SIGNAL(toggled(bool)),infoWidget,SLOT(setVisible(bool)));
     connect(hideShow,SIGNAL(clicked()),this,SLOT(updateTitle()));
-
-
-    /*printer = new QPrinter;
-    printer->setOutputFormat(QPrinter::NativeFormat);
-    printer->setOrientation(QPrinter::Portrait);
-    printer->setPaperSize(QPrinter::A4);
-    printer->setPrintRange(QPrinter::PageRange);
-    printer->setFullPage(true);*/
 
     printPreviewWidget = new QPrintPreview(/*printer*/);
     printer = printPreviewWidget->getPrinter();
@@ -108,45 +102,10 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : QWidget(parent), info(xta), modified_in
 
     highlighter = new Highlighter(edit->document());
 
-
-    //edit->document()->setPageSize(QSizeF(10,10));
-
-    //Highlighter *highlighter = new Highlighter(edit->document());
-
     chordLayout = new QVBoxLayout;
-#if 0
-    //Buttons
-    QToolButton *buttonAdd = new QToolButton();
-    buttonAdd->setIcon( QIcon(":images/add") );
-    buttonAdd->setToolTip(tr("Add new chord"));
-    buttonAdd->setStatusTip(tr("Add new chord"));
-    QToolButton *buttonCopy = new QToolButton();
-    buttonCopy->setIcon( QIcon(":images/copy") );
-    buttonCopy->setToolTip(tr("Import from text"));
-    buttonCopy->setStatusTip(tr("Import from text"));
-    QToolButton *buttonImport = new QToolButton();
-    buttonImport->setIcon( QIcon(":images/import") );
-    buttonImport->setToolTip(tr("Import from XTA"));
-    buttonImport->setStatusTip(tr("Import from XTA"));
-    QToolButton *buttonRead = new QToolButton();
-    buttonRead->setIcon( QIcon(":images/search") );
-    buttonRead->setToolTip(tr("Manage"));
-    buttonRead->setStatusTip(tr("Manage"));
 
-    QHBoxLayout *buttonLayout = new QHBoxLayout;
-    buttonLayout->addWidget(buttonAdd);
-    buttonLayout->addWidget(buttonCopy);
-    buttonLayout->addWidget(buttonImport);
-    buttonLayout->addWidget(buttonRead);
-
-    connect(buttonAdd,SIGNAL(clicked()),this,SLOT(addNewChord()));
-    connect(buttonImport,SIGNAL(clicked()),this,SLOT(importFromXTA()));
-    connect(buttonCopy,SIGNAL(clicked()),this,SLOT(import()));
-    connect(buttonRead,SIGNAL(clicked()),this,SLOT(read()));
-
-    chordLayout->addLayout(buttonLayout);
-#else
-    QToolBar *chordToolBar = new QToolBar;
+    chordToolBar = new QToolBar;
+    chordToolBar->setOrientation(Qt::Vertical);
     chordToolBar->setMovable(false);
     chordToolBar->addAction(QIcon(":images/add"), tr("Add new chord"), this, SLOT(addNewChord()) );
     chordToolBar->addAction(QIcon(":images/copy"), tr("Import from text"), this, SLOT(import()) );
@@ -154,8 +113,6 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : QWidget(parent), info(xta), modified_in
     chordToolBar->addAction(QIcon(":images/search"), tr("Manage"), this, SLOT(read()) );
 
     chordLayout->addWidget(chordToolBar);
-#endif
-
 
     //two columns displayer
 
@@ -183,22 +140,18 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : QWidget(parent), info(xta), modified_in
     w2->setLayout(h);
 
     scrollArea =new QScrollArea();
+    scrollArea->setVisible(false);
     scrollArea->setAlignment(Qt::AlignCenter);
     scrollArea->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
     scrollArea->setWidget(w2);
     scrollArea->setWidgetResizable(true);
     scrollArea->setFrameStyle(QFrame::Box);
-    //scrollArea->raise();
-
     scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
     scrollArea->setMinimumWidth(0);
 
     chordLayout->addWidget(scrollArea);
 
-    //QSpacerItem *spacer = new QSpacerItem(10,10,QSizePolicy::Minimum,QSizePolicy::Maximum);
-    //chordsLayout->addSpacerItem(spacer);
 
     tabToolBar = new QToolBar;
     tabToolBar->setOrientation(Qt::Vertical);
@@ -206,17 +159,17 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : QWidget(parent), info(xta), modified_in
     tabToolBar->addAction(QIcon(":images/insert-image"),tr("Insert image from file"), this, SLOT(insertImage()) );
     tabToolBar->addAction(QIcon(":images/insert-clipboard"),tr("Insert image from clipboard"), this, SLOT(insertClipboard()) );
     tabToolBar->addAction(QIcon(":images/tab"),tr("Insert tab"), this, SLOT(insertTab()) );
-    //tabToolBar->addAction(QIcon("images/tab2.png"),tr("Insert tab"));
-    //tabToolBar->addAction(QIcon("images/tab3.png"),tr("Insert tab"));
-    //tabToolBar->addAction(QIcon("images/tab4.png"),tr("Insert tab"));
+    tabToolBar->addSeparator();
     tabToolBar->addAction(QIcon(":images/La-A"),tr("French to English"), this, SLOT(translateFrEn()) );
     tabToolBar->addAction(QIcon(":images/A-La"),tr("English to French"), this, SLOT(translateEnFr()) );
+    tabToolBar->addSeparator();
+    tabToolBar->addAction(QIcon(":images/import"),tr("Import images"), this, SLOT(importImages()));
+    tabToolBar->addAction(QIcon(":images/export"),tr("Export images"), this, SLOT(exportImages()));
 
 #if 1
     QHBoxLayout *hlayout = new QHBoxLayout;
     hlayout->addWidget(tabToolBar,Qt::AlignTrailing);
     hlayout->addWidget(edit);
-    //hlayout->addWidget(printPreviewWidget);
     hlayout->addLayout(previewLayout);
     hlayout->addLayout(chordLayout);
     mainLayout->addLayout(hlayout);
@@ -244,6 +197,11 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : QWidget(parent), info(xta), modified_in
     connect(editTuning,SIGNAL(textChanged(QString)),this,SLOT(infoChanged(QString)));
     connect(editCapo,SIGNAL(valueChanged(int)),this,SLOT(capoChanged(int)));
 
+    QString instrumentName = chordsList_->getInstrumentName(info.instrument);
+    QStringList allInstrument = chordsList_->getInstrumentsNames();
+
+    comboInstrument->setCurrentIndex(allInstrument.indexOf(instrumentName));
+
     edit->setText(info.text);
 
     if(info.images.size()>0){
@@ -258,7 +216,6 @@ Tab::Tab(XTAinfo xta, QWidget *parent) : QWidget(parent), info(xta), modified_in
 
             cursor =  edit->document()->find(QString(QChar::ObjectReplacementCharacter),cursor);
             cursor.insertText(QString(QChar::ObjectReplacementCharacter), imgTextFormat);
-            //cursor.insertText(QString::fromUtf8("@@@image%1@@@").arg(i), imgTextFormat);
             edit->setTextCursor(cursor);
         }
     }
@@ -401,7 +358,6 @@ void Tab::textChanged(QString)
 
 bool Tab::isModified()
 {
-    //info.diff(modified_info);
     return !info.isEqual(modified_info);
 }
 
@@ -438,6 +394,9 @@ XTAinfo Tab::getXTA()
             modified_info.refImages << index;
         }
     }
+
+    modified_info.instrument = comboInstrument->itemData(comboInstrument->currentIndex()).toString();
+
     return modified_info;
 }
 
@@ -475,6 +434,12 @@ void Tab::deleteGuitar()
     v1->removeWidget(g);
     v2->removeWidget(g);
     g->close();
+
+    if(v1->count()==0 && v2->count()==0){
+        chordToolBar->setOrientation(Qt::Vertical);
+        scrollArea->setVisible(false);
+    }
+
     resizeLayout();
 }
 
@@ -494,8 +459,7 @@ void Tab::resizeLayout()
 
 void Tab::addNewChord()
 {
-    ChordsManager *cm = new ChordsManager;
-    cm->setChords(chordsList_);
+    ChordsManager *cm = new ChordsManager(chordsList_);
     Chord c = cm->addNewChord();
 
     if(c.name.isEmpty()){
@@ -531,6 +495,10 @@ void Tab::addChord(QString name, QString fingers)
         chords << name;
         Guitar *guitar = new Guitar(name,fingers);
         guitar->setChordSize( optionsValues.chordSize );
+
+        chordToolBar->setOrientation(Qt::Horizontal);
+        scrollArea->setVisible(true);
+
         if(v1->count() > v2->count())
             v2->addWidget(guitar);
         else
@@ -647,9 +615,10 @@ void Tab::setOptions(OptionsValues options)
 
     setColors(options.colors);
 
-    //edit->setReadOnly(options.openReadOnly);
-    //setEditable(!options.openReadOnly);
     edit->setFont(options.font);
+
+    printer->setPageMargins(optionsValues.topMargin,optionsValues.leftMargin,
+                            optionsValues.rightMargin,optionsValues.bottomMargin,QPrinter::Millimeter);
 
     emit setChordSize(optionsValues.chordSize);
 
@@ -1026,12 +995,17 @@ void Tab::import()
 
 void Tab::importFromXTA()
 {
-    QString filepath = QFileDialog::getOpenFileName(this,tr("Import from file"),optionsValues.defaultPath,tr("XTA files (*.xta)"));
-    if(filepath.isEmpty())
-        return;
-    XTA xta(this);
-    XTAinfo imported_info = xta.parse(filepath);
+    XTAinfo imported_info = readXTA();
     addChordsFromText(imported_info.text);
+}
+
+XTAinfo Tab::readXTA(QString filepath)
+{
+    if(filepath.isEmpty()){
+        filepath = QFileDialog::getOpenFileName(this,tr("Import from file"),optionsValues.defaultPath,tr("XTA files (*.xta)"));
+    }
+    XTA xta(this);
+    return xta.parse(filepath);
 }
 
 void Tab::insertTab()
@@ -1143,6 +1117,42 @@ void Tab::translateFrEn()
 void Tab::translateEnFr()
 {
     QMessageBox::critical(this,"Error","Not available, coming soon");
+}
+
+void Tab::importImages()
+{
+    XTAinfo imported_info = readXTA();
+    for(int i=0;i<imported_info.images.size();i++){
+        addImage( imported_info.images[i] );
+    }
+}
+
+void Tab::exportImages()
+{
+    QTextCursor cursor = edit->textCursor();
+    cursor.setPosition(0);
+    modified_info.refImages.clear();
+
+    QList<QImage> images;
+    while(1){
+        cursor = edit->document()->find(QString(QChar::ObjectReplacementCharacter),cursor);
+        if(cursor.isNull()) break;
+        bool ok;
+        int index = cursor.charFormat().property(QTextFormat::ImageName).toString().section("image",1).section(".png",0,0).toInt(&ok);
+        if(ok){
+            images << modified_info.images[index];
+        }
+    }
+
+    if(images.size()>0){
+        QString folder = QFileDialog::getExistingDirectory(this,tr("Select output folder"),optionsValues.defaultPath);
+        if(folder.isEmpty()) return;
+
+        for(int i=0;i<images.size();i++){
+            QString filename = folder + QDir::separator() + QString("img%1.png").arg(i);
+            images[i].save(filename);
+        }
+    }
 }
 
 

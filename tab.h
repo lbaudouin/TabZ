@@ -25,7 +25,7 @@ class Tab : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Tab(XTAinfo xta, QWidget *parent = 0);
+    explicit Tab(XTAinfo xta, Chords* chordsList, QWidget *parent = 0);
     XTAinfo getXTA();
 
     bool isEditable() {return editable_; }
@@ -35,15 +35,14 @@ public:
     bool isUndoAvailable();
     bool isRedoAvailable();
 
-
-    void setChords(Chords* chordsList) { chordsList_ = chordsList; }
-
     QAction* getAction() { return menuAction; }
 
 protected:
     void addChordsFromText(QString text);
     //void setUpToolBar();
     void addImage(QImage &img);
+
+    XTAinfo readXTA(QString filepath = QString());
     
 private:
     QTextEdit *edit;
@@ -51,12 +50,14 @@ private:
     XTAinfo info,modified_info;
 
     QToolBar *tabToolBar;
+    QToolBar *chordToolBar;
 
     QVBoxLayout *previewLayout;
 
     QWidget *allInfoWidget;
 
     QLineEdit *editTitle,*editArtist,*editAlbum,*editTuning;
+    QComboBox *comboInstrument;
     QSpinBox *editCapo;
 
     QVBoxLayout *chordLayout;
@@ -67,13 +68,7 @@ private:
 
     OptionsValues optionsValues;
 
-    bool undoAvailable_, redoAvailable_;
-
-    bool editable_;
-
-
     QStringList chords;
-    Instrument instrument_;
     QList<Chord> currentChords;
 
     QPrintPreview *printPreviewWidget;
@@ -82,6 +77,11 @@ private:
     Chords *chordsList_;
 
     QAction *menuAction;
+
+    bool undoAvailable_, redoAvailable_;
+    bool editable_;
+
+    Instrument instrument_;
 
 signals:
     void setSaveIcon(int,bool);
@@ -145,6 +145,9 @@ public slots:
 
     void translateFrEn();
     void translateEnFr();
+
+    void importImages();
+    void exportImages();
     
 };
 

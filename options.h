@@ -43,6 +43,11 @@ struct OptionsValues
     QSize chordSize;
     bool enableColorsOnPrinting;
     bool printHearderOnEachPages;
+    int mainToolBarPosition;
+    int topMargin;
+    int leftMargin;
+    int rightMargin;
+    int bottomMargin;
 
     QList<ColorRegExp> colors;
 

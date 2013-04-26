@@ -23,10 +23,11 @@
 
 struct Chord{
     Chord() {}
-    Chord(QString _name, QString _fingers, QString _comment = "") {name=_name; fingers=_fingers; comment=_comment; }
+    Chord(QString _name, QString _fingers, QString _comment = "", bool _locked = false) {name=_name; fingers=_fingers; comment=_comment; locked=_locked; }
     QString name;
     QString fingers;
     QString comment;
+    bool locked;
 };
 
 struct Instrument{
@@ -54,6 +55,8 @@ public:
     void parse();
     void save();
 
+    Instrument getInstrument(QString label);
+    QString getInstrumentName(QString label);
     QStringList getInstrumentsNames();
     QList<Instrument> getInstruments();
     QList<Chord> getChords(Instrument);
@@ -69,7 +72,7 @@ private:
     //QList<Instrument> instruments;
 
 public:
-    void addChord(Instrument instrument, QString name, QString fingers, QString comment = "");
+    void addChord(Instrument instrument, QString name, QString fingers, QString comment = "", bool locked = false);
     Instrument addInstrument(QString name, QString label, int nbStrings);
 };
 

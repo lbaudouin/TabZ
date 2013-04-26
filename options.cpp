@@ -11,6 +11,12 @@ OptionsValues::OptionsValues()
     chordSize = QSize(150,200);
     enableColorsOnPrinting = true;
     printHearderOnEachPages = true;
+    mainToolBarPosition = 0;
+    topMargin = 10;
+    leftMargin = 10;
+    rightMargin = 10;
+    bottomMargin = 10;
+
 #if defined(__WIN32__)
     font =  QFont("Lucida Console",12);
 #else
@@ -57,7 +63,11 @@ void OptionsValues::save(QWidget *parent)
         addNode(dom,mainNode,"font",font.toString());
         addNode(dom,mainNode,"enableColorsOnPrinting",enableColorsOnPrinting);
         addNode(dom,mainNode,"printHearderOnEachPages",printHearderOnEachPages);
-
+        addNode(dom,mainNode,"mainToolBarPosition",mainToolBarPosition);
+        addNode(dom,mainNode,"topMargin",topMargin);
+        addNode(dom,mainNode,"leftMargin",leftMargin);
+        addNode(dom,mainNode,"rightMargin",rightMargin);
+        addNode(dom,mainNode,"bottomMargin",bottomMargin);
 
 
         QDomElement colorNode = dom.createElement("colors");
@@ -139,6 +149,9 @@ void OptionsValues::parse(QWidget *parent)
         if(element.tagName()=="printHearderOnEachPages"){
             printHearderOnEachPages = element.text().toInt();
         }
+        if(element.tagName()=="mainToolBarPosition"){
+            mainToolBarPosition = element.text().toInt();
+        }
         if(element.tagName()=="chordSize"){
             chordSize = toSize(element.text());;
         }
@@ -146,6 +159,19 @@ void OptionsValues::parse(QWidget *parent)
             QString fontString = element.text();
             if(!fontString.isEmpty())
                 font.fromString(fontString);
+        }
+
+        if(element.tagName()=="topMargin"){
+            topMargin = element.text().toInt();
+        }
+        if(element.tagName()=="leftMargin"){
+            leftMargin = element.text().toInt();
+        }
+        if(element.tagName()=="rightMargin"){
+            rightMargin = element.text().toInt();
+        }
+        if(element.tagName()=="bottomMargin"){
+            bottomMargin = element.text().toInt();
         }
 
         if(element.tagName()=="colors"){

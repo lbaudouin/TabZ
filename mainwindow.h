@@ -89,6 +89,7 @@ public:
 protected:
     void setUpToolBar();
     void setUpMenu();
+    void moveToolBar(int toolBarPosition);
     int addTab(XTAinfo info);
     Tab* getCurrentTab();
     

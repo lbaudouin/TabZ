@@ -1,8 +1,8 @@
 #include "chordsmanager.h"
 
-ChordsManager::ChordsManager(QWidget *parent) :
-    QDialog(parent)
+ChordsManager::ChordsManager(Chords* chords, QWidget *parent) : QDialog(parent), chords_(chords)
 {
+    this->setMinimumSize(QSize(800,600));
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     tabWidget = new QTabWidget;
     mainLayout->addWidget(tabWidget);
@@ -21,10 +21,9 @@ void ChordsManager::buttonClicked(QAbstractButton *button){
     }
 }
 
-void ChordsManager::setChords(Chords *chords)
+void ChordsManager::save()
 {
-    chords_ = chords;
-    updateManager();
+    chords_->save();
 }
 
 void ChordsManager::updateManager()
@@ -51,7 +50,7 @@ void ChordsManager::updateManager()
 
         for(int i=0;i<list.size();i++){
             Guitar *guitar = new Guitar(list[i].name, list[i].fingers);
-            guitar->setMenu(true,false,false);
+            guitar->setMenu(!list[i].locked,false,false);
             gridLayout->addWidget( guitar , i/nb, i%nb);
         }
 
@@ -131,6 +130,8 @@ Chord ChordsManager::addNewChord(QWidget *parent)
         chord.name = name;
         chord.fingers = fingers;
         chord.comment = "";
+
+        break;
     }
 
     return chord;

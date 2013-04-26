@@ -43,7 +43,8 @@ HEADERS  += mainwindow.h \
     mycheckbox.h \
     mytabwidget.h \
     chordsmanager.h \
-    tools.h
+    tools.h \
+    colorregexpform.h
     #myprintpreviewwidget.h #\
     #myprinterprivate.h
 

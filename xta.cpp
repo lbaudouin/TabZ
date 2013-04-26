@@ -49,8 +49,6 @@ XTAinfo XTA::parse(QString filepath, bool *ok)
         {
             QDomElement element = node.toElement();
 
-            //qDebug() << element.tagName();
-
             if(element.tagName()=="Header"){
                 readHeaders(node,xta);
             }
@@ -78,14 +76,14 @@ void XTA::readHeaders(QDomNode &node, XTAinfo &xta)
     {
         QDomElement element = child.toElement();
 
-        //qDebug() << element.tagName();
-
         if(element.tagName()=="Musique"){
             readSongInfo(child,xta);
         }
 
         if(element.tagName()=="Version")
             xta.version = element.text();
+        if(element.tagName()=="instrument")
+            xta.instrument = element.text();
         if(element.tagName()=="Capo")
             xta.capo = element.text().toInt();
         if(element.tagName()=="Accordage"){
@@ -110,8 +108,6 @@ void XTA::readContent(QDomNode &node, XTAinfo &xta)
     {
         QDomElement element = child.toElement();
 
-        //qDebug() << element.tagName();
-
         if(element.tagName()=="TXT")
             xta.text = element.text();
         if(element.tagName()=="TableAccords")
@@ -131,8 +127,6 @@ void XTA::readSongInfo(QDomNode &node, XTAinfo &xta)
     while(!child.isNull())
     {
         QDomElement element = child.toElement();
-
-        //qDebug() << element.tagName();
 
         if(element.tagName()=="titre")
             xta.title = element.text();
@@ -159,7 +153,6 @@ void XTA::readImagesInfo(QDomNode &node, XTAinfo &xta)
             QImage img = QImage::fromData( QByteArray::fromBase64(ba) );
             xta.images << img;
         }
-
 
         child = child.nextSibling();
     }
@@ -194,6 +187,7 @@ void XTA::save(QString filepath, XTAinfo xta)
             nodeXTA.appendChild(node1);
 
             addNode(dom,node1,"Version",xta.version);
+            addNode(dom,node1,"instrument",xta.instrument);
             addNode(dom,node1,"Capo",xta.capo);
             addNode(dom,node1,"Accordage",xta.tuning);
 

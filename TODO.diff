@@ -8,11 +8,12 @@ TODO list
 *** select new tab
 *** open in read only mode
 *** re open previous tabs
-- remove colors in black/white only mode
+*** remove colors in black/white only mode
 - black/white/color strings for chord
-- size of strings
+*** size of strings
+- size of strings on printing
 - french/english chords
-- default margins
+*** default margins
 *** change font
 *** restore to default
 
@@ -82,6 +83,7 @@ TODO list
 #### bug ####
 - info appear in read-only mode on full screen exit
 - utf8 files name in Windows jump list
+- couldn't deplace images
 
 #### code ####
 *** increase 'recent files' update speed

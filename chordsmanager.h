@@ -9,12 +9,11 @@ class ChordsManager : public QDialog
 {
     Q_OBJECT
 public:
-    explicit ChordsManager(QWidget *parent = 0);
-    void setChords(Chords *chords);
-
-    void updateManager();
+    explicit ChordsManager(Chords* chords, QWidget *parent = 0);
 
     Chord addNewChord(QWidget *parent = 0);
+
+    void save();
 
 protected:
     void resizeEvent(QResizeEvent *);
@@ -25,6 +24,8 @@ private:
 
 private slots:
     void buttonClicked(QAbstractButton *button);
+    void updateManager();
+
     
 };
 

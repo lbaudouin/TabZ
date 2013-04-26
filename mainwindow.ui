@@ -127,6 +127,7 @@
     <addaction name="separator"/>
     <addaction name="actionSearch_lyrics"/>
     <addaction name="actionSearch_XTA"/>
+    <addaction name="separator"/>
     <addaction name="actionDownload_XTA"/>
    </widget>
    <widget class="QMenu" name="menu">
@@ -156,7 +157,7 @@
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>false</bool>
+    <bool>true</bool>
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>

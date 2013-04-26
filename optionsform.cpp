@@ -1,7 +1,6 @@
 #include "optionsform.h"
 
 OptionsForm::OptionsForm(OptionsValues options, QWidget *parent) : QDialog(parent), options_(options)
-
 {
     this->setMinimumSize(640,480);
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
@@ -98,6 +97,10 @@ void OptionsForm::createGeneralTab(QTabWidget *tab)
     comboChordSize->addItems( sizes );
     comboChordSize->setCurrentIndex(sizeIndex);
 
+    comboToolBarPosition = new QComboBox;
+    comboToolBarPosition->addItems(QStringList() << tr("Top") << tr("Left") << tr("Right") << tr("Bottom"));
+    comboToolBarPosition->setCurrentIndex(options_.mainToolBarPosition);
+
     fontLabel = new QLabel;
     fontLabel->setFrameStyle(QFrame::Sunken | QFrame::Panel);
     fontLabel->setText(options_.font.toString());
@@ -119,6 +122,7 @@ void OptionsForm::createGeneralTab(QTabWidget *tab)
     formLayout->addRow(tr("Re-open previous tabs:"),checkreOpenPreviousTabs);
     formLayout->addRow(tr("Open size mode:"),comboOpenSize);
     formLayout->addRow(tr("Chord size:"),comboChordSize);
+    formLayout->addRow(tr("ToolBar position:"),comboToolBarPosition);
 
     tab->addTab(w,tr("General"));
 }
@@ -139,11 +143,47 @@ void OptionsForm::createPrintTab(QTabWidget *tab)
     checkPrintHeaderOnEachPages->setChecked(options_.printHearderOnEachPages);
 
     //Default margins
+    editTop = new QSpinBox;
+    editTop->setMaximumWidth(150);
+    editTop->setSuffix(" " + tr("mm"));
+    editLeft = new QSpinBox;
+    editLeft->setMaximumWidth(150);
+    editLeft->setSuffix(" " + tr("mm"));
+    editRight = new QSpinBox;
+    editRight->setMaximumWidth(150);
+    editRight->setSuffix(" " + tr("mm"));
+    editBottom = new QSpinBox;
+    editBottom->setMaximumWidth(150);
+    editBottom->setSuffix(" " + tr("mm"));
+
+    editTop->setValue(options_.topMargin);
+    editLeft->setValue(options_.leftMargin);
+    editRight->setValue(options_.rightMargin);
+    editBottom->setValue(options_.bottomMargin);
+
+    QVBoxLayout *marginVBox = new QVBoxLayout;
+    QHBoxLayout *marginHBox = new QHBoxLayout;
+    QHBoxLayout *marginMainBox = new QHBoxLayout;
+
+    QSpacerItem *s1 = new QSpacerItem(5,0,QSizePolicy::Expanding);
+    QSpacerItem *s2 = new QSpacerItem(5,0,QSizePolicy::Expanding);
+
+    marginVBox->addWidget(editTop,0,Qt::AlignCenter);
+    marginHBox->addWidget(editLeft);
+    marginHBox->addWidget(editRight);
+    marginVBox->addLayout(marginHBox);
+    marginVBox->addWidget(editBottom,0,Qt::AlignCenter);
+
+    marginMainBox->addLayout(marginVBox);
+    marginMainBox->addSpacerItem(s2);
 
     //Chord size
 
+
+    //Create form
     formLayout->addRow(tr("Enable colors on printing:"),checkEnableColorsOnPrinting);
     formLayout->addRow(tr("Print header on each pages:"),checkPrintHeaderOnEachPages);
+    formLayout->addRow(tr("Margins:"),marginMainBox);
 
     tab->addTab(w,tr("Print"));
 }
@@ -157,9 +197,14 @@ OptionsValues OptionsForm::getOptions()
     options_.defaultPath = editDefaultFolder->text();
     options_.openSizeMode = comboOpenSize->currentIndex();
     options_.font.fromString( fontLabel->text() );
-    options_.chordSize = options_ .toSize( comboChordSize->currentText() );
+    options_.chordSize = options_.toSize( comboChordSize->currentText() );
     options_.printHearderOnEachPages = checkPrintHeaderOnEachPages->isChecked();
     options_.enableColorsOnPrinting = checkEnableColorsOnPrinting->isChecked();
+    options_.mainToolBarPosition = comboToolBarPosition->currentIndex();
+    options_.topMargin = editTop->value();
+    options_.leftMargin = editLeft->value();
+    options_.rightMargin = editRight->value();
+    options_.bottomMargin = editBottom->value();
 
     options_.colors = cref->getListRegExp();
 

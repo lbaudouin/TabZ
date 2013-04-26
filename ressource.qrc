@@ -6,6 +6,7 @@
         <file alias="config">images/config.png</file>
         <file alias="display">images/display-properties.png</file>
         <file alias="import">images/document-import.png</file>
+        <file alias="export">images/document-export.png</file>
         <file alias="new">images/document-new.png</file>
         <file alias="open">images/document-open.png</file>
         <file alias="setup">images/document-page-setup.png</file>

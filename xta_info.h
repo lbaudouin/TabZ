@@ -6,7 +6,7 @@
 
 class XTAinfo{
 public:
-    XTAinfo(QString path, QString name) : filepath(path), filename(name), capo(0), tuning("EADGBE") {}
+    XTAinfo(QString path, QString name) : filepath(path), filename(name), capo(0), tuning("EADGBE"), instrument("guitar") {}
 
     QString filepath;
     QString filename;
@@ -25,6 +25,8 @@ public:
 
     QList<QImage> images;
     QList<int> refImages;
+
+    QString instrument;
 
     void diff(XTAinfo &info){
         if(info.capo!=capo) qDebug() << "Capo";
