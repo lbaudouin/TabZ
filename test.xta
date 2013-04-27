@@ -1,6 +1,7 @@
 <XTA>
  <Header>
   <Version></Version>
+  <instrument>guitar</instrument>
   <Capo>1</Capo>
   <Accordage>EbADGBE</Accordage>
   <Musique>
@@ -16,7 +17,7 @@
 F#m7     C7     B   B7   E (bis)
 
 Chorus
-E     Edim   E                 G#7
+E     Edim   E                 G#
 Ma-man, ma-man,  en fai-sant cet-te chan-son,
 C#m     F#m    C#m                G#7
 Ma-man, ma-man,  je r'de-viens pe-tit gar-çon,

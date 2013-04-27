@@ -29,24 +29,20 @@
         <translation>Banjo</translation>
     </message>
     <message>
-        <location filename="chords.cpp" line="69"/>
         <source>Failed to open XML document</source>
-        <translation>Echec de l&apos;ouverture du document XML</translation>
+        <translation type="obsolete">Echec de l&apos;ouverture du document XML</translation>
     </message>
     <message>
-        <location filename="chords.cpp" line="69"/>
         <source>The XML document &apos;%1&apos; could not be opened. Verify that the name is correct and that the document is well placed.</source>
-        <translation>Le document XML &apos;%1&apos; ne peut être ouvert. Vérifiez que le nom est correct et que le document est placé au bon endroit.</translation>
+        <translation type="obsolete">Le document XML &apos;%1&apos; ne peut être ouvert. Vérifiez que le nom est correct et que le document est placé au bon endroit.</translation>
     </message>
     <message>
-        <location filename="chords.cpp" line="76"/>
         <source>Error opening the XML document</source>
-        <translation>Erreur en ouvrant le fichier XML</translation>
+        <translation type="obsolete">Erreur en ouvrant le fichier XML</translation>
     </message>
     <message>
-        <location filename="chords.cpp" line="76"/>
         <source>The XML document could not be assigned to the object QDomDocument.</source>
-        <translation>Le fichier XML ne peux pas être associé à un objet QDomDocument.</translation>
+        <translation type="obsolete">Le fichier XML ne peux pas être associé à un objet QDomDocument.</translation>
     </message>
 </context>
 <context>
@@ -1173,7 +1169,7 @@ Merci de redémarrer le programme pour utiliser la nouvelle version</translation
     </message>
     <message>
         <location filename="mainwindow.ui" line="185"/>
-        <location filename="mainwindow.cpp" line="327"/>
+        <location filename="mainwindow.cpp" line="329"/>
         <source>New</source>
         <translation>Nouveau</translation>
     </message>
@@ -1229,7 +1225,7 @@ Merci de redémarrer le programme pour utiliser la nouvelle version</translation
     </message>
     <message>
         <location filename="mainwindow.ui" line="247"/>
-        <location filename="mainwindow.cpp" line="471"/>
+        <location filename="mainwindow.cpp" line="472"/>
         <source>Save as</source>
         <translation>Enregistrer sous</translation>
     </message>
@@ -1393,7 +1389,7 @@ Merci de redémarrer le programme pour utiliser la nouvelle version</translation
     </message>
     <message>
         <location filename="mainwindow.ui" line="582"/>
-        <location filename="mainwindow.cpp" line="911"/>
+        <location filename="mainwindow.cpp" line="832"/>
         <source>About</source>
         <translation>A propos</translation>
     </message>
@@ -1419,8 +1415,8 @@ Merci de redémarrer le programme pour utiliser la nouvelle version</translation
     </message>
     <message>
         <location filename="mainwindow.ui" line="466"/>
-        <location filename="mainwindow.cpp" line="634"/>
-        <location filename="mainwindow.cpp" line="653"/>
+        <location filename="mainwindow.cpp" line="635"/>
+        <location filename="mainwindow.cpp" line="654"/>
         <source>Search lyrics</source>
         <translation>Rechercher les paroles</translation>
     </message>
@@ -1465,8 +1461,8 @@ Merci de redémarrer le programme pour utiliser la nouvelle version</translation
     </message>
     <message>
         <location filename="mainwindow.ui" line="543"/>
-        <location filename="mainwindow.cpp" line="894"/>
-        <location filename="mainwindow.cpp" line="906"/>
+        <location filename="mainwindow.cpp" line="815"/>
+        <location filename="mainwindow.cpp" line="827"/>
         <source>Export PDF</source>
         <translation>Exporter en PDF</translation>
     </message>
@@ -1476,93 +1472,79 @@ Merci de redémarrer le programme pour utiliser la nouvelle version</translation
         <translation>Télécharger des XTA</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="188"/>
+        <location filename="mainwindow.cpp" line="190"/>
         <source>Exit Full Screen</source>
         <translation>Sortir du plein-écran</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="388"/>
-        <location filename="mainwindow.cpp" line="406"/>
+        <location filename="mainwindow.cpp" line="389"/>
+        <location filename="mainwindow.cpp" line="407"/>
         <source>Open file</source>
         <translation>Ouvrir</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="471"/>
-        <location filename="mainwindow.cpp" line="475"/>
+        <location filename="mainwindow.cpp" line="472"/>
+        <location filename="mainwindow.cpp" line="476"/>
         <source>XTA files (*.xta)</source>
         <translation>Fichier XTA (*.xta)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="471"/>
-        <location filename="mainwindow.cpp" line="478"/>
+        <location filename="mainwindow.cpp" line="472"/>
+        <location filename="mainwindow.cpp" line="479"/>
         <source>TXT files (*.txt)</source>
         <translation>Fichier texte (*.txt)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="484"/>
+        <location filename="mainwindow.cpp" line="485"/>
         <source>&apos;%1&apos; already exists.
 Do you want to replace it?</source>
         <translation>&apos;%1&apos; existe déjà.
 Voulez-vous le remplacer ?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="505"/>
+        <location filename="mainwindow.cpp" line="506"/>
         <source>Modified</source>
         <translation>Modification</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="505"/>
+        <location filename="mainwindow.cpp" line="506"/>
         <source>Do you want to save : %1</source>
         <translation>Voulez-vous sauvegarder : %1</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="631"/>
+        <location filename="mainwindow.cpp" line="632"/>
         <source>lyrics</source>
         <translation>lyrics</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="634"/>
-        <location filename="mainwindow.cpp" line="653"/>
+        <location filename="mainwindow.cpp" line="635"/>
+        <location filename="mainwindow.cpp" line="654"/>
         <source>Search text:</source>
         <translation>Texte de la recherche :</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="700"/>
         <source>Failed to open XML document</source>
-        <translation>Echec de l&apos;ouverture du document XML</translation>
+        <translation type="obsolete">Echec de l&apos;ouverture du document XML</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="700"/>
         <source>The XML document &apos;%1&apos; could not be opened. Verify that the name is correct and that the document is well placed.</source>
-        <translation>Le document XML &apos;%1&apos; ne peut être ouvert. Vérifiez que le nom est correct et que le document est placé au bon endroit.</translation>
+        <translation type="obsolete">Le document XML &apos;%1&apos; ne peut être ouvert. Vérifiez que le nom est correct et que le document est placé au bon endroit.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="707"/>
         <source>Error opening the XML document</source>
-        <translation>Erreur en ouvrant le fichier XML</translation>
+        <translation type="obsolete">Erreur en ouvrant le fichier XML</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="707"/>
         <source>The XML document could not be assigned to the object QDomDocument.</source>
-        <translation>Le fichier XML ne peux pas être associé à un objet QDomDocument.</translation>
+        <translation type="obsolete">Le fichier XML ne peux pas être associé à un objet QDomDocument.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="721"/>
-        <source>empty_title</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.cpp" line="722"/>
-        <source>empty_artist</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.cpp" line="906"/>
+        <location filename="mainwindow.cpp" line="827"/>
         <source>PDF exported : %1</source>
         <translation>PDF exporté : %1</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="911"/>
+        <location filename="mainwindow.cpp" line="832"/>
         <source>Written by %1 (%2)
 Version: %3</source>
         <comment>author, year, version</comment>
@@ -1675,22 +1657,22 @@ Version : %3</translation>
         <translation>mm</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="182"/>
+        <location filename="optionsform.cpp" line="183"/>
         <source>Enable colors on printing:</source>
         <translation>Activer les couleurs pour l&apos;impression :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="183"/>
+        <location filename="optionsform.cpp" line="184"/>
         <source>Print header on each pages:</source>
         <translation>Afficher les infos sur chaque pages :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="184"/>
+        <location filename="optionsform.cpp" line="185"/>
         <source>Margins:</source>
         <translation>Marges :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="186"/>
+        <location filename="optionsform.cpp" line="187"/>
         <source>Print</source>
         <translation>Impression</translation>
     </message>
@@ -1699,12 +1681,12 @@ Version : %3</translation>
         <translation type="obsolete">Options</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="214"/>
+        <location filename="optionsform.cpp" line="215"/>
         <source>Select folder</source>
         <translation>Choisir un dossier</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="214"/>
+        <location filename="optionsform.cpp" line="215"/>
         <source>Path:</source>
         <translation>Chemin :</translation>
     </message>
@@ -1712,24 +1694,20 @@ Version : %3</translation>
 <context>
     <name>OptionsValues</name>
     <message>
-        <location filename="options.cpp" line="108"/>
         <source>Failed to open XML document</source>
-        <translation>Echec de l&apos;ouverture du document XML</translation>
+        <translation type="obsolete">Echec de l&apos;ouverture du document XML</translation>
     </message>
     <message>
-        <location filename="options.cpp" line="108"/>
         <source>The XML document &apos;%1&apos; could not be opened. Verify that the name is correct and that the document is well placed.</source>
-        <translation>Le document XML &apos;%1&apos; ne peut être ouvert. Vérifiez que le nom est correct et que le document est placé au bon endroit.</translation>
+        <translation type="obsolete">Le document XML &apos;%1&apos; ne peut être ouvert. Vérifiez que le nom est correct et que le document est placé au bon endroit.</translation>
     </message>
     <message>
-        <location filename="options.cpp" line="114"/>
         <source>Error opening the XML document</source>
-        <translation>Erreur en ouvrant le fichier XML</translation>
+        <translation type="obsolete">Erreur en ouvrant le fichier XML</translation>
     </message>
     <message>
-        <location filename="options.cpp" line="114"/>
         <source>The XML document could not be assigned to the object QDomDocument.</source>
-        <translation>Le fichier XML ne peux pas être associé à un objet QDomDocument.</translation>
+        <translation type="obsolete">Le fichier XML ne peux pas être associé à un objet QDomDocument.</translation>
     </message>
 </context>
 <context>
@@ -1849,6 +1827,52 @@ Version : %3</translation>
     </message>
 </context>
 <context>
+    <name>ReadWriteXML</name>
+    <message>
+        <location filename="readwritexml.cpp" line="24"/>
+        <source>Failed to open XML document</source>
+        <translation>Echec de l&apos;ouverture du document XML</translation>
+    </message>
+    <message>
+        <location filename="readwritexml.cpp" line="24"/>
+        <source>The XML document &apos;%1&apos; could not be opened. Verify that the name is correct and that the document is well placed.</source>
+        <translation>Le document XML &apos;%1&apos; ne peut être ouvert. Vérifiez que le nom est correct et que le document est placé au bon endroit.</translation>
+    </message>
+    <message>
+        <location filename="readwritexml.cpp" line="31"/>
+        <source>Error opening the XML document</source>
+        <translation>Erreur en ouvrant le fichier XML</translation>
+    </message>
+    <message>
+        <location filename="readwritexml.cpp" line="31"/>
+        <source>The XML document could not be assigned to the object QDomDocument.</source>
+        <translation>Le fichier XML ne peux pas être associé à un objet QDomDocument.</translation>
+    </message>
+    <message>
+        <location filename="readwritexml.cpp" line="75"/>
+        <source>Error</source>
+        <translation>Erreur</translation>
+    </message>
+    <message>
+        <location filename="readwritexml.cpp" line="75"/>
+        <source>This file is not writable: %1</source>
+        <translation>Impossible d&apos;ouvrir le fichier en écriture : %1</translation>
+    </message>
+</context>
+<context>
+    <name>Recent</name>
+    <message>
+        <location filename="recent.cpp" line="20"/>
+        <source>empty_title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="recent.cpp" line="21"/>
+        <source>empty_artist</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Strings</name>
     <message>
         <location filename="guitar.cpp" line="355"/>
@@ -1869,47 +1893,47 @@ Version : %3</translation>
 <context>
     <name>Tab</name>
     <message>
-        <location filename="tab.cpp" line="31"/>
+        <location filename="tab.cpp" line="33"/>
         <source>Title:</source>
         <translation>Titre :</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="33"/>
+        <location filename="tab.cpp" line="35"/>
         <source>Artist:</source>
         <translation>Artiste :</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="35"/>
+        <location filename="tab.cpp" line="37"/>
         <source>Album:</source>
         <translation>Album :</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="37"/>
+        <location filename="tab.cpp" line="39"/>
         <source>Tuning:</source>
         <translation>Accordage :</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="54"/>
+        <location filename="tab.cpp" line="56"/>
         <source>Capo:</source>
         <translation>Capo :</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="110"/>
+        <location filename="tab.cpp" line="115"/>
         <source>Add new chord</source>
         <translation>Ajouter un nouvel accord</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="111"/>
+        <location filename="tab.cpp" line="116"/>
         <source>Import from text</source>
         <translation>Importer depuis le texte</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="112"/>
+        <location filename="tab.cpp" line="117"/>
         <source>Import from XTA</source>
         <translation>Importer depuis un fichier XTA</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="113"/>
+        <location filename="tab.cpp" line="118"/>
         <source>Manage</source>
         <translation>Gestion</translation>
     </message>
@@ -1918,7 +1942,7 @@ Version : %3</translation>
         <translation type="obsolete">(Pas de titre)</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="294"/>
+        <location filename="tab.cpp" line="299"/>
         <source>%1 - %2</source>
         <comment>artist - title</comment>
         <translation>%1 - %2</translation>
@@ -1928,128 +1952,128 @@ Version : %3</translation>
         <translation type="obsolete">	 [Capo: %1, Accordage: %2]</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="533"/>
+        <location filename="tab.cpp" line="538"/>
         <source>Select all</source>
         <translation>Sélectionner tout</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="535"/>
+        <location filename="tab.cpp" line="540"/>
         <source>Unselect all</source>
         <translation>Désélectionner tout</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="569"/>
+        <location filename="tab.cpp" line="574"/>
         <source>Information</source>
         <translation>Information</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="569"/>
+        <location filename="tab.cpp" line="574"/>
         <source>No chord found</source>
         <translation>Pas d&apos;accords trouvé</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="298"/>
-        <location filename="tab.cpp" line="775"/>
+        <location filename="tab.cpp" line="303"/>
+        <location filename="tab.cpp" line="780"/>
         <source>[Capo: %1, Tuning: %2]</source>
         <translation>[Capo: %1, Accordage: %2]</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="39"/>
+        <location filename="tab.cpp" line="41"/>
         <source>Instrument:</source>
         <translation>Instrument :</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="159"/>
+        <location filename="tab.cpp" line="164"/>
         <source>Insert image from file</source>
         <translation>Insérer une image depuis un fichier</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="160"/>
+        <location filename="tab.cpp" line="165"/>
         <source>Insert image from clipboard</source>
         <translation>Insérer une image depuis le presse-papier</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="161"/>
+        <location filename="tab.cpp" line="166"/>
         <source>Insert tab</source>
         <translation>Insérer une tablature</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="163"/>
+        <location filename="tab.cpp" line="168"/>
         <source>French to English</source>
         <translation>Français vers Anglais</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="164"/>
+        <location filename="tab.cpp" line="169"/>
         <source>English to French</source>
         <translation>Anglais vers Français</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="166"/>
+        <location filename="tab.cpp" line="171"/>
         <source>Import images</source>
         <translation>Importer des images</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="167"/>
+        <location filename="tab.cpp" line="172"/>
         <source>Export images</source>
         <translation>Exporter les images</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="292"/>
+        <location filename="tab.cpp" line="297"/>
         <source>No title</source>
         <translation>Pas de titre</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="300"/>
+        <location filename="tab.cpp" line="305"/>
         <source>[Capo: %1]</source>
         <translation>[Capo : %1]</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="302"/>
+        <location filename="tab.cpp" line="307"/>
         <source>[Tuning: %1]</source>
         <translation>[Accordage : %1 ]</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="799"/>
+        <location filename="tab.cpp" line="804"/>
         <source>Page %1 of %2</source>
         <translation>Page %1 sur %2</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="979"/>
+        <location filename="tab.cpp" line="986"/>
         <source>Insert text</source>
         <translation>Insérer du texte</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1005"/>
+        <location filename="tab.cpp" line="1012"/>
         <source>Import from file</source>
         <translation>Importer depuis un fichier</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1005"/>
+        <location filename="tab.cpp" line="1012"/>
         <source>XTA files (*.xta)</source>
         <translation>Fichier XTA (*.xta)</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1014"/>
+        <location filename="tab.cpp" line="1021"/>
         <source>Insert length</source>
         <translation>Choisir la longueur</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1014"/>
+        <location filename="tab.cpp" line="1021"/>
         <source>Length:</source>
         <translation>Longueur :</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1079"/>
+        <location filename="tab.cpp" line="1086"/>
         <source>Load image</source>
         <translation>Chargement d&apos;image</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1079"/>
+        <location filename="tab.cpp" line="1086"/>
         <source>Image (*.png)</source>
         <translation>Image (*.png)</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1148"/>
+        <location filename="tab.cpp" line="1155"/>
         <source>Select output folder</source>
         <translation>Choisir un dossier de sortie</translation>
     </message>
@@ -2057,36 +2081,38 @@ Version : %3</translation>
 <context>
     <name>XTA</name>
     <message>
-        <location filename="xta.cpp" line="30"/>
         <source>Failed to open XML document</source>
-        <translation>Echec de l&apos;ouverture du document XML</translation>
+        <translation type="obsolete">Echec de l&apos;ouverture du document XML</translation>
     </message>
     <message>
-        <location filename="xta.cpp" line="30"/>
         <source>The XML document &apos;%1&apos; could not be opened. Verify that the name is correct and that the document is well placed.</source>
-        <translation>Le document XML &apos;%1&apos; ne peut être ouvert. Vérifiez que le nom est correct et que le document est placé au bon endroit.</translation>
+        <translation type="obsolete">Le document XML &apos;%1&apos; ne peut être ouvert. Vérifiez que le nom est correct et que le document est placé au bon endroit.</translation>
     </message>
     <message>
-        <location filename="xta.cpp" line="38"/>
         <source>Error opening the XML document</source>
-        <translation>Erreur en ouvrant le fichier XML</translation>
+        <translation type="obsolete">Erreur en ouvrant le fichier XML</translation>
     </message>
     <message>
-        <location filename="xta.cpp" line="38"/>
         <source>The XML document could not be assigned to the object QDomDocument.</source>
-        <translation>Le fichier XML ne peux pas être associé à un objet QDomDocument.</translation>
+        <translation type="obsolete">Le fichier XML ne peux pas être associé à un objet QDomDocument.</translation>
     </message>
     <message>
-        <location filename="xta.cpp" line="164"/>
+        <location filename="xta.cpp" line="205"/>
+        <location filename="xta.cpp" line="212"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="xta.cpp" line="164"/>
+        <location filename="xta.cpp" line="205"/>
         <source>Invalid file suffix, must be &apos;txt&apos; or &apos;xta&apos;
 Filename: %1</source>
         <translation>Extension invalide, utiliser les fichiers &apos;txt&apos; ou &apos;xta&apos;
 Fichier : %1</translation>
+    </message>
+    <message>
+        <location filename="xta.cpp" line="212"/>
+        <source>This file is not writable: %1</source>
+        <translation>Impossible d&apos;ouvrir le fichier en écriture : %1</translation>
     </message>
     <message>
         <source>Invalid file suffix, must be &apos;txt&apos;&apos; or &apos;xta&apos;</source>

@@ -18,59 +18,7 @@
 #include "downloadxta.h"
 #include "mytabwidget.h"
 #include "tools.h"
-
-struct RecentFile{
-    QString title;
-    QString artist;
-    QString path;
-    QDateTime date;
-    bool wasOpen;
-
-
-    QString getName() const {
-        QString name;
-        if(title.isEmpty()){
-            name = path;
-        }else{
-            if(artist.isEmpty()){
-                name = title;
-            }else{
-                name = artist + " - " + title;
-            }
-        }
-        return name;
-    }
-
-    friend QDebug& operator<<( QDebug &stream, const RecentFile &info)
-    {
-        stream << info.date << info.getName();
-        return stream;
-    }
-};
-
-struct RecentDateComparer
-{
-    bool operator()(const RecentFile & a, const RecentFile & b) const
-    {
-        return a.date > b.date;
-    }
-};
-
-struct RecentTitleComparer
-{
-    bool operator()(const RecentFile & a, const RecentFile & b) const
-    {
-        return a.title < b.title;
-    }
-};
-
-struct RecentNameComparer
-{
-    bool operator()(const RecentFile & a, const RecentFile & b) const
-    {
-        return a.getName() < b.getName();
-    }
-};
+#include "recent.h"
 
 namespace Ui {
 class MainWindow;
@@ -92,9 +40,7 @@ protected:
     void moveToolBar(int toolBarPosition);
     int addTab(XTAinfo info);
     Tab* getCurrentTab();
-    
-    void readRecent();
-    void saveRecent();
+
     void updateRecent();
     void addRecent(XTAinfo &info);
 
@@ -103,14 +49,15 @@ private:
     Qt::WindowStates previousState;
     XTA *xta;
     Chords *chords;
+    Recent *recent;
 
-    OptionsValues options;
+    Options *options;
 
     QList<QAction*> listTabAction;
 
     QMap<QAction*,Tab*> mapTabAction;
 
-    QList<RecentFile> recent;
+    QList<RecentFile> recentList;
     QList<QObject*> recentAction;
 
     QTime startTime;

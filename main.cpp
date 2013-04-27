@@ -1,9 +1,12 @@
-#define CURRENT_VERSION "0.0.24"
+#define CURRENT_VERSION "0.0.25"
 
 #include <QtGui/QApplication>
 #include "mainwindow.h"
 
+#if defined(__WIN32__)
 #include "httpupdate.h"
+#endif
+
 #include "qtsingleapplication/qtsingleapplication.h"
 
 /** Main function
@@ -14,9 +17,7 @@
 **/
 int main(int argc, char *argv[])
 {
-    QString path(argv[0]);
-    qDebug() << path;
-
+#if defined(__WIN32__)
     for(int i=0;i<argc;i++){
         if(!strcmp(argv[i],"-v")){              //return version ID integer
             QString version(CURRENT_VERSION);
@@ -32,6 +33,7 @@ int main(int argc, char *argv[])
             return 0;
         }
     }
+#endif
 
     QtSingleApplication instance("TabS", argc, argv);
     instance.setWindowIcon( QIcon(":/images/TabS.png" ) );
@@ -46,6 +48,7 @@ int main(int argc, char *argv[])
         return 0;
 
 #if defined(__WIN32__)
+    QString path(argv[0]);
     if(path.contains("-update.exe")){
         QString original_path = path;
         original_path = original_path.remove("-update");

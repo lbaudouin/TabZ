@@ -1,7 +1,9 @@
 #include "tab.h"
 
-Tab::Tab(XTAinfo xta, Chords* chordsList, QWidget *parent) : QWidget(parent), info(xta), modified_info(xta), chordsList_(chordsList), undoAvailable_(false), redoAvailable_(false), editable_(true), instrument_("Guitar","guitar",6)
-{
+Tab::Tab(XTAinfo xta, Chords* chordsList, OptionsValues optionsValues, QWidget *parent) : QWidget(parent), info(xta), modified_info(xta), chordsList_(chordsList), undoAvailable_(false), redoAvailable_(false), editable_(true), instrument_("Guitar","guitar",6)
+{   
+    optionsValues_ = optionsValues;
+
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
     mainLayout->setSpacing(6);
     //layout->setContentsMargins(11, 11, 11, 11);
@@ -77,7 +79,8 @@ Tab::Tab(XTAinfo xta, Chords* chordsList, QWidget *parent) : QWidget(parent), in
 
     printPreviewWidget = new QPrintPreview(/*printer*/);
     printer = printPreviewWidget->getPrinter();
-    printer->setPageMargins(10,10,10,10,QPrinter::Millimeter);
+    printer->setPageMargins(optionsValues_.topMargin,optionsValues_.leftMargin,
+                            optionsValues_.rightMargin,optionsValues_.bottomMargin,QPrinter::Millimeter);
 
     printer->setDocName( info.createFileName() );
     printPreviewWidget->setViewMode(QPrintPreviewWidget::AllPagesView);
@@ -90,17 +93,19 @@ Tab::Tab(XTAinfo xta, Chords* chordsList, QWidget *parent) : QWidget(parent), in
     printPreviewWidget->setVisible(false);
 
     edit = new QTextEdit;
+    edit->setFont(optionsValues_.font);
 
 
-    QFont editFont = edit->font();
-    editFont.setFamily("DejaVu Sans Mono");
+    //QFont editFont = edit->font();
+    //editFont.setFamily("DejaVu Sans Mono");
     //editFont.setFamily("Lucida Console");
     //editFont.setFixedPitch(true);
+    //edit->setFont(editFont);
 
-    edit->setFont(editFont);
     edit->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
     highlighter = new Highlighter(edit->document());
+    setColors(optionsValues_.colors);
 
     chordLayout = new QVBoxLayout;
 
@@ -160,8 +165,8 @@ Tab::Tab(XTAinfo xta, Chords* chordsList, QWidget *parent) : QWidget(parent), in
     tabToolBar->addAction(QIcon(":images/insert-clipboard"),tr("Insert image from clipboard"), this, SLOT(insertClipboard()) );
     tabToolBar->addAction(QIcon(":images/tab"),tr("Insert tab"), this, SLOT(insertTab()) );
     tabToolBar->addSeparator();
-    tabToolBar->addAction(QIcon(":images/La-A"),tr("French to English"), this, SLOT(translateFrEn()) );
-    tabToolBar->addAction(QIcon(":images/A-La"),tr("English to French"), this, SLOT(translateEnFr()) );
+    tabToolBar->addAction(QIcon(":images/La-A"),tr("French to English"), this, SLOT(translateFrEn()) )->setEnabled(false);
+    tabToolBar->addAction(QIcon(":images/A-La"),tr("English to French"), this, SLOT(translateEnFr()) )->setEnabled(false);
     tabToolBar->addSeparator();
     tabToolBar->addAction(QIcon(":images/import"),tr("Import images"), this, SLOT(importImages()));
     tabToolBar->addAction(QIcon(":images/export"),tr("Export images"), this, SLOT(exportImages()));
@@ -446,10 +451,10 @@ void Tab::deleteGuitar()
 void Tab::resizeLayout()
 {
     if(v1->count()>0 && v2->count()>0){
-        scrollArea->setMinimumWidth(2.0 * 1.4 * optionsValues.chordSize.width());
+        scrollArea->setMinimumWidth(2.0 * 1.4 * optionsValues_.chordSize.width());
     }else{
         if(v1->count()>0 || v2->count()>0){
-            scrollArea->setMinimumWidth(1.4 * optionsValues.chordSize.width());
+            scrollArea->setMinimumWidth(1.4 * optionsValues_.chordSize.width());
         }else{
             scrollArea->setMinimumWidth(0);
         }
@@ -494,7 +499,7 @@ void Tab::addChord(QString name, QString fingers)
 
         chords << name;
         Guitar *guitar = new Guitar(name,fingers);
-        guitar->setChordSize( optionsValues.chordSize );
+        guitar->setChordSize( optionsValues_.chordSize );
 
         chordToolBar->setOrientation(Qt::Horizontal);
         scrollArea->setVisible(true);
@@ -611,16 +616,16 @@ void Tab::setColors(QList<ColorRegExp> list)
 
 void Tab::setOptions(OptionsValues options)
 {
-    optionsValues = options;
+    optionsValues_ = options;
 
-    setColors(options.colors);
+    setColors(optionsValues_.colors);
 
-    edit->setFont(options.font);
+    edit->setFont(optionsValues_.font);
 
-    printer->setPageMargins(optionsValues.topMargin,optionsValues.leftMargin,
-                            optionsValues.rightMargin,optionsValues.bottomMargin,QPrinter::Millimeter);
+    printer->setPageMargins(optionsValues_.topMargin,optionsValues_.leftMargin,
+                            optionsValues_.rightMargin,optionsValues_.bottomMargin,QPrinter::Millimeter);
 
-    emit setChordSize(optionsValues.chordSize);
+    emit setChordSize(optionsValues_.chordSize);
 
     resizeLayout();
 
@@ -660,12 +665,12 @@ void Tab::print(QPrinter *_printer)
 #if 0
     doc = new QTextDocument;
     doc->setPlainText( edit->toPlainText() );
-    doc->setDefaultFont( optionsValues.font );
+    doc->setDefaultFont( optionsValues_.font );
 #else
     doc = edit->document()->clone(this);
 #endif
 
-    if(!optionsValues.enableColorsOnPrinting){
+    if(!optionsValues_.enableColorsOnPrinting){
         QTextOption opt;
         opt.setFlags(QTextOption::SuppressColors);
         doc->setDefaultTextOption(opt);
@@ -690,7 +695,7 @@ void Tab::print(QPrinter *_printer)
     if(modified_info.capo>0 || modified_info.tuning!="EADGBE") headersHeight+=20;
     headersHeight+=35;
 
-    painter.setFont( optionsValues.font );
+    painter.setFont( optionsValues_.font );
 
     //Compute text height
     int textHeight = 0;
@@ -719,7 +724,7 @@ void Tab::print(QPrinter *_printer)
     }
 
     //TODO, make an option
-    bool printHeadersOnAllPages = optionsValues.printHearderOnEachPages;
+    bool printHeadersOnAllPages = optionsValues_.printHearderOnEachPages;
 
     int nbPages = 0;
     if(textHeight<pageHeight-headersHeight){
@@ -905,7 +910,7 @@ void Tab::print(QPrinter *_printer)
         }
 
 
-        painter.setFont( optionsValues.font );
+        painter.setFont( optionsValues_.font );
 
         int h = 0;
         for(int i=currentRow;i<textBlocksHeight.size();i++){
@@ -961,10 +966,12 @@ void Tab::updateView()
 
 void Tab::setExpertMode(bool state)
 {
-    if(state){
-        allInfoWidget->setVisible(false);
-    }else{
-        allInfoWidget->setVisible(true);
+    if(editable_){
+        if(state){
+            allInfoWidget->setVisible(false);
+        }else{
+            allInfoWidget->setVisible(true);
+        }
     }
 }
 
@@ -1002,10 +1009,10 @@ void Tab::importFromXTA()
 XTAinfo Tab::readXTA(QString filepath)
 {
     if(filepath.isEmpty()){
-        filepath = QFileDialog::getOpenFileName(this,tr("Import from file"),optionsValues.defaultPath,tr("XTA files (*.xta)"));
+        filepath = QFileDialog::getOpenFileName(this,tr("Import from file"),optionsValues_.defaultPath,tr("XTA files (*.xta)"));
     }
-    XTA xta(this);
-    return xta.parse(filepath);
+    XTA *xta = new XTA();
+    return xta->load(filepath);
 }
 
 void Tab::insertTab()
@@ -1145,7 +1152,7 @@ void Tab::exportImages()
     }
 
     if(images.size()>0){
-        QString folder = QFileDialog::getExistingDirectory(this,tr("Select output folder"),optionsValues.defaultPath);
+        QString folder = QFileDialog::getExistingDirectory(this,tr("Select output folder"),optionsValues_.defaultPath);
         if(folder.isEmpty()) return;
 
         for(int i=0;i<images.size();i++){

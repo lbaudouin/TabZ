@@ -25,7 +25,7 @@ class Tab : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Tab(XTAinfo xta, Chords* chordsList, QWidget *parent = 0);
+    explicit Tab(XTAinfo xta, Chords* chordsList, OptionsValues optionsValues, QWidget *parent = 0);
     XTAinfo getXTA();
 
     bool isEditable() {return editable_; }
@@ -66,7 +66,7 @@ private:
 
     Highlighter *highlighter;
 
-    OptionsValues optionsValues;
+    OptionsValues optionsValues_;
 
     QStringList chords;
     QList<Chord> currentChords;

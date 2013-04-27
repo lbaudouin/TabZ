@@ -6,7 +6,7 @@
 #include <QHBoxLayout>
 
 #include "highlighter.h"
-#include "options.h"
+#include "colorregexp.h"
 #include "tools.h"
 
 class ColorRegExpForm : public QWidget

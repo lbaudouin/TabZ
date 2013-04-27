@@ -1,9 +1,9 @@
 #include "chords.h"
 
-Chords::Chords(QWidget *parent) : parent_(parent)
+Chords::Chords(QWidget *parent) : ReadWriteXML(parent)
 {
     init();
-    parse();
+    this->parse("chords.xml");
 }
 
 void Chords::init()
@@ -58,25 +58,8 @@ void Chords::init()
     addChord(guitar,"Gm","3,5,5,3,3,3","",true);
 }
 
-void Chords::parse()
+void Chords::read(QDomDocument *dom, QFileInfo)
 {
-    QFile xml_doc("chords.xml");
-    if(!xml_doc.exists()){
-        return;
-    }
-
-    if(!xml_doc.open(QIODevice::ReadOnly)){
-        QMessageBox::warning(parent_,parent_->tr("Failed to open XML document"),parent_->tr("The XML document '%1' could not be opened. Verify that the name is correct and that the document is well placed.").arg(xml_doc.fileName()));
-        return ;
-    }
-
-    QDomDocument *dom = new QDomDocument("docXML");
-    if (!dom->setContent(&xml_doc)){
-        xml_doc.close();
-        QMessageBox::warning(parent_,parent_->tr("Error opening the XML document"),parent_->tr("The XML document could not be assigned to the object QDomDocument."));
-        return ;
-    }
-
     QDomElement dom_element = dom->documentElement();
     if(dom_element.tagName()=="chords"){
         QDomNode node = dom_element.firstChild();
@@ -105,28 +88,19 @@ void Chords::parse()
             node = node.nextSibling();
         }
     }
-
-    xml_doc.close();
 }
 
-void Chords::save()
+void Chords::write(QDomDocument *dom, QFileInfo)
 {
-    QFile file("chords.xml");
-    file.open(QFile::WriteOnly);
-
-    QTextStream stream(&file);
-
-    QDomDocument dom;
-
-    QDomElement mainNode = dom.createElement("chords");
-    dom.appendChild(mainNode);
+    QDomElement mainNode = dom->createElement("chords");
+    dom->appendChild(mainNode);
 
     {
         QList<Instrument> instruments = chords.keys();
         for(int i=0;i<instruments.size();i++){
             Instrument instrument = instruments[i];
 
-            QDomElement instrumentNode = dom.createElement("instrument");
+            QDomElement instrumentNode = dom->createElement("instrument");
             instrumentNode.setAttribute("name",instrument.name);
             instrumentNode.setAttribute("label",instrument.label);
             instrumentNode.setAttribute("strings",instrument.nbStrings);
@@ -135,7 +109,7 @@ void Chords::save()
             foreach(Chord chord, chords[instrument]){
                 if(chord.locked)
                     continue;
-                QDomElement elem = dom.createElement("chord");
+                QDomElement elem = dom->createElement("chord");
                 elem.setAttribute("name",chord.name);
                 if(!chord.fingers.isEmpty())
                     elem.setAttribute("fingers",chord.fingers);
@@ -145,10 +119,6 @@ void Chords::save()
             }
         }
     }
-
-    stream << dom.toString();
-
-    file.close();
 }
 
 void Chords::addChord(Instrument instrument, QString name, QString fingers, QString comment, bool locked)

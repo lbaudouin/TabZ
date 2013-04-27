@@ -1,81 +1,66 @@
 #include "options.h"
 
-OptionsValues::OptionsValues()
+Options::Options(QWidget *parent) : ReadWriteXML(parent)
 {
-    openReadOnly = false;
-    enableColors = true;
-    selectNewTab = true;
-    openSizeMode = 0;
-    defaultPath = "";
-    reOpenPreviousTabs = false;
-    chordSize = QSize(150,200);
-    enableColorsOnPrinting = true;
-    printHearderOnEachPages = true;
-    mainToolBarPosition = 0;
-    topMargin = 10;
-    leftMargin = 10;
-    rightMargin = 10;
-    bottomMargin = 10;
+    resetDefault();
+}
+
+void Options::resetDefault()
+{
+    optionsValues.openReadOnly = false;
+    optionsValues.enableColors = true;
+    optionsValues.selectNewTab = true;
+    optionsValues.openSizeMode = 0;
+    optionsValues.defaultPath = "";
+    optionsValues.reOpenPreviousTabs = false;
+    optionsValues.chordSize = QSize(150,200);
+    optionsValues.enableColorsOnPrinting = true;
+    optionsValues.printHearderOnEachPages = true;
+    optionsValues.mainToolBarPosition = 0;
+    optionsValues.topMargin = 10;
+    optionsValues.leftMargin = 10;
+    optionsValues.rightMargin = 10;
+    optionsValues.bottomMargin = 10;
 
 #if defined(__WIN32__)
-    font =  QFont("Lucida Console",12);
+    optionsValues.font =  QFont("Lucida Console",12);
 #else
-    font = QFont("DejaVu Sans Mono",12);
+    optionsValues.font = QFont("DejaVu Sans Mono",12);
 #endif
+
+    setDefaultRegExp();
 }
 
-void OptionsValues::addNode(QDomDocument &dom, QDomElement &parent, QString tag, QString data)
+void Options::write(QDomDocument *dom, QFileInfo)
 {
-    QDomElement node = dom.createElement(tag);
-    parent.appendChild(node);
-
-    QDomText textNode = dom.createTextNode(data);
-    node.appendChild(textNode);
-}
-
-void OptionsValues::addNode(QDomDocument &dom, QDomElement &parent, QString tag, int data)
-{
-    addNode(dom,parent,tag,QString::number(data));
-}
-
-void OptionsValues::save(QWidget *parent)
-{
-    QFile file("options.xml");
-    file.open(QFile::WriteOnly);
-
-    QTextStream stream(&file);
-    stream.setCodec("UTF-8");
-
-    QDomDocument dom;
-
-    QDomElement mainNode = dom.createElement("options");
-    dom.appendChild(mainNode);
+    QDomElement mainNode = dom->createElement("options");
+    dom->appendChild(mainNode);
 
     {
 
-        addNode(dom,mainNode,"enableColors",enableColors);
-        addNode(dom,mainNode,"defaultPath",defaultPath);
-        addNode(dom,mainNode,"selectNewTab",selectNewTab);
-        addNode(dom,mainNode,"openReadOnly",openReadOnly);
-        addNode(dom,mainNode,"openSizeMode",openSizeMode);
-        addNode(dom,mainNode,"chordSize",fromSize(chordSize));
-        addNode(dom,mainNode,"reOpenPreviousTabs",reOpenPreviousTabs);
-        addNode(dom,mainNode,"font",font.toString());
-        addNode(dom,mainNode,"enableColorsOnPrinting",enableColorsOnPrinting);
-        addNode(dom,mainNode,"printHearderOnEachPages",printHearderOnEachPages);
-        addNode(dom,mainNode,"mainToolBarPosition",mainToolBarPosition);
-        addNode(dom,mainNode,"topMargin",topMargin);
-        addNode(dom,mainNode,"leftMargin",leftMargin);
-        addNode(dom,mainNode,"rightMargin",rightMargin);
-        addNode(dom,mainNode,"bottomMargin",bottomMargin);
+        addNode(dom,&mainNode,"enableColors",optionsValues.enableColors);
+        addNode(dom,&mainNode,"defaultPath",optionsValues.defaultPath);
+        addNode(dom,&mainNode,"selectNewTab",optionsValues.selectNewTab);
+        addNode(dom,&mainNode,"openReadOnly",optionsValues.openReadOnly);
+        addNode(dom,&mainNode,"openSizeMode",optionsValues.openSizeMode);
+        addNode(dom,&mainNode,"chordSize",fromSize(optionsValues.chordSize));
+        addNode(dom,&mainNode,"reOpenPreviousTabs",optionsValues.reOpenPreviousTabs);
+        addNode(dom,&mainNode,"font",optionsValues.font.toString());
+        addNode(dom,&mainNode,"enableColorsOnPrinting",optionsValues.enableColorsOnPrinting);
+        addNode(dom,&mainNode,"printHearderOnEachPages",optionsValues.printHearderOnEachPages);
+        addNode(dom,&mainNode,"mainToolBarPosition",optionsValues.mainToolBarPosition);
+        addNode(dom,&mainNode,"topMargin",optionsValues.topMargin);
+        addNode(dom,&mainNode,"leftMargin",optionsValues.leftMargin);
+        addNode(dom,&mainNode,"rightMargin",optionsValues.rightMargin);
+        addNode(dom,&mainNode,"bottomMargin",optionsValues.bottomMargin);
 
 
-        QDomElement colorNode = dom.createElement("colors");
+        QDomElement colorNode = dom->createElement("colors");
         mainNode.appendChild(colorNode);
 
         //foreach(const ColorRegExp &colorRegExp, colors){
-        foreach(ColorRegExp colorRegExp, colors){
-            QDomElement elem = dom.createElement("ColorRegExp");
+        foreach(ColorRegExp colorRegExp, optionsValues.colors){
+            QDomElement elem = dom->createElement("ColorRegExp");
             elem.setAttribute("regexp",colorRegExp.regExp);
             elem.setAttribute("color",QString("%1,%2,%3").arg(QString::number(colorRegExp.color.red()),QString::number(colorRegExp.color.green()),QString::number(colorRegExp.color.blue())));
             elem.setAttribute("weight",colorRegExp.weight);
@@ -87,34 +72,10 @@ void OptionsValues::save(QWidget *parent)
         }
 
     }
-
-    stream << dom.toString();
-
-    file.close();
 }
 
-void OptionsValues::parse(QWidget *parent)
+void Options::read(QDomDocument *dom, QFileInfo)
 {
-    QDomDocument *dom = new QDomDocument("docXML");
-
-    if(!QFile::exists("options.xml")){
-        save(parent);
-    }
-
-    QFile xml_doc("options.xml");
-
-    if(!xml_doc.open(QIODevice::ReadOnly)){
-        if(parent)
-            QMessageBox::warning(parent,parent->tr("Failed to open XML document"),parent->tr("The XML document '%1' could not be opened. Verify that the name is correct and that the document is well placed.").arg(xml_doc.fileName()));
-        return;
-    }
-    if(!dom->setContent(&xml_doc)){
-        xml_doc.close();
-        if(parent)
-            QMessageBox::warning(parent,parent->tr("Error opening the XML document"),parent->tr("The XML document could not be assigned to the object QDomDocument."));
-        return;
-    }
-
     QDomElement dom_element = dom->documentElement();
     QDomNode node = dom_element.firstChild();
 
@@ -123,59 +84,59 @@ void OptionsValues::parse(QWidget *parent)
         QDomElement element = node.toElement();
 
         if(element.tagName()=="enableColors"){
-            enableColors = element.text().toInt();
+            optionsValues.enableColors = element.text().toInt();
         }
         if(element.tagName()=="selectNewTab"){
-            selectNewTab = element.text().toInt();
+            optionsValues.selectNewTab = element.text().toInt();
         }
         if(element.tagName()=="openReadOnly"){
-            openReadOnly = element.text().toInt();
+            optionsValues.openReadOnly = element.text().toInt();
         }
         if(element.tagName()=="reOpenPreviousTabs"){
-            reOpenPreviousTabs = element.text().toInt();
+            optionsValues.reOpenPreviousTabs = element.text().toInt();
         }
         if(element.tagName()=="defaultPath"){
-            defaultPath = element.text();
+            optionsValues.defaultPath = element.text();
         }
         if(element.tagName()=="openSizeMode"){
-            openSizeMode = element.text().toInt();
+            optionsValues.openSizeMode = element.text().toInt();
         }
         if(element.tagName()=="openSizeMode"){
-            openSizeMode = element.text().toInt();
+            optionsValues.openSizeMode = element.text().toInt();
         }
         if(element.tagName()=="enableColorsOnPrinting"){
-            enableColorsOnPrinting = element.text().toInt();
+            optionsValues.enableColorsOnPrinting = element.text().toInt();
         }
         if(element.tagName()=="printHearderOnEachPages"){
-            printHearderOnEachPages = element.text().toInt();
+            optionsValues.printHearderOnEachPages = element.text().toInt();
         }
         if(element.tagName()=="mainToolBarPosition"){
-            mainToolBarPosition = element.text().toInt();
+            optionsValues.mainToolBarPosition = element.text().toInt();
         }
         if(element.tagName()=="chordSize"){
-            chordSize = toSize(element.text());;
+            optionsValues.chordSize = toSize(element.text());;
         }
         if(element.tagName()=="font"){
             QString fontString = element.text();
             if(!fontString.isEmpty())
-                font.fromString(fontString);
+                optionsValues.font.fromString(fontString);
         }
 
         if(element.tagName()=="topMargin"){
-            topMargin = element.text().toInt();
+            optionsValues.topMargin = element.text().toInt();
         }
         if(element.tagName()=="leftMargin"){
-            leftMargin = element.text().toInt();
+            optionsValues.leftMargin = element.text().toInt();
         }
         if(element.tagName()=="rightMargin"){
-            rightMargin = element.text().toInt();
+            optionsValues.rightMargin = element.text().toInt();
         }
         if(element.tagName()=="bottomMargin"){
-            bottomMargin = element.text().toInt();
+            optionsValues.bottomMargin = element.text().toInt();
         }
 
         if(element.tagName()=="colors"){
-            colors.clear();
+            optionsValues.colors.clear();
 
             QDomNode child = node.firstChild();
 
@@ -199,7 +160,7 @@ void OptionsValues::parse(QWidget *parent)
 
                     ColorRegExp cre(regExp,color,weightText.isEmpty()?50:weightText.toInt(),isItalic,isText,caseSensitivity,active);
 
-                    colors.push_back(cre);
+                    optionsValues.colors.push_back(cre);
                 }
 
                 child =child.nextSibling();
@@ -209,31 +170,29 @@ void OptionsValues::parse(QWidget *parent)
         node = node.nextSibling();
     }
 
-    xml_doc.close();
-
-    if(colors.isEmpty())
+    if(optionsValues.colors.isEmpty())
         setDefaultRegExp();
 }
 
-void OptionsValues::setDefaultRegExp()
+void Options::setDefaultRegExp()
 {
-    colors.clear();
-    colors.push_back(  ColorRegExp("\\b[A-G]#(?!(m|[1-9]))", Qt::darkRed, QFont::Bold)  );
-    colors.push_back(  ColorRegExp("\\b[A-G]#[1-9]\\b", Qt::darkRed, QFont::Bold)  );
-    colors.push_back(  ColorRegExp("\\b[A-G]#m[1-9]\\b", Qt::darkRed, QFont::Bold)  );
-    colors.push_back(  ColorRegExp("\\b[A-G]#m\\b", Qt::darkRed, QFont::Bold)  );
-    colors.push_back(  ColorRegExp("\\b[A-G]b\\b", Qt::darkGreen, QFont::Bold)  );
-    colors.push_back(  ColorRegExp("\\b[A-G]bm\\b", Qt::darkGreen, QFont::Bold)  );
-    colors.push_back(  ColorRegExp("\\b[A-G][1-9]\\b", Qt::darkYellow, QFont::Bold)  );
-    colors.push_back(  ColorRegExp("\\b[A-G]m[1-9]\\b", Qt::darkBlue, QFont::Bold)  );
-    colors.push_back(  ColorRegExp("\\b[A-G]m\\b", Qt::darkBlue, QFont::Bold)  );
-    colors.push_back(  ColorRegExp("\\b[A-G]dim\\b", Qt::darkMagenta, QFont::Bold)  );
+    optionsValues.colors.clear();
+    optionsValues.colors.push_back(  ColorRegExp("\\b[A-G]#(?!(m|[1-9]))", Qt::darkRed, QFont::Bold)  );
+    optionsValues.colors.push_back(  ColorRegExp("\\b[A-G]#[1-9]\\b", Qt::darkRed, QFont::Bold)  );
+    optionsValues.colors.push_back(  ColorRegExp("\\b[A-G]#m[1-9]\\b", Qt::darkRed, QFont::Bold)  );
+    optionsValues.colors.push_back(  ColorRegExp("\\b[A-G]#m\\b", Qt::darkRed, QFont::Bold)  );
+    optionsValues.colors.push_back(  ColorRegExp("\\b[A-G]b\\b", Qt::darkGreen, QFont::Bold)  );
+    optionsValues.colors.push_back(  ColorRegExp("\\b[A-G]bm\\b", Qt::darkGreen, QFont::Bold)  );
+    optionsValues.colors.push_back(  ColorRegExp("\\b[A-G][1-9]\\b", Qt::darkYellow, QFont::Bold)  );
+    optionsValues.colors.push_back(  ColorRegExp("\\b[A-G]m[1-9]\\b", Qt::darkBlue, QFont::Bold)  );
+    optionsValues.colors.push_back(  ColorRegExp("\\b[A-G]m\\b", Qt::darkBlue, QFont::Bold)  );
+    optionsValues.colors.push_back(  ColorRegExp("\\b[A-G]dim\\b", Qt::darkMagenta, QFont::Bold)  );
 
-    colors.push_back(  ColorRegExp("\\b[A-G](?!(#|'))\\b", Qt::red, QFont::Bold)  );
+    optionsValues.colors.push_back(  ColorRegExp("\\b[A-G](?!(#|'))\\b", Qt::red, QFont::Bold)  );
 
 
-    colors.push_back(  ColorRegExp("\\bIntro\\b", Qt::darkCyan, QFont::Bold, true, true, Qt::CaseInsensitive)  );
-    colors.push_back(  ColorRegExp("\\bChorus\\b", Qt::darkCyan, QFont::Bold, true, true, Qt::CaseInsensitive)  );
-    colors.push_back(  ColorRegExp("\\bbis\\b", Qt::darkCyan, QFont::Bold, true, true, Qt::CaseInsensitive)  );
-    colors.push_back(  ColorRegExp("(arp)", Qt::darkCyan, QFont::Bold, true, true, Qt::CaseInsensitive)  );
+    optionsValues.colors.push_back(  ColorRegExp("\\bIntro\\b", Qt::darkCyan, QFont::Bold, true, true, Qt::CaseInsensitive)  );
+    optionsValues.colors.push_back(  ColorRegExp("\\bChorus\\b", Qt::darkCyan, QFont::Bold, true, true, Qt::CaseInsensitive)  );
+    optionsValues.colors.push_back(  ColorRegExp("\\bbis\\b", Qt::darkCyan, QFont::Bold, true, true, Qt::CaseInsensitive)  );
+    optionsValues.colors.push_back(  ColorRegExp("(arp)", Qt::darkCyan, QFont::Bold, true, true, Qt::CaseInsensitive)  );
 }

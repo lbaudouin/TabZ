@@ -23,7 +23,9 @@ SOURCES += main.cpp\
     httpupdate.cpp \
     qprintpreview.cpp \
     downloadxta.cpp \
-    chordsmanager.cpp
+    chordsmanager.cpp \
+    readwritexml.cpp \
+    recent.cpp
     #myprintpreviewwidget.cpp# \
     #myprinterprivate.cpp
 
@@ -44,7 +46,10 @@ HEADERS  += mainwindow.h \
     mytabwidget.h \
     chordsmanager.h \
     tools.h \
-    colorregexpform.h
+    colorregexpform.h \
+    readwritexml.h \
+    colorregexp.h \
+    recent.h
     #myprintpreviewwidget.h #\
     #myprinterprivate.h
 

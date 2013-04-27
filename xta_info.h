@@ -4,8 +4,11 @@
 #include <QString>
 #include <QImage>
 
+#include <QDebug>
+
 class XTAinfo{
 public:
+    XTAinfo() : capo(0), tuning("EADGBE"), instrument("guitar") {}
     XTAinfo(QString path, QString name) : filepath(path), filename(name), capo(0), tuning("EADGBE"), instrument("guitar") {}
 
     QString filepath;

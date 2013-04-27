@@ -9,21 +9,23 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
 
-    //Parse options (read optionqs.xml file)
-    options.parse(this);
+    //Parse options (read options.xml file)
+    options = new Options();
+    options->parse("options.xml");
 
     //Read recent files list
-    readRecent();
+    recent = new Recent;
+    recentList = recent->load("recent.xml");
 
     //Setup UI
     setUpMenu();
     setUpToolBar();
 
     //Init objects
-    xta = new XTA(this);
-    chords = new Chords(this);
+    xta = new XTA();
+    chords = new Chords();
 
-    if(options.reOpenPreviousTabs){
+    if(options->values().reOpenPreviousTabs){
         pressOpenPrevious();
     }
 
@@ -31,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
 #if 1
     if(ui->tabWidget->count()==0){
         if(QFile::exists("test.xta")){
-            XTAinfo info = xta->parse("test.xta");
+            XTAinfo info = xta->load("test.xta");
             int index = addTab(info);
             addRecent(info);
 
@@ -61,7 +63,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     //Set selected window mode
-    switch(options.openSizeMode){
+    switch(options->values().openSizeMode){
     case 0 : this->setWindowState(Qt::WindowNoState); break;
     case 1 : this->setWindowState(Qt::WindowMaximized); break;
     case 2 : /*this->setWindowState(Qt::WindowFullScreen);*/ ui->actionFull_Screen->setChecked(true); break;
@@ -80,10 +82,10 @@ MainWindow::~MainWindow()
         Tab *tab = (Tab*)ui->tabWidget->widget(i);
         paths << tab->getXTA().filepath;
     }
-    for(int i=0;i<recent.size();i++){
-        recent[i].wasOpen = paths.contains( recent[i].path );
+    for(int i=0;i<recentList.size();i++){
+        recentList[i].wasOpen = paths.contains( recentList[i].path );
     }
-    saveRecent();
+    recent->save("recent.xml",recentList);
     pressCloseAll();
     delete ui;
 }
@@ -95,33 +97,33 @@ MainWindow::~MainWindow()
 void MainWindow::setUpMenu()
 {
     //Sort list by date
-    qSort(recent.begin(),recent.end(),RecentDateComparer());
+    qSort(recentList.begin(),recentList.end(),RecentDateComparer());
 
     //Add all recent files to 're-open/by date' menu
-    for(int i=0;i<recent.size();i++){
-        QAction *action = ui->menuBy_date->addAction( recent.at(i).getName() );
-        action->setData( recent.at(i).path );
+    for(int i=0;i<recentList.size();i++){
+        QAction *action = ui->menuBy_date->addAction( recentList.at(i).getName() );
+        action->setData( recentList.at(i).path );
         recentAction.push_back( action );
         connect(action,SIGNAL(triggered()),this,SLOT(openFile()));
     }
 
     //Add 5 first recent file to the 're-open' menu
-    for(int i=0;i<qMin(5,recent.size());i++){
-        QAction *action = ui->menuRe_Open->addAction( recent.at(i).getName() );
-        action->setData( recent.at(i).path );
+    for(int i=0;i<qMin(5,recentList.size());i++){
+        QAction *action = ui->menuRe_Open->addAction( recentList.at(i).getName() );
+        action->setData( recentList.at(i).path );
         recentAction.push_back( action );
         connect(action,SIGNAL(triggered()),this,SLOT(openFile()));
     }
 
     //Sort list by artist
-    qSort(recent.begin(),recent.end(),RecentNameComparer());
+    qSort(recentList.begin(),recentList.end(),RecentNameComparer());
     //rf_listqDebug() << rf_list;
 
     QMap<QString,QList<RecentFile> > mapArtist;
     QMap<QString,QMenu*> mapMenu;
 
-    for(int i=0;i<recent.size();i++){
-        RecentFile rf = recent[i];
+    for(int i=0;i<recentList.size();i++){
+        RecentFile rf = recentList[i];
 
         //Create menu with artist name
         if(!rf.artist.isEmpty() && !rf.title.isEmpty()){
@@ -154,7 +156,7 @@ void MainWindow::setUpMenu()
 
     //Enable menus
     ui->menuBy_artist->setEnabled(!listArtist.isEmpty());
-    ui->menuBy_date->setEnabled(!recent.isEmpty());
+    ui->menuBy_date->setEnabled(!recentList.isEmpty());
 }
 
 /** Set up the tool bar
@@ -213,7 +215,7 @@ void MainWindow::setUpToolBar()
 
     connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(pressAbout()));
 
-    moveToolBar(options.mainToolBarPosition);
+    moveToolBar(options->values().mainToolBarPosition);
 }
 
 void MainWindow::moveToolBar(int toolBarPosition)
@@ -326,8 +328,7 @@ int MainWindow::addTab(XTAinfo info)
     if(tabName.isEmpty())
         tabName = tr("New");
 
-    Tab *tab = new Tab(info, chords, ui->tabWidget);
-    tab->setOptions(options);
+    Tab *tab = new Tab(info, chords, options->values(), ui->tabWidget);
 
     connect(tab,SIGNAL(setSaveIcon(int,bool)),this,SLOT(displaySaveIcon(int,bool)));
     //connect(this,SIGNAL(setColorsEnabled(bool)),tab,SLOT(enableColors(bool)));
@@ -351,9 +352,9 @@ int MainWindow::addTab(XTAinfo info)
 
     int index = ui->tabWidget->addTab(tab,tabName);
 
-    if(options.selectNewTab || ui->tabWidget->count()==1){
+    if(options->values().selectNewTab || ui->tabWidget->count()==1){
         ui->tabWidget->setCurrentIndex( index );
-        if(options.openReadOnly){
+        if(options->values().openReadOnly){
             pressReadOnlyMode();
         }else{
             pressEditMode();
@@ -385,7 +386,7 @@ void MainWindow::pressNew(QString text)
 
 void MainWindow::pressOpen()
 {
-    QStringList filepaths = QFileDialog::getOpenFileNames(this,tr("Open file"),options.defaultPath.isEmpty()?QDir::homePath():options.defaultPath,"*.xta *.txt");
+    QStringList filepaths = QFileDialog::getOpenFileNames(this,tr("Open file"),options->values().defaultPath.isEmpty()?QDir::homePath():options->values().defaultPath,"*.xta *.txt");
 
     if(filepaths.isEmpty())
         return;
@@ -394,7 +395,7 @@ void MainWindow::pressOpen()
         QFileInfo fi(filepath);
 
         XTAinfo info(fi.absoluteFilePath(), fi.fileName());
-        info = xta->parse(filepath);
+        info = xta->load(filepath);
 
         addTab( info );
         addRecent(info);
@@ -403,7 +404,7 @@ void MainWindow::pressOpen()
 
 void MainWindow::pressOpenFolder()
 {
-    QString folderpath = QFileDialog::getExistingDirectory(this,tr("Open file"),options.defaultPath.isEmpty()?QDir::homePath():options.defaultPath);
+    QString folderpath = QFileDialog::getExistingDirectory(this,tr("Open file"),options->values().defaultPath.isEmpty()?QDir::homePath():options->values().defaultPath);
 
     if(folderpath.isEmpty())
         return;
@@ -418,7 +419,7 @@ void MainWindow::pressOpenFolder()
     foreach(QString filepath, listFiles){
         QFileInfo fi(filepath);
         XTAinfo info(fi.absoluteFilePath(), fi.fileName());
-        info = xta->parse(filepath);
+        info = xta->load(filepath);
         addTab(info);
         addRecent(info);
     }
@@ -426,13 +427,13 @@ void MainWindow::pressOpenFolder()
 
 void MainWindow::pressOpenPrevious()
 {
-    for(int i=0;i<recent.size();i++){
-        if(recent[i].wasOpen){
-            QFileInfo fi(recent[i].path);
+    for(int i=0;i<recentList.size();i++){
+        if(recentList[i].wasOpen){
+            QFileInfo fi(recentList[i].path);
 
             XTAinfo info(fi.absoluteFilePath(), fi.fileName());
             bool ok;
-            info = xta->parse(fi.absoluteFilePath(),&ok);
+            info = xta->load(fi.absoluteFilePath(),&ok);
 
             if(ok){
                 addTab( info );
@@ -465,7 +466,7 @@ void MainWindow::pressSaveAs()
 
     QString selectedFilter;
 
-    QString sample = (options.defaultPath.isEmpty()?QDir::homePath():options.defaultPath) + QDir::separator();
+    QString sample = (options->values().defaultPath.isEmpty()?QDir::homePath():options->values().defaultPath) + QDir::separator();
     sample += info.createFileName() +  ".xta";
 
     QString filepath = QFileDialog::getSaveFileName(this,tr("Save as"),sample,QString("%1;;%2").arg(tr("XTA files (*.xta)"),tr("TXT files (*.txt)")),&selectedFilter,QFileDialog::DontConfirmOverwrite);
@@ -662,19 +663,19 @@ void MainWindow::pressSearchXTA()
 void MainWindow::pressDownloadXTA()
 {
     DownloadXTA *dXTA = new DownloadXTA(this);
-    dXTA->setFolder( options.defaultPath );
+    dXTA->setFolder( options->values().defaultPath );
     dXTA->exec();
 }
 
 void MainWindow::pressPreference()
 {
-    OptionsForm *opt = new OptionsForm(options,this);
+    OptionsForm *opt = new OptionsForm(options->values(),this);
     if(opt->exec()){
-        OptionsValues o = opt->getOptions();
-        options = o;
-        options.save(this);
-        moveToolBar(options.mainToolBarPosition);
-        emit optionsChanged(options);
+        OptionsValues ov = opt->getOptions();
+        options->setValues(ov);
+        options->save("options.xml");
+        moveToolBar(options->values().mainToolBarPosition);
+        emit optionsChanged(options->values());
     }
 }
 
@@ -686,86 +687,6 @@ void MainWindow::pressChordsManager()
     }
 }
 
-void MainWindow::readRecent()
-{
-    recent.clear();
-
-    QFile xml_doc("recent.xml");
-    if(!xml_doc.exists()){
-        saveRecent();
-        return;
-    }
-
-    if(!xml_doc.open(QIODevice::ReadOnly)){
-        QMessageBox::warning(this,this->tr("Failed to open XML document"),tr("The XML document '%1' could not be opened. Verify that the name is correct and that the document is well placed.").arg(xml_doc.fileName()));
-        return ;
-    }
-
-    QDomDocument *dom = new QDomDocument("docXML");
-    if (!dom->setContent(&xml_doc)){
-        xml_doc.close();
-        QMessageBox::warning(this,this->tr("Error opening the XML document"),tr("The XML document could not be assigned to the object QDomDocument."));
-        return ;
-    }
-
-    QDomElement dom_element = dom->documentElement();
-    if(dom_element.tagName()=="recent"){
-        QDomNode node = dom_element.firstChild();
-
-        while(!node.isNull())
-        {
-            QDomElement element = node.toElement();
-
-            if(element.tagName()=="file"){
-                RecentFile rf;
-                rf.title = element.attribute("title",tr("empty_title"));
-                rf.artist = element.attribute("artist",tr("empty_artist"));
-                rf.path = element.attribute("path","");
-                rf.date = QDateTime::fromString(element.attribute("date",""),"dd MM yy HH mm ss");
-                rf.wasOpen = element.attribute("wasOpen","false")=="true";
-                recent.push_back(rf);
-            }
-            node = node.nextSibling();
-        }
-    }
-
-    xml_doc.close();
-
-}
-
-void MainWindow::saveRecent()
-{
-    QFile file("recent.xml");
-    file.open(QFile::WriteOnly);
-
-    QTextStream stream(&file);
-    stream.setCodec("UTF-8");
-    //stream.setCodec(QTextStream::UnicodeUTF8);
-
-    QDomDocument dom;
-
-    QDomElement mainNode = dom.createElement("recent");
-    dom.appendChild(mainNode);
-
-    {
-        foreach(RecentFile recentFile, recent){
-            QDomElement elem = dom.createElement("file");
-            elem.setAttribute("title",recentFile.title);
-            elem.setAttribute("artist",recentFile.artist);
-            elem.setAttribute("path",recentFile.path);
-            elem.setAttribute("date",recentFile.date.toString("dd MM yy HH mm ss"));
-            if(recentFile.wasOpen)
-                elem.setAttribute("wasOpen","true");
-            mainNode.appendChild(elem);
-        }
-
-    }
-
-    stream << dom.toString();
-
-    file.close();
-}
-
 void MainWindow::clearRecent()
 {
     for(int i=0;i<recentAction.size();i++){
@@ -773,8 +694,8 @@ void MainWindow::clearRecent()
             delete recentAction[i];
     }
     recentAction.clear();
-    recent.clear();
-    saveRecent();
+    recentList.clear();
+    recent->save("recent.xml",recentList);
     updateRecent();
 }
 
@@ -790,9 +711,9 @@ void MainWindow::updateRecent()
 
 void MainWindow::addRecent(XTAinfo &info)
 {
-    for(int i=0;i<recent.size();i++){
-        if(recent.at(i).path == info.filepath){
-            recent[i].date = QDateTime::currentDateTime();
+    for(int i=0;i<recentList.size();i++){
+        if(recentList.at(i).path == info.filepath){
+            recentList[i].date = QDateTime::currentDateTime();
             return;
         }
     }
@@ -805,7 +726,7 @@ void MainWindow::addRecent(XTAinfo &info)
     rf.path = info.filepath;
     rf.date = QDateTime::currentDateTime();
 
-    recent.push_back(rf);
+    recentList.push_back(rf);
     updateRecent();
 }
 
@@ -814,7 +735,7 @@ void MainWindow::openFile(QString filepath)
     QFileInfo fi(filepath);
 
     XTAinfo info(fi.absoluteFilePath(), fi.fileName());
-    info = xta->parse(fi.absoluteFilePath());
+    info = xta->load(fi.absoluteFilePath());
 
     addTab( info );
     addRecent(info);
@@ -864,7 +785,7 @@ void MainWindow::pressPreview()
     QPrintPreviewDialog *pDialog = new QPrintPreviewDialog(this,Qt::Dialog);
     connect(pDialog, SIGNAL(paintRequested(QPrinter*)), tab, SLOT(print(QPrinter*)));
     QPrinter *printer = pDialog->printer();
-    printer->setPageMargins(options.topMargin,options.leftMargin,options.rightMargin,options.bottomMargin,QPrinter::Millimeter);
+    printer->setPageMargins(options->values().topMargin,options->values().leftMargin,options->values().rightMargin,options->values().bottomMargin,QPrinter::Millimeter);
     QString default_filename = tab->getXTA().createFileName();
     printer->setOutputFileName(default_filename);
     pDialog->exec();
@@ -878,7 +799,7 @@ void MainWindow::pressPrint()
     QPrintPreview *pDialog = new QPrintPreview(this,Qt::Dialog);
     connect(pDialog, SIGNAL(paintRequested(QPrinter*)), tab, SLOT(print(QPrinter*)));
     QPrinter *printer = pDialog->getPrinter();
-    printer->setPageMargins(options.topMargin,options.leftMargin,options.rightMargin,options.bottomMargin,QPrinter::Millimeter);
+    printer->setPageMargins(options->values().topMargin,options->values().leftMargin,options->values().rightMargin,options->values().bottomMargin,QPrinter::Millimeter);
     QString default_filename = tab->getXTA().createFileName();
     pDialog->pressPrint(default_filename);
 }
@@ -900,7 +821,7 @@ void MainWindow::pressExportPDF()
     QPrintPreview *pDialog = new QPrintPreview(this,Qt::Dialog);
     connect(pDialog, SIGNAL(paintRequested(QPrinter*)), tab, SLOT(print(QPrinter*)));
     QPrinter *printer = pDialog->getPrinter();
-    printer->setPageMargins(options.topMargin,options.leftMargin,options.rightMargin,options.bottomMargin,QPrinter::Millimeter);
+    printer->setPageMargins(options->values().topMargin,options->values().leftMargin,options->values().rightMargin,options->values().bottomMargin,QPrinter::Millimeter);
     pDialog->exportPDF(filename);
 
     QMessageBox::information(this,tr("Export PDF"),tr("PDF exported : %1").arg(filename));

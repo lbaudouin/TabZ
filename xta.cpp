@@ -1,71 +1,56 @@
 #include "xta.h"
 
-XTA::XTA(QWidget *parent) : parent_(parent)
+XTA::XTA(QWidget *parent) : ReadWriteXML(parent)
 {
 
 }
 
-XTAinfo XTA::parse(QString filepath, bool *ok)
+void XTA::readTXT(QFileInfo fileInfo)
 {
-    QDomDocument *dom = new QDomDocument("docXML");
-    QFile xml_doc(filepath);
+    QFile file(fileInfo.absoluteFilePath());
+    if(file.open(QFile::ReadOnly)){
+        QTextStream in(&file);
+        QString text = in.readAll();
+        info_.text = text;
+    }
+    file.close();
+}
 
-    QFileInfo fi(filepath);
-    XTAinfo xta(fi.absoluteFilePath(),fi.fileName());
+void XTA::writeTXT(QFileInfo fileInfo)
+{
+    QFile file(fileInfo.absoluteFilePath());
+    file.open(QFile::WriteOnly);
 
-    if(fi.suffix()=="txt" || fi.suffix()=="TXT"){
-        QFile file(filepath);
-        if(file.open(QFile::ReadOnly)){
-            QTextStream in(&file);
-            QString text = in.readAll();
-            xta.text = text;
+    QTextStream stream(&file);
+    stream.setCodec("UTF-8");
+
+    stream << info_.text;
+    file.close();
+}
+
+void XTA::read(QDomDocument *dom, QFileInfo fileInfo)
+{
+    XTAinfo xta(fileInfo.absoluteFilePath(),fileInfo.fileName());
+
+    QDomElement dom_element = dom->documentElement();
+    QDomNode node = dom_element.firstChild();
+
+    while(!node.isNull())
+    {
+        QDomElement element = node.toElement();
+
+        if(element.tagName()=="Header"){
+            readHeaders(node,xta);
         }
-        file.close();
+
+        if(element.tagName()=="Contenu"){
+            readContent(node,xta);
+        }
+
+        node = node.nextSibling();
     }
 
-    if(fi.suffix()=="xta" || fi.suffix()=="XTA"){
-
-        if(!xml_doc.open(QIODevice::ReadOnly)){
-            if(parent_)
-                QMessageBox::warning(parent_,tr("Failed to open XML document"),tr("The XML document '%1' could not be opened. Verify that the name is correct and that the document is well placed.").arg(filepath));
-            if(ok!=0)
-                *ok = false;
-            return XTAinfo("","");
-        }
-        if (!dom->setContent(&xml_doc)){
-            xml_doc.close();
-            if(parent_)
-                QMessageBox::warning(parent_,tr("Error opening the XML document"),tr("The XML document could not be assigned to the object QDomDocument."));
-            if(ok!=0)
-                *ok = false;
-            return XTAinfo("","");
-        }
-
-        QDomElement dom_element = dom->documentElement();
-        QDomNode node = dom_element.firstChild();
-
-
-        while(!node.isNull())
-        {
-            QDomElement element = node.toElement();
-
-            if(element.tagName()=="Header"){
-                readHeaders(node,xta);
-            }
-
-            if(element.tagName()=="Contenu"){
-                readContent(node,xta);
-            }
-
-            node = node.nextSibling();
-        }
-
-        if(ok!=0)
-            *ok = true;
-        xml_doc.close();
-    }
-
-    return xta;
+    info_ = xta;
 }
 
 void XTA::readHeaders(QDomNode &node, XTAinfo &xta)
@@ -158,97 +143,85 @@ void XTA::readImagesInfo(QDomNode &node, XTAinfo &xta)
     }
 }
 
-void XTA::save(QString filepath, XTAinfo xta)
+void XTA::write(QDomDocument *dom, QFileInfo)
 {
-    if(!filepath.endsWith("txt",Qt::CaseInsensitive) && !filepath.endsWith("xta",Qt::CaseInsensitive)){
-        QMessageBox::critical(this,tr("Error"),tr("Invalid file suffix, must be 'txt' or 'xta'\nFilename: %1").arg(filepath));
-        return;
+
+    QDomElement nodeXTA = dom->createElement("XTA");
+    dom->appendChild(nodeXTA);
+
+    {
+        QDomElement node1 = dom->createElement("Header");
+        nodeXTA.appendChild(node1);
+
+        addNode(dom,&node1,"Version",info_.version);
+        addNode(dom,&node1,"instrument",info_.instrument);
+        addNode(dom,&node1,"Capo",info_.capo);
+        addNode(dom,&node1,"Accordage",info_.tuning);
+
+        QDomElement node2 = dom->createElement("Musique");
+        node1.appendChild(node2);
+
+        addNode(dom,&node2,"titre",info_.title);
+        addNode(dom,&node2,"artiste",info_.artist);
+        addNode(dom,&node2,"album",info_.album);
+
+        addNode(dom,&node1,"FichierGTP",info_.file_gp);
+        addNode(dom,&node1,"FichierMP3",info_.file_mp3);
+
     }
 
-    QFile file(filepath);
-    file.open(QFile::WriteOnly);
+    {
+        QDomElement node1 = dom->createElement("Contenu");
+        nodeXTA.appendChild(node1);
 
-    QTextStream stream(&file);
-    stream.setCodec("UTF-8");
+        addNode(dom,&node1,"TXT",info_.text);
+        addNode(dom,&node1,"TableAccords",info_.chords);
 
-    if(filepath.endsWith("txt",Qt::CaseInsensitive)){
-        qDebug() << "Save txt";
-        stream << xta.text;
-    }
+        if(info_.images.size()>0){
+            QDomElement nodeImages = dom->createElement("images");
+            node1.appendChild(nodeImages);
 
-    if(filepath.endsWith("xta",Qt::CaseInsensitive)){
-        QDomDocument dom;
+            for(int i=0;i<info_.refImages.size();i++){
+                QDomElement node2 = dom->createElement("image");
+                node2.setAttribute("ref", QString("image%1").arg(i));
+                nodeImages.appendChild(node2);
 
-        QDomElement nodeXTA = dom.createElement("XTA");
-        dom.appendChild(nodeXTA);
+                QImage image = info_.images[info_.refImages[i]];
 
-        {
-            QDomElement node1 = dom.createElement("Header");
-            nodeXTA.appendChild(node1);
+                QByteArray ba;
+                QBuffer buf(&ba);
+                image.save(&buf, "png");
 
-            addNode(dom,node1,"Version",xta.version);
-            addNode(dom,node1,"instrument",xta.instrument);
-            addNode(dom,node1,"Capo",xta.capo);
-            addNode(dom,node1,"Accordage",xta.tuning);
-
-            QDomElement node2 = dom.createElement("Musique");
-            node1.appendChild(node2);
-
-            addNode(dom,node2,"titre",xta.title);
-            addNode(dom,node2,"artiste",xta.artist);
-            addNode(dom,node2,"album",xta.album);
-
-            addNode(dom,node1,"FichierGTP",xta.file_gp);
-            addNode(dom,node1,"FichierMP3",xta.file_mp3);
-
-        }
-
-        {
-            QDomElement node1 = dom.createElement("Contenu");
-            nodeXTA.appendChild(node1);
-
-            addNode(dom,node1,"TXT",xta.text);
-            addNode(dom,node1,"TableAccords",xta.chords);
-
-            if(xta.images.size()>0){
-                QDomElement nodeImages = dom.createElement("images");
-                node1.appendChild(nodeImages);
-
-                for(int i=0;i<xta.refImages.size();i++){
-                    QDomElement node2 = dom.createElement("image");
-                    node2.setAttribute("ref", QString("image%1").arg(i));
-                    nodeImages.appendChild(node2);
-
-                    QImage image = xta.images[xta.refImages[i]];
-
-                    QByteArray ba;
-                    QBuffer buf(&ba);
-                    image.save(&buf, "png");
-
-                    QDomText textNode = dom.createTextNode(ba.toBase64());
-                    node2.appendChild(textNode);
-                }
+                QDomText textNode = dom->createTextNode(ba.toBase64());
+                node2.appendChild(textNode);
             }
         }
-
-        stream << dom.toString();
     }
-
-    file.close();
-
 }
 
-
-void XTA::addNode(QDomDocument &dom, QDomElement &parent, QString tag, QString data)
+bool XTA::checkFileName(QFileInfo fileInfo)
 {
-    QDomElement node = dom.createElement(tag);
-    parent.appendChild(node);
-
-    QDomText textNode = dom.createTextNode(data);
-    node.appendChild(textNode);
+    if(!fileInfo.fileName().endsWith(".xta",Qt::CaseInsensitive) && !fileInfo.fileName().endsWith(".txt",Qt::CaseInsensitive)){
+        QMessageBox::critical(this,tr("Error"),tr("Invalid file suffix, must be 'txt' or 'xta'\nFilename: %1").arg(fileInfo.fileName()));
+        return false;
+    }
+    QFile file(fileInfo.absoluteFilePath());
+    if(file.open(QFile::WriteOnly)){
+        return true;
+    }else{
+        QMessageBox::critical(this,tr("Error"),tr("This file is not writable: %1").arg(fileInfo.absoluteFilePath()));
+        return false;
+    }
 }
 
-void XTA::addNode(QDomDocument &dom, QDomElement &parent, QString tag, int data)
+XTAinfo XTA::load(QString filepath, bool *ok)
 {
-    addNode(dom,parent,tag,QString::number(data));
+    parse(filepath);
+    return info_;
+}
+
+void XTA::save(QString filepath, XTAinfo &info)
+{
+    info_ = info;
+    flush(filepath);
 }

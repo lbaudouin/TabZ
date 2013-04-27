@@ -1,12 +1,7 @@
 #ifndef CHORDS_H
 #define CHORDS_H
 
-#include <QWidget>
-#include <QDomDocument>
-#include <QMessageBox>
-#include <QFile>
-#include <QFileInfo>
-#include <QTextStream>
+#include "readwritexml.h"
 #include <QTabWidget>
 #include <QHBoxLayout>
 #include <QScrollArea>
@@ -47,13 +42,11 @@ inline bool operator==(const Instrument &i1, const Instrument &i2){
     return (i1.name == i2.name) && (i1.nbStrings == i2.nbStrings);
 }
 
-class Chords : public QObject
+class Chords : public ReadWriteXML
 {
     Q_OBJECT
 public:
-    Chords(QWidget *parent);
-    void parse();
-    void save();
+    Chords(QWidget *parent = 0);
 
     Instrument getInstrument(QString label);
     QString getInstrumentName(QString label);
@@ -65,6 +58,8 @@ public:
 
 protected:
     void init();
+    virtual void read(QDomDocument *dom, QFileInfo fileInfo = QFileInfo());
+    virtual void write(QDomDocument *dom, QFileInfo fileInfo = QFileInfo());
 
 private:
     QWidget* parent_;

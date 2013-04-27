@@ -81,9 +81,10 @@ TODO list
 *** rename Tab & action on artiste & title changes
 
 #### bug ####
-- info appear in read-only mode on full screen exit
+*** info appear in read-only mode on full screen exit
 - utf8 files name in Windows jump list
 - couldn't deplace images
+- personal list overcolor existing chords
 
 #### code ####
 *** increase 'recent files' update speed
@@ -91,6 +92,7 @@ TODO list
 - Rewrite QPrintPreviewWidget to add an option to display first page on the left in double page page
 *** Rewrite QPrintPreviewDialog to add updatePreview slot
 *** Remove QPrintPreviewDialog closing on printing
+*** Create generic XML read/write class (with pure virtual function)
 
 #### XTA v2.0 ####
 - add external lyrics filepath

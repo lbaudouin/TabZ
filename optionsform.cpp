@@ -91,7 +91,7 @@ void OptionsForm::createGeneralTab(QTabWidget *tab)
 
     QStringList sizes;
     sizes << "100x150" << "125x175" << "150x200";
-    int sizeIndex = sizes.indexOf(options_.fromSize(options_.chordSize));
+    int sizeIndex = sizes.indexOf(Options::fromSize(options_.chordSize));
     if(sizeIndex<0) sizeIndex = 1;
     comboChordSize = new QComboBox;
     comboChordSize->addItems( sizes );
@@ -165,8 +165,7 @@ void OptionsForm::createPrintTab(QTabWidget *tab)
     QHBoxLayout *marginHBox = new QHBoxLayout;
     QHBoxLayout *marginMainBox = new QHBoxLayout;
 
-    QSpacerItem *s1 = new QSpacerItem(5,0,QSizePolicy::Expanding);
-    QSpacerItem *s2 = new QSpacerItem(5,0,QSizePolicy::Expanding);
+    QSpacerItem *spacer = new QSpacerItem(5,0,QSizePolicy::Expanding);
 
     marginVBox->addWidget(editTop,0,Qt::AlignCenter);
     marginHBox->addWidget(editLeft);
@@ -175,7 +174,7 @@ void OptionsForm::createPrintTab(QTabWidget *tab)
     marginVBox->addWidget(editBottom,0,Qt::AlignCenter);
 
     marginMainBox->addLayout(marginVBox);
-    marginMainBox->addSpacerItem(s2);
+    marginMainBox->addSpacerItem(spacer);
 
     //Chord size
 
@@ -197,7 +196,7 @@ OptionsValues OptionsForm::getOptions()
     options_.defaultPath = editDefaultFolder->text();
     options_.openSizeMode = comboOpenSize->currentIndex();
     options_.font.fromString( fontLabel->text() );
-    options_.chordSize = options_.toSize( comboChordSize->currentText() );
+    options_.chordSize = Options::toSize( comboChordSize->currentText() );
     options_.printHearderOnEachPages = checkPrintHeaderOnEachPages->isChecked();
     options_.enableColorsOnPrinting = checkEnableColorsOnPrinting->isChecked();
     options_.mainToolBarPosition = comboToolBarPosition->currentIndex();
@@ -232,8 +231,10 @@ void OptionsForm::selectFont()
 
 void OptionsForm::buttonClicked(QAbstractButton *button){
     if(buttonBox->buttonRole(button)==QDialogButtonBox::ResetRole){
-        options_ = OptionsValues();
-        options_.setDefaultRegExp();
+
+        //Create a static function
+        Options *opt = new Options;
+        options_ = opt->values();
 
         checkEnableColors->setChecked(options_.enableColors);
         checkSelectNewTab->setChecked(options_.selectNewTab);
