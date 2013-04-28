@@ -163,7 +163,8 @@ Tab::Tab(XTAinfo xta, Chords* chordsList, OptionsValues optionsValues, QWidget *
     tabToolBar->setMovable(false);
     tabToolBar->addAction(QIcon(":images/insert-image"),tr("Insert image from file"), this, SLOT(insertImage()) );
     tabToolBar->addAction(QIcon(":images/insert-clipboard"),tr("Insert image from clipboard"), this, SLOT(insertClipboard()) );
-    tabToolBar->addAction(QIcon(":images/tab"),tr("Insert tab"), this, SLOT(insertTab()) );
+    tabToolBar->addAction(QIcon(":images/tab"),tr("Insert ascii tab"), this, SLOT(insertTab()) );
+    tabToolBar->addAction(QIcon(":images/lilypond"),tr("Insert lilypond tab"), this, SLOT(insertLilypond()) );
     tabToolBar->addSeparator();
     tabToolBar->addAction(QIcon(":images/La-A"),tr("French to English"), this, SLOT(translateFrEn()) )->setEnabled(false);
     tabToolBar->addAction(QIcon(":images/A-La"),tr("English to French"), this, SLOT(translateEnFr()) )->setEnabled(false);
@@ -1078,7 +1079,37 @@ void Tab::insertTab()
     }
 
     edit->setTextCursor(initial_cursor);
+}
 
+void Tab::insertLilypond()
+{
+#if defined(__WIN32__)
+    QMessageBox *mess = new QMessageBox;
+    mess->setIconPixmap( QPixmap(":images/ubuntu") );
+    mess->setWindowTitle( tr("Ubuntu only function") );
+    mess->setText(tr("This function is only available on Ubuntu.\nDownload and install Ubuntu and try again.\n\nA sample will be inserted..."));
+    mess->addButton(tr("Download Ubuntu"),QMessageBox::RejectRole);
+    mess->addButton(QMessageBox::Ok);
+    if(!mess->exec()){
+        QDesktopServices::openUrl(QUrl(tr("http://www.ubuntu.com/download/desktop")));
+    }
+    QImage img(":images/tab_sample");
+    addImage(img);
+#else
+    Lilypond *lilypond = new Lilypond;
+
+    while(!lilypond->isLilypondAvailable()){
+        if(!lilypond->downloadLilypond()){
+            lilypond->close();
+            return;
+        }
+    }
+
+    if(lilypond->exec()){
+        QImage img = lilypond->getImage();
+        addImage(img);
+    }
+#endif
 }
 
 void Tab::insertImage()

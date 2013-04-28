@@ -20,6 +20,7 @@
 #include "chords.h"
 #include "chordsmanager.h"
 #include "mycheckbox.h"
+#include "lilypond.h"
 
 class Tab : public QWidget
 {
@@ -138,6 +139,7 @@ public slots:
     void setOptions(OptionsValues options);
 
     void insertTab();
+    void insertLilypond();
     void insertImage();
     void insertClipboard();
 

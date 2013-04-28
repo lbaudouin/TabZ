@@ -1106,6 +1106,31 @@ Merci de redémarrer le programme pour utiliser la nouvelle version</translation
     </message>
 </context>
 <context>
+    <name>Lilypond</name>
+    <message>
+        <location filename="lilypond.cpp" line="8"/>
+        <source>Insert Lilypond tab</source>
+        <translation>Insérer une tablature Lilypond</translation>
+    </message>
+    <message>
+        <location filename="lilypond.cpp" line="15"/>
+        <source>Generate</source>
+        <translation>Générer</translation>
+    </message>
+    <message>
+        <location filename="lilypond.cpp" line="78"/>
+        <source>Download Lilypond</source>
+        <translation>Téléchargement de Lilypond</translation>
+    </message>
+    <message>
+        <location filename="lilypond.cpp" line="78"/>
+        <source>Do you wan&apos;t to download Lilypond software?
+Command: &apos;gksudo apt-get install lilypond&apos;</source>
+        <translation>Voulez-vous télécharger Lilypond ?
+Commande : &apos;gksudo apt-get install lilypond&apos;</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <location filename="mainwindow.ui" line="14"/>
@@ -1942,7 +1967,7 @@ Version : %3</translation>
         <translation type="obsolete">(Pas de titre)</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="299"/>
+        <location filename="tab.cpp" line="300"/>
         <source>%1 - %2</source>
         <comment>artist - title</comment>
         <translation>%1 - %2</translation>
@@ -1952,28 +1977,28 @@ Version : %3</translation>
         <translation type="obsolete">	 [Capo: %1, Accordage: %2]</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="538"/>
+        <location filename="tab.cpp" line="539"/>
         <source>Select all</source>
         <translation>Sélectionner tout</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="540"/>
+        <location filename="tab.cpp" line="541"/>
         <source>Unselect all</source>
         <translation>Désélectionner tout</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="574"/>
+        <location filename="tab.cpp" line="575"/>
         <source>Information</source>
         <translation>Information</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="574"/>
+        <location filename="tab.cpp" line="575"/>
         <source>No chord found</source>
         <translation>Pas d&apos;accords trouvé</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="303"/>
-        <location filename="tab.cpp" line="780"/>
+        <location filename="tab.cpp" line="304"/>
+        <location filename="tab.cpp" line="781"/>
         <source>[Capo: %1, Tuning: %2]</source>
         <translation>[Capo: %1, Accordage: %2]</translation>
     </message>
@@ -1994,86 +2019,118 @@ Version : %3</translation>
     </message>
     <message>
         <location filename="tab.cpp" line="166"/>
-        <source>Insert tab</source>
-        <translation>Insérer une tablature</translation>
+        <source>Insert ascii tab</source>
+        <oldsource>Insert tab</oldsource>
+        <translation>Insérer une tablature ascii</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="168"/>
+        <location filename="tab.cpp" line="167"/>
+        <source>Insert lilypond tab</source>
+        <translation>Insérer une tablature Lilypond</translation>
+    </message>
+    <message>
+        <location filename="tab.cpp" line="169"/>
         <source>French to English</source>
         <translation>Français vers Anglais</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="169"/>
+        <location filename="tab.cpp" line="170"/>
         <source>English to French</source>
         <translation>Anglais vers Français</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="171"/>
+        <location filename="tab.cpp" line="172"/>
         <source>Import images</source>
         <translation>Importer des images</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="172"/>
+        <location filename="tab.cpp" line="173"/>
         <source>Export images</source>
         <translation>Exporter les images</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="297"/>
+        <location filename="tab.cpp" line="298"/>
         <source>No title</source>
         <translation>Pas de titre</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="305"/>
+        <location filename="tab.cpp" line="306"/>
         <source>[Capo: %1]</source>
         <translation>[Capo : %1]</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="307"/>
+        <location filename="tab.cpp" line="308"/>
         <source>[Tuning: %1]</source>
         <translation>[Accordage : %1 ]</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="804"/>
+        <location filename="tab.cpp" line="805"/>
         <source>Page %1 of %2</source>
         <translation>Page %1 sur %2</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="986"/>
+        <location filename="tab.cpp" line="987"/>
         <source>Insert text</source>
         <translation>Insérer du texte</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1012"/>
+        <location filename="tab.cpp" line="1013"/>
         <source>Import from file</source>
         <translation>Importer depuis un fichier</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1012"/>
+        <location filename="tab.cpp" line="1013"/>
         <source>XTA files (*.xta)</source>
         <translation>Fichier XTA (*.xta)</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1021"/>
+        <location filename="tab.cpp" line="1022"/>
         <source>Insert length</source>
         <translation>Choisir la longueur</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1021"/>
+        <location filename="tab.cpp" line="1022"/>
         <source>Length:</source>
         <translation>Longueur :</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1086"/>
+        <location filename="tab.cpp" line="1089"/>
+        <source>Ubuntu only function</source>
+        <translation>Fonction sur Ubuntu uniquement</translation>
+    </message>
+    <message>
+        <location filename="tab.cpp" line="1090"/>
+        <source>This function is only available on Ubuntu.
+Download and install Ubuntu and try again.
+
+A sample will be inserted...</source>
+        <translation>Cette fonction n&apos;est disponible que sur Ubuntu.
+Télécharger et installer Ubuntu, puis réessayer.
+
+Un exemple va être inséré...</translation>
+    </message>
+    <message>
+        <location filename="tab.cpp" line="1091"/>
+        <source>Download Ubuntu</source>
+        <translation>Télécharger Ubuntu</translation>
+    </message>
+    <message>
+        <location filename="tab.cpp" line="1094"/>
+        <source>http://www.ubuntu.com/download/desktop</source>
+        <translation>http://www.ubuntu.com/download/desktop</translation>
+    </message>
+    <message>
+        <location filename="tab.cpp" line="1117"/>
         <source>Load image</source>
         <translation>Chargement d&apos;image</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1086"/>
+        <location filename="tab.cpp" line="1117"/>
         <source>Image (*.png)</source>
         <translation>Image (*.png)</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1155"/>
+        <location filename="tab.cpp" line="1186"/>
         <source>Select output folder</source>
         <translation>Choisir un dossier de sortie</translation>
     </message>

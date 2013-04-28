@@ -25,7 +25,8 @@ SOURCES += main.cpp\
     downloadxta.cpp \
     chordsmanager.cpp \
     readwritexml.cpp \
-    recent.cpp
+    recent.cpp \
+    lilypond.cpp
     #myprintpreviewwidget.cpp# \
     #myprinterprivate.cpp
 
@@ -49,7 +50,8 @@ HEADERS  += mainwindow.h \
     colorregexpform.h \
     readwritexml.h \
     colorregexp.h \
-    recent.h
+    recent.h \
+    lilypond.h
     #myprintpreviewwidget.h #\
     #myprinterprivate.h
 
