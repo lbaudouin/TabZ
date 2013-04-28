@@ -3,7 +3,7 @@
 Chords::Chords(QWidget *parent) : ReadWriteXML(parent)
 {
     init();
-    this->parse("chords.xml");
+    load();
 }
 
 void Chords::init()
@@ -193,4 +193,15 @@ QString Chords::getFingers(Instrument instrument, QString name)
     QList<Chord> list = getChords(instrument,name);
     if(list.isEmpty()) return "";
     return list[0].fingers;
+}
+
+void Chords::load()
+{
+    if(QFile::exists("chords.xml"))
+        parse("chords.xml");
+}
+
+void Chords::save()
+{
+    flush("chords.xml");
 }

@@ -55,6 +55,15 @@ Tab::Tab(XTAinfo xta, Chords* chordsList, OptionsValues optionsValues, QWidget *
     layoutSpinBox->addSpacerItem(spacerSpinBox);
     formLayout->addRow(tr("Capo:"),layoutSpinBox);
 
+    OpenEditLayout *leditMp3 = new OpenEditLayout(OpenEditLayout::FileMode);
+    leditMp3->setFilter(tr("Music files (*.mp3 *.ogg *.wav *.flac)"));
+    formLayout->addRow(tr("Mp3 file:"),leditMp3);
+    editMp3 = leditMp3->getEditWidget();
+    OpenEditLayout *leditGP = new OpenEditLayout(OpenEditLayout::FileMode);
+    leditGP->setFilter(tr("GuitarPro files (*.gp *.gp3 *.gp4 *.gp5 *.gp6 *.gpx *.tg)"));
+    formLayout->addRow(tr("GuitarPro file:"),leditGP);
+    editGP = leditGP->getEditWidget();
+
     infoWidget->setLayout(formLayout);
     infoWidget->setVisible(false);
 
@@ -196,6 +205,8 @@ Tab::Tab(XTAinfo xta, Chords* chordsList, OptionsValues optionsValues, QWidget *
     editAlbum->setText( info.album );
     editTuning->setText( info.tuning );
     editCapo->setValue( info.capo );
+    editMp3->setText( info.file_mp3 );
+    editGP->setText( info.file_gp );
     connect(edit,SIGNAL(textChanged()),this,SLOT(textChanged()));
     connect(editTitle,SIGNAL(textChanged(QString)),this,SLOT(infoChanged(QString)));
     connect(editArtist,SIGNAL(textChanged(QString)),this,SLOT(infoChanged(QString)));
@@ -379,6 +390,9 @@ void Tab::saved(QString path)
 
 XTAinfo Tab::getXTA()
 {
+    modified_info.file_mp3 = editMp3->text();
+    modified_info.file_gp = editGP->text();
+
     modified_info.chords.clear();
     for(int i=0;i<currentChords.size();i++){
         modified_info.chords += currentChords.at(i).name;

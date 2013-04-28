@@ -216,7 +216,10 @@ bool XTA::checkFileName(QFileInfo fileInfo)
 
 XTAinfo XTA::load(QString filepath, bool *ok)
 {
-    parse(filepath);
+    bool ret = parse(filepath);
+    if(ok!=0){
+        *ok = ret;
+    }
     return info_;
 }
 

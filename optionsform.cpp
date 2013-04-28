@@ -64,17 +64,9 @@ void OptionsForm::createGeneralTab(QTabWidget *tab)
     QFormLayout *formLayout = new QFormLayout;
     w->setLayout(formLayout);
 
-    editDefaultFolder = new QLineEdit;
+    OpenEditLayout *leditDefaultFolder = new OpenEditLayout(OpenEditLayout::FolderMode,true);
+    editDefaultFolder = leditDefaultFolder->getEditWidget();
     editDefaultFolder->setText(options_.defaultPath);
-    editDefaultFolder->setReadOnly(true);
-
-    QToolButton *toolFolder = new QToolButton;
-    toolFolder->setIcon(QIcon(":images/open"));
-    connect(toolFolder,SIGNAL(clicked()),this,SLOT(selectFolder()));
-
-    QHBoxLayout *folderLayout = new QHBoxLayout;
-    folderLayout->addWidget(toolFolder);
-    folderLayout->addWidget(editDefaultFolder);
 
     checkSelectNewTab = new QCheckBox;
     checkSelectNewTab->setChecked(options_.selectNewTab);
@@ -116,7 +108,7 @@ void OptionsForm::createGeneralTab(QTabWidget *tab)
     fontLayout->addWidget(fontLabel);
 
     formLayout->addRow(tr("Default font:"),fontLayout);
-    formLayout->addRow(tr("Default folder:"),folderLayout);
+    formLayout->addRow(tr("Default folder:"),leditDefaultFolder);
     formLayout->addRow(tr("Select new tab:"),checkSelectNewTab);
     formLayout->addRow(tr("Open read only:"),checkOpenReadOnly);
     formLayout->addRow(tr("Re-open previous tabs:"),checkreOpenPreviousTabs);
@@ -208,14 +200,6 @@ OptionsValues OptionsForm::getOptions()
     options_.colors = cref->getListRegExp();
 
     return options_;
-}
-
-void OptionsForm::selectFolder()
-{
-    QString folder = QFileDialog::getExistingDirectory(this,tr("Select folder"),tr("Path:"));
-    if(!folder.isEmpty()){
-        editDefaultFolder->setText(folder);
-    }
 }
 
 void OptionsForm::selectFont()

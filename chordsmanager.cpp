@@ -23,7 +23,7 @@ void ChordsManager::buttonClicked(QAbstractButton *button){
 
 void ChordsManager::save()
 {
-    chords_->save("chords.xml");
+    chords_->save();
 }
 
 void ChordsManager::updateManager()

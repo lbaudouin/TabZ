@@ -1,9 +1,9 @@
 Package: TabS
-Version: 0.0.13
+Version: 0.0.29
 Section: sound
 Priority: optional
 Architecture: all
 Depends: libqtcore4,libqtgui4,libqt4-xml
-Installed-Size: 200
+Installed-Size: 834
 Maintainer: Léo Baudouin <baudouin.leo@gmail.com>
 Description: Read/Modify chords files

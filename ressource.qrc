@@ -45,6 +45,8 @@
         <file alias="tab_sample">images/tab_sample.png</file>
         <file alias="ubuntu">images/ubuntu.png</file>
         <file alias="lilypond">images/tab1.png</file>
+        <file alias="guitar">images/guitar.png</file>
+        <file alias="music">images/music.png</file>
     </qresource>
     <qresource prefix="/lang">
         <file alias="lang_fr">TabS_fr.qm</file>

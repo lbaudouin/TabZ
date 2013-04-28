@@ -21,6 +21,7 @@
 #include "chordsmanager.h"
 #include "mycheckbox.h"
 #include "lilypond.h"
+#include "openeditlayout.h"
 
 class Tab : public QWidget
 {
@@ -57,7 +58,7 @@ private:
 
     QWidget *allInfoWidget;
 
-    QLineEdit *editTitle,*editArtist,*editAlbum,*editTuning;
+    QLineEdit *editTitle,*editArtist,*editAlbum,*editTuning,*editMp3,*editGP;
     QComboBox *comboInstrument;
     QSpinBox *editCapo;
 

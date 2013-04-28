@@ -8,14 +8,15 @@ MainWindow::MainWindow(QWidget *parent) :
     startTime = QTime::currentTime();
 
     ui->setupUi(this);
+    ui->tabWidget->setCurrentIndex(-1);
 
     //Parse options (read options.xml file)
     options = new Options();
-    options->parse("options.xml");
+    options->load();
 
     //Read recent files list
     recent = new Recent;
-    recentList = recent->load("recent.xml");
+    recentList = recent->load();
 
     //Setup UI
     setUpMenu();
@@ -24,24 +25,6 @@ MainWindow::MainWindow(QWidget *parent) :
     //Init objects
     xta = new XTA();
     chords = new Chords();
-
-    if(options->values().reOpenPreviousTabs){
-        pressOpenPrevious();
-    }
-
-    /////////////////////////// TEST /////////////////////////////////////
-#if 1
-    if(ui->tabWidget->count()==0){
-        if(QFile::exists("test.xta")){
-            XTAinfo info = xta->load("test.xta");
-            int index = addTab(info);
-            addRecent(info);
-
-            ui->tabWidget->setCurrentIndex( index );
-        }
-    }
-#endif
-    /////////////////////////// TEST /////////////////////////////////////
 
     connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(currentTabChanged(int)));
     connect(ui->tabWidget,SIGNAL(tabCloseRequested(int)),this,SLOT(tabCloseRequest(int)));
@@ -69,6 +52,24 @@ MainWindow::MainWindow(QWidget *parent) :
     case 2 : /*this->setWindowState(Qt::WindowFullScreen);*/ ui->actionFull_Screen->setChecked(true); break;
     default : this->setWindowState(Qt::WindowNoState); break;
     }
+
+    if(options->values().reOpenPreviousTabs){
+        pressOpenPrevious();
+    }
+
+    /////////////////////////// TEST /////////////////////////////////////
+#if 1
+    if(ui->tabWidget->count()==0){
+        if(QFile::exists("test.xta")){
+            XTAinfo info = xta->load("test.xta");
+            int index = addTab(info);
+            addRecent(info);
+
+            ui->tabWidget->setCurrentIndex( index );
+        }
+    }
+#endif
+    /////////////////////////// TEST /////////////////////////////////////
 }
 
 /** Destroy main window
@@ -85,7 +86,7 @@ MainWindow::~MainWindow()
     for(int i=0;i<recentList.size();i++){
         recentList[i].wasOpen = paths.contains( recentList[i].path );
     }
-    recent->save("recent.xml",recentList);
+    recent->save(recentList);
     pressCloseAll();
     delete ui;
 }
@@ -184,6 +185,10 @@ void MainWindow::setUpToolBar()
     ui->mainToolBar->addAction(ui->actionFull_Screen);
     ui->mainToolBar->addAction(ui->actionEdit_mode);
     ui->mainToolBar->addAction(ui->actionRead_only_mode);
+    ui->mainToolBar->addSeparator();
+    ui->mainToolBar->addAction(ui->actionOpen_Mp3);
+    ui->mainToolBar->addAction(ui->actionOpen_Guitar_Pro);
+    ui->mainToolBar->addSeparator();
     ui->mainToolBar->addAction(ui->actionClose);
 
     ui->menuBar->addSeparator();
@@ -215,6 +220,9 @@ void MainWindow::setUpToolBar()
 
     connect(ui->actionAbout,SIGNAL(triggered()),this,SLOT(pressAbout()));
 
+    connect(ui->actionOpen_Mp3,SIGNAL(triggered()),this,SLOT(pressOpenMp3()));
+    connect(ui->actionOpen_Guitar_Pro,SIGNAL(triggered()),this,SLOT(pressOpenGP()));
+
     moveToolBar(options->values().mainToolBarPosition);
 }
 
@@ -235,9 +243,13 @@ void MainWindow::moveToolBar(int toolBarPosition)
 void MainWindow::currentTabChanged(int index){
     if(index<0 || index>ui->tabWidget->count()) return;
     Tab* tab = getCurrentTab();
+    XTAinfo info = tab->getXTA();
 
     ui->actionUndo->setEnabled( tab->isUndoAvailable() );
     ui->actionRedo->setEnabled( tab->isRedoAvailable() );
+
+    ui->actionOpen_Mp3->setDisabled( info.file_mp3.isEmpty() );
+    ui->actionOpen_Guitar_Pro->setDisabled( info.file_gp.isEmpty() );
 
     ui->actionRead_only_mode->setVisible(tab->isEditable());
     ui->actionEdit_mode->setVisible(!tab->isEditable());
@@ -384,6 +396,23 @@ void MainWindow::pressNew(QString text)
     addTab(info);
 }
 
+void MainWindow::loadFiles(QStringList files)
+{
+    foreach(QString filepath, files){
+        QFileInfo fi(filepath);
+
+        bool ok;
+        XTAinfo info = xta->load(fi.absoluteFilePath(),&ok);
+
+        if(ok){
+            addTab( info );
+            addRecent( info );
+        }else{
+            QMessageBox::critical(this,tr("Error"),tr("Can't open file: %1").arg(filepath));
+        }
+    }
+}
+
 void MainWindow::pressOpen()
 {
     QStringList filepaths = QFileDialog::getOpenFileNames(this,tr("Open file"),options->values().defaultPath.isEmpty()?QDir::homePath():options->values().defaultPath,"*.xta *.txt");
@@ -391,15 +420,7 @@ void MainWindow::pressOpen()
     if(filepaths.isEmpty())
         return;
 
-    foreach(QString filepath, filepaths){
-        QFileInfo fi(filepath);
-
-        XTAinfo info(fi.absoluteFilePath(), fi.fileName());
-        info = xta->load(filepath);
-
-        addTab( info );
-        addRecent(info);
-    }
+    loadFiles(filepaths);
 }
 
 void MainWindow::pressOpenFolder()
@@ -416,31 +437,18 @@ void MainWindow::pressOpenFolder()
     dir.setNameFilters(filters);
     QStringList listFiles = dir.entryList();
 
-    foreach(QString filepath, listFiles){
-        QFileInfo fi(filepath);
-        XTAinfo info(fi.absoluteFilePath(), fi.fileName());
-        info = xta->load(filepath);
-        addTab(info);
-        addRecent(info);
-    }
+    loadFiles(listFiles);
 }
 
 void MainWindow::pressOpenPrevious()
 {
+    QStringList listFiles;
     for(int i=0;i<recentList.size();i++){
         if(recentList[i].wasOpen){
-            QFileInfo fi(recentList[i].path);
-
-            XTAinfo info(fi.absoluteFilePath(), fi.fileName());
-            bool ok;
-            info = xta->load(fi.absoluteFilePath(),&ok);
-
-            if(ok){
-                addTab( info );
-                addRecent(info);
-            }
+            listFiles << recentList[i].path;
         }
     }
+    loadFiles(listFiles);
 }
 
 void MainWindow::pressSave()
@@ -673,7 +681,7 @@ void MainWindow::pressPreference()
     if(opt->exec()){
         OptionsValues ov = opt->getOptions();
         options->setValues(ov);
-        options->save("options.xml");
+        options->save();
         moveToolBar(options->values().mainToolBarPosition);
         emit optionsChanged(options->values());
     }
@@ -695,7 +703,7 @@ void MainWindow::clearRecent()
     }
     recentAction.clear();
     recentList.clear();
-    recent->save("recent.xml",recentList);
+    recent->save(recentList);
     updateRecent();
 }
 
@@ -826,6 +834,29 @@ void MainWindow::pressExportPDF()
 
     QMessageBox::information(this,tr("Export PDF"),tr("PDF exported : %1").arg(filename));
 }
+
+void MainWindow::pressOpenMp3()
+{
+    if(ui->tabWidget->currentIndex()<0) return;
+    XTAinfo info = getCurrentTab()->getXTA();
+    if(!info.file_mp3.isEmpty()){
+        if(QFile::exists(info.file_mp3)){
+            QDesktopServices::openUrl(QUrl(info.file_mp3));
+        }
+    }
+}
+
+void MainWindow::pressOpenGP()
+{
+    if(ui->tabWidget->currentIndex()<0) return;
+    XTAinfo info = getCurrentTab()->getXTA();
+    if(!info.file_gp.isEmpty()){
+        if(QFile::exists(info.file_gp)){
+            QDesktopServices::openUrl(QUrl(info.file_gp));
+        }
+    }
+}
+
 
 void MainWindow::pressAbout()
 {

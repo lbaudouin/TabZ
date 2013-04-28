@@ -31,6 +31,17 @@ void Options::resetDefault()
     setDefaultRegExp();
 }
 
+void Options::load()
+{
+    if(QFile::exists("options.xml"))
+        parse("options.xml");
+}
+
+void Options::save()
+{
+    flush("options.xml");
+}
+
 void Options::write(QDomDocument *dom, QFileInfo)
 {
     QDomElement mainNode = dom->createElement("options");

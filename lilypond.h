@@ -12,8 +12,10 @@
 #include <QTextStream>
 #include <QPicture>
 #include <QMessageBox>
+#include <QCheckBox>
 
 #include <QProcess>
+#include <QTimer>
 
 #include <QDebug>
 
@@ -35,6 +37,10 @@ private:
     QPicture picture;
     QImage image;
     QPushButton *okButton;
+    QCheckBox *checkBox;
+
+    QTimer *timer;
+    QProcess *installProcess;
 
 signals:
     

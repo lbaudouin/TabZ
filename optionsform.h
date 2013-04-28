@@ -20,6 +20,7 @@
 
 #include "options.h"
 #include "colorregexpform.h"
+#include "openeditlayout.h"
 
 
 #include <QDebug>
@@ -72,7 +73,6 @@ signals:
 
 public slots:
     void buttonClicked(QAbstractButton *button);
-    void selectFolder();
     void selectFont();
 
 };

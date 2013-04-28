@@ -5,34 +5,36 @@ ReadWriteXML::ReadWriteXML(QWidget *parent) :
 {
 }
 
-void ReadWriteXML::parse(QString filepath)
+bool ReadWriteXML::parse(QString filepath)
 {
     if(!QFile::exists(filepath)){
-        return;
+        QMessageBox::critical(this,"error",QString("This file doesn't exists: %1").arg(filepath));
+        return false;
     }
 
     QFileInfo fileInfo(filepath);
 
     if(filepath.endsWith(".txt",Qt::CaseInsensitive)){
         this->readTXT(fileInfo);
-        return;
+        return true;
     }
 
     QFile xml_doc(filepath);
 
     if(!xml_doc.open(QIODevice::ReadOnly)){
         QMessageBox::warning(this,tr("Failed to open XML document"),tr("The XML document '%1' could not be opened. Verify that the name is correct and that the document is well placed.").arg(xml_doc.fileName()));
-        return;
+        return false;
     }
 
     QDomDocument *dom = new QDomDocument("docXML");
     if(!dom->setContent(&xml_doc)){
         xml_doc.close();
         QMessageBox::warning(this,tr("Error opening the XML document"),tr("The XML document could not be assigned to the object QDomDocument."));
-        return;
+        return false;
     }
 
     this->read(dom,fileInfo);
+    return true;
 }
 
 

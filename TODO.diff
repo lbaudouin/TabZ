@@ -35,6 +35,7 @@ TODO list
 *** move images inside xta
 *** import image from clipboard
 - clip/reduce images
+*** insert lilypond tab for linux users
 - vertical selection
 *** insert ascii tab
 - French chord to english (RegExp : \bLa(?(\b|m|#|[1-9])) -> replace fisrt 2 char by A

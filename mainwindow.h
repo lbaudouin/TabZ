@@ -41,6 +41,8 @@ protected:
     int addTab(XTAinfo info);
     Tab* getCurrentTab();
 
+    void loadFiles(QStringList files);
+
     void updateRecent();
     void addRecent(XTAinfo &info);
 
@@ -111,6 +113,9 @@ public slots:
 
     void pressPreference();
     void pressChordsManager();
+
+    void pressOpenMp3();
+    void pressOpenGP();
 
     void pressSearchLyrics();
     void pressSearchXTA();

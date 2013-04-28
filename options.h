@@ -32,6 +32,9 @@ public:
     Options(QWidget *parent = 0);
     void resetDefault();
 
+    void load();
+    void save();
+
     OptionsValues values() { return optionsValues; }
     void setValues(OptionsValues _optionsValues) { optionsValues = _optionsValues; }
 

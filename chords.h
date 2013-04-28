@@ -48,6 +48,9 @@ class Chords : public ReadWriteXML
 public:
     Chords(QWidget *parent = 0);
 
+    void load();
+    void save();
+
     Instrument getInstrument(QString label);
     QString getInstrumentName(QString label);
     QStringList getInstrumentsNames();

@@ -63,8 +63,8 @@ class Recent : public ReadWriteXML
 public:
     Recent(QWidget *parent = 0);
 
-    QList<RecentFile> load(QString filepath);
-    void save(QString filepath, QList<RecentFile> &recentList);
+    QList<RecentFile> load();
+    void save(QList<RecentFile> &recentList);
 
 
 protected:

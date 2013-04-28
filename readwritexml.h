@@ -15,7 +15,7 @@ class ReadWriteXML : public QWidget
 public:
     explicit ReadWriteXML(QWidget *parent = 0);
 
-    void parse(QString filepath);
+    bool parse(QString filepath);
     void save(QString filepath);
     void flush(QString filepath) { save(filepath); }
     

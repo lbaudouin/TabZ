@@ -12,6 +12,7 @@ Lilypond::Lilypond(QWidget *parent) :
     edit = new QTextEdit;
     edit->setMinimumWidth(250);
     label = new QLabel;
+    checkBox = new QCheckBox(tr("Auto-generate"));
     QPushButton *button = new QPushButton(tr("Generate"));
     button->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Fixed);
     QVBoxLayout *thirdLayout = new QVBoxLayout;
@@ -20,6 +21,7 @@ Lilypond::Lilypond(QWidget *parent) :
     okButton->setEnabled(false);
 
     thirdLayout->addWidget(label);
+    thirdLayout->addWidget(checkBox,0,Qt::AlignHCenter);
     thirdLayout->addWidget(button,0,Qt::AlignHCenter);
     secondLayout->addWidget(edit);
     secondLayout->addLayout(thirdLayout);
@@ -30,6 +32,7 @@ Lilypond::Lilypond(QWidget *parent) :
     connect(dialogButton,SIGNAL(rejected()),this,SLOT(reject()));
     connect(edit,SIGNAL(textChanged()),this,SLOT(textChanged()));
     connect(button,SIGNAL(clicked()),this,SLOT(generate()));
+    connect(checkBox,SIGNAL(clicked()),SLOT(generate()));
 
     QString sample = "\\version \"2.14.2\"\n"
             "\\paper{\n"
@@ -61,6 +64,12 @@ Lilypond::Lilypond(QWidget *parent) :
             "  }\n"
             "}\n";
     edit->setPlainText(sample);
+
+    timer = new QTimer;
+    timer->setSingleShot(true);
+    connect(timer,SIGNAL(timeout()),this,SLOT(generate()));
+
+    timer->start(25);
 }
 
 bool Lilypond::isLilypondAvailable()
@@ -75,18 +84,27 @@ bool Lilypond::isLilypondAvailable()
 
 bool Lilypond::downloadLilypond()
 {
-    int ret = QMessageBox::question(this,tr("Download Lilypond"),tr("Do you wan't to download Lilypond software?\nCommand: 'gksudo apt-get install lilypond'"),QMessageBox::No,QMessageBox::Yes);
+    int ret = QMessageBox::question(this,tr("Download Lilypond"),tr("Do you wan't to download Lilypond software?\nCommand: 'gksudo apt-get -y install lilypond'"),QMessageBox::No,QMessageBox::Yes);
     if(ret==QMessageBox::Yes){
-        QProcess process;
-        process.start("gksudo apt-get install lilypond");
-        process.waitForFinished(-1);
+        this->setCursor(Qt::WaitCursor);
 
-        QString outS(process.readAllStandardOutput());
-        qDebug() << outS;
-        QString outE(process.readAllStandardError());
-        qDebug() << outE;
+        installProcess = new QProcess;
+        installProcess->start("gksudo \"apt-get -y install lilypond\"");
 
-        return true;
+        //connect(installProcess,SIGNAL(finished(int,QProcess::ExitStatus)),this,SLOT());
+        //connect(installProcess,SIGNAL(readyReadStandardError()),this,SLOT());
+        //connect(installProcess,SIGNAL(readyReadStandardOutput()),this,SLOT());
+
+        bool success = installProcess->waitForFinished(-1);
+
+        //QString outS(process.readAllStandardOutput());
+        //qDebug() << outS;
+        //QString outE(process.readAllStandardError());
+        //qDebug() << outE;
+
+        this->setCursor(Qt::ArrowCursor);
+
+        return success;
     }
     return false;
 }
@@ -94,6 +112,9 @@ bool Lilypond::downloadLilypond()
 void Lilypond::textChanged()
 {
     okButton->setEnabled(false);
+    if(checkBox->isChecked()){
+        timer->start(500);
+    }
 }
 
 void Lilypond::generate()

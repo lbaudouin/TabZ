@@ -51,7 +51,8 @@ HEADERS  += mainwindow.h \
     readwritexml.h \
     colorregexp.h \
     recent.h \
-    lilypond.h
+    lilypond.h \
+    openeditlayout.h
     #myprintpreviewwidget.h #\
     #myprinterprivate.h
 
@@ -59,7 +60,8 @@ FORMS    += mainwindow.ui
 
 OTHER_FILES += \
     TODO.diff \
-    win32/TABS_VERSION
+    win32/TABS_VERSION \
+    debian/DEBIAN/control
 
 RESOURCES += \
     ressource.qrc

@@ -46,14 +46,16 @@ void Recent::write(QDomDocument *dom, QFileInfo)
     }
 }
 
-QList<RecentFile> Recent::load(QString filepath)
+QList<RecentFile> Recent::load()
 {
-    parse(filepath);
+    recentList_.clear();
+    if(QFile::exists("recent.xml"))
+        parse("recent.xml");
     return recentList_;
 }
 
-void Recent::save(QString filepath, QList<RecentFile> &recentList)
+void Recent::save(QList<RecentFile> &recentList)
 {
     recentList_ = recentList;
-    flush(filepath);
+    flush("recent.xml");
 }
