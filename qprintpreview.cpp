@@ -473,12 +473,6 @@ QPrintPreviewWidget *QPrintPreview::getPreview()
 
 void QPrintPreview::pressPrint(QString filename)
 {
-    if(!filename.isEmpty()){
-        if(filename.right(4)!=".pdf")
-            filename += ".pdf";
-
-        printer->setOutputFileName(QDir::homePath() + QDir::separator() + filename);
-    }
     _q_print();
 }
 

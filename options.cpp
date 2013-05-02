@@ -11,6 +11,7 @@ void Options::resetDefault()
     optionsValues.enableColors = true;
     optionsValues.selectNewTab = true;
     optionsValues.openSizeMode = 0;
+    optionsValues.lastSizeMode = 0;
     optionsValues.defaultPath = "";
     optionsValues.reOpenPreviousTabs = false;
     optionsValues.chordSize = QSize(150,200);
@@ -21,11 +22,18 @@ void Options::resetDefault()
     optionsValues.leftMargin = 10;
     optionsValues.rightMargin = 10;
     optionsValues.bottomMargin = 10;
+    optionsValues.defaultOutputFolder = QDir::homePath();
 
 #if defined(__WIN32__)
-    optionsValues.font =  QFont("Lucida Console",12);
+    optionsValues.mainFont =  QFont("Lucida Console",12);
+    optionsValues.titleFont =  QFont("Arial",14,QFont::Bold);
+    optionsValues.artistFont =  QFont("Arial",12,QFont::Bold);
+    optionsValues.otherFont =  QFont("Arial",8);
 #else
-    optionsValues.font = QFont("DejaVu Sans Mono",12);
+    optionsValues.mainFont = QFont("DejaVu Sans Mono",12);
+    optionsValues.titleFont = QFont("Ubuntu",14,QFont::Bold);
+    optionsValues.artistFont = QFont("Ubuntu",12,QFont::Bold);
+    optionsValues.otherFont = QFont("Ubuntu",8);
 #endif
 
     setDefaultRegExp();
@@ -54,9 +62,13 @@ void Options::write(QDomDocument *dom, QFileInfo)
         addNode(dom,&mainNode,"selectNewTab",optionsValues.selectNewTab);
         addNode(dom,&mainNode,"openReadOnly",optionsValues.openReadOnly);
         addNode(dom,&mainNode,"openSizeMode",optionsValues.openSizeMode);
+        addNode(dom,&mainNode,"lastSizeMode",optionsValues.lastSizeMode);
         addNode(dom,&mainNode,"chordSize",fromSize(optionsValues.chordSize));
         addNode(dom,&mainNode,"reOpenPreviousTabs",optionsValues.reOpenPreviousTabs);
-        addNode(dom,&mainNode,"font",optionsValues.font.toString());
+        addNode(dom,&mainNode,"mainFont",optionsValues.mainFont.toString());
+        addNode(dom,&mainNode,"titleFont",optionsValues.titleFont.toString());
+        addNode(dom,&mainNode,"artistFont",optionsValues.artistFont.toString());
+        addNode(dom,&mainNode,"otherFont",optionsValues.otherFont.toString());
         addNode(dom,&mainNode,"enableColorsOnPrinting",optionsValues.enableColorsOnPrinting);
         addNode(dom,&mainNode,"printHearderOnEachPages",optionsValues.printHearderOnEachPages);
         addNode(dom,&mainNode,"mainToolBarPosition",optionsValues.mainToolBarPosition);
@@ -64,6 +76,7 @@ void Options::write(QDomDocument *dom, QFileInfo)
         addNode(dom,&mainNode,"leftMargin",optionsValues.leftMargin);
         addNode(dom,&mainNode,"rightMargin",optionsValues.rightMargin);
         addNode(dom,&mainNode,"bottomMargin",optionsValues.bottomMargin);
+        addNode(dom,&mainNode,"defaultOutputFolder",optionsValues.defaultOutputFolder);
 
 
         QDomElement colorNode = dom->createElement("colors");
@@ -109,8 +122,14 @@ void Options::read(QDomDocument *dom, QFileInfo)
         if(element.tagName()=="defaultPath"){
             optionsValues.defaultPath = element.text();
         }
+        if(element.tagName()=="defaultOutputFolder"){
+            optionsValues.defaultOutputFolder = element.text();
+        }
         if(element.tagName()=="openSizeMode"){
             optionsValues.openSizeMode = element.text().toInt();
+        }
+        if(element.tagName()=="lastSizeMode"){
+            optionsValues.lastSizeMode = element.text().toInt();
         }
         if(element.tagName()=="openSizeMode"){
             optionsValues.openSizeMode = element.text().toInt();
@@ -127,10 +146,25 @@ void Options::read(QDomDocument *dom, QFileInfo)
         if(element.tagName()=="chordSize"){
             optionsValues.chordSize = toSize(element.text());;
         }
-        if(element.tagName()=="font"){
+        if(element.tagName()=="mainFont"){
             QString fontString = element.text();
             if(!fontString.isEmpty())
-                optionsValues.font.fromString(fontString);
+                optionsValues.mainFont.fromString(fontString);
+        }
+        if(element.tagName()=="titleFont"){
+            QString fontString = element.text();
+            if(!fontString.isEmpty())
+                optionsValues.titleFont.fromString(fontString);
+        }
+        if(element.tagName()=="artistFont"){
+            QString fontString = element.text();
+            if(!fontString.isEmpty())
+                optionsValues.artistFont.fromString(fontString);
+        }
+        if(element.tagName()=="otherFont"){
+            QString fontString = element.text();
+            if(!fontString.isEmpty())
+                optionsValues.otherFont.fromString(fontString);
         }
 
         if(element.tagName()=="topMargin"){

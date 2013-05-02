@@ -33,6 +33,9 @@ public:
         //connect(this,SIGNAL(pathChanged(QString)),edit,SLOT(setText(QString)));
     }
 
+    void setText(QString text) { edit->setText(text); }
+    QString getText() { return edit->text(); }
+
     QLineEdit* getEditWidget() { return edit; }
 
 private:

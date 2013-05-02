@@ -92,6 +92,7 @@ Tab::Tab(XTAinfo xta, Chords* chordsList, OptionsValues optionsValues, QWidget *
                             optionsValues_.rightMargin,optionsValues_.bottomMargin,QPrinter::Millimeter);
 
     printer->setDocName( info.createFileName() );
+    printer->setOutputFileName( optionsValues_.defaultOutputFolder + QDir::separator() + printer->docName() );
     printPreviewWidget->setViewMode(QPrintPreviewWidget::AllPagesView);
     printPreviewWidget->setZoomMode(QPrintPreviewWidget::FitInView);
 
@@ -101,8 +102,10 @@ Tab::Tab(XTAinfo xta, Chords* chordsList, OptionsValues optionsValues, QWidget *
     previewLayout->addWidget(printPreviewWidget);
     printPreviewWidget->setVisible(false);
 
-    edit = new QTextEdit;
-    edit->setFont(optionsValues_.font);
+    edit = new MyTextEdit;
+    edit->setFont(optionsValues_.mainFont);
+
+    connect(edit,SIGNAL(insertNewImage(QImage&)),this,SLOT(addImage(QImage&)));
 
 
     //QFont editFont = edit->font();
@@ -239,7 +242,7 @@ Tab::Tab(XTAinfo xta, Chords* chordsList, OptionsValues optionsValues, QWidget *
 
     edit->setTextInteractionFlags(Qt::TextEditorInteraction);
     edit->setAutoFormatting(QTextEdit::AutoNone);
-    edit->setAcceptRichText(false);
+    //edit->setAcceptRichText(false);
 
 
     addChordsFromText(info.chords);
@@ -365,6 +368,7 @@ void Tab::textChanged(QString)
    modified_info.text = edit->toPlainText();
 
    printer->setDocName( modified_info.createFileName() );
+   printer->setOutputFileName( optionsValues_.defaultOutputFolder + QDir::separator() + printer->docName() );
 
    if(!info.isEqual(modified_info)){
        emit setSaveIcon(-1,true);
@@ -409,6 +413,7 @@ XTAinfo Tab::getXTA()
         cursor = edit->document()->find(QString(QChar::ObjectReplacementCharacter),cursor);
         if(cursor.isNull()) break;
         bool ok;
+        qDebug() << cursor.charFormat().property(QTextFormat::ImageName).toString();
         int index = cursor.charFormat().property(QTextFormat::ImageName).toString().section("image",1).section(".png",0,0).toInt(&ok);
         if(ok){
             modified_info.refImages << index;
@@ -633,9 +638,11 @@ void Tab::setOptions(OptionsValues options)
 {
     optionsValues_ = options;
 
+    printer->setOutputFileName( optionsValues_.defaultOutputFolder + QDir::separator() + printer->docName() );
+
     setColors(optionsValues_.colors);
 
-    edit->setFont(optionsValues_.font);
+    edit->setFont(optionsValues_.mainFont);
 
     printer->setPageMargins(optionsValues_.topMargin,optionsValues_.leftMargin,
                             optionsValues_.rightMargin,optionsValues_.bottomMargin,QPrinter::Millimeter);
@@ -649,7 +656,8 @@ void Tab::setOptions(OptionsValues options)
 
 void Tab::print(QPrinter *_printer)
 {
-    _printer->setDocName( modified_info.createFileName() );
+    //_printer->setDocName( modified_info.createFileName() );
+    //_printer->setOutputFileName( optionsValues_.defaultOutputFolder + QDir::separator() + printer->docName() );
 
     QPainter painter(_printer);
     painter.setRenderHints(QPainter::Antialiasing |
@@ -704,13 +712,25 @@ void Tab::print(QPrinter *_printer)
 
     //Compute header height
     int headersHeight = 0;
-    if(!modified_info.title.isEmpty()) headersHeight+=20;
-    if(!modified_info.artist.isEmpty()) headersHeight+=20;
-    /*if(!modified_info.album.isEmpty()) headersHeight+=20; */
-    if(modified_info.capo>0 || modified_info.tuning!="EADGBE") headersHeight+=20;
+    if(!modified_info.title.isEmpty()){
+        QRect titleRect = painter.boundingRect(0, 0, pageWidth, -1, Qt::AlignLeft, modified_info.title  );
+        headersHeight+=titleRect.height();
+    }
+    if(!modified_info.artist.isEmpty()){
+        QRect artistRect = painter.boundingRect(0, 0, pageWidth, -1, Qt::AlignLeft, modified_info.artist  );
+        headersHeight+=artistRect.height();
+    }
+    /*if(!modified_info.album.isEmpty()){
+        QRect albumRect = painter.boundingRect(0, 0, pageWidth, -1, Qt::AlignLeft, modified_info.album  );
+        headersHeight+=albumRect.height();
+    }*/
+    if(modified_info.capo>0 || modified_info.tuning!="EADGBE"){
+        QRect otherRect = painter.boundingRect(0, 0, pageWidth, -1, Qt::AlignLeft, tr("[Capo: %1, Tuning: %2]").arg(QString::number(modified_info.capo),modified_info.tuning)  );
+        headersHeight+=otherRect.height();
+    }
     headersHeight+=35;
 
-    painter.setFont( optionsValues_.font );
+    painter.setFont( optionsValues_.mainFont );
 
     //Compute text height
     int textHeight = 0;
@@ -769,36 +789,43 @@ void Tab::print(QPrinter *_printer)
         if(page==0 || printHeadersOnAllPages){
             maxHeight = pageHeight - headersHeight;
 
-            QFont font = painter.font();
-            font.setFamily("Arial");
-            font.setPointSize(12);
-            font.setBold(true);
-            painter.setFont(font);
             if(!modified_info.title.isEmpty()){
-                painter.translate(0,20);
+                font = optionsValues_.titleFont;
+                painter.setFont(font);
+                QRect titleRect = painter.boundingRect(0, 0, pageWidth, -1, Qt::AlignLeft, modified_info.title  );
+                painter.translate(0,titleRect.height());
                 painter.drawText(QPointF(0,0),modified_info.title);
             }
-            font.setBold(false);
-            painter.setFont(font);
+
             if(!modified_info.artist.isEmpty()){
-                painter.translate(0,20);
+                font = optionsValues_.artistFont;
+                painter.setFont(font);
+                QRect artistRect = painter.boundingRect(0, 0, pageWidth, -1, Qt::AlignLeft, modified_info.artist  );
+                painter.translate(0,artistRect.height());
                 painter.drawText(QPointF(0,0),modified_info.artist);
             }
             /*if(!modified_info.album.isEmpty()){
+                font = optionsValues_.albumFont;
+                painter.setFont(font);
                 painter.drawText(QPointF(0,0),modified_info.album);
-                painter.translate(0,20);
+                QRect albumRect = painter.boundingRect(0, 0, pageWidth, -1, Qt::AlignLeft, modified_info.album  );
+                painter.translate(0,albumRect.height());
             }*/
-            font.setPointSize(8);
-            painter.setFont(font);
-            if(modified_info.capo>0 && modified_info.tuning!="EADGBE"){
-                painter.translate(0,20);
-                painter.drawText(QPointF(0,0),QString(tr("[Capo: %1, Tuning: %2]")).arg(QString::number(modified_info.capo),modified_info.tuning));
-            }else if(modified_info.capo>0){
-                painter.translate(0,20);
-                painter.drawText(QPointF(0,0),QString("[Capo: %1]").arg(QString::number(modified_info.capo)));
-            }else if(modified_info.tuning!="EADGBE") {
-                painter.translate(0,20);
-                painter.drawText(QPointF(0,0),QString("[Tuning: %1]").arg(modified_info.tuning));
+
+            if(modified_info.capo>0 || modified_info.tuning!="EADGBE"){
+                font = optionsValues_.otherFont;
+                painter.setFont(font);
+                QString text;
+                if(modified_info.capo>0 && modified_info.tuning!="EADGBE"){
+                    text = tr("[Capo: %1, Tuning: %2]").arg(QString::number(modified_info.capo),modified_info.tuning);
+                }else if(modified_info.capo>0){
+                    text = tr("[Capo: %1]").arg(modified_info.capo);
+                }else if(modified_info.tuning!="EADGBE") {
+                    text = tr("[Tuning: %1]").arg(modified_info.tuning);
+                }
+                QRect otherRect = painter.boundingRect(0, 0, pageWidth, -1, Qt::AlignLeft, text );
+                painter.translate(0,otherRect.height());
+                painter.drawText(QPointF(0,0),text);
             }
             painter.translate(0,15);
             painter.drawLine(QPointF(0,0),QPointF(pageWidth,0));
@@ -812,7 +839,7 @@ void Tab::print(QPrinter *_printer)
         if(nbPages>1){
             painter.save();
 
-            QFont font = painter.font();
+            QFont font = optionsValues_.mainFont;
             font.setPointSize(8);
             font.setItalic(true);
             painter.setFont(font);
@@ -878,9 +905,16 @@ void Tab::print(QPrinter *_printer)
 
                 str.setSize(chordSize);
 
+                font = painter.font();
+                font.setBold(true);
+                painter.setFont(font);
+
                 QRect chordRect = painter.boundingRect(0, 0, str.width(), chordSize.width(), Qt::AlignLeft, chords.at(i)  );
                 painter.drawText(chordRect,Qt::AlignHCenter,chords.at(i));
                 painter.translate(0,chordRect.height());
+
+                font.setBold(false);
+                painter.setFont(font);
 
 
                 str.paint(&painter,true);
@@ -909,9 +943,16 @@ void Tab::print(QPrinter *_printer)
 
                     str.setSize(chordSize);
 
+                    font = painter.font();
+                    font.setBold(true);
+                    painter.setFont(font);
+
                     QRect chordRect = painter.boundingRect(0, 0, str.width(), chordSize.width(), Qt::AlignLeft, chords.at(i)  );
                     painter.drawText(chordRect,Qt::AlignHCenter,chords.at(i));
                     painter.translate(0,chordRect.height());
+
+                    font.setBold(false);
+                    painter.setFont(font);
 
 
                     str.paint(&painter,true);
@@ -924,16 +965,12 @@ void Tab::print(QPrinter *_printer)
             painter.restore();
         }
 
-
-        painter.setFont( optionsValues_.font );
-
         int h = 0;
         for(int i=currentRow;i<textBlocksHeight.size();i++){
             if(h+textBlocksHeight.at(i) > maxHeight){
                 break;
             }else{
                 currentRow++;
-                //painter.drawRect(QRectF(0,h,pageWidth,textBlocksHeight.at(i)));
                 h += textBlocksHeight.at(i);
             }
         }
@@ -1026,6 +1063,8 @@ XTAinfo Tab::readXTA(QString filepath)
     if(filepath.isEmpty()){
         filepath = QFileDialog::getOpenFileName(this,tr("Import from file"),optionsValues_.defaultPath,tr("XTA files (*.xta)"));
     }
+    if(filepath.isEmpty())
+        return XTAinfo();
     XTA *xta = new XTA();
     return xta->load(filepath);
 }
@@ -1033,7 +1072,7 @@ XTAinfo Tab::readXTA(QString filepath)
 void Tab::insertTab()
 {
     bool ok;
-    int length = QInputDialog::getInt(this,tr("Insert length"),tr("Length:"),20,5,100,1,&ok);
+    int length = QInputDialog::getInt(this,tr("Insert length"),tr("Length:"),50,5,100,1,&ok);
     if(!ok) return;
 
     QStringList keys;
@@ -1128,7 +1167,7 @@ void Tab::insertLilypond()
 
 void Tab::insertImage()
 {
-    QString path = QFileDialog::getOpenFileName(this,tr("Load image"),QDir::homePath(),tr("Image (*.png)"));
+    QString path = QFileDialog::getOpenFileName(this,tr("Load image"),QDir::homePath(),tr("Image (*.png *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)"));
     if(path.isEmpty()) return;
 
     QImage img(path);

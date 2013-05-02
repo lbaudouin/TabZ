@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <QDialogButtonBox>
-#include <QFontDialog>
+//#include <QFontDialog>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QFormLayout>
@@ -21,6 +21,7 @@
 #include "options.h"
 #include "colorregexpform.h"
 #include "openeditlayout.h"
+#include "fontlabellayout.h"
 
 
 #include <QDebug>
@@ -53,9 +54,13 @@ private:
     QComboBox *comboOpenSize;
     QComboBox *comboChordSize;
     QComboBox *comboToolBarPosition;
-    QLabel *fontLabel;
+    FontLabelLayout *mainFontLabel;
+    FontLabelLayout *titleFontLabel;
+    FontLabelLayout *artistFontLabel;
+    FontLabelLayout *otherFontLabel;
 
     //Print
+    OpenEditLayout *defaultOutputFolder;
     QCheckBox *checkEnableColorsOnPrinting;
     QCheckBox *checkPrintHeaderOnEachPages;
     QSpinBox *editTop,*editLeft,*editRight,*editBottom;
@@ -73,7 +78,6 @@ signals:
 
 public slots:
     void buttonClicked(QAbstractButton *button);
-    void selectFont();
 
 };
 

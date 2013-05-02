@@ -46,14 +46,23 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     //Set selected window mode
-    switch(options->values().openSizeMode){
-    case 0 : this->setWindowState(Qt::WindowNoState); break;
-    case 1 : this->setWindowState(Qt::WindowMaximized); break;
-    case 2 : /*this->setWindowState(Qt::WindowFullScreen);*/ ui->actionFull_Screen->setChecked(true); break;
-    default : this->setWindowState(Qt::WindowNoState); break;
+    if(options->values()->openSizeMode==3){
+        Qt::WindowState state = (Qt::WindowState)(options->values()->lastSizeMode);
+        if(state==Qt::WindowFullScreen){
+            ui->actionFull_Screen->setChecked(true);
+        }else{
+            this->setWindowState( state );
+        }
+    }else{
+        switch(options->values()->openSizeMode){
+        case 0 : this->setWindowState(Qt::WindowNoState); break;
+        case 1 : this->setWindowState(Qt::WindowMaximized); break;
+        case 2 : /*this->setWindowState(Qt::WindowFullScreen);*/ ui->actionFull_Screen->setChecked(true); break;
+        default : this->setWindowState(Qt::WindowNoState); break;
+        }
     }
 
-    if(options->values().reOpenPreviousTabs){
+    if(options->values()->reOpenPreviousTabs){
         pressOpenPrevious();
     }
 
@@ -87,6 +96,14 @@ MainWindow::~MainWindow()
         recentList[i].wasOpen = paths.contains( recentList[i].path );
     }
     recent->save(recentList);
+
+    //TODO, direct access to variable
+    OptionsValues opt = options->cloneValues();
+    opt.lastSizeMode = this->windowState();
+    options->setValues(opt);
+
+    options->save();
+
     pressCloseAll();
     delete ui;
 }
@@ -223,7 +240,7 @@ void MainWindow::setUpToolBar()
     connect(ui->actionOpen_Mp3,SIGNAL(triggered()),this,SLOT(pressOpenMp3()));
     connect(ui->actionOpen_Guitar_Pro,SIGNAL(triggered()),this,SLOT(pressOpenGP()));
 
-    moveToolBar(options->values().mainToolBarPosition);
+    moveToolBar(options->values()->mainToolBarPosition);
 }
 
 void MainWindow::moveToolBar(int toolBarPosition)
@@ -332,7 +349,7 @@ Tab* MainWindow::getCurrentTab()
     else return (Tab*)ui->tabWidget->currentWidget();
 }
 
-int MainWindow::addTab(XTAinfo info)
+int MainWindow::addTab(XTAinfo info, bool forceEditable)
 {
     QString tabName = info.filename;
     if(!info.artist.isEmpty() && !info.title.isEmpty())
@@ -340,7 +357,7 @@ int MainWindow::addTab(XTAinfo info)
     if(tabName.isEmpty())
         tabName = tr("New");
 
-    Tab *tab = new Tab(info, chords, options->values(), ui->tabWidget);
+    Tab *tab = new Tab(info, chords, options->cloneValues(), ui->tabWidget);
 
     connect(tab,SIGNAL(setSaveIcon(int,bool)),this,SLOT(displaySaveIcon(int,bool)));
     //connect(this,SIGNAL(setColorsEnabled(bool)),tab,SLOT(enableColors(bool)));
@@ -364,9 +381,14 @@ int MainWindow::addTab(XTAinfo info)
 
     int index = ui->tabWidget->addTab(tab,tabName);
 
-    if(options->values().selectNewTab || ui->tabWidget->count()==1){
+    if(options->values()->selectNewTab || ui->tabWidget->count()==1){
         ui->tabWidget->setCurrentIndex( index );
-        if(options->values().openReadOnly){
+    }
+
+    if(forceEditable){
+        pressEditMode();
+    }else{
+        if(options->values()->openReadOnly){
             pressReadOnlyMode();
         }else{
             pressEditMode();
@@ -393,7 +415,7 @@ void MainWindow::pressNew(QString text)
 {
     XTAinfo info("","");
     info.text = text;
-    addTab(info);
+    addTab(info,true);
 }
 
 void MainWindow::loadFiles(QStringList files)
@@ -415,7 +437,7 @@ void MainWindow::loadFiles(QStringList files)
 
 void MainWindow::pressOpen()
 {
-    QStringList filepaths = QFileDialog::getOpenFileNames(this,tr("Open file"),options->values().defaultPath.isEmpty()?QDir::homePath():options->values().defaultPath,"*.xta *.txt");
+    QStringList filepaths = QFileDialog::getOpenFileNames(this,tr("Open file"),options->values()->defaultPath.isEmpty()?QDir::homePath():options->values()->defaultPath,"*.xta *.txt");
 
     if(filepaths.isEmpty())
         return;
@@ -425,7 +447,7 @@ void MainWindow::pressOpen()
 
 void MainWindow::pressOpenFolder()
 {
-    QString folderpath = QFileDialog::getExistingDirectory(this,tr("Open file"),options->values().defaultPath.isEmpty()?QDir::homePath():options->values().defaultPath);
+    QString folderpath = QFileDialog::getExistingDirectory(this,tr("Open file"),options->values()->defaultPath.isEmpty()?QDir::homePath():options->values()->defaultPath);
 
     if(folderpath.isEmpty())
         return;
@@ -474,7 +496,7 @@ void MainWindow::pressSaveAs()
 
     QString selectedFilter;
 
-    QString sample = (options->values().defaultPath.isEmpty()?QDir::homePath():options->values().defaultPath) + QDir::separator();
+    QString sample = (options->values()->defaultPath.isEmpty()?QDir::homePath():options->values()->defaultPath) + QDir::separator();
     sample += info.createFileName() +  ".xta";
 
     QString filepath = QFileDialog::getSaveFileName(this,tr("Save as"),sample,QString("%1;;%2").arg(tr("XTA files (*.xta)"),tr("TXT files (*.txt)")),&selectedFilter,QFileDialog::DontConfirmOverwrite);
@@ -544,20 +566,20 @@ void MainWindow::pressSetFullScreen(bool state)
         previousState = this->windowState();
         this->setWindowState(Qt::WindowFullScreen);
         ui->mainToolBar->setVisible(false);
+        //ui->mainToolBar->setOrientation(Qt::Vertical);
         ui->statusBar->setVisible(false);
+        exitFullScreenAction->setVisible(true);
         if(ui->tabWidget->currentIndex()>=0){
             getCurrentTab()->setExpertMode(true);
-            exitFullScreenAction->setVisible(true);
         }
-        //ui->mainToolBar->setOrientation(Qt::Vertical);
     }else{
         this->setWindowState(previousState);
         ui->mainToolBar->setVisible(true);
-        ui->statusBar->setVisible(true);
         //ui->mainToolBar->setOrientation(Qt::Horizontal);
+        ui->statusBar->setVisible(true);
+        exitFullScreenAction->setVisible(false);
         if(ui->tabWidget->currentIndex()>=0){
             getCurrentTab()->setExpertMode(false);
-            exitFullScreenAction->setVisible(false);
         }
     }
 }
@@ -671,19 +693,19 @@ void MainWindow::pressSearchXTA()
 void MainWindow::pressDownloadXTA()
 {
     DownloadXTA *dXTA = new DownloadXTA(this);
-    dXTA->setFolder( options->values().defaultPath );
+    dXTA->setFolder( options->values()->defaultPath );
     dXTA->exec();
 }
 
 void MainWindow::pressPreference()
 {
-    OptionsForm *opt = new OptionsForm(options->values(),this);
+    OptionsForm *opt = new OptionsForm(options->cloneValues(),this);
     if(opt->exec()){
         OptionsValues ov = opt->getOptions();
         options->setValues(ov);
         options->save();
-        moveToolBar(options->values().mainToolBarPosition);
-        emit optionsChanged(options->values());
+        moveToolBar(options->values()->mainToolBarPosition);
+        emit optionsChanged(options->cloneValues());
     }
 }
 
@@ -738,21 +760,10 @@ void MainWindow::addRecent(XTAinfo &info)
     updateRecent();
 }
 
-void MainWindow::openFile(QString filepath)
-{
-    QFileInfo fi(filepath);
-
-    XTAinfo info(fi.absoluteFilePath(), fi.fileName());
-    info = xta->load(fi.absoluteFilePath());
-
-    addTab( info );
-    addRecent(info);
-}
-
 void MainWindow::openFile()
 {
     QString filepath = ((QAction*)sender())->data().toString();
-    openFile(filepath);
+    loadFiles( QStringList() << filepath);
 }
 
 void MainWindow::restart(QString path)
@@ -790,10 +801,11 @@ void MainWindow::pressPreview()
     if(ui->tabWidget->currentIndex()<0) return;
     Tab* tab = getCurrentTab();
 
-    QPrintPreviewDialog *pDialog = new QPrintPreviewDialog(this,Qt::Dialog);
+    QPrintPreviewDialog *pDialog = new QPrintPreviewDialog(this,Qt::Window);
+    //pDialog->setWindowFlags(Qt::WindowMaximizeButtonHint);
     connect(pDialog, SIGNAL(paintRequested(QPrinter*)), tab, SLOT(print(QPrinter*)));
     QPrinter *printer = pDialog->printer();
-    printer->setPageMargins(options->values().topMargin,options->values().leftMargin,options->values().rightMargin,options->values().bottomMargin,QPrinter::Millimeter);
+    printer->setPageMargins(options->values()->topMargin,options->values()->leftMargin,options->values()->rightMargin,options->values()->bottomMargin,QPrinter::Millimeter);
     QString default_filename = tab->getXTA().createFileName();
     printer->setOutputFileName(default_filename);
     pDialog->exec();
@@ -807,9 +819,16 @@ void MainWindow::pressPrint()
     QPrintPreview *pDialog = new QPrintPreview(this,Qt::Dialog);
     connect(pDialog, SIGNAL(paintRequested(QPrinter*)), tab, SLOT(print(QPrinter*)));
     QPrinter *printer = pDialog->getPrinter();
-    printer->setPageMargins(options->values().topMargin,options->values().leftMargin,options->values().rightMargin,options->values().bottomMargin,QPrinter::Millimeter);
+    printer->setPageMargins(options->values()->topMargin,options->values()->leftMargin,options->values()->rightMargin,options->values()->bottomMargin,QPrinter::Millimeter);
     QString default_filename = tab->getXTA().createFileName();
-    pDialog->pressPrint(default_filename);
+    if(!default_filename.isEmpty()){
+        if(!default_filename.endsWith(".pdf",Qt::CaseInsensitive))
+            default_filename += ".pdf";
+
+        printer->setOutputFileName(QDir::homePath() + QDir::separator() + default_filename);
+    }
+    printer->setOutputFormat(QPrinter::NativeFormat);
+    pDialog->pressPrint();
 }
 
 void MainWindow::pressExportPDF()
@@ -820,7 +839,7 @@ void MainWindow::pressExportPDF()
     QString default_filename = tab->getXTA().createFileName();
     default_filename += ".pdf";
 
-    QString filename = QFileDialog::getSaveFileName(this,tr("Export PDF"),QDir::homePath() + QDir::separator() + default_filename, "PDF (*.pdf)");
+    QString filename = QFileDialog::getSaveFileName(this,tr("Export PDF"), options->values()->defaultOutputFolder + QDir::separator() + default_filename, "PDF (*.pdf)");
     if(filename.isEmpty()) return;
 
     if(!filename.endsWith(".pdf",Qt::CaseInsensitive))
@@ -829,10 +848,15 @@ void MainWindow::pressExportPDF()
     QPrintPreview *pDialog = new QPrintPreview(this,Qt::Dialog);
     connect(pDialog, SIGNAL(paintRequested(QPrinter*)), tab, SLOT(print(QPrinter*)));
     QPrinter *printer = pDialog->getPrinter();
-    printer->setPageMargins(options->values().topMargin,options->values().leftMargin,options->values().rightMargin,options->values().bottomMargin,QPrinter::Millimeter);
+    printer->setPageMargins(options->values()->topMargin,options->values()->leftMargin,options->values()->rightMargin,options->values()->bottomMargin,QPrinter::Millimeter);
     pDialog->exportPDF(filename);
 
-    QMessageBox::information(this,tr("Export PDF"),tr("PDF exported : %1").arg(filename));
+    int ret = QMessageBox::information(this,tr("Export PDF"),tr("PDF exported : %1").arg(filename),QMessageBox::Close,QMessageBox::Open);
+    if(ret==QMessageBox::Open){
+        QUrl url("file://" + filename, QUrl::TolerantMode);
+        qDebug() << url;
+        QDesktopServices::openUrl(url);
+    }
 }
 
 void MainWindow::pressOpenMp3()
@@ -883,7 +907,7 @@ void MainWindow::handleMessage(const QString& message)
     switch(action) {
         case Print: break;
         case Open: {
-            openFile(filename);
+            loadFiles(QStringList() << filename);
             emit needToShow();
             break;
         }

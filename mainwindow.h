@@ -38,7 +38,7 @@ protected:
     void setUpToolBar();
     void setUpMenu();
     void moveToolBar(int toolBarPosition);
-    int addTab(XTAinfo info);
+    int addTab(XTAinfo info, bool forceEditable = false);
     Tab* getCurrentTab();
 
     void loadFiles(QStringList files);
@@ -78,7 +78,6 @@ signals:
 
 private slots:
     void openFile();
-    void openFile(QString);
     void clearRecent();
 
 public slots:

@@ -16,6 +16,7 @@ TODO list
 *** default margins
 *** change font
 *** restore to default
+*** default pdf output folder
 
 #### Functions ####
 
@@ -80,11 +81,12 @@ TODO list
 *** print page number
 *** goto tab with Ctrl+<NUM>
 *** rename Tab & action on artiste & title changes
+*** open previous size mode
 
 #### bug ####
 *** info appear in read-only mode on full screen exit
 - utf8 files name in Windows jump list
-- couldn't deplace images
+*** couldn't deplace images
 - personal list overcolor existing chords
 
 #### code ####

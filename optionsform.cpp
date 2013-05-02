@@ -46,7 +46,7 @@ void OptionsForm::createColorTab(QTabWidget *tab)
                              options_.colors.at(i).caseSensitivity?Qt::CaseSensitive:Qt::CaseInsensitive,
                              options_.colors.at(i).active);
 
-    cref->setEditFont(options_.font);
+    cref->setEditFont(options_.mainFont);
 
     QScrollArea *area = new QScrollArea;
     area->setWidgetResizable(true);
@@ -78,7 +78,7 @@ void OptionsForm::createGeneralTab(QTabWidget *tab)
     checkreOpenPreviousTabs->setChecked(options_.reOpenPreviousTabs);
 
     comboOpenSize = new QComboBox;
-    comboOpenSize->addItems( QStringList() << tr("Normal") << tr("Maximized") << tr("FullScreen") );
+    comboOpenSize->addItems( QStringList() << tr("Normal") << tr("Maximized") << tr("FullScreen") << tr("Last used") );
     comboOpenSize->setCurrentIndex(options_.openSizeMode);
 
     QStringList sizes;
@@ -93,21 +93,6 @@ void OptionsForm::createGeneralTab(QTabWidget *tab)
     comboToolBarPosition->addItems(QStringList() << tr("Top") << tr("Left") << tr("Right") << tr("Bottom"));
     comboToolBarPosition->setCurrentIndex(options_.mainToolBarPosition);
 
-    fontLabel = new QLabel;
-    fontLabel->setFrameStyle(QFrame::Sunken | QFrame::Panel);
-    fontLabel->setText(options_.font.toString());
-    fontLabel->setFont(options_.font);
-
-    QToolButton *toolFont = new QToolButton;
-    //toolFont->setIcon(QIcon(":images/open"));
-    toolFont->setIcon(QIcon(QLatin1String(":/trolltech/styles/commonstyle/images/fonttruetype-16.png")));
-    connect(toolFont,SIGNAL(clicked()),this,SLOT(selectFont()));
-
-    QHBoxLayout *fontLayout = new QHBoxLayout;
-    fontLayout->addWidget(toolFont);
-    fontLayout->addWidget(fontLabel);
-
-    formLayout->addRow(tr("Default font:"),fontLayout);
     formLayout->addRow(tr("Default folder:"),leditDefaultFolder);
     formLayout->addRow(tr("Select new tab:"),checkSelectNewTab);
     formLayout->addRow(tr("Open read only:"),checkOpenReadOnly);
@@ -125,6 +110,10 @@ void OptionsForm::createPrintTab(QTabWidget *tab)
 
     QFormLayout *formLayout = new QFormLayout;
     w->setLayout(formLayout);
+
+    //Default output folder
+    defaultOutputFolder = new OpenEditLayout(OpenEditLayout::FolderMode,true);
+    defaultOutputFolder->setText(options_.defaultOutputFolder);
 
     //Enable colors on printig
     checkEnableColorsOnPrinting = new QCheckBox;
@@ -170,10 +159,24 @@ void OptionsForm::createPrintTab(QTabWidget *tab)
 
     //Chord size
 
+    //Print font
+    mainFontLabel = new FontLabelLayout;
+    mainFontLabel->setFont(options_.mainFont);
+    titleFontLabel = new FontLabelLayout;
+    titleFontLabel->setFont(options_.titleFont);
+    artistFontLabel = new FontLabelLayout;
+    artistFontLabel->setFont(options_.artistFont);
+    otherFontLabel = new FontLabelLayout;
+    otherFontLabel->setFont(options_.otherFont);
 
     //Create form
+    formLayout->addRow(tr("Default output folder:"),defaultOutputFolder);
     formLayout->addRow(tr("Enable colors on printing:"),checkEnableColorsOnPrinting);
     formLayout->addRow(tr("Print header on each pages:"),checkPrintHeaderOnEachPages);
+    formLayout->addRow(tr("Title font:"),titleFontLabel);
+    formLayout->addRow(tr("Artist font:"),artistFontLabel);
+    formLayout->addRow(tr("Other font:"),otherFontLabel);
+    formLayout->addRow(tr("Text font:"),mainFontLabel);
     formLayout->addRow(tr("Margins:"),marginMainBox);
 
     tab->addTab(w,tr("Print"));
@@ -186,8 +189,12 @@ OptionsValues OptionsForm::getOptions()
     options_.openReadOnly = checkOpenReadOnly->isChecked();
     options_.reOpenPreviousTabs = checkreOpenPreviousTabs->isChecked();
     options_.defaultPath = editDefaultFolder->text();
+    options_.defaultOutputFolder = defaultOutputFolder->getText();
     options_.openSizeMode = comboOpenSize->currentIndex();
-    options_.font.fromString( fontLabel->text() );
+    options_.mainFont = mainFontLabel->getFont();
+    options_.titleFont = titleFontLabel->getFont();
+    options_.artistFont = artistFontLabel->getFont();
+    options_.otherFont = otherFontLabel->getFont();
     options_.chordSize = Options::toSize( comboChordSize->currentText() );
     options_.printHearderOnEachPages = checkPrintHeaderOnEachPages->isChecked();
     options_.enableColorsOnPrinting = checkEnableColorsOnPrinting->isChecked();
@@ -202,33 +209,31 @@ OptionsValues OptionsForm::getOptions()
     return options_;
 }
 
-void OptionsForm::selectFont()
-{
-    bool ok;
-    QFont font = QFontDialog::getFont(&ok, options_.font, this);
-    if(ok){
-        fontLabel->setText(font.toString());
-        fontLabel->setFont(font);
-        cref->setEditFont(font);
-    }
-}
-
 void OptionsForm::buttonClicked(QAbstractButton *button){
     if(buttonBox->buttonRole(button)==QDialogButtonBox::ResetRole){
 
         //Create a static function
         Options *opt = new Options;
-        options_ = opt->values();
+        options_ = opt->cloneValues();
 
         checkEnableColors->setChecked(options_.enableColors);
         checkSelectNewTab->setChecked(options_.selectNewTab);
         checkOpenReadOnly->setChecked(options_.openReadOnly);
         checkreOpenPreviousTabs->setChecked(options_.reOpenPreviousTabs);
         editDefaultFolder->setText(options_.defaultPath);
+        defaultOutputFolder->setText(options_.defaultOutputFolder);
         comboOpenSize->setCurrentIndex(options_.openSizeMode);
-        fontLabel->setText(options_.font.toString());
+        mainFontLabel->setFont(options_.mainFont);
+        titleFontLabel->setFont(options_.titleFont);
+        artistFontLabel->setFont(options_.artistFont);
+        otherFontLabel->setFont(options_.otherFont);
         checkPrintHeaderOnEachPages->setChecked(options_.printHearderOnEachPages);
         checkEnableColorsOnPrinting->setChecked(options_.enableColorsOnPrinting);
+
+        editTop->setValue( options_.topMargin );
+        editLeft->setValue( options_.leftMargin );
+        editRight->setValue( options_.rightMargin );
+        editBottom->setValue( options_.bottomMargin );
 
         cref->clear();
         for(int i=0;i<options_.colors.size();i++)
@@ -240,6 +245,6 @@ void OptionsForm::buttonClicked(QAbstractButton *button){
                                  options_.colors.at(i).caseSensitivity?Qt::CaseSensitive:Qt::CaseInsensitive,
                                  options_.colors.at(i).active);
 
-        cref->setEditFont(options_.font);
+        cref->setEditFont(options_.mainFont);
     }
 }

@@ -22,6 +22,7 @@
 #include "mycheckbox.h"
 #include "lilypond.h"
 #include "openeditlayout.h"
+#include "mytextedit.h"
 
 class Tab : public QWidget
 {
@@ -42,12 +43,11 @@ public:
 protected:
     void addChordsFromText(QString text);
     //void setUpToolBar();
-    void addImage(QImage &img);
 
     XTAinfo readXTA(QString filepath = QString());
     
 private:
-    QTextEdit *edit;
+    MyTextEdit *edit;
     QLabel *labelInfo,*specialInfo;
     XTAinfo info,modified_info;
 
@@ -151,6 +151,8 @@ public slots:
 
     void importImages();
     void exportImages();
+
+    void addImage(QImage &img);
     
 };
 

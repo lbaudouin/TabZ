@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     chordsmanager.cpp \
     readwritexml.cpp \
     recent.cpp \
-    lilypond.cpp
+    lilypond.cpp \
+    mytextedit.cpp
     #myprintpreviewwidget.cpp# \
     #myprinterprivate.cpp
 
@@ -52,7 +53,9 @@ HEADERS  += mainwindow.h \
     colorregexp.h \
     recent.h \
     lilypond.h \
-    openeditlayout.h
+    openeditlayout.h \
+    mytextedit.h \
+    fontlabellayout.h
     #myprintpreviewwidget.h #\
     #myprinterprivate.h
 

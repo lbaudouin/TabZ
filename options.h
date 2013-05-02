@@ -1,6 +1,7 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
+#include <QDir>
 #include "readwritexml.h"
 #include "colorregexp.h"
 
@@ -11,9 +12,11 @@ struct OptionsValues
     bool selectNewTab;
     bool openReadOnly;
     QString defaultPath;
+    QString defaultOutputFolder;
     int openSizeMode;
+    int lastSizeMode;
     bool reOpenPreviousTabs;
-    QFont font;
+    QFont mainFont,titleFont,artistFont,otherFont;
     QSize chordSize;
     bool enableColorsOnPrinting;
     bool printHearderOnEachPages;
@@ -35,7 +38,8 @@ public:
     void load();
     void save();
 
-    OptionsValues values() { return optionsValues; }
+    OptionsValues cloneValues() { return optionsValues; }
+    OptionsValues* values() { return &optionsValues; }
     void setValues(OptionsValues _optionsValues) { optionsValues = _optionsValues; }
 
 protected:
