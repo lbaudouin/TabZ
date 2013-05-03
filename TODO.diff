@@ -82,6 +82,7 @@ TODO list
 *** goto tab with Ctrl+<NUM>
 *** rename Tab & action on artiste & title changes
 *** open previous size mode
+- export epub
 
 #### bug ####
 *** info appear in read-only mode on full screen exit

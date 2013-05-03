@@ -45,11 +45,11 @@ public:
         connect(toolAdd,SIGNAL(clicked()),this,SLOT(addNew()));
 
         QHBoxLayout *buttonLayout = new QHBoxLayout;
+        buttonLayout->addWidget(toolAdd);
+        buttonLayout->addWidget(toolHelp);
+        buttonLayout->addSpacerItem(buttonSpacer);
         buttonLayout->addWidget(buttonSelect);
         buttonLayout->addWidget(buttonUnselect);
-        buttonLayout->addSpacerItem(buttonSpacer);
-        buttonLayout->addWidget(toolHelp);
-        buttonLayout->addWidget(toolAdd);
 
         mainLayout->addLayout(buttonLayout);
 

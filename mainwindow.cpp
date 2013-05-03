@@ -853,7 +853,11 @@ void MainWindow::pressExportPDF()
 
     int ret = QMessageBox::information(this,tr("Export PDF"),tr("PDF exported : %1").arg(filename),QMessageBox::Close,QMessageBox::Open);
     if(ret==QMessageBox::Open){
+#if defined(__WIN32__)
+        QUrl url("file:///" + filename, QUrl::TolerantMode);
+#else
         QUrl url("file://" + filename, QUrl::TolerantMode);
+#endif
         qDebug() << url;
         QDesktopServices::openUrl(url);
     }

@@ -2,7 +2,7 @@
 
 OptionsForm::OptionsForm(OptionsValues options, QWidget *parent) : QDialog(parent), options_(options)
 {
-    this->setMinimumSize(640,480);
+    this->setMinimumSize(800,600);
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
 
     QTabWidget *tabWidget = new QTabWidget;
