@@ -165,8 +165,6 @@ void DownloadXTA::downloadFinished(int id, bool error)
         return;
 
     if(error){
-        qDebug() << "Error during download : " << http->errorString();
-
         QString errorText;
 
         switch(http->error()){

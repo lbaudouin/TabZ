@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
             QString version(CURRENT_VERSION);
             QStringList n = version.split(".");
             int ID = n.at(0).toInt()*100*100 + n.at(1).toInt()*100 + n.at(2).toInt();
-            qDebug() << QString("Version : ") + version + QString(" - ID : ") + QString::number(ID);
+            //qDebug() << QString("Version : ") + version + QString(" - ID : ") + QString::number(ID);
             return ID;
         }
         if(!strcmp(argv[i],"-n")){              //return 1 if CURRENT_VERSION > version
@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
         QString update = path;
         update.remove(".exe");
         update += "-update.exe";
-        qDebug() << update;
+        //qDebug() << update;
 
         if(QFile::exists(update)){
             QProcess process;
@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
             QStringList n = currentVersion.split(".");
             int currentID = n.at(0).toInt()*100*100 + n.at(1).toInt()*100 + n.at(2).toInt();
             if(currentID>=updateID){
-                qDebug() << "Already up to date";
+                //qDebug() << "Already up to date";
                 QFile::remove(update);
             }else{
                 process.startDetached("\""+update+"\"");

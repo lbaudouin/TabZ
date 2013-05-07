@@ -17,8 +17,6 @@
 #include <QProcess>
 #include <QTimer>
 
-#include <QDebug>
-
 class Lilypond : public QDialog
 {
     Q_OBJECT

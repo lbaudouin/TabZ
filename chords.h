@@ -12,8 +12,6 @@
 #include <QLineEdit>
 #include <QInputDialog>
 
-#include <QDebug>
-
 #include "guitar.h"
 
 struct Chord{

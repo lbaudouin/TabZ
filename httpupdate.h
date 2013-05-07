@@ -4,7 +4,6 @@
 #include <QHttp>
 #include <QFile>
 #include <QBuffer>
-#include <QDebug>
 #include <QMessageBox>
 #include <QProcess>
 
@@ -12,7 +11,7 @@
 
 struct Version {
     Version(int major, int minor, int revision) : major_(major), minor_(minor), revision_(revision), valid(true) {}
-    Version(QString version){
+    Version(QString version) : major_(0), minor_(0), revision_(0){
         QStringList s = version.split(".");
         if(s.size()!=3){
             valid = false;

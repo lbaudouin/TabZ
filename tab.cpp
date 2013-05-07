@@ -363,6 +363,17 @@ void Tab::infoChanged(QString)
     }
 }
 
+void Tab::chordsChanged(QString)
+{
+   modified_info.chords = getChords();
+
+   if(!info.isEqual(modified_info)){
+       emit setSaveIcon(-1,true);
+   }else{
+       emit setSaveIcon(-1,false);
+   }
+}
+
 void Tab::textChanged(QString)
 {
    modified_info.text = edit->toPlainText();
@@ -392,19 +403,25 @@ void Tab::saved(QString path)
     info = modified_info;
 }
 
+QString Tab::getChords()
+{
+    QString text;
+    for(int i=0;i<currentChords.size();i++){
+        text += currentChords.at(i).name;
+        if(!currentChords[i].fingers.isEmpty()){
+            text += " " + currentChords[i].fingers;
+        }
+        text += "\n";
+    }
+    return text;
+}
+
 XTAinfo Tab::getXTA()
 {
     modified_info.file_mp3 = editMp3->text();
     modified_info.file_gp = editGP->text();
 
-    modified_info.chords.clear();
-    for(int i=0;i<currentChords.size();i++){
-        modified_info.chords += currentChords.at(i).name;
-        if(!currentChords[i].fingers.isEmpty()){
-            modified_info.chords += " " + currentChords[i].fingers;
-        }
-        modified_info.chords += "\n";
-    }
+    modified_info.chords = getChords();
 
     QTextCursor cursor = edit->textCursor();
     cursor.setPosition(0);
@@ -413,7 +430,7 @@ XTAinfo Tab::getXTA()
         cursor = edit->document()->find(QString(QChar::ObjectReplacementCharacter),cursor);
         if(cursor.isNull()) break;
         bool ok;
-        qDebug() << cursor.charFormat().property(QTextFormat::ImageName).toString();
+        //qDebug() << cursor.charFormat().property(QTextFormat::ImageName).toString();
         int index = cursor.charFormat().property(QTextFormat::ImageName).toString().section("image",1).section(".png",0,0).toInt(&ok);
         if(ok){
             modified_info.refImages << index;
@@ -423,6 +440,11 @@ XTAinfo Tab::getXTA()
     modified_info.instrument = comboInstrument->itemData(comboInstrument->currentIndex()).toString();
 
     return modified_info;
+}
+
+QString Tab::getHtml()
+{
+    return edit->document()->toHtml();
 }
 
 void Tab::updateSelectedNote()
@@ -500,7 +522,7 @@ void Tab::addNewChord()
 void Tab::addChord(QString name, QString fingers)
 {
     if(chords.contains(name)){
-
+        //TODO, display warning/error
     }else{
 
         if(!fingers.isEmpty()){
@@ -516,8 +538,10 @@ void Tab::addChord(QString name, QString fingers)
 
         Chord c(name,fingers);
         currentChords << c;
-
         chords << name;
+
+        chordsChanged();
+
         Guitar *guitar = new Guitar(name,fingers);
         guitar->setChordSize( optionsValues_.chordSize );
 
@@ -609,10 +633,13 @@ void Tab::read()
             QString name = list.at(i);
             if(boxList.at(i)->isChecked())
                 addChord(name);
-            else
+            else{
                 emit removeChord(name);
+            }
         }
         resizeLayout();
+
+        chordsChanged();
     }
 }
 

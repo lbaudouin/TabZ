@@ -49,8 +49,6 @@ void HttpUpdate::downloadFinished(int id, bool error)
         return;
 
     if(error){
-        qDebug() << "Error during download : " << http->errorString();
-
         QString errorText;
 
         switch(http->error()){
@@ -90,12 +88,8 @@ void HttpUpdate::downloadFinished(int id, bool error)
             if(!discretUpdate) QMessageBox::critical(this,tr("Error"),tr("Could not get the last version"));
             return;
         }
-        qDebug() << "Last version : " + lastestVersionString;
-        qDebug() << "Current version : " + currentVersionString;
-
 
         if( lastestVersion > currentVersion ){
-                qDebug() << "New version available";
                 int button = QMessageBox::information(this,tr("Information"),tr("New version available : %1").arg(lastestVersionString),tr("Don't download"),tr("Download"),"",1,0);
                 if(button==1)
                     getSoftware();

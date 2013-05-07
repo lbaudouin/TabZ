@@ -5,6 +5,8 @@
 
 #include "chords.h"
 
+#include <QDebug>
+
 class ChordsManager : public QDialog
 {
     Q_OBJECT

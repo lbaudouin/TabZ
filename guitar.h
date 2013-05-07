@@ -12,8 +12,6 @@
 #include <QMenu>
 #include <QAction>
 
-#include <QDebug>
-
 class Strings;
 
 class Guitar : public QFrame

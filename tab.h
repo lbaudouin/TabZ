@@ -31,6 +31,8 @@ public:
     explicit Tab(XTAinfo xta, Chords* chordsList, OptionsValues optionsValues, QWidget *parent = 0);
     XTAinfo getXTA();
 
+    QString getHtml();
+
     bool isEditable() {return editable_; }
     void setEditable(bool editable);
 
@@ -43,6 +45,8 @@ public:
 protected:
     void addChordsFromText(QString text);
     //void setUpToolBar();
+
+    QString getChords();
 
     XTAinfo readXTA(QString filepath = QString());
     
@@ -101,6 +105,7 @@ private slots:
     void infoChanged(QString text = QString());
     void textChanged(QString text = QString());
     void capoChanged(int);
+    void chordsChanged(QString text = QString());
     void deleteGuitar();
     void updateTitle();
 

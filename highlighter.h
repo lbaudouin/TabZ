@@ -7,8 +7,6 @@
 #include <QHash>
 #include <QTextCharFormat>
 
-#include <QDebug>
-
 QT_BEGIN_NAMESPACE
 class QTextDocument;
 QT_END_NAMESPACE

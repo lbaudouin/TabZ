@@ -19,8 +19,6 @@
 #include <QLineEdit>
 #include <QToolButton>
 
-#include <QDebug>
-
 class DownloadXTA : public QDialog
 {
     Q_OBJECT

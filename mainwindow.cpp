@@ -44,7 +44,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionPreview,SIGNAL(triggered()),this,SLOT(pressPreview()));
     connect(ui->actionPrint,SIGNAL(triggered()),this,SLOT(pressPrint()));
 
-
     //Set selected window mode
     if(options->values()->openSizeMode==3){
         Qt::WindowState state = (Qt::WindowState)(options->values()->lastSizeMode);
@@ -858,7 +857,7 @@ void MainWindow::pressExportPDF()
 #else
         QUrl url("file://" + filename, QUrl::TolerantMode);
 #endif
-        qDebug() << url;
+        //qDebug() << url;
         QDesktopServices::openUrl(url);
     }
 }

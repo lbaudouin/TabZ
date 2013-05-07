@@ -7,8 +7,6 @@
 #include <QFile>
 #include <QTextStream>
 
-//#include <QDebug>
-
 class MyTextEdit : public QTextEdit
 {
     Q_OBJECT

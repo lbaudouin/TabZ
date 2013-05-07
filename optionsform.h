@@ -24,8 +24,6 @@
 #include "fontlabellayout.h"
 
 
-#include <QDebug>
-
 #include <QColorDialog>
 
 #include <QListWidget>

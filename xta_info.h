@@ -4,7 +4,7 @@
 #include <QString>
 #include <QImage>
 
-#include <QDebug>
+#include <QTextStream>
 
 class XTAinfo{
 public:
@@ -31,16 +31,16 @@ public:
 
     QString instrument;
 
-    void diff(XTAinfo &info){
-        if(info.capo!=capo) qDebug() << "Capo";
-        if(info.tuning!=tuning) qDebug() << "Tuning";
-        if(info.title!=title) qDebug() << "Title";
-        if(info.artist!=artist) qDebug() << "Artist";
-        if(info.album!=album) qDebug() << "Album";
-        if(info.file_gp!=file_gp) qDebug() << "FileGP";
-        if(info.file_mp3!=file_mp3) qDebug() << "FileMP3";
-        if(info.text!=text) qDebug() << "Text";
-        if(info.chords!=chords) qDebug() << "Chords";
+    void diff(XTAinfo &info, QTextStream &stream){
+        if(info.capo!=capo) stream << "Capo";
+        if(info.tuning!=tuning) stream << "Tuning";
+        if(info.title!=title) stream << "Title";
+        if(info.artist!=artist) stream << "Artist";
+        if(info.album!=album) stream << "Album";
+        if(info.file_gp!=file_gp) stream << "FileGP";
+        if(info.file_mp3!=file_mp3) stream << "FileMP3";
+        if(info.text!=text) stream << "Text";
+        if(info.chords!=chords) stream << "Chords";
     }
 
     bool isEqual(XTAinfo &info){
