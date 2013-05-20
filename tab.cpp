@@ -92,7 +92,9 @@ Tab::Tab(XTAinfo xta, Chords* chordsList, OptionsValues optionsValues, QWidget *
                             optionsValues_.rightMargin,optionsValues_.bottomMargin,QPrinter::Millimeter);
 
     printer->setDocName( info.createFileName() );
+#if !defined(__WIN32__)
     printer->setOutputFileName( optionsValues_.defaultOutputFolder + QDir::separator() + printer->docName() );
+#endif
     printPreviewWidget->setViewMode(QPrintPreviewWidget::AllPagesView);
     printPreviewWidget->setZoomMode(QPrintPreviewWidget::FitInView);
 
@@ -379,7 +381,9 @@ void Tab::textChanged(QString)
    modified_info.text = edit->toPlainText();
 
    printer->setDocName( modified_info.createFileName() );
+#if !defined(__WIN32__)
    printer->setOutputFileName( optionsValues_.defaultOutputFolder + QDir::separator() + printer->docName() );
+#endif
 
    if(!info.isEqual(modified_info)){
        emit setSaveIcon(-1,true);
@@ -665,7 +669,9 @@ void Tab::setOptions(OptionsValues options)
 {
     optionsValues_ = options;
 
+#if !defined(__WIN32__)
     printer->setOutputFileName( optionsValues_.defaultOutputFolder + QDir::separator() + printer->docName() );
+#endif
 
     setColors(optionsValues_.colors);
 
@@ -729,6 +735,7 @@ void Tab::print(QPrinter *_printer)
     Highlighter *h = new Highlighter(doc);
     h->setRules( highlighter->getRules() );
     h->addPersonalRegExp( highlighter->getPersonalRegExp() );
+    h->setDraftMode(false);
     h->rehighlight();
 
     //TODO (remove space for chords)
@@ -855,7 +862,9 @@ void Tab::print(QPrinter *_printer)
                 painter.drawText(QPointF(0,0),text);
             }
             painter.translate(0,15);
+            painter.setPen(QPen(Qt::black,2));
             painter.drawLine(QPointF(0,0),QPointF(pageWidth,0));
+            painter.setPen(Qt::black);
             painter.translate(0,20);
 
         }else{
@@ -984,7 +993,7 @@ void Tab::print(QPrinter *_printer)
 
                     str.paint(&painter,true);
 
-                    painter.translate(0,str.height()/2 + 10);
+                    painter.translate(0,chordSize.height() + 10);
 
                     currentChordPrinted++;
                 }

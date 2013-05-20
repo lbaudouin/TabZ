@@ -51,6 +51,8 @@ public:
         return personal;
     }
 
+    void setDraftMode(bool drafMode) { draftMode_ = drafMode; }
+
 protected:
     void highlightBlock(const QString &text);
 
@@ -64,6 +66,8 @@ private:
     HighlightingRule personalRule;
 
     bool enabled_;
+
+    bool draftMode_;
 
 public slots:
     void enable();

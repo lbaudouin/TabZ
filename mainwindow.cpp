@@ -496,6 +496,14 @@ void MainWindow::pressSaveAs()
     QString selectedFilter;
 
     QString sample = (options->values()->defaultPath.isEmpty()?QDir::homePath():options->values()->defaultPath) + QDir::separator();
+
+    QDir defaultFolder(options->values()->defaultPath);
+    if(defaultFolder.exists()){
+        if(defaultFolder.cd(info.artist)){
+            sample = defaultFolder.absolutePath() + QDir::separator();
+        }
+    }
+
     sample += info.createFileName() +  ".xta";
 
     QString filepath = QFileDialog::getSaveFileName(this,tr("Save as"),sample,QString("%1;;%2").arg(tr("XTA files (*.xta)"),tr("TXT files (*.txt)")),&selectedFilter,QFileDialog::DontConfirmOverwrite);
@@ -805,8 +813,10 @@ void MainWindow::pressPreview()
     connect(pDialog, SIGNAL(paintRequested(QPrinter*)), tab, SLOT(print(QPrinter*)));
     QPrinter *printer = pDialog->printer();
     printer->setPageMargins(options->values()->topMargin,options->values()->leftMargin,options->values()->rightMargin,options->values()->bottomMargin,QPrinter::Millimeter);
+#if !defined(__WIN32__)
     QString default_filename = tab->getXTA().createFileName();
     printer->setOutputFileName(default_filename);
+#endif
     pDialog->exec();
 }
 
@@ -819,13 +829,15 @@ void MainWindow::pressPrint()
     connect(pDialog, SIGNAL(paintRequested(QPrinter*)), tab, SLOT(print(QPrinter*)));
     QPrinter *printer = pDialog->getPrinter();
     printer->setPageMargins(options->values()->topMargin,options->values()->leftMargin,options->values()->rightMargin,options->values()->bottomMargin,QPrinter::Millimeter);
+#if !defined(__WIN32__)
     QString default_filename = tab->getXTA().createFileName();
     if(!default_filename.isEmpty()){
         if(!default_filename.endsWith(".pdf",Qt::CaseInsensitive))
             default_filename += ".pdf";
-
         printer->setOutputFileName(QDir::homePath() + QDir::separator() + default_filename);
     }
+#endif
+
     printer->setOutputFormat(QPrinter::NativeFormat);
     pDialog->pressPrint();
 }

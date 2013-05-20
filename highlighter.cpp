@@ -1,7 +1,7 @@
 #include "highlighter.h"
 
 Highlighter::Highlighter(QTextDocument *parent)
-    : QSyntaxHighlighter(parent), enabled_(true)
+    : QSyntaxHighlighter(parent), enabled_(true), draftMode_(true)
 {
     QTextCharFormat keywordFormat;
     keywordFormat.setForeground(Qt::darkMagenta);
@@ -87,6 +87,21 @@ void Highlighter::highlightBlock(const QString &text)
     int lenght_total = 0;
     QStringList found;
 
+    foreach(QString perso, personal){
+        QString t = perso;
+        t.replace("*","\\*");
+        t.remove("\\b");
+        if(!found.contains(t)){
+            QRegExp expression(t);
+            int index = expression.indexIn(text);
+            while (index >= 0) {
+                int length = expression.matchedLength();
+                lenght_total += length;
+                index = expression.indexIn(text, index + length);
+            }
+        }
+    }
+
     foreach (const HighlightingRule &rule, highlightingRules) {
         QRegExp expression(rule.pattern);
         int index = expression.indexIn(text);
@@ -102,19 +117,19 @@ void Highlighter::highlightBlock(const QString &text)
         }
     }
 
-    foreach(QString perso, personal){
-        QString t = perso;
-        t.remove("\\b");
-        if(!found.contains(t)){
-            QRegExp expression(perso);
-            int index = expression.indexIn(text);
-            while (index >= 0) {
-                int length = expression.matchedLength();
-                lenght_total += length;
-                index = expression.indexIn(text, index + length);
-            }
+    if(draftMode_){
+        QRegExp expression("\\t");
+        int index = expression.indexIn(text);
+        QTextCharFormat rule;
+        rule.setUnderlineStyle(QTextCharFormat::WaveUnderline);
+        rule.setUnderlineColor(Qt::red);
+        while (index >= 0) {
+            int length = expression.matchedLength();
+            setFormat(index, length, rule);
+            index = expression.indexIn(text, index + length);
         }
     }
+
 
     if(lenght_total==0)
         return;
@@ -136,6 +151,22 @@ void Highlighter::highlightBlock(const QString &text)
 
     //If there is more than 0.5 of total characters for chords then, paint them
     if(lenght_total>=0.5*nbChar && nbDash<0.5*nbChar){
+
+        foreach(QString perso, personal){
+            QString t = perso;
+            t.replace("*","\\*");
+            t.remove("\\b");
+            if(!found.contains(t)){
+                QRegExp expression(t);
+                int index = expression.indexIn(text);
+                while (index >= 0) {
+                    int length = expression.matchedLength();
+                    setFormat(index, length, personalRule.format);
+                    index = expression.indexIn(text, index + length);
+                }
+            }
+        }
+
         foreach (const HighlightingRule &rule, highlightingRules) {
             QRegExp expression(rule.pattern);
             int index = expression.indexIn(text);
@@ -143,19 +174,6 @@ void Highlighter::highlightBlock(const QString &text)
                 int length = expression.matchedLength();
                 setFormat(index, length, rule.format);
                 index = expression.indexIn(text, index + length);
-            }
-        }
-        foreach(QString perso, personal){
-            QString t = perso;
-            t.remove("\\b");
-            if(!found.contains(t)){
-                QRegExp expression(perso);
-                int index = expression.indexIn(text);
-                while (index >= 0) {
-                    int length = expression.matchedLength();
-                    setFormat(index, length, personalRule.format);
-                    index = expression.indexIn(text, index + length);
-                }
             }
         }
     }
