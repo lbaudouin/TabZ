@@ -27,7 +27,8 @@ SOURCES += main.cpp\
     readwritexml.cpp \
     recent.cpp \
     lilypond.cpp \
-    mytextedit.cpp
+    mytextedit.cpp \
+    mycompleter.cpp
     #myprintpreviewwidget.cpp# \
     #myprinterprivate.cpp
 
@@ -55,7 +56,8 @@ HEADERS  += mainwindow.h \
     lilypond.h \
     openeditlayout.h \
     mytextedit.h \
-    fontlabellayout.h
+    fontlabellayout.h \
+    mycompleter.h
     #myprintpreviewwidget.h #\
     #myprinterprivate.h
 

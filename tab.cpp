@@ -862,7 +862,7 @@ void Tab::print(QPrinter *_printer)
                 painter.drawText(QPointF(0,0),text);
             }
             painter.translate(0,15);
-            painter.setPen(QPen(Qt::black,2));
+            painter.setPen(QPen(Qt::black,1));
             painter.drawLine(QPointF(0,0),QPointF(pageWidth,0));
             painter.setPen(Qt::black);
             painter.translate(0,20);

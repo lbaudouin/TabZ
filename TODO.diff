@@ -83,13 +83,15 @@ TODO list
 *** rename Tab & action on artiste & title changes
 *** open previous size mode
 - export epub
+*** search bar to open tabs
 
 #### bug ####
 *** info appear in read-only mode on full screen exit
-- utf8 files name in Windows jump list
+- utf8 files name in Windows jump list (problem with accent)
 *** couldn't deplace images
 - personal list overcolor existing chords
 - adapt fingers size on guitar rendering
+- 2 messages on openning error
 
 #### code ####
 *** increase 'recent files' update speed

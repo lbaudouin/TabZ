@@ -22,6 +22,9 @@ MainWindow::MainWindow(QWidget *parent) :
     setUpMenu();
     setUpToolBar();
 
+    //Read default folder
+    loadFileList();
+
     //Init objects
     xta = new XTA();
     chords = new Chords();
@@ -206,6 +209,24 @@ void MainWindow::setUpToolBar()
     ui->mainToolBar->addAction(ui->actionOpen_Guitar_Pro);
     ui->mainToolBar->addSeparator();
     ui->mainToolBar->addAction(ui->actionClose);
+
+
+    completer = new MyCompleter(QStringList(),this);
+    completer->setCaseSensitivity(Qt::CaseInsensitive);
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+    completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
+
+    smartEdit = new MyCompleterLineEdit;
+    smartEdit->setMinimumWidth(250);
+    smartEdit->setCompleter(completer);
+
+    connect(smartEdit,SIGNAL(selectionChanged(QString)),this,SLOT(hintSelected(QString)));
+    //connect(smartEdit,SIGNAL(returnPressed()),this,SLOT(hintEnterPressed()));
+
+    QLabel *label = new QLabel;
+    label->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Minimum);
+    ui->mainToolBar->addWidget(label);
+    ui->mainToolBar->addWidget(smartEdit);
 
     ui->menuBar->addSeparator();
     exitFullScreenAction = ui->menuBar->addAction(tr("Exit Full Screen"),this,SLOT(pressExitFullScreen()));
@@ -713,6 +734,7 @@ void MainWindow::pressPreference()
         options->save();
         moveToolBar(options->values()->mainToolBarPosition);
         emit optionsChanged(options->cloneValues());
+        loadFileList();
     }
 }
 
@@ -896,6 +918,38 @@ void MainWindow::pressOpenGP()
     }
 }
 
+void MainWindow::loadFileList()
+{
+    mapFiles.clear();
+
+    QDirIterator it(options->values()->defaultPath, QDirIterator::Subdirectories);
+    while (it.hasNext()) {
+        QString path = it.next();
+        QString filename = it.fileName();
+        QFileInfo info = it.fileInfo();
+        if(!QString::compare(info.suffix(),"xta",Qt::CaseInsensitive)){
+            filename.chop(4);
+            mapFiles[filename] << path;
+        }
+    }
+
+
+    listFiles = mapFiles.keys();
+
+    completer->setStringList(listFiles);
+}
+
+void MainWindow::hintSelected(QString item)
+{
+    if(mapFiles.contains(item)){
+        loadFiles(QStringList() << mapFiles[item].at(0));
+    }
+}
+
+/*void MainWindow::hintEnterPressed()
+{
+    hintSelected(smartEdit->text());
+}*/
 
 void MainWindow::pressAbout()
 {

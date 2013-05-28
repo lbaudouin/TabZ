@@ -7,6 +7,7 @@
 #include <QFileDialog>
 #include <QInputDialog>
 #include <QToolButton>
+#include <QCompleter>
 #include <QUrl>
 
 #include "tab.h"
@@ -19,6 +20,7 @@
 #include "mytabwidget.h"
 #include "tools.h"
 #include "recent.h"
+#include "mycompleter.h"
 
 namespace Ui {
 class MainWindow;
@@ -46,6 +48,8 @@ protected:
     void updateRecent();
     void addRecent(XTAinfo &info);
 
+    void loadFileList();
+
 private:
     Ui::MainWindow *ui;
     Qt::WindowStates previousState;
@@ -67,6 +71,11 @@ private:
     QAction *exitFullScreenAction;
 
     QString version;
+
+    MyCompleterLineEdit *smartEdit;
+    MyCompleter *completer;
+    QStringList listFiles;
+    QMap<QString,QStringList> mapFiles;
 
 signals:
     void setColorsEnabled(bool);
@@ -134,6 +143,9 @@ public slots:
     void pressAbout();
 
     void changeTabName(QString name);
+
+    void hintSelected(QString);
+    //void hintEnterPressed();
 
     //For single instance
     void handleMessage(const QString& message);
