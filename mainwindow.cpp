@@ -919,7 +919,12 @@ void MainWindow::pressOpenGP()
 }
 
 void MainWindow::loadFileList()
-{
+{    
+    if(options->values()->defaultPath.isEmpty()){
+        smartEdit->setEnabled(false);
+        return;
+    }
+
     mapFiles.clear();
 
     QDirIterator it(options->values()->defaultPath, QDirIterator::Subdirectories);
@@ -935,8 +940,13 @@ void MainWindow::loadFileList()
 
 
     listFiles = mapFiles.keys();
-
     completer->setStringList(listFiles);
+
+    if(listFiles.isEmpty()){
+        smartEdit->setEnabled(false);
+    }else{
+        smartEdit->setEnabled(true);
+    }
 }
 
 void MainWindow::hintSelected(QString item)
