@@ -42,6 +42,8 @@ public:
 
     QAction* getAction() { return menuAction; }
 
+    MyTextEdit* getTextEdit() { return edit; }
+
 protected:
     void addChordsFromText(QString text);
     //void setUpToolBar();

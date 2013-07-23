@@ -78,6 +78,12 @@ void Options::write(QDomDocument *dom, QFileInfo)
         addNode(dom,&mainNode,"bottomMargin",optionsValues.bottomMargin);
         addNode(dom,&mainNode,"defaultOutputFolder",optionsValues.defaultOutputFolder);
 
+        QRect geom = optionsValues.lastGeometry;
+        QStringList lastGeomList;
+        lastGeomList << QString::number(geom.x()) << QString::number(geom.y()) << QString::number(geom.width()) << QString::number(geom.height());
+
+        addNode(dom,&mainNode,"lastGeometry",lastGeomList.join(","));
+
 
         QDomElement colorNode = dom->createElement("colors");
         mainNode.appendChild(colorNode);
@@ -130,6 +136,12 @@ void Options::read(QDomDocument *dom, QFileInfo)
         }
         if(element.tagName()=="lastSizeMode"){
             optionsValues.lastSizeMode = element.text().toInt();
+        }
+        if(element.tagName()=="lastGeometry"){
+            QStringList list = element.text().split(",");
+            if(list.size()==4){
+                optionsValues.lastGeometry = QRect(list.at(0).toInt(),list.at(1).toInt(),list.at(2).toInt(),list.at(3).toInt());
+            }
         }
         if(element.tagName()=="openSizeMode"){
             optionsValues.openSizeMode = element.text().toInt();

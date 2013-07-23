@@ -28,7 +28,8 @@ SOURCES += main.cpp\
     recent.cpp \
     lilypond.cpp \
     mytextedit.cpp \
-    mycompleter.cpp
+    mycompleter.cpp \
+    findreplacedialog.cpp
     #myprintpreviewwidget.cpp# \
     #myprinterprivate.cpp
 
@@ -57,7 +58,8 @@ HEADERS  += mainwindow.h \
     openeditlayout.h \
     mytextedit.h \
     fontlabellayout.h \
-    mycompleter.h
+    mycompleter.h \
+    findreplacedialog.h
     #myprintpreviewwidget.h #\
     #myprinterprivate.h
 

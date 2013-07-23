@@ -54,13 +54,14 @@ MainWindow::MainWindow(QWidget *parent) :
             ui->actionFull_Screen->setChecked(true);
         }else{
             this->setWindowState( state );
+            this->setGeometry(options->values()->lastGeometry);
         }
     }else{
         switch(options->values()->openSizeMode){
         case 0 : this->setWindowState(Qt::WindowNoState); break;
         case 1 : this->setWindowState(Qt::WindowMaximized); break;
         case 2 : /*this->setWindowState(Qt::WindowFullScreen);*/ ui->actionFull_Screen->setChecked(true); break;
-        default : this->setWindowState(Qt::WindowNoState); break;
+        default : this->setWindowState(Qt::WindowNoState);  break;
         }
     }
 
@@ -99,11 +100,8 @@ MainWindow::~MainWindow()
     }
     recent->save(recentList);
 
-    //TODO, direct access to variable
-    OptionsValues opt = options->cloneValues();
-    opt.lastSizeMode = this->windowState();
-    options->setValues(opt);
-
+    options->values()->lastGeometry = this->geometry();
+    options->values()->lastSizeMode = this->windowState();
     options->save();
 
     pressCloseAll();
@@ -221,7 +219,6 @@ void MainWindow::setUpToolBar()
     smartEdit->setCompleter(completer);
 
     connect(smartEdit,SIGNAL(selectionChanged(QString)),this,SLOT(hintSelected(QString)));
-    //connect(smartEdit,SIGNAL(returnPressed()),this,SLOT(hintEnterPressed()));
 
     QLabel *label = new QLabel;
     label->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Minimum);
@@ -251,6 +248,9 @@ void MainWindow::setUpToolBar()
     connect(ui->actionCut,SIGNAL(triggered()),this,SLOT(pressCut()));
     connect(ui->actionCopy,SIGNAL(triggered()),this,SLOT(pressCopy()));
     connect(ui->actionPaste,SIGNAL(triggered()),this,SLOT(pressPaste()));
+
+    connect(ui->actionFind,SIGNAL(triggered()),this,SLOT(pressFind()));
+    connect(ui->actionReplace,SIGNAL(triggered()),this,SLOT(pressReplace()));
 
     connect(ui->actionUndo,SIGNAL(triggered()),this,SLOT(pressUndo()));
     connect(ui->actionRedo,SIGNAL(triggered()),this,SLOT(pressRedo()));
@@ -677,6 +677,25 @@ void MainWindow::pressPaste()
 {
     if(ui->tabWidget->currentIndex()<0) return;
     getCurrentTab()->paste();
+}
+
+void MainWindow::pressFind()
+{
+    if(getCurrentTab()!=0){
+        FindReplaceDialog *dialog = new FindReplaceDialog;
+        dialog->setFindOnly(true);
+        dialog->setTextEdit(getCurrentTab()->getTextEdit());
+        dialog->exec();
+    }
+}
+
+void MainWindow::pressReplace()
+{
+    if(getCurrentTab()!=0){
+        FindReplaceDialog *dialog = new FindReplaceDialog;
+        dialog->setTextEdit(getCurrentTab()->getTextEdit());
+        dialog->exec();
+    }
 }
 
 void MainWindow::pressSearchLyrics()

@@ -73,7 +73,7 @@ TODO list
 - find/replace text
 *** autoupdate for Windows users
 - create ppa for Linux users
-*** add chors frommiltiline edit
+*** add chors from multi-line edit
 *** autofill from text selection
 *** create expert mode
 *** single instance
@@ -85,6 +85,9 @@ TODO list
 - export epub
 *** search bar to open tabs
 *** close tab on middle click press
+*** find/replace text
+*** reopen at the same size and place
+*** close completer popup
 
 #### bug ####
 *** info appear in read-only mode on full screen exit

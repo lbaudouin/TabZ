@@ -21,6 +21,7 @@
 #include "tools.h"
 #include "recent.h"
 #include "mycompleter.h"
+#include "findreplacedialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -114,6 +115,9 @@ public slots:
     void pressCut();
     void pressCopy();
     void pressPaste();
+
+    void pressFind();
+    void pressReplace();
 
     void pressPreview();
     void pressPrint();

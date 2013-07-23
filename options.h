@@ -15,6 +15,7 @@ struct OptionsValues
     QString defaultOutputFolder;
     int openSizeMode;
     int lastSizeMode;
+    QRect lastGeometry;
     bool reOpenPreviousTabs;
     QFont mainFont,titleFont,artistFont,otherFont;
     QSize chordSize;

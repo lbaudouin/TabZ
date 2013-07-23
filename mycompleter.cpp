@@ -3,7 +3,7 @@
 MyCompleterLineEdit::MyCompleterLineEdit(QWidget *parent)
   : QLineEdit(parent), c(0)
 {
-    connect(this,SIGNAL(textChanged(QString)),this,SLOT(updateHint()));
+    connect(this,SIGNAL(textEdited(QString)),this,SLOT(updateHint()));
 }
 
 MyCompleterLineEdit::~MyCompleterLineEdit()
@@ -33,8 +33,9 @@ void MyCompleterLineEdit::insertCompletion(const QString& completion)
 {
   setText(completion);
   c->popup()->hide();
-  selectAll();
-  insert(completion);
+  //selectAll();
+  //insert(completion);
+  setText(completion);
   emit selectionChanged(completion);
 }
 
