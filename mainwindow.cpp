@@ -435,7 +435,8 @@ void MainWindow::pressNew(QString text)
 {
     XTAinfo info("","");
     info.text = text;
-    addTab(info,true);
+    int index = addTab(info,true);
+    ((Tab*)(ui->tabWidget->widget(index)))->toggleInfo();
 }
 
 void MainWindow::loadFiles(QStringList files)

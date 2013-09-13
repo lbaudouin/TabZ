@@ -44,6 +44,7 @@ public:
 
     MyTextEdit* getTextEdit() { return edit; }
 
+
 protected:
     void addChordsFromText(QString text);
     //void setUpToolBar();
@@ -59,6 +60,8 @@ private:
 
     QToolBar *tabToolBar;
     QToolBar *chordToolBar;
+
+    QToolButton *hideShow;
 
     QVBoxLayout *previewLayout;
 
@@ -160,6 +163,8 @@ public slots:
     void exportImages();
 
     void addImage(QImage &img);
+
+    void toggleInfo();
     
 };
 

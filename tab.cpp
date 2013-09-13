@@ -69,8 +69,7 @@ Tab::Tab(XTAinfo xta, Chords* chordsList, OptionsValues optionsValues, QWidget *
 
     i1->addWidget(infoWidget);
 
-
-    QToolButton *hideShow = new QToolButton;
+    hideShow = new QToolButton;
     hideShow->setCheckable(true);
     QIcon icon;
     icon.addPixmap( this->style()->standardIcon(QStyle::SP_TitleBarUnshadeButton).pixmap(16), QIcon::Normal, QIcon::Off );
@@ -1286,4 +1285,9 @@ void Tab::exportImages()
 void Tab::setAction(QAction *action)
 {
     menuAction = action;
+}
+
+void Tab::toggleInfo()
+{
+    hideShow->toggle();
 }

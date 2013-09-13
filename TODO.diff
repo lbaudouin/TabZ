@@ -88,6 +88,7 @@ TODO list
 *** find/replace text
 *** reopen at the same size and place
 *** close completer popup
+- two columns
 
 #### bug ####
 *** info appear in read-only mode on full screen exit
