@@ -23,24 +23,29 @@ class MyCompleter : public QCompleter
   {
     // Do any filtering you like.
     // Here we just include all items that contain word.
-    QStringList filtered = m_list.filter(removeAccents(word), caseSensitivity());
-    m_model.setStringList(filtered);
-    m_word = word;
+    QStringList filtered = cleaned_list.filter(removeAccents(word), caseSensitivity());
+    QStringList filteredWithAccent;
+    foreach(QString match, filtered){
+        filteredWithAccent.push_back( original_list.at( cleaned_list.indexOf(match) ) );
+    }
+
+    m_model.setStringList(filteredWithAccent);
+   // m_word = word;
     complete();
   }
 
-  inline QString word()
+  /*inline QString word()
   {
     return m_word;
-  }
+  }*/
 
   inline void setStringList(const QStringList &list)
   {
-      m_list.clear();
+      original_list = list;
+      cleaned_list.clear();
       foreach(QString word, list){
-          m_list.push_back( removeAccents(word) );
+          cleaned_list.push_back( removeAccents(word) );
       }
-      //m_list = list;
   }
 
   inline QString removeAccents(QString s) {
@@ -65,9 +70,10 @@ class MyCompleter : public QCompleter
   }
 
  private:
-  QStringList m_list;
+  QStringList cleaned_list;
+  QStringList original_list;
   QStringListModel m_model;
-  QString m_word;
+  //QString m_word;
   QString diacriticLetters_;
   QStringList noDiacriticLetters_;
 };
