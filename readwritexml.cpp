@@ -8,7 +8,7 @@ ReadWriteXML::ReadWriteXML(QWidget *parent) :
 bool ReadWriteXML::parse(QString filepath)
 {
     if(!QFile::exists(filepath)){
-        QMessageBox::critical(this,"error",QString("This file doesn't exists: %1").arg(filepath));
+        QMessageBox::critical(this,"error",tr("This file doesn't exists: %1").arg(filepath));
         return false;
     }
 

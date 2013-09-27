@@ -44,6 +44,7 @@ protected:
     int addTab(XTAinfo info, bool forceEditable = false);
     Tab* getCurrentTab();
 
+    void loadFile(QString file);
     void loadFiles(QStringList files);
 
     void updateRecent();
@@ -93,6 +94,7 @@ private slots:
 public slots:
     void pressNew(QString text = QString());
     void pressOpen();
+    void pressOpenRandom();
     void pressOpenFolder();
     void pressOpenPrevious();
     void pressSave();

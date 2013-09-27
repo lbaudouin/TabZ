@@ -47,6 +47,7 @@
         <file alias="lilypond">images/tab1.png</file>
         <file alias="guitar">images/guitar.png</file>
         <file alias="music">images/music.png</file>
+        <file alias="progress">images/progress.gif</file>
     </qresource>
     <qresource prefix="/lang">
         <file alias="lang_fr">TabS_fr.qm</file>

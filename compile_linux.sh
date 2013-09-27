@@ -1,4 +1,4 @@
 #!/bin/bash
-lrelease videolibrary.pro
+lrelease TabS.pro
 qmake
 make

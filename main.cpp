@@ -1,4 +1,4 @@
-#define CURRENT_VERSION "0.0.44"
+#define CURRENT_VERSION "0.0.45"
 
 #include <QtGui/QApplication>
 #include "mainwindow.h"
@@ -17,6 +17,10 @@
 **/
 int main(int argc, char *argv[])
 {
+    /*QTextCodec::setCodecForCStrings(QTextCodec::codecForName("ISO 8859-1"));
+    QTextCodec::setCodecForTr(QTextCodec::codecForName("ISO 8859-1"));
+    QTextCodec::setCodecForLocale(QTextCodec::codecForName("ISO 8859-1"));*/
+
 #if defined(__WIN32__)
     for(int i=0;i<argc;i++){
         if(!strcmp(argv[i],"-v")){              //return version ID integer
@@ -39,7 +43,11 @@ int main(int argc, char *argv[])
     instance.setWindowIcon( QIcon(":/images/TabS.png" ) );
     QString message;
     for(int a = 1; a < argc; ++a) {
+#if defined(__WIN32__)
+        message += QString::fromLatin1(argv[a]);
+#else
         message += QString::fromUtf8(argv[a]);
+#endif
         if (a < argc-1)
             message += " ";
     }

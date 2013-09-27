@@ -67,6 +67,8 @@
       <addaction name="separator"/>
      </widget>
      <addaction name="actionOpen_previous_tabs"/>
+     <addaction name="actionRandom"/>
+     <addaction name="separator"/>
      <addaction name="actionEdit_List"/>
      <addaction name="actionClear"/>
      <addaction name="separator"/>
@@ -643,6 +645,14 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+H</string>
+   </property>
+  </action>
+  <action name="actionRandom">
+   <property name="text">
+    <string>Random</string>
+   </property>
+   <property name="shortcut">
+    <string>F2</string>
    </property>
   </action>
  </widget>

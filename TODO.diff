@@ -70,7 +70,7 @@ TODO list
 - associate xta files with TabS on Windows
 *** connect Undo/Redo actions
 - undo/redo for chords and infos
-- find/replace text
+*** find/replace text
 *** autoupdate for Windows users
 - create ppa for Linux users
 *** add chors from multi-line edit
@@ -89,14 +89,16 @@ TODO list
 *** reopen at the same size and place
 *** close completer popup
 - two columns
+*** F2 to open random file
+- save several files in same time (no multiple question)
 
 #### bug ####
 *** info appear in read-only mode on full screen exit
-- utf8 files name in Windows jump list (problem with accent)
+*** utf8 files name in Windows jump list (problem with accent)
 *** couldn't deplace images
 - personal list overcolor existing chords
 - adapt fingers size on guitar rendering
-- 2 messages on openning error
+*** 2 messages on openning error
 
 #### code ####
 *** increase 'recent files' update speed

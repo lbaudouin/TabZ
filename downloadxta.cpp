@@ -16,11 +16,22 @@ DownloadXTA::DownloadXTA(QWidget *parent) :
     folderLayout->addWidget(toolFolder);
     folderLayout->addWidget(edit);
 
+    statusWidget = new QWidget;
+    QHBoxLayout *statusLayout = new QHBoxLayout(statusWidget);
+    imageLabel = new QLabel;
+    QMovie* movie = new QMovie(":images/progress");
+    movie->start();
+    imageLabel->setMovie(movie);
+    statusLabel = new QLabel(tr("Downloading..."));
+    statusLayout->addWidget(imageLabel);
+    statusLayout->addWidget(statusLabel);
+    QSpacerItem *spacer = new QSpacerItem(10,10,QSizePolicy::Expanding,QSizePolicy::Ignored);
+    statusLayout->addSpacerItem(spacer);
+
+    mainLayout->addWidget(statusWidget);
     mainLayout->addWidget(tree);
     mainLayout->addLayout(folderLayout);
     mainLayout->addWidget(buttons);
-
-    //parse("xta.xml");
 
     connect(toolFolder,SIGNAL(clicked()),this,SLOT(selectFolder()));
     connect(buttons,SIGNAL(accepted()),this,SLOT(pressDownload()));
@@ -155,7 +166,10 @@ void DownloadXTA::downloadFinished(int id, bool error)
 {
     if(xta_id==id){
         xta_file->close();
+        statusLabel->setText(tr("Parsing..."));
         parse("xta.xml");
+        statusWidget->hide();
+        imageLabel->movie()->stop();
     }
 
     if(files.contains(id))

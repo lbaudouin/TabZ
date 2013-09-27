@@ -907,87 +907,99 @@
 <context>
     <name>DownloadXTA</name>
     <message>
-        <location filename="downloadxta.cpp" line="50"/>
+        <location filename="downloadxta.cpp" line="25"/>
+        <source>Downloading...</source>
+        <oldsource>Downloading</oldsource>
+        <translation>Téléchargement...</translation>
+    </message>
+    <message>
+        <location filename="downloadxta.cpp" line="63"/>
         <source>Failed to open XML document</source>
         <translation>Echec de l&apos;ouverture du document XML</translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="50"/>
+        <location filename="downloadxta.cpp" line="63"/>
         <source>The XML document &apos;%1&apos; could not be opened. Verify that the name is correct and that the document is well placed.</source>
         <translation>Le document XML &apos;%1&apos; ne peut être ouvert. Vérifiez que le nom est correct et que le document est placé au bon endroit.</translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="55"/>
+        <location filename="downloadxta.cpp" line="68"/>
         <source>Error opening the XML document</source>
         <translation>Erreur en ouvrant le fichier XML</translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="55"/>
+        <location filename="downloadxta.cpp" line="68"/>
         <source>The XML document could not be assigned to the object QDomDocument.</source>
         <translation>Le fichier XML ne peux pas être associé à un objet QDomDocument.</translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="107"/>
+        <location filename="downloadxta.cpp" line="120"/>
         <source>Available songs</source>
         <translation>Chansons disponibles</translation>
     </message>
     <message>
         <location filename="downloadxta.cpp" line="171"/>
+        <source>Parsing...</source>
+        <oldsource>Pasring...</oldsource>
+        <translation>Analyse...</translation>
+    </message>
+    <message>
+        <location filename="downloadxta.cpp" line="186"/>
         <source>The host name lookup failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="172"/>
+        <location filename="downloadxta.cpp" line="187"/>
         <source>The server refused the connection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="173"/>
+        <location filename="downloadxta.cpp" line="188"/>
         <source>The server closed the connection unexpectedly</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="174"/>
+        <location filename="downloadxta.cpp" line="189"/>
         <source>The server sent an invalid response header</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="175"/>
+        <location filename="downloadxta.cpp" line="190"/>
         <source>The client could not read the content correctly because an error with respect to the content length occurred</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="176"/>
+        <location filename="downloadxta.cpp" line="191"/>
         <source>The request was aborted with abort()</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="177"/>
+        <location filename="downloadxta.cpp" line="192"/>
         <source>QHttp is using a proxy, and the proxy server requires authentication to establish a connection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="178"/>
+        <location filename="downloadxta.cpp" line="193"/>
         <source>The web server requires authentication to complete the request</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="179"/>
+        <location filename="downloadxta.cpp" line="194"/>
         <source>An unknown error occurred</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="184"/>
+        <location filename="downloadxta.cpp" line="199"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="193"/>
+        <location filename="downloadxta.cpp" line="208"/>
         <source>Select output folder</source>
         <translation>Choisir un dossier</translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="193"/>
+        <location filename="downloadxta.cpp" line="208"/>
         <source>Folder path</source>
         <translation>Dossier</translation>
     </message>
@@ -1262,73 +1274,73 @@ Commande : &apos;gksudo apt-get install lilypond&apos;</translation>
         <translation>Par date</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="98"/>
+        <location filename="mainwindow.ui" line="100"/>
         <source>Edit</source>
         <translation>Edition</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="116"/>
+        <location filename="mainwindow.ui" line="118"/>
         <source>Display</source>
         <translation>Affichage</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="145"/>
+        <location filename="mainwindow.ui" line="147"/>
         <source>Tabs</source>
         <translation>Onglets</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="127"/>
+        <location filename="mainwindow.ui" line="129"/>
         <source>Tools</source>
         <translation>Outils</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="138"/>
+        <location filename="mainwindow.ui" line="140"/>
         <source>?</source>
         <translation>?</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="173"/>
+        <location filename="mainwindow.ui" line="175"/>
         <source>Open</source>
         <translation>Ouvrir</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="176"/>
+        <location filename="mainwindow.ui" line="178"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="188"/>
-        <location filename="mainwindow.cpp" line="378"/>
+        <location filename="mainwindow.ui" line="190"/>
+        <location filename="mainwindow.cpp" line="380"/>
         <source>New</source>
         <translation>Nouveau</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="191"/>
+        <location filename="mainwindow.ui" line="193"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="202"/>
+        <location filename="mainwindow.ui" line="204"/>
         <source>Assist</source>
         <translation>Assistant</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="205"/>
+        <location filename="mainwindow.ui" line="207"/>
         <source>Ctrl+Shift+N</source>
         <translation>Ctrl+Shift+N</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="210"/>
+        <location filename="mainwindow.ui" line="212"/>
         <source>Open Folder</source>
         <translation>Ouvrir un dossier</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="213"/>
+        <location filename="mainwindow.ui" line="215"/>
         <source>Ctrl+Shift+O</source>
         <translation>Ctrl+Shift+O</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="415"/>
+        <location filename="mainwindow.ui" line="417"/>
         <source>Ctrl+F</source>
         <translation>Ctrl+F</translation>
     </message>
@@ -1337,185 +1349,195 @@ Commande : &apos;gksudo apt-get install lilypond&apos;</translation>
         <translation type="obsolete">Ouvrir tout</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="221"/>
+        <location filename="mainwindow.ui" line="223"/>
         <source>Edit List</source>
         <translation>Modifier la liste</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="226"/>
+        <location filename="mainwindow.ui" line="228"/>
         <source>Clear</source>
         <translation>Vider</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="235"/>
+        <location filename="mainwindow.ui" line="237"/>
         <source>Save</source>
         <translation>Enregistrer</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="238"/>
+        <location filename="mainwindow.ui" line="240"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="250"/>
-        <location filename="mainwindow.cpp" line="530"/>
+        <location filename="mainwindow.ui" line="252"/>
+        <location filename="mainwindow.cpp" line="545"/>
         <source>Save as</source>
         <translation>Enregistrer sous</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="253"/>
+        <location filename="mainwindow.ui" line="255"/>
         <source>Ctrl+Shift+S</source>
         <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="265"/>
+        <location filename="mainwindow.ui" line="267"/>
         <source>Close</source>
         <translation>Fermer</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="268"/>
+        <location filename="mainwindow.ui" line="270"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="276"/>
+        <location filename="mainwindow.ui" line="278"/>
         <source>Close All</source>
         <translation>Fermer tout</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="279"/>
+        <location filename="mainwindow.ui" line="281"/>
         <source>Ctrl+Shift+W</source>
         <translation>Ctrl+Shift+W</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="288"/>
+        <location filename="mainwindow.ui" line="290"/>
         <source>Preview</source>
         <translation>Aperçu</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="291"/>
+        <location filename="mainwindow.ui" line="293"/>
         <source>Ctrl+Shift+P</source>
         <translation>Ctrl+Shift+P</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="303"/>
+        <location filename="mainwindow.ui" line="305"/>
         <source>Print</source>
         <translation>Imprimer</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="306"/>
+        <location filename="mainwindow.ui" line="308"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="318"/>
+        <location filename="mainwindow.ui" line="320"/>
         <source>Quit</source>
         <translation>Quitter</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="321"/>
+        <location filename="mainwindow.ui" line="323"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="333"/>
+        <location filename="mainwindow.ui" line="335"/>
         <source>Undo</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="336"/>
+        <location filename="mainwindow.ui" line="338"/>
         <source>Ctrl+Z</source>
         <translation>Ctrl+Z</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="348"/>
+        <location filename="mainwindow.ui" line="350"/>
         <source>Redo</source>
         <translation>Rétablir</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="351"/>
+        <location filename="mainwindow.ui" line="353"/>
         <source>Ctrl+Shift+Z</source>
         <translation>Ctrl+Shift+Z</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="363"/>
+        <location filename="mainwindow.ui" line="365"/>
         <source>Cut</source>
         <translation>Couper</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="366"/>
+        <location filename="mainwindow.ui" line="368"/>
         <source>Ctrl+X</source>
         <translation>Ctrl+X</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="378"/>
+        <location filename="mainwindow.ui" line="380"/>
         <source>Copy</source>
         <translation>Copier</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="381"/>
+        <location filename="mainwindow.ui" line="383"/>
         <source>Ctrl+C</source>
         <translation>Ctrl+C</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="393"/>
+        <location filename="mainwindow.ui" line="395"/>
         <source>Paste</source>
         <translation>Coller</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="396"/>
+        <location filename="mainwindow.ui" line="398"/>
         <source>Ctrl+V</source>
         <translation>Ctrl+V</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="404"/>
+        <location filename="mainwindow.ui" line="406"/>
         <source>Select All</source>
         <translation>Sélectionner tout</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="407"/>
+        <location filename="mainwindow.ui" line="409"/>
         <source>Ctrl+A</source>
         <translation>Ctrl+A</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="412"/>
+        <location filename="mainwindow.ui" line="414"/>
         <source>Find</source>
         <translation>Rechercher</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="423"/>
+        <location filename="mainwindow.ui" line="425"/>
         <source>Find next</source>
         <translation>Rechercher suivant</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="426"/>
+        <location filename="mainwindow.ui" line="428"/>
         <source>F3</source>
         <translation>F3</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="435"/>
+        <location filename="mainwindow.ui" line="437"/>
         <source>Preferences</source>
         <translation>Préférences</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="619"/>
+        <location filename="mainwindow.ui" line="621"/>
         <source>Open Mp3</source>
         <translation>Ouvrir le fichier Mp3</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="634"/>
+        <location filename="mainwindow.ui" line="636"/>
         <source>Open Guitar Pro</source>
         <translation>Ouvrir le fichier Guitar Pro</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="642"/>
+        <location filename="mainwindow.ui" line="644"/>
         <source>Replace</source>
         <translation>Remplacer</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="645"/>
+        <location filename="mainwindow.ui" line="647"/>
         <source>Ctrl+H</source>
         <translation>Ctrl+H</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="652"/>
+        <source>Random</source>
+        <translation>Aléatoire</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="655"/>
+        <source>F2</source>
+        <translation>F2</translation>
     </message>
     <message>
         <source>Translate FR -&gt; EN</source>
@@ -1526,85 +1548,85 @@ Commande : &apos;gksudo apt-get install lilypond&apos;</translation>
         <translation type="obsolete">Traduire AN -&gt; FR</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="451"/>
+        <location filename="mainwindow.ui" line="453"/>
         <source>Full Screen</source>
         <translation>Plein écran</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="454"/>
+        <location filename="mainwindow.ui" line="456"/>
         <source>Ctrl+Return</source>
         <translation>Ctrl+Return</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="570"/>
+        <location filename="mainwindow.ui" line="572"/>
         <source>Help</source>
         <translation>Aide</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="582"/>
-        <location filename="mainwindow.cpp" line="985"/>
+        <location filename="mainwindow.ui" line="584"/>
+        <location filename="mainwindow.cpp" line="1000"/>
         <source>About</source>
         <translation>A propos</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="590"/>
+        <location filename="mainwindow.ui" line="592"/>
         <source>Previous</source>
         <translation>Précédent</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="593"/>
+        <location filename="mainwindow.ui" line="595"/>
         <source>Alt+Left</source>
         <translation>Alt+Left</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="601"/>
+        <location filename="mainwindow.ui" line="603"/>
         <source>Next</source>
         <translation>Next</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="604"/>
+        <location filename="mainwindow.ui" line="606"/>
         <source>Alt+Right</source>
         <translation>Alt+Right</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="466"/>
-        <location filename="mainwindow.cpp" line="712"/>
-        <location filename="mainwindow.cpp" line="731"/>
+        <location filename="mainwindow.ui" line="468"/>
+        <location filename="mainwindow.cpp" line="727"/>
+        <location filename="mainwindow.cpp" line="746"/>
         <source>Search lyrics</source>
         <translation>Rechercher les paroles</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="478"/>
+        <location filename="mainwindow.ui" line="480"/>
         <source>Search XTA</source>
         <translation>Rechercher des XTA</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="486"/>
+        <location filename="mainwindow.ui" line="488"/>
         <source>Open previous tabs</source>
         <translation>Ouvrir les onglets précédents</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="495"/>
+        <location filename="mainwindow.ui" line="497"/>
         <source>Chords manager</source>
         <translation>Gestionnaire d&apos;accords</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="507"/>
+        <location filename="mainwindow.ui" line="509"/>
         <source>Edit mode</source>
         <translation>Mode édition</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="510"/>
+        <location filename="mainwindow.ui" line="512"/>
         <source>Ctrl+E</source>
         <translation>Ctrl+E</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="525"/>
+        <location filename="mainwindow.ui" line="527"/>
         <source>Read-only mode</source>
         <translation>Mode lecture seule</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="528"/>
+        <location filename="mainwindow.ui" line="530"/>
         <source>Ctrl+R</source>
         <translation>Ctrl+R</translation>
     </message>
@@ -1613,75 +1635,73 @@ Commande : &apos;gksudo apt-get install lilypond&apos;</translation>
         <translation type="obsolete">Insérer une tablature</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="543"/>
-        <location filename="mainwindow.cpp" line="894"/>
-        <location filename="mainwindow.cpp" line="906"/>
+        <location filename="mainwindow.ui" line="545"/>
+        <location filename="mainwindow.cpp" line="909"/>
+        <location filename="mainwindow.cpp" line="921"/>
         <source>Export PDF</source>
         <translation>Exporter en PDF</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="555"/>
+        <location filename="mainwindow.ui" line="557"/>
         <source>Download XTA</source>
         <translation>Télécharger des XTA</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="229"/>
+        <location filename="mainwindow.cpp" line="230"/>
         <source>Exit Full Screen</source>
         <translation>Sortir du plein-écran</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="453"/>
         <source>Error</source>
-        <translation>Erreur</translation>
+        <translation type="obsolete">Erreur</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="453"/>
         <source>Can&apos;t open file: %1</source>
-        <translation>Impossible d&apos;ouvrir le fichier : %1</translation>
+        <translation type="obsolete">Impossible d&apos;ouvrir le fichier : %1</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="460"/>
-        <location filename="mainwindow.cpp" line="470"/>
+        <location filename="mainwindow.cpp" line="468"/>
+        <location filename="mainwindow.cpp" line="478"/>
         <source>Open file</source>
         <translation>Ouvrir</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="530"/>
-        <location filename="mainwindow.cpp" line="534"/>
+        <location filename="mainwindow.cpp" line="545"/>
+        <location filename="mainwindow.cpp" line="549"/>
         <source>XTA files (*.xta)</source>
         <translation>Fichier XTA (*.xta)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="530"/>
-        <location filename="mainwindow.cpp" line="537"/>
+        <location filename="mainwindow.cpp" line="545"/>
+        <location filename="mainwindow.cpp" line="552"/>
         <source>TXT files (*.txt)</source>
         <translation>Fichier texte (*.txt)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="543"/>
+        <location filename="mainwindow.cpp" line="558"/>
         <source>&apos;%1&apos; already exists.
 Do you want to replace it?</source>
         <translation>&apos;%1&apos; existe déjà.
 Voulez-vous le remplacer ?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="564"/>
+        <location filename="mainwindow.cpp" line="579"/>
         <source>Modified</source>
         <translation>Modification</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="564"/>
+        <location filename="mainwindow.cpp" line="579"/>
         <source>Do you want to save : %1</source>
         <translation>Voulez-vous sauvegarder : %1</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="709"/>
+        <location filename="mainwindow.cpp" line="724"/>
         <source>lyrics</source>
         <translation>lyrics</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="712"/>
-        <location filename="mainwindow.cpp" line="731"/>
+        <location filename="mainwindow.cpp" line="727"/>
+        <location filename="mainwindow.cpp" line="746"/>
         <source>Search text:</source>
         <translation>Texte de la recherche :</translation>
     </message>
@@ -1702,12 +1722,12 @@ Voulez-vous le remplacer ?</translation>
         <translation type="obsolete">Le fichier XML ne peux pas être associé à un objet QDomDocument.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="906"/>
+        <location filename="mainwindow.cpp" line="921"/>
         <source>PDF exported : %1</source>
         <translation>PDF exporté : %1</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="985"/>
+        <location filename="mainwindow.cpp" line="1000"/>
         <source>Written by %1 (%2)
 Version: %3</source>
         <comment>author, year, version</comment>
@@ -2027,6 +2047,11 @@ Version : %3</translation>
 <context>
     <name>ReadWriteXML</name>
     <message>
+        <location filename="readwritexml.cpp" line="11"/>
+        <source>This file doesn&apos;t exists: %1</source>
+        <translation>Le fichier &apos;%1&apos; n&apos;existe pas</translation>
+    </message>
+    <message>
         <location filename="readwritexml.cpp" line="25"/>
         <source>Failed to open XML document</source>
         <translation>Echec de l&apos;ouverture du document XML</translation>
@@ -2116,22 +2141,22 @@ Version : %3</translation>
         <translation>Capo :</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="129"/>
+        <location filename="tab.cpp" line="128"/>
         <source>Add new chord</source>
         <translation>Ajouter un nouvel accord</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="130"/>
+        <location filename="tab.cpp" line="129"/>
         <source>Import from text</source>
         <translation>Importer depuis le texte</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="131"/>
+        <location filename="tab.cpp" line="130"/>
         <source>Import from XTA</source>
         <translation>Importer depuis un fichier XTA</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="132"/>
+        <location filename="tab.cpp" line="131"/>
         <source>Manage</source>
         <translation>Gestion</translation>
     </message>
@@ -2140,7 +2165,7 @@ Version : %3</translation>
         <translation type="obsolete">(Pas de titre)</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="316"/>
+        <location filename="tab.cpp" line="315"/>
         <source>%1 - %2</source>
         <comment>artist - title</comment>
         <translation>%1 - %2</translation>
@@ -2150,29 +2175,29 @@ Version : %3</translation>
         <translation type="obsolete">	 [Capo: %1, Accordage: %2]</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="586"/>
+        <location filename="tab.cpp" line="585"/>
         <source>Select all</source>
         <translation>Sélectionner tout</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="588"/>
+        <location filename="tab.cpp" line="587"/>
         <source>Unselect all</source>
         <translation>Désélectionner tout</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="622"/>
+        <location filename="tab.cpp" line="621"/>
         <source>Information</source>
         <translation>Information</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="622"/>
+        <location filename="tab.cpp" line="621"/>
         <source>No chord found</source>
         <translation>Pas d&apos;accords trouvé</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="320"/>
-        <location filename="tab.cpp" line="762"/>
-        <location filename="tab.cpp" line="854"/>
+        <location filename="tab.cpp" line="319"/>
+        <location filename="tab.cpp" line="761"/>
+        <location filename="tab.cpp" line="853"/>
         <source>[Capo: %1, Tuning: %2]</source>
         <translation>[Capo: %1, Accordage: %2]</translation>
     </message>
@@ -2203,100 +2228,100 @@ Version : %3</translation>
         <translation>Fichier GuitarPro :</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="178"/>
+        <location filename="tab.cpp" line="177"/>
         <source>Insert image from file</source>
         <translation>Insérer une image depuis un fichier</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="179"/>
+        <location filename="tab.cpp" line="178"/>
         <source>Insert image from clipboard</source>
         <translation>Insérer une image depuis le presse-papier</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="180"/>
+        <location filename="tab.cpp" line="179"/>
         <source>Insert ascii tab</source>
         <oldsource>Insert tab</oldsource>
         <translation>Insérer une tablature ascii</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="181"/>
+        <location filename="tab.cpp" line="180"/>
         <source>Insert lilypond tab</source>
         <translation>Insérer une tablature Lilypond</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="183"/>
+        <location filename="tab.cpp" line="182"/>
         <source>French to English</source>
         <translation>Français vers Anglais</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="184"/>
+        <location filename="tab.cpp" line="183"/>
         <source>English to French</source>
         <translation>Anglais vers Français</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="186"/>
+        <location filename="tab.cpp" line="185"/>
         <source>Import images</source>
         <translation>Importer des images</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="187"/>
+        <location filename="tab.cpp" line="186"/>
         <source>Export images</source>
         <translation>Exporter les images</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="314"/>
+        <location filename="tab.cpp" line="313"/>
         <source>No title</source>
         <translation>Pas de titre</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="322"/>
-        <location filename="tab.cpp" line="856"/>
+        <location filename="tab.cpp" line="321"/>
+        <location filename="tab.cpp" line="855"/>
         <source>[Capo: %1]</source>
         <translation>[Capo : %1]</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="324"/>
-        <location filename="tab.cpp" line="858"/>
+        <location filename="tab.cpp" line="323"/>
+        <location filename="tab.cpp" line="857"/>
         <source>[Tuning: %1]</source>
         <translation>[Accordage : %1 ]</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="882"/>
+        <location filename="tab.cpp" line="881"/>
         <source>Page %1 of %2</source>
         <translation>Page %1 sur %2</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1074"/>
+        <location filename="tab.cpp" line="1073"/>
         <source>Insert text</source>
         <translation>Insérer du texte</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1100"/>
+        <location filename="tab.cpp" line="1099"/>
         <source>Import from file</source>
         <translation>Importer depuis un fichier</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1100"/>
+        <location filename="tab.cpp" line="1099"/>
         <source>XTA files (*.xta)</source>
         <translation>Fichier XTA (*.xta)</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1111"/>
+        <location filename="tab.cpp" line="1110"/>
         <source>Insert length</source>
         <translation>Choisir la longueur</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1111"/>
+        <location filename="tab.cpp" line="1110"/>
         <source>Length:</source>
         <translation>Longueur :</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1178"/>
+        <location filename="tab.cpp" line="1177"/>
         <source>Ubuntu only function</source>
         <translation>Fonction sur Ubuntu uniquement</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1179"/>
+        <location filename="tab.cpp" line="1178"/>
         <source>This function is only available on Ubuntu.
 Download and install Ubuntu and try again.
 
@@ -2307,22 +2332,22 @@ Télécharger et installer Ubuntu, puis réessayer.
 Un exemple va être inséré...</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1180"/>
+        <location filename="tab.cpp" line="1179"/>
         <source>Download Ubuntu</source>
         <translation>Télécharger Ubuntu</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1183"/>
+        <location filename="tab.cpp" line="1182"/>
         <source>http://www.ubuntu.com/download/desktop</source>
         <translation>http://www.ubuntu.com/download/desktop</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1206"/>
+        <location filename="tab.cpp" line="1205"/>
         <source>Load image</source>
         <translation>Chargement d&apos;image</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1206"/>
+        <location filename="tab.cpp" line="1205"/>
         <source>Image (*.png *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</source>
         <translation>Image (*.png *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</translation>
     </message>
@@ -2331,7 +2356,7 @@ Un exemple va être inséré...</translation>
         <translation type="obsolete">Image (*.png)</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1275"/>
+        <location filename="tab.cpp" line="1274"/>
         <source>Select output folder</source>
         <translation>Choisir un dossier de sortie</translation>
     </message>

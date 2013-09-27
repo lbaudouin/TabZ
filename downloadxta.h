@@ -18,6 +18,8 @@
 #include <QUrl>
 #include <QLineEdit>
 #include <QToolButton>
+#include <QLabel>
+#include <QMovie>
 
 class DownloadXTA : public QDialog
 {
@@ -33,6 +35,9 @@ private:
     QFile* xta_file;
     int xta_id;
     QMap<int,QFile*> files;
+
+    QLabel *imageLabel,*statusLabel;
+    QWidget *statusWidget;
 
 protected:
     void parse(QString filepath);

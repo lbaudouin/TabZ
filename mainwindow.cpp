@@ -5,6 +5,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    qsrand(time(0));
     startTime = QTime::currentTime();
 
     ui->setupUi(this);
@@ -233,6 +234,7 @@ void MainWindow::setUpToolBar()
     connect(ui->actionNew,SIGNAL(triggered()),this,SLOT(pressNew()));
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(pressOpen()));
     connect(ui->actionOpen_Folder,SIGNAL(triggered()),this,SLOT(pressOpenFolder()));
+    connect(ui->actionRandom,SIGNAL(triggered()),this,SLOT(pressOpenRandom()));
     connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(pressSave()));
     connect(ui->actionSave_as,SIGNAL(triggered()),this,SLOT(pressSaveAs()));
     connect(ui->actionExport_PDF,SIGNAL(triggered()),this,SLOT(pressExportPDF()));
@@ -439,6 +441,11 @@ void MainWindow::pressNew(QString text)
     ((Tab*)(ui->tabWidget->widget(index)))->toggleInfo();
 }
 
+void MainWindow::loadFile(QString file)
+{
+    loadFiles(QStringList() << file);
+}
+
 void MainWindow::loadFiles(QStringList files)
 {
     foreach(QString filepath, files){
@@ -451,7 +458,7 @@ void MainWindow::loadFiles(QStringList files)
             addTab( info );
             addRecent( info );
         }else{
-            QMessageBox::critical(this,tr("Error"),tr("Can't open file: %1").arg(filepath));
+            //QMessageBox::critical(this,tr("Error"),tr("Can't open file: %1").arg(filepath));
         }
     }
 }
@@ -492,6 +499,13 @@ void MainWindow::pressOpenPrevious()
         }
     }
     loadFiles(listFiles);
+}
+
+void MainWindow::pressOpenRandom()
+{
+    QList<QStringList> list = mapFiles.values();
+    QStringList files = list.at(qrand()%list.size());
+    loadFile( files.at(qrand()%files.size()) );
 }
 
 void MainWindow::pressSave()
@@ -990,8 +1004,9 @@ void MainWindow::handleMessage(const QString& message)
 {
     enum Action { Nothing, Open, Print } action;
 
-    action = Nothing;
     QString filename = message;
+
+    action = Nothing;
     if (message.toLower().startsWith("/print ")) {
         filename = filename.mid(7);
         action = Print;
