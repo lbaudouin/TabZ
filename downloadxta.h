@@ -14,12 +14,15 @@
 #include <QTextStream>
 #include <QMessageBox>
 #include <QStandardItemModel>
-#include <QHttp>
+#include <QtNetwork>
+#include <QDesktopServices>
 #include <QUrl>
 #include <QLineEdit>
 #include <QToolButton>
 #include <QLabel>
 #include <QMovie>
+
+#include <QDebug>
 
 class DownloadXTA : public QDialog
 {
@@ -39,8 +42,10 @@ private:
     QLabel *imageLabel,*statusLabel;
     QWidget *statusWidget;
 
+    QNetworkReply* listXtaReply;
+
 protected:
-    void parse(QString filepath);
+    void parse(QString content);
 
 signals:
     
@@ -52,6 +57,8 @@ private slots:
     void itemChanged(QStandardItem *item);
     void downloadFinished(int id, bool error);
     void selectFolder();
+
+    void replyFinished(QNetworkReply *reply);
     
 };
 

@@ -5,6 +5,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    QCoreApplication::setApplicationName( "TabS" );
+
     qsrand(time(0));
     startTime = QTime::currentTime();
 
@@ -487,6 +489,10 @@ void MainWindow::pressOpenFolder()
     dir.setNameFilters(filters);
     QStringList listFiles = dir.entryList();
 
+    for(int i=0;i<listFiles.size();i++){
+        listFiles[i].prepend(dir.absolutePath() + QDir::separator());
+    }
+
     loadFiles(listFiles);
 }
 
@@ -569,16 +575,19 @@ void MainWindow::pressSaveAs()
     }
 }
 
-void MainWindow::pressClose()
+void MainWindow::pressClose(bool forceNoSave)
 {
     if(ui->tabWidget->count()<=0){
         this->close();
     }else{
         Tab* currentTab = getCurrentTab();
-        if(currentTab->isModified()){
-            int button = QMessageBox::warning(this,tr("Modified"),tr("Do you want to save : %1").arg(ui->tabWidget->tabText(ui->tabWidget->currentIndex())),QMessageBox::Yes,QMessageBox::No);
-            if(button==QMessageBox::Yes){
-                pressSave();
+
+        if(!forceNoSave){
+            if(currentTab->isModified()){
+                int button = QMessageBox::warning(this,tr("Modified"),tr("Do you want to save : %1").arg(ui->tabWidget->tabText(ui->tabWidget->currentIndex())),QMessageBox::Yes,QMessageBox::No);
+                if(button==QMessageBox::Yes){
+                    pressSave();
+                }
             }
         }
 
@@ -598,8 +607,72 @@ void MainWindow::pressClose()
 
 void MainWindow::pressCloseAll()
 {
-    while(ui->tabWidget->count()!=0){
-        pressClose();
+    QMap<int,QString> toSave;
+    for(int i=0;i<ui->tabWidget->count();i++){
+        Tab* tab = (Tab*)(ui->tabWidget->widget(i));
+        if(tab->isModified()){
+            toSave.insert(i, ui->tabWidget->tabText(i));
+        }
+    }
+
+    if(toSave.size()>1){
+
+        QDialog *diag = new QDialog;
+
+        QTreeView* tree = new QTreeView;
+
+        QStandardItemModel *model = new QStandardItemModel;
+        QStandardItem *rootItem = model->invisibleRootItem();
+        rootItem->setEditable(false);
+
+        foreach(int id, toSave.keys()){
+            QStandardItem *tabItem = new QStandardItem(toSave[id]);
+            tabItem->setCheckable(true);
+            tabItem->setEditable(false);
+            tabItem->setData(id);
+            rootItem->appendRow(tabItem);
+        }
+
+        model->setHorizontalHeaderLabels(QStringList() << tr("Available songs") /*<< tr("Comment")*/);
+        tree->setModel(model);
+
+        QVBoxLayout *diagLayout = new QVBoxLayout;
+        diagLayout->addWidget(tree);
+
+        QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Close|QDialogButtonBox::Save);
+
+        connect(buttons,SIGNAL(accepted()),diag,SLOT(accept()));
+        connect(buttons,SIGNAL(rejected()),diag,SLOT(reject()));
+
+        diagLayout->addWidget(buttons);
+
+
+        diag->setLayout(diagLayout);
+
+        if(diag->exec()){
+            int rows = tree->model()->rowCount();
+
+            for(int i=0;i<rows;i++){
+                QStandardItem *item =((QStandardItemModel*)tree->model())->item(i);
+                if(item->checkState()){
+                    //Create path
+                    int id = item->data().toInt();
+
+                    ui->tabWidget->setCurrentIndex(id);
+                    pressSave();
+
+                }
+            }
+            while(ui->tabWidget->count()!=0){
+                pressClose(true);
+            }
+        }
+
+
+    }else{
+        while(ui->tabWidget->count()!=0){
+            pressClose();
+        }
     }
 }
 

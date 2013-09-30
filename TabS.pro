@@ -29,7 +29,8 @@ SOURCES += main.cpp\
     lilypond.cpp \
     mytextedit.cpp \
     mycompleter.cpp \
-    findreplacedialog.cpp
+    findreplacedialog.cpp \
+    epubgenerator.cpp
     #myprintpreviewwidget.cpp# \
     #myprinterprivate.cpp
 
@@ -59,7 +60,8 @@ HEADERS  += mainwindow.h \
     mytextedit.h \
     fontlabellayout.h \
     mycompleter.h \
-    findreplacedialog.h
+    findreplacedialog.h \
+    epubgenerator.h
     #myprintpreviewwidget.h #\
     #myprinterprivate.h
 

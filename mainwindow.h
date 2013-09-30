@@ -99,7 +99,7 @@ public slots:
     void pressOpenPrevious();
     void pressSave();
     void pressSaveAs();
-    void pressClose();
+    void pressClose(bool forceNoSave = false);
     void pressCloseAll();
     void pressSetFullScreen(bool);
     void pressExitFullScreen();

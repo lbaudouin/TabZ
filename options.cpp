@@ -250,6 +250,7 @@ void Options::setDefaultRegExp()
 
     optionsValues.colors.push_back(  ColorRegExp("\\bIntro\\b", Qt::darkCyan, QFont::Bold, true, true, Qt::CaseInsensitive)  );
     optionsValues.colors.push_back(  ColorRegExp("\\bChorus\\b", Qt::darkCyan, QFont::Bold, true, true, Qt::CaseInsensitive)  );
+    optionsValues.colors.push_back(  ColorRegExp("\\bVerse\\b", Qt::darkCyan, QFont::Bold, true, true, Qt::CaseInsensitive)  );
     optionsValues.colors.push_back(  ColorRegExp("\\bbis\\b", Qt::darkCyan, QFont::Bold, true, true, Qt::CaseInsensitive)  );
     optionsValues.colors.push_back(  ColorRegExp("(arp)", Qt::darkCyan, QFont::Bold, true, true, Qt::CaseInsensitive)  );
 }

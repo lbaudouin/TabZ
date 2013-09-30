@@ -82,7 +82,7 @@ TODO list
 *** goto tab with Ctrl+<NUM>
 *** rename Tab & action on artiste & title changes
 *** open previous size mode
-- export epub
+- export epub (use external lib to zip)
 *** search bar to open tabs
 *** close tab on middle click press
 *** find/replace text
@@ -90,7 +90,10 @@ TODO list
 *** close completer popup
 - two columns
 *** F2 to open random file
-- save several files in same time (no multiple question)
+*** save several files in same time (no multiple question)
+- color personal chords
+*** use cache for xta.xml
+- replace QHttp for xta download
 
 #### bug ####
 *** info appear in read-only mode on full screen exit
@@ -99,6 +102,7 @@ TODO list
 - personal list overcolor existing chords
 - adapt fingers size on guitar rendering
 *** 2 messages on openning error
+- create chords file (error)
 
 #### code ####
 *** increase 'recent files' update speed

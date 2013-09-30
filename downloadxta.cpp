@@ -41,28 +41,27 @@ DownloadXTA::DownloadXTA(QWidget *parent) :
     http->setHost("lbaudouin.chez.com");
     connect(http,SIGNAL(requestFinished(int,bool)),this,SLOT(downloadFinished(int,bool)));
 
-    xta_file = new QFile("xta.xml");
-    xta_file->open(QFile::WriteOnly);
-    xta_id = http->get("xta.xml",xta_file);
 
+    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+    connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(replyFinished(QNetworkReply*)));
+
+    QNetworkDiskCache *diskCache = new QNetworkDiskCache(this);
+    diskCache->setCacheDirectory(QDesktopServices::storageLocation(QDesktopServices::CacheLocation));
+    manager->setCache(diskCache);
+
+    QNetworkRequest request(QUrl(QString("http://lbaudouin.chez.com/xta.xml")));
+    request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferCache);
+    //request.setHeader(QNetworkRequest::ContentTypeHeader, "utf-8" );
+    request.setHeader(QNetworkRequest::ContentTypeHeader, QString("text/plain; charset=UTF-8").toAscii());
+    //request.setRawHeader("Accept-Charset", "utf-8;");
+    listXtaReply = manager->get(request);
 }
 
-void DownloadXTA::parse(QString path)
+void DownloadXTA::parse(QString content)
 {
     QDomDocument *dom = new QDomDocument("docXML");
 
-    if(!QFile::exists(path)){
-        return;
-    }
-
-    QFile xml_doc(path);
-
-    if(!xml_doc.open(QIODevice::ReadOnly)){
-        QMessageBox::warning(this,tr("Failed to open XML document"),tr("The XML document '%1' could not be opened. Verify that the name is correct and that the document is well placed.").arg(xml_doc.fileName()));
-        return;
-    }
-    if(!dom->setContent(&xml_doc)){
-        xml_doc.close();
+    if(!dom->setContent(content)){
         QMessageBox::warning(this,tr("Error opening the XML document"),tr("The XML document could not be assigned to the object QDomDocument."));
         return;
     }
@@ -118,8 +117,6 @@ void DownloadXTA::parse(QString path)
     model->setHorizontalHeaderLabels(QStringList() << tr("Available songs") /*<< tr("Comment")*/);
     tree->setModel(model);
 
-    xml_doc.close();
-
     connect(model,SIGNAL(itemChanged(QStandardItem*)),this,SLOT(itemChanged(QStandardItem*)));
 }
 
@@ -160,6 +157,19 @@ void DownloadXTA::pressDownload()
         }
     }
     this->accept();
+}
+
+void DownloadXTA::replyFinished(QNetworkReply *reply)
+{
+    if(reply == listXtaReply){
+        QTextCodec *codec = QTextCodec::codecForName("UTF-8");
+        QString content = codec->toUnicode(reply->readAll());
+
+        statusLabel->setText(tr("Parsing..."));
+        parse(content);
+        statusWidget->hide();
+        imageLabel->movie()->stop();
+    }
 }
 
 void DownloadXTA::downloadFinished(int id, bool error)
