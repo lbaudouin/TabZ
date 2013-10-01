@@ -32,7 +32,7 @@ void EpubGenerator::generateContent()
     file.write("<?xml version='1.0' encoding='utf-8'?>");
     file.write("<package xmlns=\"http://www.idpf.org/2007/opf\" version=\"2.0\" unique-identifier=\"uuid_id\">");
     file.write("  <metadata xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:opf=\"http://www.idpf.org/2007/opf\" xmlns:dcterms=\"http://purl.org/dc/terms/\" xmlns:calibre=\"http://calibre.kovidgoyal.net/2009/metadata\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\">");
-    file.write("    <dc:publisher>TabS</dc:publisher>");
+    file.write("    <dc:publisher>TabZ</dc:publisher>");
     file.write("    <meta name=\"calibre:title_sort\" content=\"Radix\"/>");
     file.write("    <dc:description></dc:description>");
     file.write("    <dc:language>fr</dc:language>");

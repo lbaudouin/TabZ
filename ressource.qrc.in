@@ -50,6 +50,6 @@
         <file alias="progress">images/progress.gif</file>
     </qresource>
     <qresource prefix="/lang">
-        <file alias="lang_fr">/home/lbaudouin/Programmes/TabZ-build/TabZ_fr.qm</file>
+        <file alias="lang_fr">${CMAKE_CURRENT_BINARY_DIR}/TabZ_fr.qm</file>
     </qresource>
 </RCC>

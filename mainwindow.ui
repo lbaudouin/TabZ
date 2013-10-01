@@ -11,11 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>TabS</string>
+   <string>TabZ</string>
   </property>
   <property name="windowIcon">
    <iconset resource="ressource.qrc">
-    <normaloff>:/images/TabS</normaloff>:/images/TabS</iconset>
+    <normaloff>:/images/TabZ</normaloff>:/images/TabZ</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">

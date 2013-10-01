@@ -11,6 +11,8 @@
 #include <QFormLayout>
 #include <QLineEdit>
 #include <QInputDialog>
+#include <QDesktopServices>
+#include <QDir>
 
 #include "guitar.h"
 

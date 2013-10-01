@@ -41,13 +41,17 @@ void Options::resetDefault()
 
 void Options::load()
 {
-    if(QFile::exists("options.xml"))
-        parse("options.xml");
+    if(QFile::exists(QDesktopServices::storageLocation(QDesktopServices::DataLocation) + QDir::separator() + "options.xml"))
+        parse(QDesktopServices::storageLocation(QDesktopServices::DataLocation) + QDir::separator() + "options.xml");
 }
 
 void Options::save()
 {
-    flush("options.xml");
+    QDir dir(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
+    if(!dir.exists()){
+        dir.mkpath(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
+    }
+    flush(QDesktopServices::storageLocation(QDesktopServices::DataLocation) + QDir::separator() + "options.xml");
 }
 
 void Options::write(QDomDocument *dom, QFileInfo)

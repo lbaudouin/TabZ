@@ -5,7 +5,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    QCoreApplication::setApplicationName( "TabS" );
+    QCoreApplication::setApplicationName( "TabZ" );
 
     qsrand(time(0));
     startTime = QTime::currentTime();

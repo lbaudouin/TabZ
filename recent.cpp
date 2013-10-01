@@ -49,13 +49,17 @@ void Recent::write(QDomDocument *dom, QFileInfo)
 QList<RecentFile> Recent::load()
 {
     recentList_.clear();
-    if(QFile::exists("recent.xml"))
-        parse("recent.xml");
+    if(QFile::exists(QDesktopServices::storageLocation(QDesktopServices::DataLocation) + QDir::separator() + "recent.xml"))
+        parse(QDesktopServices::storageLocation(QDesktopServices::DataLocation) + QDir::separator() + "recent.xml");
     return recentList_;
 }
 
 void Recent::save(QList<RecentFile> &recentList)
 {
     recentList_ = recentList;
-    flush("recent.xml");
+    QDir dir(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
+    if(!dir.exists()){
+        dir.mkpath(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
+    }
+    flush(QDesktopServices::storageLocation(QDesktopServices::DataLocation) + QDir::separator() + "recent.xml");
 }

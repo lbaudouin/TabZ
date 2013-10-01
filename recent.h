@@ -3,6 +3,8 @@
 
 #include "readwritexml.h"
 #include <QDateTime>
+#include <QDesktopServices>
+#include <QDir>
 
 struct RecentFile{
     QString title;

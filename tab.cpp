@@ -223,6 +223,8 @@ Tab::Tab(XTAinfo xta, Chords* chordsList, OptionsValues optionsValues, QWidget *
 
     comboInstrument->setCurrentIndex(allInstrument.indexOf(instrumentName));
 
+    instrument_ = chordsList_->getInstrument(comboInstrument->currentText());
+
     edit->setText(info.text);
 
     if(info.images.size()>0){

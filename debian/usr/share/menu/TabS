@@ -1,4 +1,0 @@
-?package(TabS):needs="X11" section="Audio"\
-  title="TabS" command="/usr/bin/TabS" \
-  icon="/usr/share/icons/hicolor/64x64/apps/TabS.png"
-

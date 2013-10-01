@@ -66,8 +66,8 @@ TODO list
 *** search lyrics on google
 - search lyrics on other site
 *** use QButtonGroup to select chord to add (use QList<QCheckBox> instead)
-*** associate xta files with TabS on Linux
-- associate xta files with TabS on Windows
+*** associate xta files with TabZ on Linux
+- associate xta files with TabZ on Windows
 *** connect Undo/Redo actions
 - undo/redo for chords and infos
 *** find/replace text
@@ -94,6 +94,7 @@ TODO list
 - color personal chords
 *** use cache for xta.xml
 - replace QHttp for xta download
+*** use predefined folders for data and cache
 
 #### bug ####
 *** info appear in read-only mode on full screen exit
@@ -102,7 +103,6 @@ TODO list
 - personal list overcolor existing chords
 - adapt fingers size on guitar rendering
 *** 2 messages on openning error
-- create chords file (error)
 
 #### code ####
 *** increase 'recent files' update speed

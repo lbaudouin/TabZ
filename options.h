@@ -2,6 +2,7 @@
 #define OPTIONS_H
 
 #include <QDir>
+#include <QDesktopServices>
 #include "readwritexml.h"
 #include "colorregexp.h"
 

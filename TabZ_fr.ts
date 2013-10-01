@@ -1250,8 +1250,8 @@ Commande : &apos;gksudo apt-get install lilypond&apos;</translation>
     <name>MainWindow</name>
     <message>
         <location filename="mainwindow.ui" line="14"/>
-        <source>TabS</source>
-        <translation>TabS</translation>
+        <source>TabZ</source>
+        <translation>TabZ</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="51"/>

@@ -6,10 +6,10 @@
 
 QT       += core gui xml network
 
-TARGET = TabS
+TARGET = TabZ
 TEMPLATE = app
 
-TRANSLATIONS = TabS_fr.ts
+TRANSLATIONS = TabZ_fr.ts
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -45,7 +45,7 @@ HEADERS  += mainwindow.h \
     chords.h \
     httpupdate.h \
     qprintpreview.h \
-    qprogressbardialog.h \ #\
+    qprogressbardialog.h \
     downloadxta.h \
     mycheckbox.h \
     mytabwidget.h \
@@ -72,9 +72,8 @@ OTHER_FILES += \
     win32/TABS_VERSION \
     debian/DEBIAN/control
 
-RESOURCES += \
-    ressource.qrc
+RESOURCES += ressource.qrc
 
-RC_FILE = TabS.rc
+RC_FILE = TabZ.rc
 
 include(qtsingleapplication/qtsingleapplication.pri)

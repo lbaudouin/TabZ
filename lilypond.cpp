@@ -119,9 +119,9 @@ void Lilypond::textChanged()
 
 void Lilypond::generate()
 {
-    QFile::remove("/tmp/TabS.png");
+    QFile::remove("/tmp/TabZ.png");
 
-    QFile file("/tmp/TabS.ly");
+    QFile file("/tmp/TabZ.ly");
     file.open(QFile::WriteOnly);
     QTextStream stream(&file);
     stream << edit->toPlainText();
@@ -129,7 +129,7 @@ void Lilypond::generate()
 
     this->setCursor(Qt::WaitCursor);
     QProcess process;
-    process.start("lilypond -dbackend=eps -dno-gs-load-fonts -dinclude-eps-fonts --output=/tmp/TabS --png /tmp/TabS.ly");
+    process.start("lilypond -dbackend=eps -dno-gs-load-fonts -dinclude-eps-fonts --output=/tmp/TabZ --png /tmp/TabZ.ly");
     process.waitForFinished();
 
     //QString outS(process.readAllStandardOutput());
@@ -137,11 +137,11 @@ void Lilypond::generate()
     //QString outE(process.readAllStandardError());
     //qDebug() << outE;
 
-    if(QFile::exists("/tmp/TabS.png")){
-        QPixmap pix("/tmp/TabS.png");
+    if(QFile::exists("/tmp/TabZ.png")){
+        QPixmap pix("/tmp/TabZ.png");
         label->setPixmap(pix);
 
-        image.load("/tmp/TabS.png");
+        image.load("/tmp/TabZ.png");
 
         label->setMinimumSize( pix.size() );
         okButton->setEnabled(true);

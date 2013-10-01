@@ -1,11 +1,11 @@
 
 [Desktop Entry]
-Name=TabS
-Name[fr_FR]=TabS
+Name=TabZ
+Name[fr_FR]=TabZ
 Comment=Read/Modify chords song files
 Comment[fr_FR]=Lire/Modifier les fichiers d'accord musiquaux
-Exec=TabS
-Icon=TabS
+Exec=tabz
+Icon=TabZ
 Type=Application
 Terminal=false
 MimeType=text/x-xta;

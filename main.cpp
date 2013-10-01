@@ -39,8 +39,8 @@ int main(int argc, char *argv[])
     }
 #endif
 
-    QtSingleApplication instance("TabS", argc, argv);
-    instance.setWindowIcon( QIcon(":/images/TabS.png" ) );
+    QtSingleApplication instance("TabZ", argc, argv);
+    instance.setWindowIcon( QIcon(":/images/TabZ.png" ) );
     QString message;
     for(int a = 1; a < argc; ++a) {
 #if defined(__WIN32__)
@@ -129,7 +129,7 @@ int main(int argc, char *argv[])
     QString updateFilename = path;
     updateFilename.remove(".exe");
     updateFilename.push_back("-update.exe");
-    HttpUpdate *http = new HttpUpdate(CURRENT_VERSION,"TABS_VERSION","TabS.exe",updateFilename,w.centralWidget());
+    HttpUpdate *http = new HttpUpdate(CURRENT_VERSION,"TABS_VERSION","TabZ.exe",updateFilename,w.centralWidget());
     http->setCurrentExecutable(path);
     http->setDiscret(true);
     http->startUpdate();
