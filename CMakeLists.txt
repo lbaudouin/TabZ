@@ -12,7 +12,7 @@ SET( CMAKE_COLOR_MAKEFILE ON )
 SET( CMAKE_CXX_FLAGS "-O3 -pipe -march=native -Wall -Wno-unused-function" )
 SET( MAJOR_VERSION 0 )
 SET( MINOR_VERSION 1 )
-SET( PATCH_VERSION 0 )
+SET( PATCH_VERSION 1 )
 SET( TabZ_VERSION "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}" )
 
 SET( HEADER_PATH ${CMAKE_SOURCE_DIR})
@@ -20,6 +20,8 @@ SET( SOURCE_PATH  ${CMAKE_SOURCE_DIR} )
 SET( EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin )
 SET( INSTALL_BIN_PATH ${CMAKE_INSTALL_PREFIX}/bin )
 SET( INSTALL_DATA_PATH ${CMAKE_INSTALL_PREFIX}/share/tabz )
+SET( INSTALL_ICONS_PATH ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor )
+SET( INSTALL_SHARE_PATH ${CMAKE_INSTALL_PREFIX}/share/ )
 
 CONFIGURE_FILE( ${SOURCE_PATH}/ressource.qrc.in ${SOURCE_PATH}/ressource.qrc )
 
@@ -75,6 +77,7 @@ SET( TabZ_SRC
 	#${SOURCE_PATH}/qtsingleapplication/qtlockedfile_unix.cpp
 	#${SOURCE_PATH}/qtsingleapplication/qtlockedfile.cpp
 	${SOURCE_PATH}/qtsingleapplication/qtlocalpeer.cpp
+        ${SOURCE_PATH}/qwidgets/mycheckabletree.cpp
 )
 
 SET( TabZ_MOCS
@@ -109,6 +112,7 @@ SET( TabZ_MOCS
 	${HEADER_PATH}/qtsingleapplication/qtsinglecoreapplication.h
 	${SOURCE_PATH}/qtsingleapplication/qtsingleapplication.h
 	${HEADER_PATH}/qtsingleapplication/qtlocalpeer.h
+        ${HEADER_PATH}/qwidgets/mycheckabletree.h
 )
 
 SET ( TabZ_UIS
@@ -146,11 +150,11 @@ TARGET_LINK_LIBRARIES( tabz ${QT_LIBRARIES} )
 #
 ################################################################################
 INSTALL( TARGETS tabz DESTINATION ${INSTALL_BIN_PATH} )
-INSTALL( FILES ${SOURCE_PATH}/data/icon16/TabZ.png DESTINATION /usr/share/icons/hicolor/16x16/apps/ )
-INSTALL( FILES ${SOURCE_PATH}/data/icon32/TabZ.png DESTINATION /usr/share/icons/hicolor/32x32/apps/ )
-INSTALL( FILES ${SOURCE_PATH}/data/icon64/TabZ.png DESTINATION /usr/share/icons/hicolor/64x64/apps/ )
-INSTALL( FILES ${SOURCE_PATH}/data/tabz DESTINATION /usr/share/menu/ )
-INSTALL( FILES ${SOURCE_PATH}/data/tabz.desktop DESTINATION /usr/share/applications/ )
+INSTALL( FILES ${SOURCE_PATH}/data/icon16/TabZ.png DESTINATION ${INSTALL_ICONS_PATH}/16x16/apps/ )
+INSTALL( FILES ${SOURCE_PATH}/data/icon32/TabZ.png DESTINATION ${INSTALL_ICONS_PATH}/32x32/apps/ )
+INSTALL( FILES ${SOURCE_PATH}/data/icon64/TabZ.png DESTINATION ${INSTALL_ICONS_PATH}/64x64/apps/ )
+INSTALL( FILES ${SOURCE_PATH}/data/tabz DESTINATION ${INSTALL_SHARE_PATH}/menu/ )
+INSTALL( FILES ${SOURCE_PATH}/data/tabz.desktop DESTINATION ${INSTALL_SHARE_PATH}/applications/ )
 
 ################################################################################
 #

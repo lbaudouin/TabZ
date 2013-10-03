@@ -1,4 +1,4 @@
-#define CURRENT_VERSION "0.0.45"
+#define CURRENT_VERSION "0.1.1"
 
 #include <QtGui/QApplication>
 #include "mainwindow.h"
@@ -129,7 +129,7 @@ int main(int argc, char *argv[])
     QString updateFilename = path;
     updateFilename.remove(".exe");
     updateFilename.push_back("-update.exe");
-    HttpUpdate *http = new HttpUpdate(CURRENT_VERSION,"TABS_VERSION","TabZ.exe",updateFilename,w.centralWidget());
+    HttpUpdate *http = new HttpUpdate(CURRENT_VERSION,"TABZ_VERSION","TabZ.exe",updateFilename,w.centralWidget());
     http->setCurrentExecutable(path);
     http->setDiscret(true);
     http->startUpdate();

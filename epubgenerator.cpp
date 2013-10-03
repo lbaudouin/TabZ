@@ -2,72 +2,81 @@
 
 EpubGenerator::EpubGenerator()
 {
-    //Generate 'conten.opf'
+
+}
+
+void EpubGenerator::generate()
+{
+    QDir dir("/tmp/epub/");
+    QStringList list = dir.entryList();
+    foreach(QString file, list)
+        dir.remove(file);
+
+    if(dir.exists("/tmp/epub/META-INF")){
+        dir.cd("/tmp/epub/META-INF");
+        list = dir.entryList();
+        foreach(QString file, list)
+            dir.remove(file);
+    }
+
+    //Mkdir '/tmp/epub/META-INF'
+    dir.mkpath("/tmp/epub/META-INF");
+
+    QFile::remove("/tmp/tabz.epub");
+
+    //Generate pages
+    generatePages();
+
+    //Generate 'content.opf'
+    generateContent();
 
     //Generate 'titlepage.xhtml'
+    generateTitlePage();
 
     //Generate 'stylesheet.css'
+    //generateStyleSheet();
 
     //Generate 'mimetype'
+    generateMimetype();
 
     //Generate 'toc.ncx'
+    generateToc();
 
+    //Generate 'META-INF/container.xml'
+    generateContainer();
 
-    /*
-    //Mkdir 'META-INF'
-
-    //Generate 'container.xml'
-    */
+    QProcess process;
+    process.setWorkingDirectory("/tmp/epub/");
 
     //Compress files in zip
+    //QProcess process(zip_exec + arg + filename);
+    process.start("zip -r /tmp/tabz.zip .");
+    process.waitForFinished();
 
     //Rename zip into epub
+    QFile::rename("/tmp/tabz.zip","/tmp/tabz.epub");
 }
 
 void EpubGenerator::generateContent()
 {
     QFile file("/tmp/epub/content.opf");
     file.open(QFile::WriteOnly);
+    QTextStream stream(&file);
 
-    file.write("<?xml version='1.0' encoding='utf-8'?>");
-    file.write("<package xmlns=\"http://www.idpf.org/2007/opf\" version=\"2.0\" unique-identifier=\"uuid_id\">");
-    file.write("  <metadata xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:opf=\"http://www.idpf.org/2007/opf\" xmlns:dcterms=\"http://purl.org/dc/terms/\" xmlns:calibre=\"http://calibre.kovidgoyal.net/2009/metadata\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\">");
-    file.write("    <dc:publisher>TabZ</dc:publisher>");
-    file.write("    <meta name=\"calibre:title_sort\" content=\"Radix\"/>");
-    file.write("    <dc:description></dc:description>");
-    file.write("    <dc:language>fr</dc:language>");
-    file.write("    <dc:creator opf:file-as=\"Attanasio,A.A.\" opf:role=\"aut\">Attanasio,A.A.</dc:creator>");
-    file.write("    <meta name=\"calibre:timestamp\" content=\"2011-04-19T17:56:03+00:00\"/>");
-    file.write("    <dc:title>Radix</dc:title>");
-    file.write("    <meta name=\"cover\" content=\"cover\"/>");
-    file.write("    <dc:date>1981-01-04T23:00:00+00:00</dc:date>");
-    file.write("    <dc:contributor opf:role=\"bkp\">calibre (0.7.50) [http://calibre-ebook.com]</dc:contributor>");
-    file.write("    <dc:identifier opf:scheme=\"ISBN\">2843622786</dc:identifier>");
-    file.write("    <dc:identifier id=\"uuid_id\" opf:scheme=\"uuid\">71121a26-35ef-42b5-bc24-e65661a4f921</dc:identifier>");
-    file.write("    <dc:subject>SF</dc:subject>");
-    file.write("  </metadata>");
-    file.write("  <manifest>");
-    file.write("    <item href=\"page000.html\" id=\"html31\" media-type=\"application/xhtml+xml\"/>");
-    file.write("    <item href=\"page001.html\" id=\"html30\" media-type=\"application/xhtml+xml\"/>");
-    file.write("    <item href=\"page029.html\" id=\"html2\" media-type=\"application/xhtml+xml\"/>");
-    file.write("    <item href=\"page030.html\" id=\"html1\" media-type=\"application/xhtml+xml\"/>");
-    file.write("    <item href=\"cover.jpeg\" id=\"cover\" media-type=\"image/jpeg\"/>");
-    file.write("    <item href=\"image001.jpg\" id=\"added\" media-type=\"image/jpeg\"/>");
-    file.write("    <item href=\"image002.gif\" id=\"added1\" media-type=\"image/gif\"/>");
-    file.write("    <item href=\"stylesheet.css\" id=\"css\" media-type=\"text/css\"/>");
-    file.write("    <item href=\"titlepage.xhtml\" id=\"titlepage\" media-type=\"application/xhtml+xml\"/>");
-    file.write("    <item href=\"toc.ncx\" media-type=\"application/x-dtbncx+xml\" id=\"ncx\"/>");
-    file.write("  </manifest>");
-    file.write("  <spine toc=\"ncx\">");
-    file.write("    <itemref idref=\"titlepage\"/>");
-    file.write("    <itemref idref=\"html31\"/>");
-    file.write("    <itemref idref=\"html30\"/>");
-    file.write("    <itemref idref=\"html29\"/>");
-    file.write("  </spine>");
-    file.write("  <guide>");
-    file.write("    <reference href=\"titlepage.xhtml\" type=\"cover\" title=\"Cover\"/>");
-    file.write("  </guide>");
-    file.write("</package>");
+    stream << "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n";
+    stream << "<package xmlns=\"http://www.idpf.org/2007/opf\" unique-identifier=\"BookId\" version=\"2.0\">\n";
+    stream << "    <metadata xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:opf=\"http://www.idpf.org/2007/opf\">\n";
+    stream << "        <dc:identifier id=\"BookId\" opf:scheme=\"UUID\">urn:uuid:30d28590-b1f3-419c-8f8b-56e3748621f9</dc:identifier>\n";
+    stream << "    </metadata>\n";
+    stream << "    <manifest>\n";
+    stream << "        <item href=\"toc.ncx\" id=\"ncx\" media-type=\"application/x-dtbncx+xml\"/>\n";
+    //stream << "        <item href=\"cover.jpg\" id=\"cover\" media-type=\"image/jpeg\"/>");
+    stream << "        <item href=\"titlepage.xhtml\" id=\"titlepage.xhtml\" media-type=\"application/xhtml+xml\"/>\n";
+    stream << "    </manifest>\n";
+    stream << "    <spine toc=\"ncx\">\n";
+    stream << "        <itemref idref=\"titlepage.xhtml\"/>\n";
+    stream << "    </spine>\n";
+    stream << "</package>";
 
     file.close();
 }
@@ -76,7 +85,10 @@ void EpubGenerator::generateMimetype()
 {
     QFile file("/tmp/epub/mimetype");
     file.open(QFile::WriteOnly);
-    file.write("application/epub+zip");
+    QTextStream stream(&file);
+
+    stream << "application/epub+zip";
+
     file.close();
 }
 
@@ -84,128 +96,44 @@ void EpubGenerator::generateStyleSheet()
 {
     QFile file("/tmp/epub/stylesheet.css");
     file.open(QFile::WriteOnly);
-    file.write("@namespace h \"http://www.w3.org/1999/xhtml\""
-    ".MsoNormal {"
-    "    color: black;"
-    "    display: block;"
-    "    font-size: 1.33333em;"
-    "    line-height: 1.2;"
-    "    margin-bottom: 0.0001pt;"
-    "    margin-left: 0;"
-    "    margin-right: 0;"
-    "    margin-top: 0;"
-    "    text-align: center;"
-    "    text-indent: 0"
-    "}"
-    ".MsoNormal1 {"
-    "    color: black;"
-    "    display: block;"
-    "    font-size: 1.33333em;"
-    "    line-height: 1.2;"
-    "    margin-bottom: 0.0001pt;"
-    "    margin-left: 0;"
-    "    margin-right: 0;"
-    "    margin-top: 0;"
-    "    text-align: right;"
-    "    text-indent: 0"
-    "}"
-    ".MsoNormal2 {"
-    "    color: black;"
-    "    display: block;"
-    "    font-size: 1.33333em;"
-    "    line-height: 1.2;"
-    "    margin-bottom: 0.0001pt;"
-    "    margin-left: 0;"
-    "    margin-right: 0;"
-    "    margin-top: 0;"
-    "    text-align: right;"
-    "    text-indent: 21.3pt"
-    "}"
-    ".MsoNormal3 {"
-    "    color: black;"
-    "    display: block;"
-    "    font-size: 1.33333em;"
-    "    line-height: 1.2;"
-    "    margin-bottom: 0.0001pt;"
-    "    margin-left: 0;"
-    "    margin-right: 0;"
-    "    margin-top: 0;"
-    "    text-align: justify;"
-    "    text-indent: 21.3pt"
-    "}"
-    ".MsoNormal4 {"
-    "    color: black;"
-    "    display: block;"
-    "    font-size: 1.33333em;"
-    "    line-height: 1.2;"
-    "    margin-bottom: 0.0001pt;"
-    "    margin-left: 0;"
-    "    margin-right: 0;"
-    "    margin-top: 0;"
-    "    text-align: justify;"
-    "    text-indent: 0"
-    "}"
-    ".MsoNormal5 {"
-    "    color: black;"
-    "    display: block;"
-    "    font-size: 1.33333em;"
-    "    line-height: 1.2;"
-    "    margin-bottom: 0.0001pt;"
-    "    margin-left: 0;"
-    "    margin-right: 0;"
-    "    margin-top: 0;"
-    "    text-align: justify;"
-    "    text-indent: 42.55pt"
-    "}"
-    ".WordSection {"
-    "    display: block;"
-    "    page: WordSection1"
-    "}"
-    ".ZFin {"
-    "    background: #B3B3B3;"
-    "    border: none;"
-    "    color: black;"
-    "    display: block;"
-    "    font-size: 1.33333em;"
-    "    font-style: italic;"
-    "    letter-spacing: 3pt;"
-    "    line-height: 1.2;"
-    "    margin-bottom: 0.0001pt;"
-    "    margin-left: 0;"
-    "    margin-right: 0;"
-    "    margin-top: 1cm;"
-    "    padding-bottom: 0;"
-    "    padding-left: 0;"
-    "    padding-right: 0;"
-    "    padding-top: 0;"
-    "    text-align: center"
-    "}");
+    QTextStream stream(&file);
+
+    stream << "";
+
     file.close();
 }
 
 void EpubGenerator::generateTitlePage()
 {
+    QPixmap pix(464,747);
+    pix.fill(Qt::red);
+    pix.save("/tmp/epub/cover.jpg");
+
     QFile file("/tmp/epub/titlepage.xhtml");
     file.open(QFile::WriteOnly);
-    file.write("<?xml version='1.0' encoding='utf-8'?>");
-    file.write("<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\">");
-    file.write("    <head>");
-    file.write("        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>");
-    file.write("        <meta name=\"calibre:cover\" content=\"true\"/>");
-    file.write("        <title>Cover</title>");
-    file.write("        <style type=\"text/css\" title=\"override_css\">");
-    file.write("            @page {padding: 0pt; margin:0pt}");
-    file.write("            body { text-align: center; padding:0pt; margin: 0pt; }");
-    file.write("        </style>");
-    file.write("    </head>");
-    file.write("    <body>");
-    file.write("        <div>");
-    file.write("            <svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" width=\"100%\" height=\"100%\" viewBox=\"0 0 464 747\" preserveAspectRatio=\"xMidYMid meet\">");
-    file.write("                <image width=\"464\" height=\"747\" xlink:href=\"cover.jpeg\"/>");
-    file.write("            </svg>");
-    file.write("        </div>");
-    file.write("    </body>");
-    file.write("</html>");
+    QTextStream stream(&file);
+
+    stream << "<?xml version='1.0' encoding='utf-8'?>\n";
+    stream << "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\">\n";
+    stream << "    <head>\n";
+    stream << "        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>\n";
+    stream << "        <meta name=\"calibre:cover\" content=\"true\"/>\n";
+    stream << "        <title>Cover</title>\n";
+    stream << "        <style type=\"text/css\" title=\"override_css\">\n";
+    stream << "            @page {padding: 0pt; margin:0pt}\n";
+    stream << "            body { text-align: center; padding:0pt; margin: 0pt; }\n";
+    stream << "        </style>\n";
+    stream << "    </head>\n";
+    stream << "    <body>\n";
+    stream << "        <h1>"+title_+"</h1>\n";
+    stream << "        <div>\n";
+    //stream << "            <svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" width=\"100%\" height=\"100%\" viewBox=\"0 0 464 747\" preserveAspectRatio=\"xMidYMid meet\">\n";
+    //stream << "                <image width=\"464\" height=\"747\" xlink:href=\"cover.jpg\"/>\n";
+    //stream << "            </svg>\n";
+    stream << "        </div>\n";
+    stream << "     Generated by TabZ\n";
+    stream << "    </body>\n";
+    stream << "</html>";
     file.close();
 }
 
@@ -213,27 +141,50 @@ void EpubGenerator::generateToc()
 {
     QFile file("/tmp/epub/toc.ncx");
     file.open(QFile::WriteOnly);
-    file.write("<?xml version='1.0' encoding='utf-8'?>");
-    file.write("<ncx xmlns=\"http://www.daisy.org/z3986/2005/ncx/\" version=\"2005-1\" xml:lang=\"fr\">");
-    file.write("  <head>");
-    file.write("    <meta content=\"71121a26-35ef-42b5-bc24-e65661a4f921\" name=\"dtb:uid\"/>");
-    file.write("    <meta content=\"3\" name=\"dtb:depth\"/>");
-    file.write("    <meta content=\"calibre (0.7.50)\" name=\"dtb:generator\"/>");
-    file.write("    <meta content=\"0\" name=\"dtb:totalPageCount\"/>");
-    file.write("    <meta content=\"0\" name=\"dtb:maxPageNumber\"/>");
-    file.write("  </head>");
-    file.write("  <docTitle>");
-    file.write("    <text>Radix</text>");
-    file.write("  </docTitle>");
-    file.write("  <navMap>");
-    file.write("    <navPoint id=\"3692c452-b771-49a0-b40a-21c27b23273e\" playOrder=\"1\">");
-    file.write("      <navLabel>");
-    file.write("        <text>LES DISTORS</text>");
-    file.write("      </navLabel>");
-    file.write("      <content src=\"Attanasio,A.A.-Radix(1981).French.ebook.AlexandriZ_split_004.html\"/>");
-    file.write("      <navPoint id=\"eb1fcad0-e6d9-496b-8d8b-f1920c66866c\" playOrder=\"2\">");
-    file.write("    </navPoint>");
-    file.write("  </navMap>");
-    file.write("</ncx>");
+    QTextStream stream(&file);
+
+    stream << "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+    stream << "<!DOCTYPE ncx PUBLIC \"-//NISO//DTD ncx 2005-1//EN\"\n";
+    stream << "   \"http://www.daisy.org/z3986/2005/ncx-2005-1.dtd\">\n";
+    stream << "<ncx xmlns=\"http://www.daisy.org/z3986/2005/ncx/\" version=\"2005-1\">\n";
+    stream << "<head>\n";
+    stream << "   <meta name=\"dtb:uid\" content=\"urn:uuid:30d28590-b1f3-419c-8f8b-56e3748621f9\" />\n";
+    stream << "   <meta name=\"dtb:depth\" content=\"0\" />\n";
+    stream << "   <meta name=\"dtb:totalPageCount\" content=\"0\" />\n";
+    stream << "   <meta name=\"dtb:maxPageNumber\" content=\"0\" />\n";
+    stream << "</head>\n";
+    stream << "<docTitle>\n";
+    stream << "   <text>Unknown</text>\n";
+    stream << "</docTitle>\n";
+    stream << "<navMap>\n";
+    stream << "<navPoint id=\"navPoint-1\" playOrder=\"1\">\n";
+    stream << "  <navLabel>\n";
+    stream << "    <text>Démarrer</text>\n";
+    stream << "  </navLabel>\n";
+    stream << "  <content src=\"Text/Section0001.xhtml\" />\n";
+    stream << "</navPoint>\n";
+    stream << "</navMap>\n";
+    stream << "</ncx>";
     file.close();
+}
+
+void EpubGenerator::generateContainer()
+{
+    QFile file("/tmp/epub/META-INF/container.xml");
+    file.open(QFile::WriteOnly);
+    QTextStream stream(&file);
+
+    stream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+    stream << "<container version=\"1.0\" xmlns=\"urn:oasis:names:tc:opendocument:xmlns:container\">\n";
+    stream << "    <rootfiles>\n";
+    stream << "        <rootfile full-path=\"content.opf\" media-type=\"application/oebps-package+xml\"/>\n";
+    stream << "   </rootfiles>\n";
+    stream << "</container>";
+
+    file.close();
+}
+
+void EpubGenerator::generatePages()
+{
+
 }

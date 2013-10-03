@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     mytextedit.cpp \
     mycompleter.cpp \
     findreplacedialog.cpp \
-    epubgenerator.cpp
+    epubgenerator.cpp \
+    qwidgets/mycheckabletree.cpp
     #myprintpreviewwidget.cpp# \
     #myprinterprivate.cpp
 
@@ -61,16 +62,15 @@ HEADERS  += mainwindow.h \
     fontlabellayout.h \
     mycompleter.h \
     findreplacedialog.h \
-    epubgenerator.h
+    epubgenerator.h \
+    qwidgets/mycheckabletree.h
     #myprintpreviewwidget.h #\
     #myprinterprivate.h
 
 FORMS    += mainwindow.ui
 
-OTHER_FILES += \
-    TODO.diff \
-    win32/TABS_VERSION \
-    debian/DEBIAN/control
+OTHER_FILES += TODO.diff \
+    CMakeLists.txt
 
 RESOURCES += ressource.qrc
 

@@ -86,6 +86,7 @@
     <addaction name="actionSave"/>
     <addaction name="actionSave_as"/>
     <addaction name="actionExport_PDF"/>
+    <addaction name="actionExport_Epub"/>
     <addaction name="separator"/>
     <addaction name="actionClose"/>
     <addaction name="actionClose_All"/>
@@ -653,6 +654,18 @@
    </property>
    <property name="shortcut">
     <string>F2</string>
+   </property>
+  </action>
+  <action name="actionExport_Epub">
+   <property name="icon">
+    <iconset resource="ressource.qrc">
+     <normaloff>:/images/epub</normaloff>:/images/epub</iconset>
+   </property>
+   <property name="text">
+    <string>Export Epub</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
    </property>
   </action>
  </widget>

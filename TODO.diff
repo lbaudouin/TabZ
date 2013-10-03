@@ -72,7 +72,7 @@ TODO list
 - undo/redo for chords and infos
 *** find/replace text
 *** autoupdate for Windows users
-- create ppa for Linux users
+*** create ppa for Linux users
 *** add chors from multi-line edit
 *** autofill from text selection
 *** create expert mode
@@ -95,6 +95,7 @@ TODO list
 *** use cache for xta.xml
 - replace QHttp for xta download
 *** use predefined folders for data and cache
+- auto create folder : artist / <filename>.xta on save
 
 #### bug ####
 *** info appear in read-only mode on full screen exit

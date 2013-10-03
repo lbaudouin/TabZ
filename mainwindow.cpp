@@ -50,6 +50,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionPreview,SIGNAL(triggered()),this,SLOT(pressPreview()));
     connect(ui->actionPrint,SIGNAL(triggered()),this,SLOT(pressPrint()));
 
+    connect(ui->actionExport_Epub,SIGNAL(triggered()),this,SLOT(pressExportEpub()));
+
     //Set selected window mode
     if(options->values()->openSizeMode==3){
         Qt::WindowState state = (Qt::WindowState)(options->values()->lastSizeMode);
@@ -619,48 +621,44 @@ void MainWindow::pressCloseAll()
 
         QDialog *diag = new QDialog;
 
-        QTreeView* tree = new QTreeView;
-
-        QStandardItemModel *model = new QStandardItemModel;
-        QStandardItem *rootItem = model->invisibleRootItem();
-        rootItem->setEditable(false);
+        MyCheckableTree *tree = new MyCheckableTree;
+        tree->setHeaderLabel(tr("Files"));
+        tree->setRootLabel(tr("All"));
 
         foreach(int id, toSave.keys()){
-            QStandardItem *tabItem = new QStandardItem(toSave[id]);
-            tabItem->setCheckable(true);
-            tabItem->setEditable(false);
-            tabItem->setData(id);
-            rootItem->appendRow(tabItem);
+            tree->addRow(toSave[id],id);
         }
 
-        model->setHorizontalHeaderLabels(QStringList() << tr("Available songs") /*<< tr("Comment")*/);
-        tree->setModel(model);
-
         QVBoxLayout *diagLayout = new QVBoxLayout;
+
+        QLabel *questionLabel = new QLabel(tr("Which files do you whant to save?"));
+
+        diagLayout->addWidget(questionLabel);
         diagLayout->addWidget(tree);
 
-        QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Close|QDialogButtonBox::Save);
+
+        QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Discard|QDialogButtonBox::Save);
+        QPushButton *button = buttons->button(QDialogButtonBox::Discard);
 
         connect(buttons,SIGNAL(accepted()),diag,SLOT(accept()));
         connect(buttons,SIGNAL(rejected()),diag,SLOT(reject()));
+        connect(button,SIGNAL(clicked()),diag,SLOT(reject()));
 
         diagLayout->addWidget(buttons);
 
 
         diag->setLayout(diagLayout);
 
+
         if(diag->exec()){
-            int rows = tree->model()->rowCount();
+            int rows = tree->nbChild();
 
             for(int i=0;i<rows;i++){
-                QStandardItem *item =((QStandardItemModel*)tree->model())->item(i);
-                if(item->checkState()){
-                    //Create path
-                    int id = item->data().toInt();
+                if(tree->getState(i)){
+                    int id = tree->getData(i).toInt();
 
                     ui->tabWidget->setCurrentIndex(id);
                     pressSave();
-
                 }
             }
             while(ui->tabWidget->count()!=0){
@@ -1000,6 +998,58 @@ void MainWindow::pressExportPDF()
 #endif
         //qDebug() << url;
         QDesktopServices::openUrl(url);
+    }
+}
+
+void MainWindow::pressExportEpub()
+{
+    QDialog *dialog = new QDialog(this);
+    dialog->setWindowTitle(tr("Export to ePUB"));
+
+    QGroupBox *optionsGroupBox = new QGroupBox(dialog);
+    optionsGroupBox->setTitle(tr("Options"));
+    QRadioButton *box1 = new QRadioButton(tr("This XTA only"),optionsGroupBox);
+    QRadioButton *box2 = new QRadioButton(tr("This artist only"),optionsGroupBox);
+    QRadioButton *box3 = new QRadioButton(tr("All XTA"),optionsGroupBox);
+    if(ui->tabWidget->count()>0){
+        box1->setChecked(true);
+    }else{
+        box1->setDisabled(true);
+        box2->setDisabled(true);
+        box3->setChecked(true);
+    }
+
+    QVBoxLayout *optionsLayout = new QVBoxLayout(optionsGroupBox);
+    optionsLayout->addWidget(box1);
+    optionsLayout->addWidget(box2);
+    optionsLayout->addWidget(box3);
+
+    QVBoxLayout *diagLayout = new QVBoxLayout;
+    diagLayout->addWidget(optionsGroupBox);
+
+    QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Close|QDialogButtonBox::Save);
+
+    connect(buttons,SIGNAL(accepted()),dialog,SLOT(accept()));
+    connect(buttons,SIGNAL(rejected()),dialog,SLOT(reject()));
+
+    diagLayout->addWidget(buttons);
+
+    dialog->setLayout(diagLayout);
+
+    if(dialog->exec()){
+        EpubGenerator epub;
+        if(box1->isChecked()){
+            XTAinfo xta = getCurrentTab()->getXTA();
+            epub.setTitle(xta.artist + " - " + xta.title);
+        }
+        if(box2->isChecked()){
+            XTAinfo xta = getCurrentTab()->getXTA();
+            epub.setTitle(xta.artist);
+        }
+        if(box3->isChecked()){
+            epub.setTitle(tr("Song book"));
+        }
+        epub.generate();
     }
 }
 

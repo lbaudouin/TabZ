@@ -22,6 +22,8 @@
 #include "recent.h"
 #include "mycompleter.h"
 #include "findreplacedialog.h"
+#include "qwidgets/mycheckabletree.h"
+#include "epubgenerator.h"
 
 namespace Ui {
 class MainWindow;
@@ -124,6 +126,7 @@ public slots:
     void pressPreview();
     void pressPrint();
     void pressExportPDF();
+    void pressExportEpub();
 
     void pressPreference();
     void pressChordsManager();
