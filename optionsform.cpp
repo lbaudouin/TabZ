@@ -68,6 +68,9 @@ void OptionsForm::createGeneralTab(QTabWidget *tab)
     editDefaultFolder = leditDefaultFolder->getEditWidget();
     editDefaultFolder->setText(options_.defaultPath);
 
+    autoCreateFolder = new QCheckBox;
+    autoCreateFolder->setChecked(options_.autoCreateFolder);
+
     checkSelectNewTab = new QCheckBox;
     checkSelectNewTab->setChecked(options_.selectNewTab);
 
@@ -94,6 +97,7 @@ void OptionsForm::createGeneralTab(QTabWidget *tab)
     comboToolBarPosition->setCurrentIndex(options_.mainToolBarPosition);
 
     formLayout->addRow(tr("Default folder:"),leditDefaultFolder);
+    formLayout->addRow(tr("Auto-create artist folder:"),autoCreateFolder);
     formLayout->addRow(tr("Select new tab:"),checkSelectNewTab);
     formLayout->addRow(tr("Open read only:"),checkOpenReadOnly);
     formLayout->addRow(tr("Re-open previous tabs:"),checkreOpenPreviousTabs);
@@ -189,6 +193,7 @@ OptionsValues OptionsForm::getOptions()
     options_.openReadOnly = checkOpenReadOnly->isChecked();
     options_.reOpenPreviousTabs = checkreOpenPreviousTabs->isChecked();
     options_.defaultPath = editDefaultFolder->text();
+    options_.autoCreateFolder = autoCreateFolder->isChecked();
     options_.defaultOutputFolder = defaultOutputFolder->getText();
     options_.openSizeMode = comboOpenSize->currentIndex();
     options_.mainFont = mainFontLabel->getFont();
@@ -221,6 +226,7 @@ void OptionsForm::buttonClicked(QAbstractButton *button){
         checkOpenReadOnly->setChecked(options_.openReadOnly);
         checkreOpenPreviousTabs->setChecked(options_.reOpenPreviousTabs);
         editDefaultFolder->setText(options_.defaultPath);
+        autoCreateFolder->setChecked(options_.autoCreateFolder);
         defaultOutputFolder->setText(options_.defaultOutputFolder);
         comboOpenSize->setCurrentIndex(options_.openSizeMode);
         mainFontLabel->setFont(options_.mainFont);

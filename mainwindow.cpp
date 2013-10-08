@@ -50,8 +50,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionPreview,SIGNAL(triggered()),this,SLOT(pressPreview()));
     connect(ui->actionPrint,SIGNAL(triggered()),this,SLOT(pressPrint()));
 
+#if defined(__WIN32__)
+    ui->actionExport_Epub->setDisabled(true);
+#else
     connect(ui->actionExport_Epub,SIGNAL(triggered()),this,SLOT(pressExportEpub()));
-
+#endif
     //Set selected window mode
     if(options->values()->openSizeMode==3){
         Qt::WindowState state = (Qt::WindowState)(options->values()->lastSizeMode);
@@ -539,14 +542,29 @@ void MainWindow::pressSaveAs()
 
     QString selectedFilter;
 
-    QString sample = (options->values()->defaultPath.isEmpty()?QDir::homePath():options->values()->defaultPath) + QDir::separator();
+    QString sample;
 
-    QDir defaultFolder(options->values()->defaultPath);
-    if(defaultFolder.exists()){
-        if(defaultFolder.cd(info.artist)){
-            sample = defaultFolder.absolutePath() + QDir::separator();
+    if(options->values()->defaultPath.isEmpty()){
+        sample = QDir::homePath();
+    }else{
+        sample = options->values()->defaultPath + QDir::separator();
+
+
+        QDir defaultFolder(options->values()->defaultPath);
+        if(defaultFolder.exists()){
+            if(defaultFolder.cd(info.artist)){
+                sample = defaultFolder.absolutePath() + QDir::separator();
+            }else{
+                if(options->values()->autoCreateFolder){
+                    defaultFolder.mkdir(info.artist);
+                    defaultFolder.cd(info.artist);
+                    sample = defaultFolder.absolutePath() + QDir::separator();
+                }
+            }
         }
     }
+
+
 
     sample += info.createFileName() +  ".xta";
 
@@ -1038,18 +1056,23 @@ void MainWindow::pressExportEpub()
 
     if(dialog->exec()){
         EpubGenerator epub;
+        QList<XTAinfo> list;
         if(box1->isChecked()){
             XTAinfo xta = getCurrentTab()->getXTA();
             epub.setTitle(xta.artist + " - " + xta.title);
+            epub.setOutput(xta.artist + " - " + xta.title + ".epub");
+            list << xta;
         }
         if(box2->isChecked()){
             XTAinfo xta = getCurrentTab()->getXTA();
             epub.setTitle(xta.artist);
+            epub.setOutput(xta.artist + ".epub");
         }
         if(box3->isChecked()){
             epub.setTitle(tr("Song book"));
+            epub.setOutput("Song book.epub");
         }
-        epub.generate();
+        epub.generate(list);
     }
 }
 

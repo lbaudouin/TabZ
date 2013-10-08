@@ -95,7 +95,7 @@ TODO list
 *** use cache for xta.xml
 - replace QHttp for xta download
 *** use predefined folders for data and cache
-- auto create folder : artist / <filename>.xta on save
+*** auto create folder : artist / <filename>.xta on save
 
 #### bug ####
 *** info appear in read-only mode on full screen exit

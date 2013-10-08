@@ -23,6 +23,7 @@ void Options::resetDefault()
     optionsValues.rightMargin = 10;
     optionsValues.bottomMargin = 10;
     optionsValues.defaultOutputFolder = QDir::homePath();
+    optionsValues.autoCreateFolder = true;
 
 #if defined(__WIN32__)
     optionsValues.mainFont =  QFont("Lucida Console",12);
@@ -81,6 +82,7 @@ void Options::write(QDomDocument *dom, QFileInfo)
         addNode(dom,&mainNode,"rightMargin",optionsValues.rightMargin);
         addNode(dom,&mainNode,"bottomMargin",optionsValues.bottomMargin);
         addNode(dom,&mainNode,"defaultOutputFolder",optionsValues.defaultOutputFolder);
+        addNode(dom,&mainNode,"autoCreateFolder",optionsValues.autoCreateFolder);
 
         QRect geom = optionsValues.lastGeometry;
         QStringList lastGeomList;
@@ -134,6 +136,9 @@ void Options::read(QDomDocument *dom, QFileInfo)
         }
         if(element.tagName()=="defaultOutputFolder"){
             optionsValues.defaultOutputFolder = element.text();
+        }
+        if(element.tagName()=="autoCreateFolder"){
+            optionsValues.autoCreateFolder = element.text().toInt();
         }
         if(element.tagName()=="openSizeMode"){
             optionsValues.openSizeMode = element.text().toInt();

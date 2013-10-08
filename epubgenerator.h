@@ -6,6 +6,10 @@
 #include <QProcess>
 #include <QDir>
 
+#include <xta_info.h>
+
+#include <QDesktopServices>
+#include <QTextDocument>
 #include <QDebug>
 
 class EpubGenerator
@@ -13,23 +17,29 @@ class EpubGenerator
 public:
     EpubGenerator();
 
-    void generate();
+    void generate(const QList<XTAinfo> &list);
 
-    void setTitle(QString title) {title_ = title;}
+    void setTitle(const QString &title) {title_ = title;}
+    void setOutput(const QString &output) {outputEpub_ = output;}
+    void setOutputFolder(const QString &outputFolder) {outputFolder_ = outputFolder + QDir::separator();}
 
 protected:
 
-    void generateContent();
+    void generateContent(const QStringList &list);
     void generateMimetype();
     void generateTitlePage();
     void generateStyleSheet();
-    void generateToc();
+    void generateToc(const QStringList &list);
     void generateContainer();
 
-    void generatePages();
+    QStringList generatePages(const QList<XTAinfo> &list);
 
 private:
     QString title_;
+    QString outputFolder_;
+    QString outputEpub_;
+    QString tmpFolder_;
+    QString epubFolder_;
 
 };
 

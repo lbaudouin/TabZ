@@ -49,6 +49,7 @@ private:
     QCheckBox *checkOpenReadOnly;
     QCheckBox *checkreOpenPreviousTabs;
     QLineEdit *editDefaultFolder;
+    QCheckBox *autoCreateFolder;
     QComboBox *comboOpenSize;
     QComboBox *comboChordSize;
     QComboBox *comboToolBarPosition;

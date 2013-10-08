@@ -23,6 +23,7 @@
 #include "lilypond.h"
 #include "openeditlayout.h"
 #include "mytextedit.h"
+#include "qwidgets/mycheckabletree.h"
 
 class Tab : public QWidget
 {

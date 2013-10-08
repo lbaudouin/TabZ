@@ -569,63 +569,33 @@ void Tab::read()
 {
     QStringList list = highlighter->getList(edit->toPlainText());
     list.sort();
-    QList<MyQCheckBox*> boxList;
 
-    //TODO, move in a separate file
+    MyCheckableTree *tree = new MyCheckableTree;
+    tree->setRootLabel(tr("All"));
+
     QDialog *diag = new QDialog(this);
     QVBoxLayout *vLayout = new QVBoxLayout;
     diag->setLayout(vLayout);
 
-    QFrame *frame = new QFrame;
-    vLayout->addWidget(frame);
-    frame->setFrameShape(QFrame::StyledPanel);
-    frame->setFrameShadow(QFrame::Sunken);
-    frame->setLineWidth(1);
-
-    QVBoxLayout *buttonLayout = new QVBoxLayout(frame);
-
-    QPushButton *selectAll = new QPushButton(tr("Select all"));
-    selectAll->setDefault(true);
-    QPushButton *unselectAll = new QPushButton(tr("Unselect all"));
+    QLabel *label = new QLabel(tr("Chords found:"));
+    vLayout->addWidget(label);
 
     foreach(QString item, list){
-        MyQCheckBox *box = new MyQCheckBox(item);
-        box->setChecked(chords.contains(item));
-
-        connect(selectAll,SIGNAL(clicked()),box,SLOT(check()));
-        connect(unselectAll,SIGNAL(clicked()),box,SLOT(uncheck()));
-
-        buttonLayout->addWidget(box);
-        boxList.push_back(box);
+        tree->addRow(item,item,chords.contains(item));
     }
 
-    QFrame *line = new QFrame;
-    line->setFrameShape(QFrame::HLine);
-    buttonLayout->addWidget(line);
-
-    bool found = false;
     for(int i=0;i<chords.size();i++){
         if(!list.contains(chords.at(i))){
-            MyQCheckBox *box = new MyQCheckBox(chords.at(i));
-            box->setChecked(true);
-            buttonLayout->addWidget(box);
-            boxList.push_back(box);
-            found = true;
-            list.push_back( chords.at(i) );
-
-            connect(selectAll,SIGNAL(clicked()),box,SLOT(check()));
-            connect(unselectAll,SIGNAL(clicked()),box,SLOT(uncheck()));
+            tree->addRow(chords.at(i),chords.at(i),true);
         }
     }
-    line->setVisible(found);
 
-    if(boxList.isEmpty()){
+    if(tree->nbChild()==0){
         QMessageBox::information(this,tr("Information"),tr("No chord found"));
         return;
     }
 
-    vLayout->addWidget(selectAll);
-    vLayout->addWidget(unselectAll);
+    vLayout->addWidget(tree);
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
     connect(buttonBox,SIGNAL(accepted()),diag,SLOT(accept()));
@@ -634,14 +604,15 @@ void Tab::read()
 
 
     if(diag->exec()){
-        for(int i=0;i<list.size();i++){
-            QString name = list.at(i);
-            if(boxList.at(i)->isChecked())
+        for(int i=0;i<tree->nbChild();i++){
+            QString name = tree->getData(i).toString();
+            if(tree->getState(i)==Qt::Checked)
                 addChord(name);
             else{
                 emit removeChord(name);
             }
         }
+
         resizeLayout();
 
         chordsChanged();
