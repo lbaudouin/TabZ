@@ -7,6 +7,11 @@
 #include <QMessageBox>
 #include <QProcess>
 
+#if USE_UNZIP
+#include <quazip/quazip.h>
+#include <quazip/quazipfile.h>
+#endif
+
 #include "qprogressbardialog.h"
 
 struct Version {
@@ -60,6 +65,22 @@ public:
     inline void setSoftwareFileName(QString name){softwareFileName = name;}
     inline void setSoftwareTempFileName(QString name){softwareTempFileName = name;}
     inline void setCurrentExecutable(QString name){currentExecutable = name;}
+
+    static bool copyData(QIODevice &inFile, QIODevice &outFile)
+    {
+        while (!inFile.atEnd()) {
+            char buf[4096];
+            qint64 readLen = inFile.read(buf, 4096);
+            if (readLen <= 0)
+                return false;
+            if (outFile.write(buf, readLen) != readLen)
+                return false;
+        }
+        return true;
+    }
+
+protected:
+    bool unzip(QString zipPath, QString outputPath);
 
 
 private :

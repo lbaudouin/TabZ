@@ -106,6 +106,10 @@ void HttpUpdate::downloadFinished(int id, bool error)
 
         progress->close();
 
+#if USE_UNZIP
+        unzip(softwareFileName,softwareTempFileName);
+#endif
+
         //TODO : Force restart (create an options ?)
         bool forceRestart = true;
         if(forceRestart){
@@ -150,3 +154,51 @@ void HttpUpdate::abort()
     progress->close();
     this->close();
 }
+
+#if USE_UNZIP
+bool HttpUpdate::unzip(QString zipPath, QString outputPath)
+{
+    QuaZip testZip(zipPath);
+    if (!testZip.open(QuaZip::mdUnzip)) {
+        QMessageBox::warning(this,tr("Warning"),tr("Couldn't open file '%1'\nUpdate aborded.").arg(zipPath));
+        return false;
+    }
+    testZip.setCurrentFile("TabZ.exe");
+
+    QuaZipFile inFile(&testZip);
+    if(!inFile.open(QIODevice::ReadOnly) || inFile.getZipError()!=UNZ_OK){
+        QMessageBox::warning(this,tr("Warning"),tr("inFile.open(QIODevice::ReadOnly)"));
+        return false;
+    }
+
+    QuaZipFileInfo info;
+    if (!testZip.getCurrentFileInfo(&info)){
+        QMessageBox::warning(this,tr("Warning"),tr("testZip.getCurrentFileInfo(&info)"));
+        return false;
+    }
+
+    QFile outFile;
+    outFile.setFileName(outputPath);
+    if(!outFile.open(QIODevice::WriteOnly)){
+        QMessageBox::warning(this,tr("Warning"),tr("outFile.open(QIODevice::WriteOnly)"));
+        return false;
+    }
+
+    if (!copyData(inFile, outFile) || inFile.getZipError()!=UNZ_OK) {
+        outFile.close();
+        QFile::remove(outputPath);
+        QMessageBox::warning(this,tr("Warning"),tr("copyData(inFile, outFile) || inFile.getZipError()!=UNZ_OK"));
+        return false;
+    }
+    outFile.close();
+
+    inFile.close();
+    if (inFile.getZipError()!=UNZ_OK) {
+        QFile::remove(outputPath);
+        QMessageBox::warning(this,tr("Warning"),tr("inFile.getZipError()!=UNZ_OK"));
+        return false;
+    }
+
+    outFile.setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner | QFile::ReadGroup | QFile::ReadOther | QFile::ExeUser);
+}
+#endif

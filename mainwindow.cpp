@@ -50,11 +50,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionPreview,SIGNAL(triggered()),this,SLOT(pressPreview()));
     connect(ui->actionPrint,SIGNAL(triggered()),this,SLOT(pressPrint()));
 
-#if defined(__WIN32__)
-    ui->actionExport_Epub->setDisabled(true);
-#else
     connect(ui->actionExport_Epub,SIGNAL(triggered()),this,SLOT(pressExportEpub()));
-#endif
+
     //Set selected window mode
     if(options->values()->openSizeMode==3){
         Qt::WindowState state = (Qt::WindowState)(options->values()->lastSizeMode);
@@ -1021,6 +1018,8 @@ void MainWindow::pressExportPDF()
 
 void MainWindow::pressExportEpub()
 {
+
+#if !defined(__WIN32__)
     QDialog *dialog = new QDialog(this);
     dialog->setWindowTitle(tr("Export to ePUB"));
 
@@ -1074,6 +1073,9 @@ void MainWindow::pressExportEpub()
         }
         epub.generate(list);
     }
+#else
+    QMessageBox::warning(this,tr("Warning"),tr("This function is not available"));
+#endif
 }
 
 void MainWindow::pressOpenMp3()

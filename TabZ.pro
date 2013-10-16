@@ -20,7 +20,6 @@ SOURCES += main.cpp\
     options.cpp \
     optionsform.cpp \
     chords.cpp \
-    httpupdate.cpp \
     qprintpreview.cpp \
     downloadxta.cpp \
     chordsmanager.cpp \
@@ -30,7 +29,6 @@ SOURCES += main.cpp\
     mytextedit.cpp \
     mycompleter.cpp \
     findreplacedialog.cpp \
-    epubgenerator.cpp \
     qwidgets/mycheckabletree.cpp
     #myprintpreviewwidget.cpp# \
     #myprinterprivate.cpp
@@ -44,7 +42,6 @@ HEADERS  += mainwindow.h \
     options.h \
     optionsform.h \
     chords.h \
-    httpupdate.h \
     qprintpreview.h \
     qprogressbardialog.h \
     downloadxta.h \
@@ -62,10 +59,43 @@ HEADERS  += mainwindow.h \
     fontlabellayout.h \
     mycompleter.h \
     findreplacedialog.h \
-    epubgenerator.h \
     qwidgets/mycheckabletree.h
     #myprintpreviewwidget.h #\
     #myprinterprivate.h
+
+linux {
+    HEADERS +=    epubgenerator.h \
+    quazip/ioapi.h \
+    quazip/quaziodevice.h \
+    quazip/quazip.h \
+    quazip/quazip_global.h \
+    quazip/quazipdir.h \
+    quazip/quazipfile.h \
+    quazip/quazipfileinfo.h \
+    quazip/quazipnewinfo.h \
+    quazip/zip.h \
+    quazip/unzip.h \
+    quazip/zlib.h \
+    quazip/zconf.h \
+    quazip/crypt.h
+
+    SOURCES +=  epubgenerator.cpp \
+    quazip/qioapi.cpp \
+    quazip/quaziodevice.cpp \
+    quazip/quazip.cpp \
+    quazip/quazipdir.cpp \
+    quazip/quazipfile.cpp \
+    quazip/quazipfileinfo.cpp \
+    quazip/quazipnewinfo.cpp \
+    quazip/zip.c\
+    quazip/unzip.c
+
+}
+
+win32 {
+    SOURCES += httpupdate.cpp
+    HEADERS += httpupdate.h
+}
 
 FORMS    += mainwindow.ui
 

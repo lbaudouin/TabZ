@@ -5,12 +5,17 @@
 #include <QPixmap>
 #include <QProcess>
 #include <QDir>
+#include <QDirIterator>
+#include <QDateTime>
 
 #include <xta_info.h>
 
 #include <QDesktopServices>
 #include <QTextDocument>
 #include <QDebug>
+
+#include "quazip/quazip.h"
+#include "quazip/quazipfile.h"
 
 class EpubGenerator
 {
@@ -33,6 +38,8 @@ protected:
     void generateContainer();
 
     QStringList generatePages(const QList<XTAinfo> &list);
+
+    bool save(const QString &fullFolderPath, const QString &fullFilePath);
 
 private:
     QString title_;

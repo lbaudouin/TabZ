@@ -23,7 +23,10 @@
 #include "mycompleter.h"
 #include "findreplacedialog.h"
 #include "qwidgets/mycheckabletree.h"
+
+#if !defined(__WIN32__)
 #include "epubgenerator.h"
+#endif
 
 namespace Ui {
 class MainWindow;
