@@ -63,7 +63,7 @@ HEADERS  += mainwindow.h \
     #myprintpreviewwidget.h #\
     #myprinterprivate.h
 
-linux {
+unix {
     HEADERS +=    epubgenerator.h \
     quazip/ioapi.h \
     quazip/quaziodevice.h \
@@ -99,8 +99,7 @@ win32 {
 
 FORMS    += mainwindow.ui
 
-OTHER_FILES += TODO.diff \
-    CMakeLists.txt
+OTHER_FILES += TODO.diff
 
 RESOURCES += ressource.qrc
 
