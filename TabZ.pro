@@ -64,33 +64,8 @@ HEADERS  += mainwindow.h \
 
 unix {
     TARGET = tabz
-
-    HEADERS +=    epubgenerator.h \
-    quazip/ioapi.h \
-    quazip/quaziodevice.h \
-    quazip/quazip.h \
-    quazip/quazip_global.h \
-    quazip/quazipdir.h \
-    quazip/quazipfile.h \
-    quazip/quazipfileinfo.h \
-    quazip/quazipnewinfo.h \
-    quazip/zip.h \
-    quazip/unzip.h \
-    quazip/zlib.h \
-    quazip/zconf.h \
-    quazip/crypt.h
-
-    SOURCES +=  epubgenerator.cpp \
-    quazip/qioapi.cpp \
-    quazip/quaziodevice.cpp \
-    quazip/quazip.cpp \
-    quazip/quazipdir.cpp \
-    quazip/quazipfile.cpp \
-    quazip/quazipfileinfo.cpp \
-    quazip/quazipnewinfo.cpp \
-    quazip/zip.c\
-    quazip/unzip.c
-
+    HEADERS +=    epubgenerator.h
+    SOURCES +=  epubgenerator.cpp
 }
 
 win32 {
