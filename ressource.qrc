@@ -51,6 +51,6 @@
         <file alias="epub">images/epub.png</file>
     </qresource>
     <qresource prefix="/lang">
-        <file alias="lang_fr">/home/lbaudouin/Programmes/TabZ-build-Qt/TabZ_fr.qm</file>
+        <file alias="lang_fr">TabZ_fr.qm</file>
     </qresource>
 </RCC>
