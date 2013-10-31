@@ -2,6 +2,7 @@
 
 OptionsForm::OptionsForm(OptionsValues options, QWidget *parent) : QDialog(parent), options_(options)
 {
+    this->setWindowTitle(tr("Setting"));
     this->setMinimumSize(800,600);
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
 

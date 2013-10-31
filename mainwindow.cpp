@@ -385,7 +385,8 @@ int MainWindow::addTab(XTAinfo info, bool forceEditable)
 
     Tab *tab = new Tab(info, chords, options->cloneValues(), ui->tabWidget);
 
-    connect(tab,SIGNAL(setSaveIcon(int,bool)),this,SLOT(displaySaveIcon(int,bool)));
+    connect(tab,SIGNAL(setSaveIcon()),this,SLOT(displaySaveIcon()));
+    connect(tab,SIGNAL(unsetSaveIcon()),this,SLOT(removeSaveIcon()));
     //connect(this,SIGNAL(setColorsEnabled(bool)),tab,SLOT(enableColors(bool)));
     connect(tab,SIGNAL(undoAvailable(bool)),this,SLOT(setUndoAvailable(bool)));
     connect(tab,SIGNAL(redoAvailable(bool)),this,SLOT(setRedoAvailable(bool)));
@@ -424,17 +425,30 @@ int MainWindow::addTab(XTAinfo info, bool forceEditable)
     return index;
 }
 
-void MainWindow::displaySaveIcon(int index, bool state)
+void MainWindow::displaySaveIcon()
 {
-    if(index<0)
-        index = ui->tabWidget->indexOf((Tab*)sender());
+    int index = ui->tabWidget->indexOf((Tab*)sender());
 
-    if(index>=ui->tabWidget->count())
+    if(index<0 || index>=ui->tabWidget->count())
         return;
-    if(state)
-        ui->tabWidget->setTabIcon(index, QIcon( this->style()->standardIcon(QStyle::SP_DialogSaveButton )) );
-    else
-        ui->tabWidget->setTabIcon(index, QIcon());
+
+    ui->tabWidget->setTabIcon(index, QIcon( this->style()->standardIcon(QStyle::SP_DialogSaveButton )) );
+}
+
+void MainWindow::removeSaveIcon(QWidget* widget)
+{
+    int index = -1;
+
+    if(widget==0){
+        index = ui->tabWidget->indexOf((Tab*)sender());
+    }else{
+        index = ui->tabWidget->indexOf(widget);
+    }
+
+    if(index<0 || index>=ui->tabWidget->count())
+        return;
+
+    ui->tabWidget->setTabIcon(index, QIcon());
 }
 
 void MainWindow::pressNew(QString text)
@@ -527,7 +541,7 @@ void MainWindow::pressSave()
         xta->save(info.filepath,info);
         addRecent(info);
         currentTab->saved();
-        displaySaveIcon(ui->tabWidget->indexOf(currentTab),false);
+        removeSaveIcon(currentTab);
     }
 }
 
@@ -588,7 +602,7 @@ void MainWindow::pressSaveAs()
         xta->save(filepath,info);
         addRecent(info);
         currentTab->saved(fi.absoluteFilePath());
-        displaySaveIcon(ui->tabWidget->indexOf(currentTab),false);
+        removeSaveIcon(currentTab);
     }
 }
 
@@ -917,10 +931,9 @@ void MainWindow::openFile()
 
 void MainWindow::restart(QString path)
 {
-    qDebug() << path;
     QProcess process;
     process.startDetached("\""+path+"\"");
-    exit(1);
+    this->close();
 }
 
 void MainWindow::pressEditMode()
@@ -1169,7 +1182,7 @@ void MainWindow::handleMessage(const QString& message)
     switch(action) {
         case Print: break;
         case Open: {
-            loadFiles(QStringList() << filename);
+        loadFiles(filename.split("\n",QString::SkipEmptyParts));
             emit needToShow();
             break;
         }

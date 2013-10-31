@@ -6,7 +6,6 @@
 
 QT       += core gui xml network
 
-TARGET = TabZ
 TEMPLATE = app
 
 TRANSLATIONS = TabZ_fr.ts
@@ -64,6 +63,8 @@ HEADERS  += mainwindow.h \
     #myprinterprivate.h
 
 unix {
+    TARGET = tabz
+
     HEADERS +=    epubgenerator.h \
     quazip/ioapi.h \
     quazip/quaziodevice.h \
@@ -93,8 +94,11 @@ unix {
 }
 
 win32 {
-    SOURCES += httpupdate.cpp
-    HEADERS += httpupdate.h
+    TARGET = TabZ
+    SOURCES += updatemanager.cpp
+    HEADERS += updatemanager.h
+
+    RC_FILE = TabZ.rc
 }
 
 FORMS    += mainwindow.ui
@@ -103,6 +107,5 @@ OTHER_FILES += TODO.diff
 
 RESOURCES += ressource.qrc
 
-RC_FILE = TabZ.rc
 
 include(qtsingleapplication/qtsingleapplication.pri)

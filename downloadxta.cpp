@@ -3,6 +3,7 @@
 DownloadXTA::DownloadXTA(QWidget *parent) :
     QDialog(parent)
 {
+    this->setWindowTitle(tr("XTA downloader"));
     this->setMinimumSize(500,600);
 
     QVBoxLayout *mainLayout = new QVBoxLayout(this);

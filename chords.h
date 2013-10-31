@@ -16,13 +16,31 @@
 
 #include "guitar.h"
 
-struct Chord{
-    Chord() {}
-    Chord(QString _name, QString _fingers, QString _comment = "", bool _locked = false) {name=_name; fingers=_fingers; comment=_comment; locked=_locked; }
-    QString name;
-    QString fingers;
-    QString comment;
-    bool locked;
+class Chord{
+public:
+    Chord(QString name, QString fingers, QString comment = "") : locked_(true) {name_=name; fingers_=fingers; comment_=comment; }
+
+    QString getName() const {return name_;}
+    QString getFingers() const {return fingers_;}
+    QString getComment() const {return comment_;}
+    bool isLocked() const {return locked_;}
+
+protected:
+    QString name_;
+    QString fingers_;
+    QString comment_;
+    bool locked_;
+};
+
+class ChordUnlocked : public Chord{
+public:
+    ChordUnlocked(QString name, QString fingers, QString comment = "") : Chord(name,fingers,comment) {setLocked(false);}
+    ChordUnlocked() : Chord("","") {setLocked(false);}
+
+    void setName(QString name) {name_ = name;}
+    void setFingers(QString fingers) {fingers_ = fingers;}
+    void setComment(QString comment) {comment_ = comment;}
+    void setLocked(bool locked){locked_ = locked;}
 };
 
 struct Instrument{
@@ -71,6 +89,7 @@ private:
 
 public:
     void addChord(Instrument instrument, QString name, QString fingers, QString comment = "", bool locked = false);
+    void addLockedChord(Instrument instrument, QString name, QString fingers, QString comment = "");
     Instrument addInstrument(QString name, QString label, int nbStrings);
 };
 

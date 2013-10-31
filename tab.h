@@ -96,7 +96,8 @@ private:
     Instrument instrument_;
 
 signals:
-    void setSaveIcon(int,bool);
+    void setSaveIcon();
+    void unsetSaveIcon();
     void setSelected(QString name);
     void removeChord(QString name);
 

@@ -141,7 +141,8 @@ public slots:
     void pressSearchXTA();
     void pressDownloadXTA();
 
-    void displaySaveIcon(int,bool);
+    void displaySaveIcon();
+    void removeSaveIcon(QWidget* widget = 0);
 
     void tabMoved(int,int);
     void tabCloseRequest(int);

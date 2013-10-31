@@ -9,22 +9,21 @@
         <translation>Guitare</translation>
     </message>
     <message>
-        <location filename="chords.cpp" line="13"/>
         <source>Bass</source>
-        <translation>Basse</translation>
+        <translation type="obsolete">Basse</translation>
     </message>
     <message>
-        <location filename="chords.cpp" line="14"/>
+        <location filename="chords.cpp" line="56"/>
         <source>Ukulele</source>
         <translation>Ukulele</translation>
     </message>
     <message>
-        <location filename="chords.cpp" line="15"/>
+        <location filename="chords.cpp" line="92"/>
         <source>Mandolin</source>
         <translation>Mandoline</translation>
     </message>
     <message>
-        <location filename="chords.cpp" line="16"/>
+        <location filename="chords.cpp" line="101"/>
         <source>Banjo</source>
         <translation>Banjo</translation>
     </message>
@@ -48,32 +47,42 @@
 <context>
     <name>ChordsManager</name>
     <message>
-        <location filename="chordsmanager.cpp" line="84"/>
+        <location filename="chordsmanager.cpp" line="5"/>
+        <source>Chords Manager</source>
+        <translation>Gestionnaire d&apos;accords</translation>
+    </message>
+    <message>
+        <location filename="chordsmanager.cpp" line="78"/>
+        <source>Add new chord</source>
+        <translation>Ajouter un nouvel accord</translation>
+    </message>
+    <message>
+        <location filename="chordsmanager.cpp" line="86"/>
         <source>Guitar</source>
         <translation>Guitare</translation>
     </message>
     <message>
-        <location filename="chordsmanager.cpp" line="94"/>
+        <location filename="chordsmanager.cpp" line="96"/>
         <source>Instrument</source>
         <translation>Instrument</translation>
     </message>
     <message>
-        <location filename="chordsmanager.cpp" line="95"/>
+        <location filename="chordsmanager.cpp" line="97"/>
         <source>Name</source>
         <translation>Nom</translation>
     </message>
     <message>
-        <location filename="chordsmanager.cpp" line="96"/>
+        <location filename="chordsmanager.cpp" line="98"/>
         <source>Fingers</source>
         <translation>Doigts</translation>
     </message>
     <message>
-        <location filename="chordsmanager.cpp" line="121"/>
+        <location filename="chordsmanager.cpp" line="123"/>
         <source>Warning</source>
         <translation>Attention</translation>
     </message>
     <message>
-        <location filename="chordsmanager.cpp" line="121"/>
+        <location filename="chordsmanager.cpp" line="123"/>
         <source>Invalid name</source>
         <translation>Nom invalide</translation>
     </message>
@@ -907,7 +916,7 @@
 <context>
     <name>DownloadXTA</name>
     <message>
-        <location filename="downloadxta.cpp" line="25"/>
+        <location filename="downloadxta.cpp" line="26"/>
         <source>Downloading...</source>
         <oldsource>Downloading</oldsource>
         <translation>Téléchargement...</translation>
@@ -921,84 +930,89 @@
         <translation type="obsolete">Le document XML &apos;%1&apos; ne peut être ouvert. Vérifiez que le nom est correct et que le document est placé au bon endroit.</translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="65"/>
+        <location filename="downloadxta.cpp" line="6"/>
+        <source>XTA downloader</source>
+        <translation>Télécharger des XTA</translation>
+    </message>
+    <message>
+        <location filename="downloadxta.cpp" line="66"/>
         <source>Error opening the XML document</source>
         <translation>Erreur en ouvrant le fichier XML</translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="65"/>
+        <location filename="downloadxta.cpp" line="66"/>
         <source>The XML document could not be assigned to the object QDomDocument.</source>
         <translation>Le fichier XML ne peux pas être associé à un objet QDomDocument.</translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="117"/>
+        <location filename="downloadxta.cpp" line="118"/>
         <source>Available songs</source>
         <translation>Chansons disponibles</translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="168"/>
-        <location filename="downloadxta.cpp" line="179"/>
+        <location filename="downloadxta.cpp" line="169"/>
+        <location filename="downloadxta.cpp" line="180"/>
         <source>Parsing...</source>
         <oldsource>Pasring...</oldsource>
         <translation>Analyse...</translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="195"/>
+        <location filename="downloadxta.cpp" line="196"/>
         <source>The host name lookup failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="196"/>
+        <location filename="downloadxta.cpp" line="197"/>
         <source>The server refused the connection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="197"/>
+        <location filename="downloadxta.cpp" line="198"/>
         <source>The server closed the connection unexpectedly</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="198"/>
+        <location filename="downloadxta.cpp" line="199"/>
         <source>The server sent an invalid response header</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="199"/>
+        <location filename="downloadxta.cpp" line="200"/>
         <source>The client could not read the content correctly because an error with respect to the content length occurred</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="200"/>
+        <location filename="downloadxta.cpp" line="201"/>
         <source>The request was aborted with abort()</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="201"/>
+        <location filename="downloadxta.cpp" line="202"/>
         <source>QHttp is using a proxy, and the proxy server requires authentication to establish a connection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="202"/>
+        <location filename="downloadxta.cpp" line="203"/>
         <source>The web server requires authentication to complete the request</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="203"/>
+        <location filename="downloadxta.cpp" line="204"/>
         <source>An unknown error occurred</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="208"/>
+        <location filename="downloadxta.cpp" line="209"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="217"/>
+        <location filename="downloadxta.cpp" line="218"/>
         <source>Select output folder</source>
         <translation>Choisir un dossier</translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="217"/>
+        <location filename="downloadxta.cpp" line="218"/>
         <source>Folder path</source>
         <translation>Dossier</translation>
     </message>
@@ -1099,114 +1113,58 @@
 <context>
     <name>HttpUpdate</name>
     <message>
-        <location filename="httpupdate.cpp" line="18"/>
         <source>Kb</source>
-        <translation>ko</translation>
+        <translation type="obsolete">ko</translation>
     </message>
     <message>
-        <location filename="httpupdate.cpp" line="55"/>
-        <source>The host name lookup failed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="httpupdate.cpp" line="56"/>
-        <source>The server refused the connection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="httpupdate.cpp" line="57"/>
-        <source>The server closed the connection unexpectedly</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="httpupdate.cpp" line="58"/>
-        <source>The server sent an invalid response header</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="httpupdate.cpp" line="59"/>
-        <source>The client could not read the content correctly because an error with respect to the content length occurred</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="httpupdate.cpp" line="60"/>
-        <source>The request was aborted with abort()</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="httpupdate.cpp" line="61"/>
-        <source>QHttp is using a proxy, and the proxy server requires authentication to establish a connection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="httpupdate.cpp" line="62"/>
-        <source>The web server requires authentication to complete the request</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="httpupdate.cpp" line="63"/>
-        <source>An unknown error occurred</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="httpupdate.cpp" line="69"/>
-        <location filename="httpupdate.cpp" line="88"/>
         <source>Error</source>
-        <translation>Erreur</translation>
+        <translation type="obsolete">Erreur</translation>
     </message>
     <message>
-        <location filename="httpupdate.cpp" line="87"/>
         <source>Error in version file</source>
-        <translation>Erreur dans le fichier de version</translation>
+        <translation type="obsolete">Erreur dans le fichier de version</translation>
     </message>
     <message>
-        <location filename="httpupdate.cpp" line="88"/>
         <source>Could not get the last version</source>
-        <translation>Impossible de récupérer la dernière version</translation>
+        <translation type="obsolete">Impossible de récupérer la dernière version</translation>
     </message>
     <message>
-        <location filename="httpupdate.cpp" line="93"/>
-        <location filename="httpupdate.cpp" line="98"/>
         <source>Information</source>
-        <translation>Information</translation>
+        <translation type="obsolete">Information</translation>
     </message>
     <message>
-        <location filename="httpupdate.cpp" line="93"/>
         <source>New version available : %1</source>
-        <translation>Nouvelle version disponible : %1</translation>
+        <translation type="obsolete">Nouvelle version disponible : %1</translation>
     </message>
     <message>
-        <location filename="httpupdate.cpp" line="93"/>
         <source>Don&apos;t download</source>
-        <translation>Ne pas télécharger</translation>
+        <translation type="obsolete">Ne pas télécharger</translation>
     </message>
     <message>
-        <location filename="httpupdate.cpp" line="93"/>
         <source>Download</source>
-        <translation>Télécharger</translation>
+        <translation type="obsolete">Télécharger</translation>
     </message>
     <message>
-        <location filename="httpupdate.cpp" line="97"/>
-        <location filename="httpupdate.cpp" line="98"/>
         <source>No new version available</source>
-        <translation>Pas de nouvelle version disponible</translation>
+        <translation type="obsolete">Pas de nouvelle version disponible</translation>
     </message>
     <message>
-        <location filename="httpupdate.cpp" line="118"/>
         <source>%1Kb downloaded
 Please restart software to use the new version</source>
-        <translation>%1ko téléchargés
+        <translation type="obsolete">%1ko téléchargés
 Merci de redémarrer le programme pour utiliser la nouvelle version</translation>
     </message>
     <message>
-        <location filename="httpupdate.cpp" line="119"/>
         <source>Restart</source>
-        <translation>Redémarrer</translation>
+        <translation type="obsolete">Redémarrer</translation>
     </message>
     <message>
-        <location filename="httpupdate.cpp" line="120"/>
         <source>Do not restart</source>
-        <translation>Ne pas redémarrer</translation>
+        <translation type="obsolete">Ne pas redémarrer</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation type="obsolete">Attention</translation>
     </message>
 </context>
 <context>
@@ -1309,7 +1267,7 @@ Commande : &apos;gksudo apt-get install lilypond&apos;</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="191"/>
-        <location filename="mainwindow.cpp" line="387"/>
+        <location filename="mainwindow.cpp" line="384"/>
         <source>New</source>
         <translation>Nouveau</translation>
     </message>
@@ -1369,7 +1327,7 @@ Commande : &apos;gksudo apt-get install lilypond&apos;</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="253"/>
-        <location filename="mainwindow.cpp" line="571"/>
+        <location filename="mainwindow.cpp" line="582"/>
         <source>Save as</source>
         <translation>Enregistrer sous</translation>
     </message>
@@ -1568,7 +1526,7 @@ Commande : &apos;gksudo apt-get install lilypond&apos;</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="585"/>
-        <location filename="mainwindow.cpp" line="1146"/>
+        <location filename="mainwindow.cpp" line="1161"/>
         <source>About</source>
         <translation>A propos</translation>
     </message>
@@ -1594,8 +1552,8 @@ Commande : &apos;gksudo apt-get install lilypond&apos;</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="469"/>
-        <location filename="mainwindow.cpp" line="816"/>
-        <location filename="mainwindow.cpp" line="835"/>
+        <location filename="mainwindow.cpp" line="827"/>
+        <location filename="mainwindow.cpp" line="846"/>
         <source>Search lyrics</source>
         <translation>Rechercher les paroles</translation>
     </message>
@@ -1640,8 +1598,8 @@ Commande : &apos;gksudo apt-get install lilypond&apos;</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="546"/>
-        <location filename="mainwindow.cpp" line="998"/>
-        <location filename="mainwindow.cpp" line="1010"/>
+        <location filename="mainwindow.cpp" line="1008"/>
+        <location filename="mainwindow.cpp" line="1020"/>
         <source>Export PDF</source>
         <translation>Exporter en PDF</translation>
     </message>
@@ -1651,7 +1609,7 @@ Commande : &apos;gksudo apt-get install lilypond&apos;</translation>
         <translation>Télécharger des XTA</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="237"/>
+        <location filename="mainwindow.cpp" line="234"/>
         <source>Exit Full Screen</source>
         <translation>Sortir du plein-écran</translation>
     </message>
@@ -1664,63 +1622,63 @@ Commande : &apos;gksudo apt-get install lilypond&apos;</translation>
         <translation type="obsolete">Impossible d&apos;ouvrir le fichier : %1</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="475"/>
-        <location filename="mainwindow.cpp" line="485"/>
+        <location filename="mainwindow.cpp" line="486"/>
+        <location filename="mainwindow.cpp" line="496"/>
         <source>Open file</source>
         <translation>Ouvrir</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="571"/>
-        <location filename="mainwindow.cpp" line="575"/>
+        <location filename="mainwindow.cpp" line="582"/>
+        <location filename="mainwindow.cpp" line="586"/>
         <source>XTA files (*.xta)</source>
         <translation>Fichier XTA (*.xta)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="571"/>
-        <location filename="mainwindow.cpp" line="578"/>
+        <location filename="mainwindow.cpp" line="582"/>
+        <location filename="mainwindow.cpp" line="589"/>
         <source>TXT files (*.txt)</source>
         <translation>Fichier texte (*.txt)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="584"/>
+        <location filename="mainwindow.cpp" line="595"/>
         <source>&apos;%1&apos; already exists.
 Do you want to replace it?</source>
         <translation>&apos;%1&apos; existe déjà.
 Voulez-vous le remplacer ?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="607"/>
+        <location filename="mainwindow.cpp" line="618"/>
         <source>Modified</source>
         <translation>Modification</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="607"/>
+        <location filename="mainwindow.cpp" line="618"/>
         <source>Do you want to save : %1</source>
         <translation>Voulez-vous sauvegarder : %1</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="643"/>
+        <location filename="mainwindow.cpp" line="654"/>
         <source>Files</source>
         <translation>Fichiers</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="644"/>
+        <location filename="mainwindow.cpp" line="655"/>
         <source>All</source>
         <translation>Tous</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="652"/>
+        <location filename="mainwindow.cpp" line="663"/>
         <source>Which files do you whant to save?</source>
         <translation>Quels fichiers voulez-vous sauvegarder ?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="813"/>
+        <location filename="mainwindow.cpp" line="824"/>
         <source>lyrics</source>
         <translation>lyrics</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="816"/>
-        <location filename="mainwindow.cpp" line="835"/>
+        <location filename="mainwindow.cpp" line="827"/>
+        <location filename="mainwindow.cpp" line="846"/>
         <source>Search text:</source>
         <translation>Texte de la recherche :</translation>
     </message>
@@ -1741,42 +1699,52 @@ Voulez-vous le remplacer ?</translation>
         <translation type="obsolete">Le fichier XML ne peux pas être associé à un objet QDomDocument.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1010"/>
+        <location filename="mainwindow.cpp" line="1020"/>
         <source>PDF exported : %1</source>
         <translation>PDF exporté : %1</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1025"/>
+        <location filename="mainwindow.cpp" line="1037"/>
         <source>Export to ePUB</source>
         <translation>Exporter vers le format ePUB</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1028"/>
+        <location filename="mainwindow.cpp" line="1040"/>
         <source>Options</source>
         <translation>Options</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1029"/>
+        <location filename="mainwindow.cpp" line="1041"/>
         <source>This XTA only</source>
         <translation>Ce XTA seulement</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1030"/>
+        <location filename="mainwindow.cpp" line="1042"/>
         <source>This artist only</source>
         <translation>Cet artiste seulement</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1031"/>
+        <location filename="mainwindow.cpp" line="1043"/>
         <source>All XTA</source>
         <translation>Tous les XTA</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1072"/>
+        <location filename="mainwindow.cpp" line="1084"/>
         <source>Song book</source>
         <translation>Song book</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1146"/>
+        <location filename="mainwindow.cpp" line="1090"/>
+        <source>Warning</source>
+        <translation>Attention</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="1090"/>
+        <source>This function is not available</source>
+        <translation>Cette fonction n&apos;est pas disponible</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="1161"/>
         <source>Written by %1 (%2)
 Version: %3</source>
         <comment>author, year, version</comment>
@@ -1795,7 +1763,7 @@ Version : %3</translation>
 <context>
     <name>OptionsForm</name>
     <message>
-        <location filename="optionsform.cpp" line="37"/>
+        <location filename="optionsform.cpp" line="38"/>
         <source>Enable color:</source>
         <translation>Activer les couleurs :</translation>
     </message>
@@ -1804,47 +1772,47 @@ Version : %3</translation>
         <translation type="obsolete">Couleur</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="57"/>
+        <location filename="optionsform.cpp" line="58"/>
         <source>Colors</source>
         <translation>Couleurs</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="84"/>
+        <location filename="optionsform.cpp" line="85"/>
         <source>Normal</source>
         <translation>Normal</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="84"/>
+        <location filename="optionsform.cpp" line="85"/>
         <source>Maximized</source>
         <translation>Maximisé</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="84"/>
+        <location filename="optionsform.cpp" line="85"/>
         <source>FullScreen</source>
         <translation>Plein écran</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="84"/>
+        <location filename="optionsform.cpp" line="85"/>
         <source>Last used</source>
         <translation>Dernier utilisé</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="96"/>
+        <location filename="optionsform.cpp" line="97"/>
         <source>Top</source>
         <translation>Haut</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="96"/>
+        <location filename="optionsform.cpp" line="97"/>
         <source>Left</source>
         <translation>Gauche</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="96"/>
+        <location filename="optionsform.cpp" line="97"/>
         <source>Right</source>
         <translation>Droite</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="96"/>
+        <location filename="optionsform.cpp" line="97"/>
         <source>Bottom</source>
         <translation>Bas</translation>
     </message>
@@ -1853,100 +1821,105 @@ Version : %3</translation>
         <translation type="obsolete">Police par défaut :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="99"/>
+        <location filename="optionsform.cpp" line="5"/>
+        <source>Setting</source>
+        <translation>Préférences</translation>
+    </message>
+    <message>
+        <location filename="optionsform.cpp" line="100"/>
         <source>Default folder:</source>
         <translation>Dossier par défaut :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="100"/>
+        <location filename="optionsform.cpp" line="101"/>
         <source>Auto-create artist folder:</source>
         <translation>Création d&apos;un dossier par artiste :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="101"/>
+        <location filename="optionsform.cpp" line="102"/>
         <source>Select new tab:</source>
         <translation>Basculer sur le nouvel onglet :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="102"/>
+        <location filename="optionsform.cpp" line="103"/>
         <source>Open read only:</source>
         <translation>Ouvrir en lecture seule :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="103"/>
+        <location filename="optionsform.cpp" line="104"/>
         <source>Re-open previous tabs:</source>
         <translation>Ré-ouvrir les onglets précédents :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="104"/>
+        <location filename="optionsform.cpp" line="105"/>
         <source>Open size mode:</source>
         <translation>Mode d&apos;affichage :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="105"/>
+        <location filename="optionsform.cpp" line="106"/>
         <source>Chord size:</source>
         <translation>Taille des accords :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="106"/>
+        <location filename="optionsform.cpp" line="107"/>
         <source>ToolBar position:</source>
         <translation>Position de la barre d&apos;outils :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="108"/>
+        <location filename="optionsform.cpp" line="109"/>
         <source>General</source>
         <translation>Général</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="133"/>
-        <location filename="optionsform.cpp" line="136"/>
-        <location filename="optionsform.cpp" line="139"/>
-        <location filename="optionsform.cpp" line="142"/>
+        <location filename="optionsform.cpp" line="134"/>
+        <location filename="optionsform.cpp" line="137"/>
+        <location filename="optionsform.cpp" line="140"/>
+        <location filename="optionsform.cpp" line="143"/>
         <source>mm</source>
         <translation>mm</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="177"/>
+        <location filename="optionsform.cpp" line="178"/>
         <source>Default output folder:</source>
         <translation>Dossier de sortie par défaut :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="178"/>
+        <location filename="optionsform.cpp" line="179"/>
         <source>Enable colors on printing:</source>
         <translation>Impression en couleur :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="179"/>
+        <location filename="optionsform.cpp" line="180"/>
         <source>Print header on each pages:</source>
         <translation>Informations sur chaque pages :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="180"/>
+        <location filename="optionsform.cpp" line="181"/>
         <source>Title font:</source>
         <translation>Police de titre :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="181"/>
+        <location filename="optionsform.cpp" line="182"/>
         <source>Artist font:</source>
         <translation>Police d&apos;artiste :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="182"/>
+        <location filename="optionsform.cpp" line="183"/>
         <source>Other font:</source>
         <translation>Police d&apos;informations :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="183"/>
+        <location filename="optionsform.cpp" line="184"/>
         <source>Text font:</source>
         <translation>Police de texte :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="184"/>
+        <location filename="optionsform.cpp" line="185"/>
         <source>Margins:</source>
         <translation>Marges :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="186"/>
+        <location filename="optionsform.cpp" line="187"/>
         <source>Print</source>
         <translation>Impression</translation>
     </message>
@@ -2088,14 +2061,39 @@ Version : %3</translation>
 <context>
     <name>QProgressBarDialog</name>
     <message>
-        <location filename="qprogressbardialog.h" line="16"/>
+        <location filename="qprogressbardialog.h" line="17"/>
+        <source>Download</source>
+        <translation>Téléchargement</translation>
+    </message>
+    <message>
+        <location filename="qprogressbardialog.h" line="19"/>
         <source>Please wait...</source>
         <translation>Veuillez patienter...</translation>
     </message>
     <message>
-        <location filename="qprogressbardialog.h" line="25"/>
         <source>Cancel</source>
-        <translation>Annuler</translation>
+        <translation type="obsolete">Annuler</translation>
+    </message>
+</context>
+<context>
+    <name>QuaZIODevice</name>
+    <message>
+        <location filename="quazip/quaziodevice.cpp" line="121"/>
+        <source>QIODevice::Append is not supported for QuaZIODevice</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="quazip/quaziodevice.cpp" line="126"/>
+        <source>QIODevice::ReadWrite is not supported for QuaZIODevice</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QuaZipFilePrivate</name>
+    <message>
+        <location filename="quazip/quazipfile.cpp" line="217"/>
+        <source>ZIP/UNZIP API error %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2237,19 +2235,19 @@ Version : %3</translation>
         <translation type="obsolete">Désélectionner tout</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="594"/>
+        <location filename="tab.cpp" line="595"/>
         <source>Information</source>
         <translation>Information</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="594"/>
+        <location filename="tab.cpp" line="595"/>
         <source>No chord found</source>
         <translation>Pas d&apos;accords trouvé</translation>
     </message>
     <message>
         <location filename="tab.cpp" line="321"/>
-        <location filename="tab.cpp" line="734"/>
-        <location filename="tab.cpp" line="826"/>
+        <location filename="tab.cpp" line="735"/>
+        <location filename="tab.cpp" line="827"/>
         <source>[Capo: %1, Tuning: %2]</source>
         <translation>[Capo: %1, Accordage: %2]</translation>
     </message>
@@ -2327,13 +2325,13 @@ Version : %3</translation>
     </message>
     <message>
         <location filename="tab.cpp" line="323"/>
-        <location filename="tab.cpp" line="828"/>
+        <location filename="tab.cpp" line="829"/>
         <source>[Capo: %1]</source>
         <translation>[Capo : %1]</translation>
     </message>
     <message>
         <location filename="tab.cpp" line="325"/>
-        <location filename="tab.cpp" line="830"/>
+        <location filename="tab.cpp" line="831"/>
         <source>[Tuning: %1]</source>
         <translation>[Accordage : %1 ]</translation>
     </message>
@@ -2343,47 +2341,57 @@ Version : %3</translation>
         <translation>Tous</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="580"/>
+        <location filename="tab.cpp" line="577"/>
+        <source>Select chords</source>
+        <translation>Choisir des accords</translation>
+    </message>
+    <message>
+        <location filename="tab.cpp" line="581"/>
         <source>Chords found:</source>
         <translation>Accords trouvés :</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="854"/>
+        <location filename="tab.cpp" line="855"/>
         <source>Page %1 of %2</source>
         <translation>Page %1 sur %2</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1046"/>
+        <location filename="tab.cpp" line="1044"/>
+        <source>Add new chords</source>
+        <translation>Ajouter des nouveaux accords</translation>
+    </message>
+    <message>
+        <location filename="tab.cpp" line="1048"/>
         <source>Insert text</source>
         <translation>Insérer du texte</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1072"/>
+        <location filename="tab.cpp" line="1074"/>
         <source>Import from file</source>
         <translation>Importer depuis un fichier</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1072"/>
+        <location filename="tab.cpp" line="1074"/>
         <source>XTA files (*.xta)</source>
         <translation>Fichier XTA (*.xta)</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1083"/>
+        <location filename="tab.cpp" line="1085"/>
         <source>Insert length</source>
         <translation>Choisir la longueur</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1083"/>
+        <location filename="tab.cpp" line="1085"/>
         <source>Length:</source>
         <translation>Longueur :</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1150"/>
+        <location filename="tab.cpp" line="1152"/>
         <source>Ubuntu only function</source>
         <translation>Fonction sur Ubuntu uniquement</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1151"/>
+        <location filename="tab.cpp" line="1153"/>
         <source>This function is only available on Ubuntu.
 Download and install Ubuntu and try again.
 
@@ -2394,22 +2402,22 @@ Télécharger et installer Ubuntu, puis réessayer.
 Un exemple va être inséré...</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1152"/>
+        <location filename="tab.cpp" line="1154"/>
         <source>Download Ubuntu</source>
         <translation>Télécharger Ubuntu</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1155"/>
+        <location filename="tab.cpp" line="1157"/>
         <source>http://www.ubuntu.com/download/desktop</source>
         <translation>http://www.ubuntu.com/download/desktop</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1178"/>
+        <location filename="tab.cpp" line="1180"/>
         <source>Load image</source>
         <translation>Chargement d&apos;image</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1178"/>
+        <location filename="tab.cpp" line="1180"/>
         <source>Image (*.png *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</source>
         <translation>Image (*.png *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</translation>
     </message>
@@ -2418,9 +2426,102 @@ Un exemple va être inséré...</translation>
         <translation type="obsolete">Image (*.png)</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1247"/>
+        <location filename="tab.cpp" line="1249"/>
         <source>Select output folder</source>
         <translation>Choisir un dossier de sortie</translation>
+    </message>
+</context>
+<context>
+    <name>UpdateManager</name>
+    <message>
+        <location filename="updatemanager.cpp" line="7"/>
+        <source>Kb</source>
+        <translation>ko</translation>
+    </message>
+    <message>
+        <location filename="updatemanager.cpp" line="48"/>
+        <location filename="updatemanager.cpp" line="92"/>
+        <source>Warning</source>
+        <translation>Attention</translation>
+    </message>
+    <message>
+        <location filename="updatemanager.cpp" line="48"/>
+        <source>Error while downloading version: %1</source>
+        <translation>Erreur pendant le téléchargement du fichier de version : %1</translation>
+    </message>
+    <message>
+        <location filename="updatemanager.cpp" line="57"/>
+        <location filename="updatemanager.cpp" line="62"/>
+        <location filename="updatemanager.cpp" line="69"/>
+        <source>Information</source>
+        <translation>Information</translation>
+    </message>
+    <message>
+        <location filename="updatemanager.cpp" line="57"/>
+        <source>Invalid version format on server</source>
+        <translation>Format de version invalide sur le serveur</translation>
+    </message>
+    <message>
+        <location filename="updatemanager.cpp" line="62"/>
+        <source>New version available : %1</source>
+        <translation>Nouvelle version disponible : %1</translation>
+    </message>
+    <message>
+        <location filename="updatemanager.cpp" line="62"/>
+        <source>Don&apos;t download</source>
+        <translation>Ne pas télécharger</translation>
+    </message>
+    <message>
+        <location filename="updatemanager.cpp" line="62"/>
+        <source>Download</source>
+        <translation>Télécharger</translation>
+    </message>
+    <message>
+        <location filename="updatemanager.cpp" line="66"/>
+        <source>No newer version available</source>
+        <translation>Pas de nouvelle version disponible</translation>
+    </message>
+    <message>
+        <location filename="updatemanager.cpp" line="92"/>
+        <source>Error while downloading update: %1</source>
+        <translation>Erreur pendant le téléchargement de la mise à jour : %1</translation>
+    </message>
+    <message>
+        <location filename="updatemanager.cpp" line="114"/>
+        <source>Please restart software to use the new version</source>
+        <translation>Merci de redémarrer le programme pour utiliser la nouvelle version</translation>
+    </message>
+    <message>
+        <location filename="updatemanager.cpp" line="115"/>
+        <source>Restart</source>
+        <translation>Redémarrer</translation>
+    </message>
+    <message>
+        <location filename="updatemanager.cpp" line="116"/>
+        <source>Do not restart</source>
+        <translation>Ne pas redémarrer</translation>
+    </message>
+    <message>
+        <location filename="updatemanager.cpp" line="118"/>
+        <source>%1Kb downloaded</source>
+        <translation>%1Ko téléchargés</translation>
+    </message>
+    <message>
+        <location filename="updatemanager.cpp" line="155"/>
+        <source>Already up to date</source>
+        <translation>Déjà à jour</translation>
+    </message>
+    <message>
+        <location filename="updatemanager.cpp" line="173"/>
+        <source>Error</source>
+        <translation>Erreur</translation>
+    </message>
+    <message>
+        <location filename="updatemanager.cpp" line="173"/>
+        <source>Can&apos;t remove: %1
+Please close the software</source>
+        <translation>Impossible de supprimer %1
+Veuillez fermer le programme</translation>
     </message>
 </context>
 <context>

@@ -2,6 +2,7 @@
 
 ChordsManager::ChordsManager(Chords* chords, QWidget *parent) : QDialog(parent), chords_(chords)
 {
+    this->setWindowTitle(tr("Chords Manager"));
     this->setMinimumSize(QSize(800,600));
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     tabWidget = new QTabWidget;
@@ -49,8 +50,8 @@ void ChordsManager::updateManager()
         int nb = this->width() / 200;
 
         for(int i=0;i<list.size();i++){
-            Guitar *guitar = new Guitar(list[i].name, list[i].fingers);
-            guitar->setMenu(!list[i].locked,false,false);
+            Guitar *guitar = new Guitar(list[i].getName(), list[i].getFingers());
+            guitar->setMenu(!list[i].isLocked(),false,false);
             gridLayout->addWidget( guitar , i/nb, i%nb);
         }
 
@@ -74,6 +75,7 @@ Chord ChordsManager::addNewChord(QWidget *parent)
         parent = this;
 
     QDialog *diag = new QDialog(parent);
+    diag->setWindowTitle(tr("Add new chord"));
     QVBoxLayout *vLayout = new QVBoxLayout;
     diag->setLayout(vLayout);
     //diag->setSizePolicy(QSizePolicy::Minimum,QSizePolicy::Minimum);
@@ -110,7 +112,7 @@ Chord ChordsManager::addNewChord(QWidget *parent)
     connect(buttonBox,SIGNAL(rejected()),diag,SLOT(reject()));
     vLayout->addWidget(buttonBox);
 
-    Chord chord;
+    ChordUnlocked chord;
 
     while(1){
         if(!diag->exec()){
@@ -127,9 +129,9 @@ Chord ChordsManager::addNewChord(QWidget *parent)
         fingers.replace(","," ");
         fingers.replace("\t"," ");
 
-        chord.name = name;
-        chord.fingers = fingers;
-        chord.comment = "";
+        chord.setName(name);
+        chord.setFingers(fingers);
+        chord.setComment("");
 
         break;
     }

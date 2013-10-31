@@ -1,18 +1,21 @@
 #ifndef QPROGRESSBARDIALOG_H
 #define QPROGRESSBARDIALOG_H
 
+#include <QDialog>
 #include <QProgressBar>
 #include <QVBoxLayout>
 #include <QLabel>
-#include <QPushButton>
+#include <QDialogButtonBox>
 
-class QProgressBarDialog : public QWidget
+#include <QNetworkReply>
+
+class QProgressBarDialog : public QDialog
 {
     Q_OBJECT
 public:
     QProgressBarDialog(){
-        this->setWindowTitle("Download");
-        vlayout = new QVBoxLayout(this);
+        this->setWindowTitle(tr("Download"));
+        QVBoxLayout *vlayout = new QVBoxLayout(this);
         QLabel *label = new QLabel(tr("Please wait..."));
         vlayout->addWidget(label,0);
         progress = new QProgressBar;
@@ -21,23 +24,25 @@ public:
         progress->setValue(0);
         vlayout->addWidget(progress);
 
-        //TODO, use standard button ?
-        QPushButton *button = new QPushButton(tr("Cancel"));
-        connect(button,SIGNAL(clicked()),this,SLOT(pressCancel()));
-        vlayout->addWidget(button);
+        QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Cancel);
+        connect(buttons,SIGNAL(rejected()),this,SLOT(pressCancel()));
+        vlayout->addWidget(buttons);
     }
 
-    void setValue(int value){progress->setValue(value);}
-    void setMinimum(int minimum){progress->setMinimum(minimum);}
-    void setMaximum(int maximum){progress->setMaximum(maximum);}
-    void setFormat(QString format){progress->setFormat(format);}
+    inline void setValue(int value) {progress->setValue(value); if(value>=progress->maximum()) this->accept();}
+    inline void setMinimum(int minimum) {progress->setMinimum(minimum);}
+    inline void setMaximum(int maximum) {progress->setMaximum(maximum);}
+    inline void setFormat(QString format) {progress->setFormat(format);}
+
+    inline void setReply(QNetworkReply* reply) {reply_ = reply;}
+    inline QNetworkReply* getReply() {return reply_;}
 
 private:
     QProgressBar *progress;
-    QVBoxLayout *vlayout;
+    QNetworkReply *reply_;
 
 private slots:
-    void pressCancel() {emit cancel();}
+    void pressCancel() {emit cancel(); this->reject();}
 
 signals:
     void cancel();

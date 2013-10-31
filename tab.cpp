@@ -333,9 +333,9 @@ void Tab::capoChanged(int)
     modified_info.capo = editCapo->value();
 
     if(!info.isEqual(modified_info)){
-        emit setSaveIcon(-1,true);
+        emit setSaveIcon();
     }else{
-        emit setSaveIcon(-1,false);
+        emit unsetSaveIcon();
     }
 }
 
@@ -360,9 +360,9 @@ void Tab::infoChanged(QString)
     menuAction->setText(name);
 
     if(!info.isEqual(modified_info)){
-        emit setSaveIcon(-1,true);
+        emit setSaveIcon();
     }else{
-        emit setSaveIcon(-1,false);
+        emit unsetSaveIcon();
     }
 }
 
@@ -371,9 +371,9 @@ void Tab::chordsChanged(QString)
    modified_info.chords = getChords();
 
    if(!info.isEqual(modified_info)){
-       emit setSaveIcon(-1,true);
+       emit setSaveIcon();
    }else{
-       emit setSaveIcon(-1,false);
+       emit unsetSaveIcon();
    }
 }
 
@@ -387,9 +387,9 @@ void Tab::textChanged(QString)
 #endif
 
    if(!info.isEqual(modified_info)){
-       emit setSaveIcon(-1,true);
+       emit setSaveIcon();
    }else{
-       emit setSaveIcon(-1,false);
+       emit unsetSaveIcon();
    }
 }
 
@@ -412,9 +412,9 @@ QString Tab::getChords()
 {
     QString text;
     for(int i=0;i<currentChords.size();i++){
-        text += currentChords.at(i).name;
-        if(!currentChords[i].fingers.isEmpty()){
-            text += " " + currentChords[i].fingers;
+        text += currentChords.at(i).getName();
+        if(!currentChords[i].getFingers().isEmpty()){
+            text += " " + currentChords[i].getFingers();
         }
         text += "\n";
     }
@@ -477,7 +477,7 @@ void Tab::deleteGuitar()
 {
     Guitar *g = (Guitar*)sender();
     for(int i=0;i<currentChords.size();i++){
-        if(currentChords[i].name==g->getName()){
+        if(currentChords[i].getName()==g->getName()){
             currentChords.removeAt(i);
             i--;
         }
@@ -514,13 +514,13 @@ void Tab::addNewChord()
     ChordsManager *cm = new ChordsManager(chordsList_);
     Chord c = cm->addNewChord();
 
-    if(c.name.isEmpty()){
+    if(c.getName().isEmpty()){
         return;
     }
 
     currentChords.push_back(c);
 
-    addChord(c.name,c.fingers);
+    addChord(c.getName(),c.getFingers());
     resizeLayout();
 }
 
@@ -574,6 +574,7 @@ void Tab::read()
     tree->setRootLabel(tr("All"));
 
     QDialog *diag = new QDialog(this);
+    diag->setWindowTitle(tr("Select chords"));
     QVBoxLayout *vLayout = new QVBoxLayout;
     diag->setLayout(vLayout);
 
@@ -909,7 +910,7 @@ void Tab::print(QPrinter *_printer)
 
                 }
 
-                Strings str(currentChords[i].fingers);
+                Strings str(currentChords[i].getFingers());
 
                 str.setSize(chordSize);
 
@@ -947,7 +948,7 @@ void Tab::print(QPrinter *_printer)
                 if(hSumChords>(maxHeight)){
                     break;
                 }else{
-                    Strings str(currentChords[i].fingers);
+                    Strings str(currentChords[i].getFingers());
 
                     str.setSize(chordSize);
 
@@ -1040,6 +1041,7 @@ void Tab::import()
     QString selectedText = edit->textCursor().selectedText();
 
     QDialog *diag = new QDialog(this);
+    diag->setWindowTitle(tr("Add new chords"));
     QVBoxLayout *vLayout = new QVBoxLayout;
     diag->setLayout(vLayout);
 

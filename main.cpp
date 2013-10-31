@@ -1,11 +1,11 @@
-#define CURRENT_VERSION "0.1.1"
+#define CURRENT_VERSION "0.1.2"
 #define USE_UNZIP 0
 
 #include <QtGui/QApplication>
 #include "mainwindow.h"
 
 #if defined(__WIN32__)
-#include "httpupdate.h"
+#include "updatemanager.h"
 #endif
 
 #include "qtsingleapplication/qtsingleapplication.h"
@@ -18,23 +18,16 @@
 **/
 int main(int argc, char *argv[])
 {
-    /*QTextCodec::setCodecForCStrings(QTextCodec::codecForName("ISO 8859-1"));
-    QTextCodec::setCodecForTr(QTextCodec::codecForName("ISO 8859-1"));
-    QTextCodec::setCodecForLocale(QTextCodec::codecForName("ISO 8859-1"));*/
 
 #if defined(__WIN32__)
     for(int i=0;i<argc;i++){
         if(!strcmp(argv[i],"-v")){              //return version ID integer
-            QString version(CURRENT_VERSION);
-            QStringList n = version.split(".");
-            int ID = n.at(0).toInt()*100*100 + n.at(1).toInt()*100 + n.at(2).toInt();
-            //qDebug() << QString("Version : ") + version + QString(" - ID : ") + QString::number(ID);
+            int ID = UpdateManager::getVersionID(CURRENT_VERSION);
+            qDebug() << "VersionID:" << ID;
             return ID;
         }
         if(!strcmp(argv[i],"-n")){              //return 1 if CURRENT_VERSION > version
-            Version currentVersion(CURRENT_VERSION);
-            Version version(argv[i+1]);
-            if(currentVersion>version) return 1;
+            if(QString(CURRENT_VERSION)>QString(argv[i+1])) return 1;
             return 0;
         }
     }
@@ -42,65 +35,17 @@ int main(int argc, char *argv[])
 
     QtSingleApplication instance("TabZ", argc, argv);
     instance.setWindowIcon( QIcon(":/images/TabZ.png" ) );
+
     QString message;
     for(int a = 1; a < argc; ++a) {
-#if defined(__WIN32__)
-        message += QString::fromLatin1(argv[a]);
-#else
-        message += QString::fromUtf8(argv[a]);
-#endif
+        message += QString::fromLocal8Bit(argv[a]);
         if (a < argc-1)
-            message += " ";
+            message += "\n";
     }
 
     if(instance.sendMessage(message))
         return 0;
 
-#if defined(__WIN32__)
-    QString path(argv[0]);
-    if(path.contains("-update.exe")){
-        QString original_path = path;
-        original_path = original_path.remove("-update");
-
-        if(QFile::exists(original_path)){
-            while(!QFile::remove(original_path)){
-               QMessageBox mess;
-               mess.setText(QString("Can't remove: %1\nPlease close the software").arg(original_path));
-               mess.setWindowTitle("Error");
-               mess.setIcon(QMessageBox::Critical);
-               mess.exec();
-            }
-        }
-
-        QFile::copy(path,original_path);
-        QProcess process;
-
-        process.startDetached("\""+original_path+"\"");
-        exit(1);
-    }else{
-        QString update = path;
-        update.remove(".exe");
-        update += "-update.exe";
-        //qDebug() << update;
-
-        if(QFile::exists(update)){
-            QProcess process;
-            QStringList arg;
-            arg << "-v";
-            int updateID = process.execute("\""+update+"\"",arg);
-            QString currentVersion(CURRENT_VERSION);
-            QStringList n = currentVersion.split(".");
-            int currentID = n.at(0).toInt()*100*100 + n.at(1).toInt()*100 + n.at(2).toInt();
-            if(currentID>=updateID){
-                //qDebug() << "Already up to date";
-                QFile::remove(update);
-            }else{
-                process.startDetached("\""+update+"\"");
-                exit(1);
-            }
-        }
-    }
-#endif
 
     QString lang = QLocale::system().name().section('_', 0, 0);
     lang = lang.toLower();
@@ -115,6 +60,18 @@ int main(int argc, char *argv[])
         qApp->installTranslator( translatorQt );
     }
 
+#if defined(__WIN32__)
+    UpdateManager *up = new UpdateManager;
+    up->setVersion(CURRENT_VERSION);
+    up->setExecFilename(argv[0]);
+
+    if(up->replaceMainExec())
+        return 0;
+
+    if(up->replaceByUpdate())
+        return 0;
+#endif
+
     MainWindow w;
     w.handleMessage(message);
     w.setVersion(CURRENT_VERSION);
@@ -126,21 +83,16 @@ int main(int argc, char *argv[])
 
     QObject::connect(&w, SIGNAL(needToShow()), &instance, SLOT(activateWindow()));
 
-#if defined(__WIN32__)
-    QString updateFilename = path;
-    updateFilename.remove(".exe");
-    updateFilename.push_back("-update.exe");
-#if USE_UNZIP
-    HttpUpdate *http = new HttpUpdate(CURRENT_VERSION,"TABZ_VERSION","TabZ.exe",updateFilename,w.centralWidget());
-#else
-    HttpUpdate *http = new HttpUpdate(CURRENT_VERSION,"TABZ_VERSION","TabZ.exe",updateFilename,w.centralWidget());
-#endif
-    http->setCurrentExecutable(path);
-    http->setDiscret(true);
-    http->startUpdate();
-    QObject::connect(http,SIGNAL(restart(QString)),&w,SLOT(restart(QString)));
-#endif
 
+
+#if defined(__WIN32__)
+    up->setVersionUrl("http://lbaudouin.chez.com/TABZ_VERSION");
+    up->setExecUrl("http://lbaudouin.chez.com/TabZ.exe");
+    //up->setZipUrl("http://lbaudouin.chez.com/TabZ.zip");
+    up->setDiscret(true);
+    up->startUpdate();
+    QObject::connect(up,SIGNAL(restart(QString)),&w,SLOT(restart(QString)));
+#endif
     
     return instance.exec();
 }

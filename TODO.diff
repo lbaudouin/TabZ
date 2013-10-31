@@ -96,6 +96,9 @@ TODO list
 - replace QHttp for xta download
 *** use predefined folders for data and cache
 *** auto create folder : artist / <filename>.xta on save
+- display number for fingers out of graphic (or increase the number of cases)
+- clone chords (b -> #)
+- add standard tunning for instrument
 
 #### bug ####
 *** info appear in read-only mode on full screen exit
@@ -112,6 +115,9 @@ TODO list
 *** Rewrite QPrintPreviewDialog to add updatePreview slot
 *** Remove QPrintPreviewDialog closing on printing
 *** Create generic XML read/write class (with pure virtual function)
++ Use QMap::iterator if needed : for( QMap<QString,QObject*>::const_iterator item = map.begin() ; item != map.end() ; item++ )
+- Use foreach with maps
+- Use QSettings to store config and recent instead of XML
 
 #### XTA v2.0 ####
 - add external lyrics filepath
