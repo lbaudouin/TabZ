@@ -42,7 +42,6 @@ HEADERS  += mainwindow.h \
     optionsform.h \
     chords.h \
     qprintpreview.h \
-    qprogressbardialog.h \
     downloadxta.h \
     mycheckbox.h \
     mytabwidget.h \
@@ -71,7 +70,8 @@ unix {
 win32 {
     TARGET = TabZ
     SOURCES += updatemanager.cpp
-    HEADERS += updatemanager.h
+    HEADERS += updatemanager.h \
+    qprogressbardialog.h
 
     RC_FILE = TabZ.rc
 }

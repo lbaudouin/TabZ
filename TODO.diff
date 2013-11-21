@@ -99,6 +99,9 @@ TODO list
 - display number for fingers out of graphic (or increase the number of cases)
 - clone chords (b -> #)
 - add standard tunning for instrument
+- save position of tool bars
+- Lilypond auto install (freeze)
+- Lilypond for windows ?
 
 #### bug ####
 *** info appear in read-only mode on full screen exit

@@ -2076,27 +2076,6 @@ Version : %3</translation>
     </message>
 </context>
 <context>
-    <name>QuaZIODevice</name>
-    <message>
-        <location filename="quazip/quaziodevice.cpp" line="121"/>
-        <source>QIODevice::Append is not supported for QuaZIODevice</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="quazip/quaziodevice.cpp" line="126"/>
-        <source>QIODevice::ReadWrite is not supported for QuaZIODevice</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>QuaZipFilePrivate</name>
-    <message>
-        <location filename="quazip/quazipfile.cpp" line="217"/>
-        <source>ZIP/UNZIP API error %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>ReadWriteXML</name>
     <message>
         <location filename="readwritexml.cpp" line="11"/>

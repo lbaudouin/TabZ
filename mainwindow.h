@@ -40,7 +40,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void setVersion(QString _version) { version = _version; }
+    inline void setVersion(QString _version) { version = _version; }
 
 protected:
     void setUpToolBar();

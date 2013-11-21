@@ -83,12 +83,12 @@ int main(int argc, char *argv[])
 
     QObject::connect(&w, SIGNAL(needToShow()), &instance, SLOT(activateWindow()));
 
-
-
 #if defined(__WIN32__)
+    up->setMessageUrl("http://lbaudouin.chez.com/TABZ_MESSAGE");
     up->setVersionUrl("http://lbaudouin.chez.com/TABZ_VERSION");
     up->setExecUrl("http://lbaudouin.chez.com/TabZ.exe");
     //up->setZipUrl("http://lbaudouin.chez.com/TabZ.zip");
+    up->getMessage();
     up->setDiscret(true);
     up->startUpdate();
     QObject::connect(up,SIGNAL(restart(QString)),&w,SLOT(restart(QString)));

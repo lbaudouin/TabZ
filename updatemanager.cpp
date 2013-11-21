@@ -33,6 +33,75 @@ bool UpdateManager::isValidVersion(QString version)
     return true;
 }
 
+void UpdateManager::getMessage(QString url)
+{
+    QNetworkRequest request;
+    request.setUrl(QUrl(url.isEmpty()?messageUrl:url));
+    connect(manager->get(request),SIGNAL(finished()),this,SLOT(displayMessage()));
+}
+
+void UpdateManager::displayMessage()
+{
+    QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
+    if(reply->error()!=QNetworkReply::NoError){
+        return;
+    }
+    QString message(reply->readAll());
+
+    if(message.isEmpty())
+        return;
+
+    QSettings settings(QCoreApplication::applicationName(),"config");
+    QDateTime previous = settings.value("message/date").toDateTime();
+
+    QString header;
+
+    if(message.startsWith(":date=")){
+        message.remove(0,6);
+        QString datetimeString = message.section(" ",0,0);
+        QDateTime datetime = QDateTime::fromString(datetimeString,Qt::ISODate);
+
+        if(previous.isValid()){
+            if(datetime<=previous)
+                return;
+        }
+        settings.setValue("message/date",datetime);
+
+        message.remove(datetimeString);
+        while(message.startsWith(' '))
+            message.remove(0,1);
+
+        header = tr("Date:") + QString(" %1\n\n").arg(datetime.toString(Qt::TextDate));
+    }else{
+        return;
+    }
+
+    QMessageBox mess;
+    mess.setWindowTitle(tr("Message"));
+    if(message.startsWith(":critical ")){
+        mess.setIcon(QMessageBox::Critical);
+        message.remove(0,10);
+    }else if(message.startsWith(":warning ")){
+        mess.setIcon(QMessageBox::Warning);
+        message.remove(0,9);
+    }else if(message.startsWith(":question ")){
+        mess.setIcon(QMessageBox::Question);
+        message.remove(0,10);
+    }else if(message.startsWith(":information ")){
+        mess.setIcon(QMessageBox::Critical);
+        message.remove(0,13);
+    }else{
+        mess.setIcon(QMessageBox::NoIcon);
+    }
+
+    if(!header.isEmpty()){
+        message.prepend(header);
+    }
+
+    mess.setText(message);
+    mess.exec();
+}
+
 void UpdateManager::startUpdate(QString url)
 {
     QNetworkRequest request;
@@ -44,7 +113,7 @@ void UpdateManager::checkVersion()
 {
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
 
-    if(reply->error()!=QNetworkReply::NoError){
+    if(reply->error()!=QNetworkReply::NoError && !discretUpdate){
         QMessageBox::warning(this,tr("Warning"),tr("Error while downloading version: %1").arg(reply->errorString()));
         return;
     }
