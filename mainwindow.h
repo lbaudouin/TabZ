@@ -10,6 +10,8 @@
 #include <QCompleter>
 #include <QUrl>
 
+#include <QSettings>
+
 #include "tab.h"
 #include "xta.h"
 #include "options.h"
@@ -45,7 +47,6 @@ public:
 protected:
     void setUpToolBar();
     void setUpMenu();
-    void moveToolBar(int toolBarPosition);
     int addTab(XTAinfo info, bool forceEditable = false);
     Tab* getCurrentTab();
 

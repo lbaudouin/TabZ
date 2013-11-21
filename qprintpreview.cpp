@@ -12,6 +12,14 @@ QPrintPreview::QPrintPreview(QPrinter *printer, QWidget *parent, Qt::WindowFlags
 
 QPrintPreview::~QPrintPreview()
 {
+    QPrintPreviewMainWindow *mw = findChild<QPrintPreviewMainWindow*>("previewMainWindow");
+    QToolBar *toolbar = findChild<QToolBar*>("previewToolBar");
+
+    if(mw && toolbar){
+        QSettings settings(qAppName(),qAppName());
+        settings.setValue("ui/previewtoolbar",mw->toolBarArea(toolbar));
+    }
+
     if (this->ownPrinter)
         delete this->printer;
     delete this->printDialog;
@@ -33,13 +41,13 @@ void QPrintPreview::init(QPrinter *_printer)
 
     pageNumEdit = new LineEdit;
     pageNumEdit->setAlignment(Qt::AlignRight);
-    pageNumEdit->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
+    pageNumEdit->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed));
     pageNumLabel = new QLabel;
     QObject::connect(pageNumEdit, SIGNAL(editingFinished()), this, SLOT(_q_pageNumEdited()));
 
     zoomFactor = new QComboBox;
     zoomFactor->setEditable(true);
-    zoomFactor->setMinimumContentsLength(7);
+    zoomFactor->setMinimumContentsLength(4);
     zoomFactor->setInsertPolicy(QComboBox::NoInsert);
     LineEdit *zoomEditor = new LineEdit;
     zoomEditor->setValidator(new ZoomFactorValidator(1, 1000, 1, zoomEditor));
@@ -53,7 +61,9 @@ void QPrintPreview::init(QPrinter *_printer)
                      this, SLOT(_q_zoomFactorChanged()));
 
     QPrintPreviewMainWindow *mw = new QPrintPreviewMainWindow(this);
+    mw->setObjectName("previewMainWindow");
     QToolBar *toolbar = new QToolBar(mw);
+    toolbar->setObjectName("previewToolBar");
     toolbar->setFloatable(false);
     toolbar->addAction(fitWidthAction);
     toolbar->addAction(fitPageAction);
@@ -117,7 +127,8 @@ void QPrintPreview::init(QPrinter *_printer)
     QObject::connect(zoomInButton, SIGNAL(clicked()), this, SLOT(_q_zoomIn()));
     QObject::connect(zoomOutButton, SIGNAL(clicked()), this, SLOT(_q_zoomOut()));
 
-    mw->addToolBar(toolbar);
+    QSettings settings(qAppName(),qAppName());
+    mw->addToolBar((Qt::ToolBarArea)(settings.value("ui/previewtoolbar",Qt::TopToolBarArea).toInt()),toolbar);
     mw->setCentralWidget(preview);
     // QMainWindows are always created as top levels, force it to be a
     // plain widget

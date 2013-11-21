@@ -52,14 +52,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->actionExport_Epub,SIGNAL(triggered()),this,SLOT(pressExportEpub()));
 
+    QSettings settings(qAppName(),qAppName());
+
     //Set selected window mode
-    if(options->values()->openSizeMode==3){
-        Qt::WindowState state = (Qt::WindowState)(options->values()->lastSizeMode);
+    if(options->values()->openSizeMode==3){ //last mode
+        Qt::WindowState state = (Qt::WindowState)(settings.value("ui/state",Qt::WindowNoState).toInt());
         if(state==Qt::WindowFullScreen){
             ui->actionFull_Screen->setChecked(true);
         }else{
             this->setWindowState( state );
-            this->setGeometry(options->values()->lastGeometry);
+            this->setGeometry(settings.value("ui/geometry",QRect(0,0,800,600)).toRect());
         }
     }else{
         switch(options->values()->openSizeMode){
@@ -108,6 +110,11 @@ MainWindow::~MainWindow()
     options->values()->lastGeometry = this->geometry();
     options->values()->lastSizeMode = this->windowState();
     options->save();
+
+    QSettings settings(qAppName(),qAppName());
+    settings.setValue("ui/maintoolbar",this->toolBarArea(ui->mainToolBar));
+    settings.setValue("ui/state",(int)(this->windowState()));
+    settings.setValue("ui/geometry",this->geometry());
 
     pressCloseAll();
     delete ui;
@@ -187,6 +194,19 @@ void MainWindow::setUpMenu()
 void MainWindow::setUpToolBar()
 {
     ui->mainToolBar->setFloatable(false);
+    //TODO, this prevent bug with QLineEdit in vertical mode
+    ui->mainToolBar->setAllowedAreas(Qt::TopToolBarArea | Qt::BottomToolBarArea);
+
+    QSettings settings(qAppName(),qAppName());
+    /*settings.setValue("ui/maintoolbar",this->toolBarArea(ui->mainToolBar));
+    switch(settings.value("ui/maintoolbar",Qt::TopToolBarArea).toInt()){
+    case 0: this->addToolBar(Qt::TopToolBarArea,ui->mainToolBar); break;
+    case 1: this->addToolBar(Qt::LeftToolBarArea,ui->mainToolBar); break;
+    case 2: this->addToolBar(Qt::RightToolBarArea,ui->mainToolBar); break;
+    case 3: this->addToolBar(Qt::BottomToolBarArea,ui->mainToolBar); break;
+    default: this->addToolBar(Qt::TopToolBarArea,ui->mainToolBar); break;
+    }*/
+    this->addToolBar((Qt::ToolBarArea)(settings.value("ui/maintoolbar",Qt::TopToolBarArea).toInt()), ui->mainToolBar);
 
     ui->actionPrevious->setIcon( this->style()->standardIcon(QStyle::SP_ArrowLeft) );
     ui->actionNext->setIcon( this->style()->standardIcon(QStyle::SP_ArrowRight) );
@@ -225,6 +245,7 @@ void MainWindow::setUpToolBar()
 
     connect(smartEdit,SIGNAL(selectionChanged(QString)),this,SLOT(hintSelected(QString)));
 
+    //TODO, change QLabel to other object
     QLabel *label = new QLabel;
     label->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Minimum);
     ui->mainToolBar->addWidget(label);
@@ -265,19 +286,6 @@ void MainWindow::setUpToolBar()
 
     connect(ui->actionOpen_Mp3,SIGNAL(triggered()),this,SLOT(pressOpenMp3()));
     connect(ui->actionOpen_Guitar_Pro,SIGNAL(triggered()),this,SLOT(pressOpenGP()));
-
-    moveToolBar(options->values()->mainToolBarPosition);
-}
-
-void MainWindow::moveToolBar(int toolBarPosition)
-{
-    switch(toolBarPosition){
-    case 0: this->addToolBar(Qt::TopToolBarArea,ui->mainToolBar); break;
-    case 1: this->addToolBar(Qt::LeftToolBarArea,ui->mainToolBar); break;
-    case 2: this->addToolBar(Qt::RightToolBarArea,ui->mainToolBar); break;
-    case 3: this->addToolBar(Qt::BottomToolBarArea,ui->mainToolBar); break;
-    default: this->addToolBar(Qt::TopToolBarArea,ui->mainToolBar); break;
-    }
 }
 
 /** Function called when current tab changed
@@ -866,7 +874,7 @@ void MainWindow::pressPreference()
         OptionsValues ov = opt->getOptions();
         options->setValues(ov);
         options->save();
-        moveToolBar(options->values()->mainToolBarPosition);
+        //TODO: moveToolBar(options->values()->mainToolBarPosition);
         emit optionsChanged(options->cloneValues());
         loadFileList();
     }

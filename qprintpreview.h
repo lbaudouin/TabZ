@@ -20,6 +20,9 @@
 #include <QCoreApplication>
 #include <QPrintDialog>
 #include <QPointer>
+#include <QMainWindow>
+
+#include <QSettings>
 
 //#include "myprintpreviewwidget.h"
 #include <QPrintPreviewWidget>
@@ -85,6 +88,15 @@ protected:
         if (isModified() && !hasAcceptableInput())
             setText(origText);
         QLineEdit::focusOutEvent(e);
+    }
+
+    QSize sizeHint() const
+    {
+        return QSize(25,27);
+    }
+    QSize minimumSizeHint() const
+    {
+        return QSize(25,27);
     }
 
 private slots:
