@@ -102,6 +102,11 @@ TODO list
 - save position of tool bars
 - Lilypond auto install (freeze)
 - Lilypond for windows ?
+- Print album info
+- Hint artist and album name
+- Open music folder
+- Auto remove whitespace at end of lines
+- Better acces to print param (size, color, ...) 
 
 #### bug ####
 *** info appear in read-only mode on full screen exit
@@ -110,6 +115,7 @@ TODO list
 - personal list overcolor existing chords
 - adapt fingers size on guitar rendering
 *** 2 messages on openning error
+- Failed to create output folder when default folder is not set (missing '/' or something)
 
 #### code ####
 *** increase 'recent files' update speed
