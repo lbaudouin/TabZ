@@ -1,7 +1,7 @@
 #define CURRENT_VERSION "0.1.2"
 #define USE_UNZIP 0
 
-#include <QtGui/QApplication>
+#include <QApplication>
 #include "mainwindow.h"
 
 #if defined(__WIN32__)

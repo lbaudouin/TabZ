@@ -4,6 +4,14 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QListWidget>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QToolButton>
+#include <QLabel>
+#include <QTextEdit>
+#include <QPushButton>
+#include <QLineEdit>
 
 #include "highlighter.h"
 #include "colorregexp.h"

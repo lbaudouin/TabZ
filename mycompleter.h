@@ -7,6 +7,7 @@
 #include <QString>
 #include <QCompleter>
 #include <QKeyEvent>
+#include <QAbstractItemView>
 
 class MyCompleter : public QCompleter
 {

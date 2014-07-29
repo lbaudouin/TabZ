@@ -17,6 +17,8 @@
 #include <QFileDialog>
 #include <QLabel>
 #include <QTextEdit>
+#include <QSpinBox>
+#include <QScrollArea>
 
 #include "options.h"
 #include "colorregexpform.h"

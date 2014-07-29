@@ -32,7 +32,7 @@ public:
     
 private:
     QTreeView *tree;
-    QHttp *http;
+    QNetworkAccessManager *manager;
     QLineEdit *edit;
 
     QFile* xta_file;
@@ -55,7 +55,6 @@ public slots:
 
 private slots:
     void itemChanged(QStandardItem *item);
-    void downloadFinished(int id, bool error);
     void selectFolder();
 
     void replyFinished(QNetworkReply *reply);

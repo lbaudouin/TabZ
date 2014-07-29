@@ -1186,7 +1186,11 @@ void Tab::insertImage()
 
 void Tab::insertClipboard()
 {
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
     QClipboard *clipboard = QApplication::clipboard();
+#else
+    QClipboard *clipboard = QGuiApplication::clipboard();
+#endif
     QImage img = clipboard->image();
     if(img.isNull()) return;
 

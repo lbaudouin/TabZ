@@ -38,22 +38,25 @@ DownloadXTA::DownloadXTA(QWidget *parent) :
     connect(buttons,SIGNAL(accepted()),this,SLOT(pressDownload()));
     connect(buttons,SIGNAL(rejected()),this,SLOT(reject()));
 
-    http = new QHttp;
-    http->setHost("lbaudouin.chez.com");
-    connect(http,SIGNAL(requestFinished(int,bool)),this,SLOT(downloadFinished(int,bool)));
-
-
-    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+    manager = new QNetworkAccessManager(this);
     connect(manager,SIGNAL(finished(QNetworkReply*)),this,SLOT(replyFinished(QNetworkReply*)));
 
     QNetworkDiskCache *diskCache = new QNetworkDiskCache(this);
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
     diskCache->setCacheDirectory(QDesktopServices::storageLocation(QDesktopServices::CacheLocation));
+#else
+    diskCache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
+#endif
     manager->setCache(diskCache);
 
     QNetworkRequest request(QUrl(QString("http://lbaudouin.chez.com/xta.xml")));
     request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferCache);
     //request.setHeader(QNetworkRequest::ContentTypeHeader, "utf-8" );
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
     request.setHeader(QNetworkRequest::ContentTypeHeader, QString("text/plain; charset=UTF-8").toAscii());
+#else
+    request.setHeader(QNetworkRequest::ContentTypeHeader, QString("text/plain; charset=UTF-8"));
+#endif
     //request.setRawHeader("Accept-Charset", "utf-8;");
     listXtaReply = manager->get(request);
 }
@@ -148,12 +151,13 @@ void DownloadXTA::pressDownload()
                 //Create folder
                 QDir dir;
                 dir.mkpath(fi.absoluteDir().path());
-                //Create file
-                QFile *file = new QFile(fi.absoluteFilePath());
-                file->open(QFile::WriteOnly);
-                //Download file
-                int id = http->get(QUrl("/"+c->data().toString()).encodedPath(),file);
-                files.insert(id,file);
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
+                QNetworkRequest request(QUrl("http://lbaudouin.chez.com/"+c->data().toString()).encodedPath());
+#else
+                QNetworkRequest request(QUrl("http://lbaudouin.chez.com/"+c->data().toString()));
+#endif
+                QNetworkReply *reply = manager->get(request);
+                reply->setProperty("userdata", QVariant(fi.absoluteFilePath()));
             }
         }
     }
@@ -170,46 +174,16 @@ void DownloadXTA::replyFinished(QNetworkReply *reply)
         parse(content);
         statusWidget->hide();
         imageLabel->movie()->stop();
-    }
-}
-
-void DownloadXTA::downloadFinished(int id, bool error)
-{
-    if(xta_id==id){
-        xta_file->close();
-        statusLabel->setText(tr("Parsing..."));
-        parse("xta.xml");
-        statusWidget->hide();
-        imageLabel->movie()->stop();
+        return;
     }
 
-    if(files.contains(id))
-        files[id]->close();
-
-    if(!http->currentRequest().isValid())
-        return;
-
-    if(error){
-        QString errorText;
-
-        switch(http->error()){
-        case QHttp::HostNotFound : errorText = tr("The host name lookup failed"); break;
-        case QHttp::ConnectionRefused : errorText = tr("The server refused the connection"); break;
-        case QHttp::UnexpectedClose : errorText = tr("The server closed the connection unexpectedly"); break;
-        case QHttp::InvalidResponseHeader : errorText = tr("The server sent an invalid response header"); break;
-        case QHttp::WrongContentLength : errorText = tr("The client could not read the content correctly because an error with respect to the content length occurred"); break;
-        case QHttp::Aborted : errorText = tr("The request was aborted with abort()"); break;
-        case QHttp::ProxyAuthenticationRequiredError : errorText = tr("QHttp is using a proxy, and the proxy server requires authentication to establish a connection"); break;
-        case QHttp::AuthenticationRequiredError : errorText = tr("The web server requires authentication to complete the request"); break;
-        case QHttp::UnknownError : errorText = tr("An unknown error occurred"); break;
-        case QHttp::NoError : errorText =  ""; break;
-        }
-
-        if(!errorText.isEmpty()){
-            QMessageBox::critical(this,tr("Error"),errorText);
-        }
-
-        return;
+    if(reply->error()==QNetworkReply::NoError){
+        QFile file(reply->property("userdata").toString());
+        file.open(QFile::WriteOnly);
+        file.write(reply->readAll());
+        file.close();
+    }else{
+        qDebug() << reply->errorString();
     }
 }
 

@@ -2,7 +2,11 @@
 
 EpubGenerator::EpubGenerator() : outputEpub_("tabz.epub")
 {
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
     tmpFolder_ = QDesktopServices::storageLocation(QDesktopServices::TempLocation) + QDir::separator();
+#else
+    tmpFolder_ = QStandardPaths::locate(QStandardPaths::TempLocation,"",QStandardPaths::LocateDirectory) + QDir::separator();
+#endif
     epubFolder_ = tmpFolder_ + "epub" + QDir::separator();
     outputFolder_ = tmpFolder_;
 }

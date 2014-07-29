@@ -68,3 +68,11 @@ void MyTextEdit::insertFromMimeData(const QMimeData *source)
         return;
     }
 }
+
+void MyTextEdit::keyPressEvent(QKeyEvent *event)
+{
+    if(event->key()==Qt::Key_Insert){
+        this->setOverwriteMode( !this->overwriteMode() );
+    }
+    QTextEdit::keyPressEvent(event);
+}

@@ -9,6 +9,7 @@
 #include <QToolButton>
 #include <QCompleter>
 #include <QUrl>
+#include <QPrintPreviewDialog>
 
 #include <QSettings>
 

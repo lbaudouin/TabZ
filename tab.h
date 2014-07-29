@@ -9,6 +9,8 @@
 #include <QVBoxLayout>
 #include <QScrollArea>
 #include <QPushButton>
+#include <QSpinBox>
+#include <QListWidget>
 //#include <QPrintPreviewWidget>
 #include "qprintpreview.h"
 

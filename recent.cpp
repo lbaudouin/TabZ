@@ -49,17 +49,30 @@ void Recent::write(QDomDocument *dom, QFileInfo)
 QList<RecentFile> Recent::load()
 {
     recentList_.clear();
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
     if(QFile::exists(QDesktopServices::storageLocation(QDesktopServices::DataLocation) + QDir::separator() + "recent.xml"))
         parse(QDesktopServices::storageLocation(QDesktopServices::DataLocation) + QDir::separator() + "recent.xml");
+#else
+    if(QFile::exists(QStandardPaths::writableLocation(QStandardPaths::DataLocation)+"recent.xml"))
+        parse(QStandardPaths::writableLocation(QStandardPaths::DataLocation)+"recent.xml");
+#endif
     return recentList_;
 }
 
 void Recent::save(QList<RecentFile> &recentList)
 {
     recentList_ = recentList;
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
     QDir dir(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
     if(!dir.exists()){
         dir.mkpath(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
     }
     flush(QDesktopServices::storageLocation(QDesktopServices::DataLocation) + QDir::separator() + "recent.xml");
+#else
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    if(!dir.exists()){
+        dir.mkpath(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    }
+    flush(QStandardPaths::writableLocation(QStandardPaths::DataLocation)+"recent.xml");
+#endif
 }

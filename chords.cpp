@@ -256,15 +256,28 @@ QString Chords::getFingers(Instrument instrument, QString name)
 
 void Chords::load()
 {
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
     if(QFile::exists(QDesktopServices::storageLocation(QDesktopServices::DataLocation) + QDir::separator() + "chords.xml"))
         parse(QDesktopServices::storageLocation(QDesktopServices::DataLocation) + QDir::separator() + "chords.xml");
+#else
+    if(QFile::exists(QStandardPaths::writableLocation(QStandardPaths::DataLocation)+"chords.xml"))
+        parse(QStandardPaths::writableLocation(QStandardPaths::DataLocation)+"chords.xml");
+#endif
 }
 
 void Chords::save()
 {
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
     QDir dir(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
     if(!dir.exists()){
         dir.mkpath(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
     }
     flush(QDesktopServices::storageLocation(QDesktopServices::DataLocation) + QDir::separator() + "chords.xml");
+#else
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    if(!dir.exists()){
+        dir.mkpath(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+    }
+    flush(QStandardPaths::writableLocation(QStandardPaths::DataLocation)+"chords.xml");
+#endif
 }

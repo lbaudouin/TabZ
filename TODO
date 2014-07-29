@@ -107,7 +107,9 @@ TODO list
 - Open music folder
 - Auto remove whitespace at end of lines
 - Better acces to print param (size, color, ...)
-- Signal if line is cutted 
+- Signal if line is cutted
+- Add tuner plugin
+- button to convert <Tab> to 4 or 8 spaces
 
 #### bug ####
 *** info appear in read-only mode on full screen exit
@@ -117,6 +119,7 @@ TODO list
 - adapt fingers size on guitar rendering
 *** 2 messages on openning error
 - Failed to create output folder when default folder is not set (missing '/' or something)
+- Inser touch doesn't work
 
 #### code ####
 *** increase 'recent files' update speed
