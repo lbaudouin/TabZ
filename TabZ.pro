@@ -59,6 +59,7 @@ HEADERS  += mainwindow.h \
     fontlabellayout.h \
     mycompleter.h \
     findreplacedialog.h \
+    qprogressbardialog.h \
     qwidgets/mycheckabletree.h
     #myprintpreviewwidget.h #\
     #myprinterprivate.h
@@ -80,7 +81,7 @@ win32 {
 
 FORMS    += mainwindow.ui
 
-OTHER_FILES += TODO.diff
+OTHER_FILES += TODO
 
 RESOURCES += ressource.qrc
 

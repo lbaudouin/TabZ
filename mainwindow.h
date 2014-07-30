@@ -27,7 +27,7 @@
 #include "findreplacedialog.h"
 #include "qwidgets/mycheckabletree.h"
 
-#if !defined(__WIN32__)
+#ifdef Q_OS_LINUX
 #include "epubgenerator.h"
 #endif
 

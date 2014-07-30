@@ -2,140 +2,142 @@ TODO list
 
 #### Options ####
 
-*** select colors
-*** disable colors
-*** default folder
-*** select new tab
-*** open in read only mode
-*** re open previous tabs
-*** remove colors in black/white only mode
-- black/white/color strings for chord
-*** size of strings
-- size of strings on printing
-- french/english chords
-*** default margins
-*** change font
-*** restore to default
-*** default pdf output folder
+[x] select colors
+[x] disable colors
+[x] default folder
+[x] select new tab
+[x] open in read only mode
+[x] re open previous tabs
+[x] remove colors in black/white only mode
+[ ] black/white/color strings for chord
+[x] size of strings
+[ ] size of strings on printing
+[ ] french/english chords
+[x] default margins
+[x] change font
+[x] restore to default
+[x] default pdf output folder
 
 #### Functions ####
 
-*** add icon set
-*** save options (xml)
-*** manual add chord
-- modify chord
-- add existing chords
-- drag and drop chord
-- chords manager
-*** print
-*** export PDF
-*** read/edit mode
-*** 2 pages display
-*** test if it's note or text word
-*** past image / tab from Guitar Pro or TuxGuitar (QTextDocument::addRessource)
-*** move images inside xta
-*** import image from clipboard
-- clip/reduce images
-*** insert lilypond tab for linux users
-- vertical selection
-*** insert ascii tab
-- French chord to english (RegExp : \bLa(?(\b|m|#|[1-9])) -> replace fisrt 2 char by A
-*** save on exit
-*** save under "$default_folder/$artist" with "$artist - $title.xta" name
-*** select existing default folder
-*** full screen
-*** tab browser menu
-- create assistant
-*** recent files
-*** re open previous tabs
-*** resize scrool area if empty column
-*** overwrite existing file (save as) : suffix not added before checking
-*** hide/show icon when file is modified (save chords now)
-*** display save icon if chords changed
-*** move tabs
-*** move tabs in menu too
-*** renumber action shortcut
-*** open folder
-*** open/save txt
-- auto scrolling
-- sync MP3 and lines
-*** highlight selected chord
-*** import chords from other xta
-*** search on internet for tab on "http://guythoun.free.fr/TabS/xta/index.php?page=search&q=%s"
-*** download XTA from a server
-*** search lyrics on google
-- search lyrics on other site
-*** use QButtonGroup to select chord to add (use QList<QCheckBox> instead)
-*** associate xta files with TabZ on Linux
-- associate xta files with TabZ on Windows
-*** connect Undo/Redo actions
-- undo/redo for chords and infos
-*** find/replace text
-*** autoupdate for Windows users
-*** create ppa for Linux users
-*** add chors from multi-line edit
-*** autofill from text selection
-*** create expert mode
-*** single instance
-- select chords to print
-*** print page number
-*** goto tab with Ctrl+<NUM>
-*** rename Tab & action on artiste & title changes
-*** open previous size mode
-- export epub (use external lib to zip)
-*** search bar to open tabs
-*** close tab on middle click press
-*** find/replace text
-*** reopen at the same size and place
-*** close completer popup
-- two columns
-*** F2 to open random file
-*** save several files in same time (no multiple question)
-- color personal chords
-*** use cache for xta.xml
-- replace QHttp for xta download
-*** use predefined folders for data and cache
-*** auto create folder : artist / <filename>.xta on save
-- display number for fingers out of graphic (or increase the number of cases)
-- clone chords (b -> #)
-- add standard tunning for instrument
-- save position of tool bars
-- Lilypond auto install (freeze)
-- Lilypond for windows ?
-- Print album info
-- Hint artist and album name
-- Open music folder
-- Auto remove whitespace at end of lines
-- Better acces to print param (size, color, ...)
-- Signal if line is cutted
-- Add tuner plugin
-- button to convert <Tab> to 4 or 8 spaces
+[x] add icon set
+[x] save options (xml)
+[x] manual add chord
+[ ] modify chord
+[ ] add existing chords
+[ ] drag and drop chord
+[ ] chords manager
+[x] print
+[x] export PDF
+[x] read/edit mode
+[x] 2 pages display
+[x] test if it's note or text word
+[x] past image / tab from Guitar Pro or TuxGuitar (QTextDocument::addRessource)
+[x] move images inside xta
+[x] import image from clipboard
+[ ] clip/reduce images
+[x] insert lilypond tab for linux users
+[ ] vertical selection
+[x] insert ascii tab
+[ ] French chord to english (RegExp : \bLa(?(\b|m|#|[1-9])) -> replace fisrt 2 char by A
+[x] save on exit
+[x] save under "$default_folder/$artist" with "$artist - $title.xta" name
+[x] select existing default folder
+[x] full screen
+[x] tab browser menu
+[ ] create assistant
+[x] recent files
+[x] re open previous tabs
+[x] resize scrool area if empty column
+[x] overwrite existing file (save as) : suffix not added before checking
+[x] hide/show icon when file is modified (save chords now)
+[x] display save icon if chords changed
+[x] move tabs
+[x] move tabs in menu too
+[x] renumber action shortcut
+[x] open folder
+[x] open/save txt
+[ ] auto scrolling
+[ ] sync MP3 and lines
+[x] highlight selected chord
+[x] import chords from other xta
+[x] search on internet for tab on "http://guythoun.free.fr/TabS/xta/index.php?page=search&q=%s"
+[x] download XTA from a server
+[x] search lyrics on google
+[ ] search lyrics on other site
+[x] use QButtonGroup to select chord to add (use QList<QCheckBox> instead)
+[x] associate xta files with TabZ on Linux
+[ ] associate xta files with TabZ on Windows
+[x] connect Undo/Redo actions
+[ ] undo/redo for chords and infos
+[x] find/replace text
+[x] autoupdate for Windows users
+[x] create ppa for Linux users
+[x] add chors from multi-line edit
+[x] autofill from text selection
+[x] create expert mode
+[x] single instance
+[ ] select chords to print
+[x] print page number
+[x] goto tab with Ctrl+<NUM>
+[x] rename Tab & action on artiste & title changes
+[x] open previous size mode
+[ ] export epub (use external lib to zip)
+[x] search bar to open tabs
+[x] close tab on middle click press
+[x] find/replace text
+[x] reopen at the same size and place
+[x] close completer popup
+[ ] two columns
+[x] F2 to open random file
+[x] save several files in same time (no multiple question)
+[ ] color personal chords
+[x] use cache for xta.xml
+[x] replace QHttp for xta download
+[x] use predefined folders for data and cache
+[x] auto create folder : artist / <filename>.xta on save
+[ ] display number for fingers out of graphic (or increase the number of cases)
+[ ] clone chords (b -> #)
+[ ] add standard tunning for instrument
+[ ] save position of tool bars
+[ ] Lilypond auto install (freeze)
+[ ] Lilypond for windows ?
+[ ] Print album info
+[ ] Hint artist and album name
+[ ] Open music folder
+[ ] Auto remove whitespace at end of lines
+[ ] Better acces to print param (size, color, ...)
+[ ] Signal if line is cutted
+[ ] Add tuner plugin
+[ ] button to convert <Tab> to 4 or 8 spaces
+[ ] multi instrument in one xta
 
 #### bug ####
-*** info appear in read-only mode on full screen exit
-*** utf8 files name in Windows jump list (problem with accent)
-*** couldn't deplace images
-- personal list overcolor existing chords
-- adapt fingers size on guitar rendering
-*** 2 messages on openning error
-- Failed to create output folder when default folder is not set (missing '/' or something)
-- Inser touch doesn't work
+[x] info appear in read-only mode on full screen exit
+[x] utf8 files name in Windows jump list (problem with accent)
+[x] couldn't deplace images
+[ ] personal list overcolor existing chords
+[ ] adapt fingers size on guitar rendering
+[x] 2 messages on openning error
+[ ] Failed to create output folder when default folder is not set (missing '/' or something)
+[x] Inser touch doesn't work
 
 #### code ####
-*** increase 'recent files' update speed
-*** add translations
-- Rewrite QPrintPreviewWidget to add an option to display first page on the left in double page page
-*** Rewrite QPrintPreviewDialog to add updatePreview slot
-*** Remove QPrintPreviewDialog closing on printing
-*** Create generic XML read/write class (with pure virtual function)
+[x] increase 'recent files' update speed
+[x] add translations
+[ ] Rewrite QPrintPreviewWidget to add an option to display first page on the left in double page page
+[x] Rewrite QPrintPreviewDialog to add updatePreview slot
+[x] Remove QPrintPreviewDialog closing on printing
+[x] Create generic XML read/write class (with pure virtual function)
 + Use QMap::iterator if needed : for( QMap<QString,QObject*>::const_iterator item = map.begin() ; item != map.end() ; item++ )
-- Use foreach with maps
-- Use QSettings to store config and recent instead of XML
+[ ] Use foreach with maps
+[ ] Use QSettings to store config and recent instead of XML
+[ ] Use QListView or table to display chords
 
 #### XTA v2.0 ####
-- add external lyrics filepath
-- translate xta keys in english
-*** insert image (and image link in text)
-- separate intro/chorus/...
-- save chord comment
-- add instrument type/name/strings
+[ ] add external lyrics filepath
+[ ] translate xta keys in english
+[x] insert image (and image link in text)
+[ ] separate intro/chorus/...
+[ ] save chord comment
+[ ] add instrument type/name/strings

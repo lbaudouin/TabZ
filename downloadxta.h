@@ -58,7 +58,7 @@ private slots:
     void selectFolder();
 
     void replyFinished(QNetworkReply *reply);
-    
+
 };
 
 #endif // DOWNLOADXTA_H

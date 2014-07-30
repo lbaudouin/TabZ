@@ -152,7 +152,7 @@ void DownloadXTA::pressDownload()
                 QDir dir;
                 dir.mkpath(fi.absoluteDir().path());
 #if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
-                QNetworkRequest request(QUrl("http://lbaudouin.chez.com/"+c->data().toString()).encodedPath());
+                QNetworkRequest request(QUrl("http://lbaudouin.chez.com/"+c->data().toString()));
 #else
                 QNetworkRequest request(QUrl("http://lbaudouin.chez.com/"+c->data().toString()));
 #endif

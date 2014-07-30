@@ -143,11 +143,10 @@ void UpdateManager::getExec(QString url)
 {
     QNetworkRequest request;
     request.setUrl(QUrl(url.isEmpty()?execUrl:url));
-    QNetworkReply *reply = manager->get(request);
-    connect(reply,SIGNAL(finished()),this,SLOT(saveExec()));
-    connect(reply,SIGNAL(downloadProgress(qint64,qint64)),this,SLOT(downloadProgress(qint64,qint64)));
+    execReply = manager->get(request);
+    connect(execReply,SIGNAL(finished()),this,SLOT(saveExec()));
+    connect(execReply,SIGNAL(downloadProgress(qint64,qint64)),this,SLOT(downloadProgress(qint64,qint64)));
 
-    progress->setReply(reply);
     connect(progress,SIGNAL(cancel()),this,SLOT(abort()));
     progress->show();
 }
@@ -168,14 +167,23 @@ void UpdateManager::saveExec()
         return;
     }*/
 
-    QString filename = execFilename;
-    filename.insert(filename.size()-4,"-update");
+    QString filename = "TabZ-update.exe";
 
-    QFile file(filename);
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
+    QDir dir(QDesktopServices::storageLocation(QDesktopServices::TempLocation));
+    if(!dir.exists()){
+        dir.mkpath(QDesktopServices::storageLocation(QDesktopServices::TempLocation));
+    }
+#else
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
+    if(!dir.exists()){
+        dir.mkpath(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
+    }
+#endif
+
+    QFile file(dir.absoluteFilePath(filename));
     file.open(QFile::WriteOnly);
-
     file.write(reply->readAll());
-
     file.close();
 
     //Restart software
@@ -191,7 +199,6 @@ void UpdateManager::saveExec()
         emit restart(QFileInfo(file).absoluteFilePath());
     }
     return;
-
 }
 
 void UpdateManager::downloadProgress(qint64 done, qint64 total)
@@ -202,59 +209,14 @@ void UpdateManager::downloadProgress(qint64 done, qint64 total)
 
 void UpdateManager::abort()
 {
-    QNetworkReply *reply = progress->getReply();
-    if(reply)
-        reply->abort();
+    if(execReply)
+        execReply->abort();
     progress->close();
 }
 
 void UpdateManager::setDiscret(bool discret)
 {
     discretUpdate = discret;
-}
-
-bool UpdateManager::replaceByUpdate()
-{
-    updateFilename = execFilename;
-    updateFilename.insert(updateFilename.size()-4,"-update");
-    if(QFile::exists(updateFilename)){
-        QProcess process;
-        int updateID = process.execute("\""+updateFilename+"\"",QStringList() << "-v");
-        if(getVersionID(currentVersion)>=updateID){
-            emit status(tr("Already up to date"));
-            QFile::remove(updateFilename);
-        }else{
-            process.startDetached("\""+updateFilename+"\"");
-            return true;
-        }
-    }
-    return false;
-}
-
-bool UpdateManager::replaceMainExec()
-{
-    if(execFilename.contains("-update")){
-        updateFilename = execFilename;
-        execFilename = execFilename.remove("-update");
-
-        if(QFile::exists(execFilename)){
-            while(!QFile::remove(execFilename)){
-               int button = QMessageBox::critical(this,tr("Error"),tr("Can't remove: %1\nPlease close the software").arg(execFilename),QMessageBox::Cancel,QMessageBox::Retry);
-               if(button==QMessageBox::Cancel){
-                   return false;
-               }
-            }
-        }else{
-            return false;
-        }
-
-        QFile::copy(updateFilename,execFilename);
-
-        QProcess process;
-        process.startDetached("\""+execFilename+"\"");
-        return true;
-    }
-    return false;
 }
 
 int UpdateManager::getVersionID(QString version)

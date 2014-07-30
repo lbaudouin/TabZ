@@ -7,6 +7,13 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
+#include <QDesktopServices>
+#else
+#include <QStandardPaths>
+#endif
+#include <QDir>
+
 #include <QFile>
 #include <QFileInfo>
 
@@ -33,11 +40,6 @@ public:
     //inline void setZipUrl(QString url) {zipUrl = url.trimmed();}
     //inline void setLzmaUrl(QString url) {lzmaUrl = url.trimmed();}
 
-    inline void setExecFilename(QString exec) {execFilename = exec;}
-
-    bool replaceByUpdate();
-    bool replaceMainExec();
-
     static int getVersionID(QString version);
 
 protected:
@@ -46,6 +48,7 @@ protected:
 private:
     QNetworkAccessManager *manager;
     QProgressBarDialog *progress;
+    QNetworkReply *execReply;
 
     QString currentVersion;
 
@@ -54,9 +57,6 @@ private:
     QString execUrl;
     //QString zipUrl;
     //QString lzmaUrl;
-
-    QString execFilename;
-    QString updateFilename;
 
     bool discretUpdate;
 

@@ -7,8 +7,6 @@
 #include <QLabel>
 #include <QDialogButtonBox>
 
-#include <QNetworkReply>
-
 class QProgressBarDialog : public QDialog
 {
     Q_OBJECT
@@ -34,12 +32,8 @@ public:
     inline void setMaximum(int maximum) {progress->setMaximum(maximum);}
     inline void setFormat(QString format) {progress->setFormat(format);}
 
-    inline void setReply(QNetworkReply* reply) {reply_ = reply;}
-    inline QNetworkReply* getReply() {return reply_;}
-
 private:
     QProgressBar *progress;
-    QNetworkReply *reply_;
 
 private slots:
     void pressCancel() {emit cancel(); this->reject();}

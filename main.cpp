@@ -4,35 +4,19 @@
 #include <QApplication>
 #include "mainwindow.h"
 
-#if defined(__WIN32__)
+#ifdef Q_OS_WIN
 #include "updatemanager.h"
 #endif
 
 #include "qtsingleapplication/qtsingleapplication.h"
 
 /** Main function
- * Read arguments and return id/version if needed
  * Test if one instance is already running
  * Translate in french if needed
- * Download update for WIN32
+ * Download update for WINDOWS
 **/
 int main(int argc, char *argv[])
 {
-
-#if defined(__WIN32__)
-    for(int i=0;i<argc;i++){
-        if(!strcmp(argv[i],"-v")){              //return version ID integer
-            int ID = UpdateManager::getVersionID(CURRENT_VERSION);
-            qDebug() << "VersionID:" << ID;
-            return ID;
-        }
-        if(!strcmp(argv[i],"-n")){              //return 1 if CURRENT_VERSION > version
-            if(QString(CURRENT_VERSION)>QString(argv[i+1])) return 1;
-            return 0;
-        }
-    }
-#endif
-
     QtSingleApplication instance("TabZ", argc, argv);
     instance.setWindowIcon( QIcon(":/images/TabZ.png" ) );
 
@@ -60,18 +44,6 @@ int main(int argc, char *argv[])
         qApp->installTranslator( translatorQt );
     }
 
-#if defined(__WIN32__)
-    UpdateManager *up = new UpdateManager;
-    up->setVersion(CURRENT_VERSION);
-    up->setExecFilename(argv[0]);
-
-    if(up->replaceMainExec())
-        return 0;
-
-    if(up->replaceByUpdate())
-        return 0;
-#endif
-
     MainWindow w;
     w.handleMessage(message);
     w.setVersion(CURRENT_VERSION);
@@ -83,15 +55,17 @@ int main(int argc, char *argv[])
 
     QObject::connect(&w, SIGNAL(needToShow()), &instance, SLOT(activateWindow()));
 
-#if defined(__WIN32__)
+#ifdef Q_OS_WIN
+    UpdateManager *up = new UpdateManager;
+    QObject::connect(up,SIGNAL(restart(QString)),&w,SLOT(restart(QString)));
+    up->setVersion(CURRENT_VERSION);
     up->setMessageUrl("http://lbaudouin.chez.com/TABZ_MESSAGE");
     up->setVersionUrl("http://lbaudouin.chez.com/TABZ_VERSION");
-    up->setExecUrl("http://lbaudouin.chez.com/TabZ.exe");
-    //up->setZipUrl("http://lbaudouin.chez.com/TabZ.zip");
+    up->setExecUrl("http://lbaudouin.chez.com/TabZ-update.exe");
+    //up->setZipUrl("http://lbaudouin.chez.com/TabZ-update.zip");
     up->getMessage();
     up->setDiscret(true);
     up->startUpdate();
-    QObject::connect(up,SIGNAL(restart(QString)),&w,SLOT(restart(QString)));
 #endif
     
     return instance.exec();
