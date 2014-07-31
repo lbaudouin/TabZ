@@ -260,8 +260,8 @@ void Chords::load()
     if(QFile::exists(QDesktopServices::storageLocation(QDesktopServices::DataLocation) + QDir::separator() + "chords.xml"))
         parse(QDesktopServices::storageLocation(QDesktopServices::DataLocation) + QDir::separator() + "chords.xml");
 #else
-    if(QFile::exists(QStandardPaths::writableLocation(QStandardPaths::DataLocation)+"chords.xml"))
-        parse(QStandardPaths::writableLocation(QStandardPaths::DataLocation)+"chords.xml");
+    if(QFile::exists(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "chords.xml"))
+        parse(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "chords.xml");
 #endif
 }
 
@@ -278,6 +278,6 @@ void Chords::save()
     if(!dir.exists()){
         dir.mkpath(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
     }
-    flush(QStandardPaths::writableLocation(QStandardPaths::DataLocation)+"chords.xml");
+    flush(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "chords.xml");
 #endif
 }

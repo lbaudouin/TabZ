@@ -53,8 +53,8 @@ QList<RecentFile> Recent::load()
     if(QFile::exists(QDesktopServices::storageLocation(QDesktopServices::DataLocation) + QDir::separator() + "recent.xml"))
         parse(QDesktopServices::storageLocation(QDesktopServices::DataLocation) + QDir::separator() + "recent.xml");
 #else
-    if(QFile::exists(QStandardPaths::writableLocation(QStandardPaths::DataLocation)+"recent.xml"))
-        parse(QStandardPaths::writableLocation(QStandardPaths::DataLocation)+"recent.xml");
+    if(QFile::exists(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "recent.xml"))
+        parse(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "recent.xml");
 #endif
     return recentList_;
 }
@@ -73,6 +73,6 @@ void Recent::save(QList<RecentFile> &recentList)
     if(!dir.exists()){
         dir.mkpath(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
     }
-    flush(QStandardPaths::writableLocation(QStandardPaths::DataLocation)+"recent.xml");
+    flush(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "recent.xml");
 #endif
 }

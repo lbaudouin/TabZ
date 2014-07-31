@@ -119,7 +119,7 @@ TODO list
 [ ] personal list overcolor existing chords
 [ ] adapt fingers size on guitar rendering
 [x] 2 messages on openning error
-[ ] Failed to create output folder when default folder is not set (missing '/' or something)
+[x] Failed to create output folder when default folder is not set (missing '/' or something)
 [x] Inser touch doesn't work
 
 #### code ####
