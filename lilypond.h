@@ -41,6 +41,9 @@ private:
     QProcess *installProcess;
 
 signals:
+
+private slots:
+    void finished(int,QProcess::ExitStatus);
     
 public slots:
     void generate();

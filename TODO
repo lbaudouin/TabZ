@@ -100,7 +100,7 @@ TODO list
 [ ] clone chords (b -> #)
 [ ] add standard tunning for instrument
 [ ] save position of tool bars
-[ ] Lilypond auto install (freeze)
+[x] Lilypond auto install (freeze)
 [ ] Lilypond for windows ?
 [ ] Print album info
 [ ] Hint artist and album name

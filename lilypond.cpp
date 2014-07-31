@@ -89,22 +89,18 @@ bool Lilypond::downloadLilypond()
         this->setCursor(Qt::WaitCursor);
 
         installProcess = new QProcess;
+
+        connect(installProcess,SIGNAL(finished(int,QProcess::ExitStatus)),this,SLOT(finished(int,QProcess::ExitStatus)));
+
         installProcess->start("gksudo \"apt-get -y install lilypond\"");
 
-        //connect(installProcess,SIGNAL(finished(int,QProcess::ExitStatus)),this,SLOT());
-        //connect(installProcess,SIGNAL(readyReadStandardError()),this,SLOT());
-        //connect(installProcess,SIGNAL(readyReadStandardOutput()),this,SLOT());
+        //bool success = installProcess->waitForFinished(-1);
 
-        bool success = installProcess->waitForFinished(-1);
-
-        //QString outS(process.readAllStandardOutput());
-        //qDebug() << outS;
-        //QString outE(process.readAllStandardError());
-        //qDebug() << outE;
+        QMessageBox::information(this,tr("Information"),tr("Lilypond installion is currently working, a message will inform you when the process is complete."));
 
         this->setCursor(Qt::ArrowCursor);
 
-        return success;
+        return true;
     }
     return false;
 }
@@ -148,4 +144,13 @@ void Lilypond::generate()
     }
 
     this->setCursor(Qt::ArrowCursor);
+}
+
+void Lilypond::finished(int,QProcess::ExitStatus status)
+{
+    if(status==QProcess::NormalExit){
+        QMessageBox::information(this,tr("Information"),tr("Lilypond was installed successfully"));
+    }else{
+        QMessageBox::warning(this,tr("Warning"),tr("The Lilypond installation has failed"));
+    }
 }

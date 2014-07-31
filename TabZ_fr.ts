@@ -1150,6 +1150,33 @@ Command: &apos;gksudo apt-get -y install lilypond&apos;</source>
 Commande : &apos;gksudo apt-get -y install lilypond&apos;</translation>
     </message>
     <message>
+        <location filename="lilypond.cpp" line="99"/>
+        <location filename="lilypond.cpp" line="152"/>
+        <source>Information</source>
+        <translation>Information</translation>
+    </message>
+    <message>
+        <location filename="lilypond.cpp" line="99"/>
+        <source>Lilypond installion is currently working, a message will inform you when the process is complete.</source>
+        <translation>L&apos;installation de Lilypond est en cours, un message vous informera une fois le processus terminé.</translation>
+    </message>
+    <message>
+        <location filename="lilypond.cpp" line="152"/>
+        <source>Lilypond was installed successfully</source>
+        <translation>Lilypond a été installé avec succès</translation>
+    </message>
+    <message>
+        <location filename="lilypond.cpp" line="154"/>
+        <source>Warning</source>
+        <oldsource>Warnig</oldsource>
+        <translation>Attention</translation>
+    </message>
+    <message>
+        <location filename="lilypond.cpp" line="154"/>
+        <source>The Lilypond installation has failed</source>
+        <translation>L&apos;installation de Lilypond à échouée</translation>
+    </message>
+    <message>
         <source>Do you wan&apos;t to download Lilypond software?
 Command: &apos;gksudo apt-get install lilypond&apos;</source>
         <translation type="obsolete">Voulez-vous télécharger Lilypond ?
@@ -1643,7 +1670,7 @@ Voulez-vous le remplacer ?</translation>
     <message>
         <location filename="mainwindow.cpp" line="825"/>
         <source>Number of spaces to replace a tabulation</source>
-        <translation>Nombre d'espaces pour une tabulation</translation>
+        <translation>Nombre d&apos;espaces pour une tabulation</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="842"/>
@@ -2370,12 +2397,12 @@ Un exemple va être inséré...</translation>
         <translation>http://www.ubuntu.com/download/desktop</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1187"/>
+        <location filename="tab.cpp" line="1186"/>
         <source>Load image</source>
         <translation>Chargement d&apos;image</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1187"/>
+        <location filename="tab.cpp" line="1186"/>
         <source>Image (*.png *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</source>
         <translation>Image (*.png *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</translation>
     </message>
@@ -2384,7 +2411,7 @@ Un exemple va être inséré...</translation>
         <translation type="obsolete">Image (*.png)</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1260"/>
+        <location filename="tab.cpp" line="1259"/>
         <source>Select output folder</source>
         <translation>Choisir un dossier de sortie</translation>
     </message>

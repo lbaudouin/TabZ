@@ -1153,7 +1153,7 @@ void Tab::insertTab()
 
 void Tab::insertLilypond()
 {
-#if defined(__WIN32__)
+#ifdef Q_OS_WIN
     QMessageBox *mess = new QMessageBox;
     mess->setIconPixmap( QPixmap(":images/ubuntu") );
     mess->setWindowTitle( tr("Ubuntu only function") );
@@ -1168,11 +1168,10 @@ void Tab::insertLilypond()
 #else
     Lilypond *lilypond = new Lilypond;
 
-    while(!lilypond->isLilypondAvailable()){
-        if(!lilypond->downloadLilypond()){
-            lilypond->close();
-            return;
-        }
+    if(!lilypond->isLilypondAvailable()){
+        lilypond->downloadLilypond();
+        lilypond->close();
+        return;
     }
 
     if(lilypond->exec()){
