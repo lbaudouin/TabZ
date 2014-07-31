@@ -59,6 +59,7 @@ private:
     FontLabelLayout *titleFontLabel;
     FontLabelLayout *artistFontLabel;
     FontLabelLayout *otherFontLabel;
+    QSpinBox *spinNbSpaceForOneTab;
 
     //Print
     OpenEditLayout *defaultOutputFolder;

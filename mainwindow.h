@@ -127,6 +127,7 @@ public slots:
 
     void pressFind();
     void pressReplace();
+    void pressReplaceTabulation();
 
     void pressPreview();
     void pressPrint();

@@ -111,6 +111,7 @@
     <addaction name="actionFind"/>
     <addaction name="actionFind_next"/>
     <addaction name="actionReplace"/>
+    <addaction name="actionReplace_tabulation"/>
     <addaction name="separator"/>
     <addaction name="actionPreferences"/>
    </widget>
@@ -666,6 +667,11 @@
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionReplace_tabulation">
+   <property name="text">
+    <string>Replace tabulation</string>
    </property>
   </action>
  </widget>

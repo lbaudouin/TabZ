@@ -28,6 +28,7 @@ struct OptionsValues
     int rightMargin;
     int bottomMargin;
     bool autoCreateFolder;
+    int nbSpaceForOneTab;
 
     QList<ColorRegExp> colors;
 };

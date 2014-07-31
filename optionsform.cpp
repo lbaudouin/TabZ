@@ -97,6 +97,9 @@ void OptionsForm::createGeneralTab(QTabWidget *tab)
     comboToolBarPosition->addItems(QStringList() << tr("Top") << tr("Left") << tr("Right") << tr("Bottom"));
     comboToolBarPosition->setCurrentIndex(options_.mainToolBarPosition);
 
+    spinNbSpaceForOneTab = new QSpinBox;
+    spinNbSpaceForOneTab->setValue(options_.nbSpaceForOneTab);
+
     formLayout->addRow(tr("Default folder:"),leditDefaultFolder);
     formLayout->addRow(tr("Auto-create artist folder:"),autoCreateFolder);
     formLayout->addRow(tr("Select new tab:"),checkSelectNewTab);
@@ -105,6 +108,7 @@ void OptionsForm::createGeneralTab(QTabWidget *tab)
     formLayout->addRow(tr("Open size mode:"),comboOpenSize);
     formLayout->addRow(tr("Chord size:"),comboChordSize);
     formLayout->addRow(tr("ToolBar position:"),comboToolBarPosition);
+    formLayout->addRow(tr("Spaces for one tabulation:"),spinNbSpaceForOneTab);
 
     tab->addTab(w,tr("General"));
 }
@@ -209,6 +213,7 @@ OptionsValues OptionsForm::getOptions()
     options_.leftMargin = editLeft->value();
     options_.rightMargin = editRight->value();
     options_.bottomMargin = editBottom->value();
+    options_.nbSpaceForOneTab = spinNbSpaceForOneTab->value();
 
     options_.colors = cref->getListRegExp();
 
@@ -236,6 +241,7 @@ void OptionsForm::buttonClicked(QAbstractButton *button){
         otherFontLabel->setFont(options_.otherFont);
         checkPrintHeaderOnEachPages->setChecked(options_.printHearderOnEachPages);
         checkEnableColorsOnPrinting->setChecked(options_.enableColorsOnPrinting);
+        spinNbSpaceForOneTab->setValue(options_.nbSpaceForOneTab);
 
         editTop->setValue( options_.topMargin );
         editLeft->setValue( options_.leftMargin );

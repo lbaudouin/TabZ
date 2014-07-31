@@ -24,6 +24,7 @@ void Options::resetDefault()
     optionsValues.bottomMargin = 10;
     optionsValues.defaultOutputFolder = QDir::homePath();
     optionsValues.autoCreateFolder = true;
+    optionsValues.nbSpaceForOneTab = 4;
 
 #if defined(__WIN32__)
     optionsValues.mainFont =  QFont("Lucida Console",12);
@@ -46,8 +47,8 @@ void Options::load()
     if(QFile::exists(QDesktopServices::storageLocation(QDesktopServices::DataLocation) + QDir::separator() + "options.xml"))
         parse(QDesktopServices::storageLocation(QDesktopServices::DataLocation) + QDir::separator() + "options.xml");
 #else
-    if(QFile::exists(QStandardPaths::writableLocation(QStandardPaths::DataLocation)+"options.xml"))
-        parse(QStandardPaths::writableLocation(QStandardPaths::DataLocation)+"options.xml");
+    if(QFile::exists(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "options.xml"))
+        parse(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "options.xml");
 #endif
 }
 
@@ -64,7 +65,7 @@ void Options::save()
     if(!dir.exists()){
         dir.mkpath(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
     }
-    flush(QStandardPaths::writableLocation(QStandardPaths::DataLocation)+"options.xml");
+    flush(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QDir::separator() + "options.xml");
 #endif
 }
 
@@ -96,6 +97,7 @@ void Options::write(QDomDocument *dom, QFileInfo)
         addNode(dom,&mainNode,"bottomMargin",optionsValues.bottomMargin);
         addNode(dom,&mainNode,"defaultOutputFolder",optionsValues.defaultOutputFolder);
         addNode(dom,&mainNode,"autoCreateFolder",optionsValues.autoCreateFolder);
+        addNode(dom,&mainNode,"nbSpaceForOneTab",optionsValues.nbSpaceForOneTab);
 
         QRect geom = optionsValues.lastGeometry;
         QStringList lastGeomList;
@@ -152,6 +154,9 @@ void Options::read(QDomDocument *dom, QFileInfo)
         }
         if(element.tagName()=="autoCreateFolder"){
             optionsValues.autoCreateFolder = element.text().toInt();
+        }
+        if(element.tagName()=="nbSpaceForOneTab"){
+            optionsValues.nbSpaceForOneTab = element.text().toInt();
         }
         if(element.tagName()=="openSizeMode"){
             optionsValues.openSizeMode = element.text().toInt();

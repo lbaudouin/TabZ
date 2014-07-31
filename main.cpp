@@ -1,4 +1,4 @@
-#define CURRENT_VERSION "0.1.2"
+#define CURRENT_VERSION "0.1.3"
 #define USE_UNZIP 0
 
 #include <QApplication>
@@ -29,7 +29,6 @@ int main(int argc, char *argv[])
 
     if(instance.sendMessage(message))
         return 0;
-
 
     QString lang = QLocale::system().name().section('_', 0, 0);
     lang = lang.toLower();

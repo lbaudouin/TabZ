@@ -278,6 +278,7 @@ void MainWindow::setUpToolBar()
 
     connect(ui->actionFind,SIGNAL(triggered()),this,SLOT(pressFind()));
     connect(ui->actionReplace,SIGNAL(triggered()),this,SLOT(pressReplace()));
+    connect(ui->actionReplace_tabulation,SIGNAL(triggered()),this,SLOT(pressReplaceTabulation()));
 
     connect(ui->actionUndo,SIGNAL(triggered()),this,SLOT(pressUndo()));
     connect(ui->actionRedo,SIGNAL(triggered()),this,SLOT(pressRedo()));
@@ -562,28 +563,24 @@ void MainWindow::pressSaveAs()
     QString selectedFilter;
 
     QString sample;
-
     if(options->values()->defaultPath.isEmpty()){
-        sample = QDir::homePath();
+        sample = QDir::homePath() + QDir::separator() + "xta" + QDir::separator();
     }else{
         sample = options->values()->defaultPath + QDir::separator();
+    }
+    sample += info.artist + QDir::separator();
 
-
-        QDir defaultFolder(options->values()->defaultPath);
-        if(defaultFolder.exists()){
-            if(defaultFolder.cd(info.artist)){
-                sample = defaultFolder.absolutePath() + QDir::separator();
-            }else{
-                if(options->values()->autoCreateFolder){
-                    defaultFolder.mkdir(info.artist);
-                    defaultFolder.cd(info.artist);
-                    sample = defaultFolder.absolutePath() + QDir::separator();
-                }
-            }
+    QDir dir(sample);
+    if(!dir.exists()){
+        bool createFolder = options->values()->autoCreateFolder;
+        if(!createFolder){
+            QMessageBox::StandardButton button = QMessageBox::question(this,tr("Create folder"),tr("The folder '%1' doesn't exist. Do you want to create it ?").arg(dir.absolutePath()));
+            createFolder = (button==QMessageBox::Ok);
+        }
+        if(createFolder){
+            dir.mkpath(dir.absolutePath());
         }
     }
-
-
 
     sample += info.createFileName() +  ".xta";
 
@@ -818,6 +815,19 @@ void MainWindow::pressReplace()
         FindReplaceDialog *dialog = new FindReplaceDialog;
         dialog->setTextEdit(getCurrentTab()->getTextEdit());
         dialog->exec();
+    }
+}
+
+void MainWindow::pressReplaceTabulation()
+{
+    if(getCurrentTab()!=0){
+        bool ok;
+        int nbSpace = QInputDialog::getInt(this,tr("Replace tabulation"),tr("Number of spaces to replace a tabulation"),options->values()->nbSpaceForOneTab,0,32,1,&ok);
+        if(ok){
+            QString str;
+            for(int i=0;i<nbSpace;i++) str += " ";
+            getCurrentTab()->replace("\t",str);
+        }
     }
 }
 

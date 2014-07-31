@@ -109,7 +109,7 @@ TODO list
 [ ] Better acces to print param (size, color, ...)
 [ ] Signal if line is cutted
 [ ] Add tuner plugin
-[ ] button to convert <Tab> to 4 or 8 spaces
+[x] button to convert <Tab> to 4 or 8 spaces
 [ ] multi instrument in one xta
 
 #### bug ####

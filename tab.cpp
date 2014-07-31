@@ -620,6 +620,13 @@ void Tab::read()
     }
 }
 
+void Tab::replace(QString str1, QString str2)
+{
+    QString str = edit->toPlainText();
+    str.replace(str1,str2);
+    edit->setPlainText(str);
+}
+
 void Tab::selectAll() { edit->selectAll(); }
 void Tab::undo() { edit->undo(); }
 void Tab::redo() { edit->redo(); }

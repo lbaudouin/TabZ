@@ -98,817 +98,817 @@
 <context>
     <name>ColorRegExpForm</name>
     <message>
-        <location filename="colorregexpform.h" line="23"/>
+        <location filename="colorregexpform.h" line="31"/>
         <source>Active</source>
         <translation>Active</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="24"/>
+        <location filename="colorregexpform.h" line="32"/>
         <source>Regular Expression</source>
         <translation>Expression régulière</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="25"/>
+        <location filename="colorregexpform.h" line="33"/>
         <source>Color</source>
         <translation>Couleur</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="26"/>
+        <location filename="colorregexpform.h" line="34"/>
         <source>Weight</source>
         <translation>Poids</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="27"/>
+        <location filename="colorregexpform.h" line="35"/>
         <source>Italic</source>
         <translation>Italique</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="28"/>
+        <location filename="colorregexpform.h" line="36"/>
         <source>Text</source>
         <translation>Texte</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="29"/>
+        <location filename="colorregexpform.h" line="37"/>
         <source>Case Sensitive</source>
         <translation>Sensible à la casse</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="30"/>
+        <location filename="colorregexpform.h" line="38"/>
         <source>Delete</source>
         <translation>Supprimer</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="40"/>
+        <location filename="colorregexpform.h" line="48"/>
         <source>Select All</source>
         <translation>Sélectionner tout</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="41"/>
+        <location filename="colorregexpform.h" line="49"/>
         <source>Unselect All</source>
         <translation>Désélectionner tout</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="115"/>
+        <location filename="colorregexpform.h" line="123"/>
         <source>Light</source>
         <translation>Fin</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="119"/>
+        <location filename="colorregexpform.h" line="127"/>
         <source>Normal</source>
         <translation>Normal</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="123"/>
+        <location filename="colorregexpform.h" line="131"/>
         <source>DemiBold</source>
         <translation>Demi-Gras</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="127"/>
+        <location filename="colorregexpform.h" line="135"/>
         <source>Bold</source>
         <translation>Gras</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="131"/>
+        <location filename="colorregexpform.h" line="139"/>
         <source>Black</source>
         <translation>Sur-Gras</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="212"/>
+        <location filename="colorregexpform.h" line="220"/>
         <source>aliceblue</source>
         <translation>Blue alice</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="213"/>
+        <location filename="colorregexpform.h" line="221"/>
         <source>antiquewhite</source>
         <translation>Blanc antique</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="214"/>
+        <location filename="colorregexpform.h" line="222"/>
         <source>aqua</source>
         <translation>Eau</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="215"/>
+        <location filename="colorregexpform.h" line="223"/>
         <source>aquamarine</source>
         <translation>Aigue-marine</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="216"/>
+        <location filename="colorregexpform.h" line="224"/>
         <source>azure</source>
         <translation>Azure</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="217"/>
+        <location filename="colorregexpform.h" line="225"/>
         <source>beige</source>
         <translation>Beige</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="218"/>
+        <location filename="colorregexpform.h" line="226"/>
         <source>bisque</source>
         <translation>Bisque</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="219"/>
+        <location filename="colorregexpform.h" line="227"/>
         <source>black</source>
         <translation>Noir</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="220"/>
+        <location filename="colorregexpform.h" line="228"/>
         <source>blanchedalmond</source>
         <translation>Amande blanchie</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="221"/>
+        <location filename="colorregexpform.h" line="229"/>
         <source>blue</source>
         <translation>Bleu</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="222"/>
+        <location filename="colorregexpform.h" line="230"/>
         <source>blueviolet</source>
         <translation>Violet bleu</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="223"/>
+        <location filename="colorregexpform.h" line="231"/>
         <source>brown</source>
         <translation>Brun</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="224"/>
+        <location filename="colorregexpform.h" line="232"/>
         <source>burlywood</source>
         <translation>Bois fort</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="225"/>
+        <location filename="colorregexpform.h" line="233"/>
         <source>cadetblue</source>
         <translation>Bleu cadet</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="226"/>
+        <location filename="colorregexpform.h" line="234"/>
         <source>chartreuse</source>
         <translation>Chartreuse</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="227"/>
+        <location filename="colorregexpform.h" line="235"/>
         <source>chocolate</source>
         <translation>Chocolat</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="228"/>
+        <location filename="colorregexpform.h" line="236"/>
         <source>coral</source>
         <translation>Corail</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="229"/>
+        <location filename="colorregexpform.h" line="237"/>
         <source>cornflowerblue</source>
         <translation>Bleu fleur de maïs</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="230"/>
+        <location filename="colorregexpform.h" line="238"/>
         <source>cornsilk</source>
         <translation>Barbe de maïs</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="231"/>
+        <location filename="colorregexpform.h" line="239"/>
         <source>crimson</source>
         <translation>Cramoisi</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="232"/>
+        <location filename="colorregexpform.h" line="240"/>
         <source>cyan</source>
         <translation>Cyan</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="233"/>
+        <location filename="colorregexpform.h" line="241"/>
         <source>darkblue</source>
         <translation>Bleu foncé</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="234"/>
+        <location filename="colorregexpform.h" line="242"/>
         <source>darkcyan</source>
         <translation>Cyan foncé</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="235"/>
+        <location filename="colorregexpform.h" line="243"/>
         <source>darkgoldenrod</source>
         <translation>Jaune paille foncé</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="236"/>
+        <location filename="colorregexpform.h" line="244"/>
         <source>darkgray</source>
         <translation>Gris foncé</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="237"/>
+        <location filename="colorregexpform.h" line="245"/>
         <source>darkgreen</source>
         <translation>Vert foncé</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="238"/>
+        <location filename="colorregexpform.h" line="246"/>
         <source>darkgrey</source>
         <translation>Gris foncé</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="239"/>
+        <location filename="colorregexpform.h" line="247"/>
         <source>darkkhaki</source>
         <translation>Kaki foncé</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="240"/>
+        <location filename="colorregexpform.h" line="248"/>
         <source>darkmagenta</source>
         <translation>Magenta foncé</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="241"/>
+        <location filename="colorregexpform.h" line="249"/>
         <source>darkolivegreen</source>
         <translation>Vert olive foncé</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="242"/>
+        <location filename="colorregexpform.h" line="250"/>
         <source>darkorange</source>
         <translation>Orange foncé</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="243"/>
+        <location filename="colorregexpform.h" line="251"/>
         <source>darkorchid</source>
         <translation>Orchidée foncé</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="244"/>
+        <location filename="colorregexpform.h" line="252"/>
         <source>darkred</source>
         <translation>Rouge foncé</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="245"/>
+        <location filename="colorregexpform.h" line="253"/>
         <source>darksalmon</source>
         <translation>Saumon foncé</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="246"/>
+        <location filename="colorregexpform.h" line="254"/>
         <source>darkseagreen</source>
         <translation>Vert marin foncé</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="247"/>
+        <location filename="colorregexpform.h" line="255"/>
         <source>darkslateblue</source>
         <translation>Bleu ardoise foncé</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="248"/>
+        <location filename="colorregexpform.h" line="256"/>
         <source>darkslategray</source>
         <translation>Gris ardoise foncé</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="249"/>
+        <location filename="colorregexpform.h" line="257"/>
         <source>darkslategrey</source>
         <translation>Gris ardoise foncé</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="250"/>
+        <location filename="colorregexpform.h" line="258"/>
         <source>darkturquoise</source>
         <translation>Turquoise foncé</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="251"/>
+        <location filename="colorregexpform.h" line="259"/>
         <source>darkviolet</source>
         <translation>Violet foncé</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="252"/>
+        <location filename="colorregexpform.h" line="260"/>
         <source>deeppink</source>
         <translation>Rose profond</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="253"/>
+        <location filename="colorregexpform.h" line="261"/>
         <source>deepskyblue</source>
         <translation>Blue ciel profond</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="254"/>
+        <location filename="colorregexpform.h" line="262"/>
         <source>dimgray</source>
         <translation>Gris foncé</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="255"/>
+        <location filename="colorregexpform.h" line="263"/>
         <source>dimgrey</source>
         <translation>Gris foncé</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="256"/>
+        <location filename="colorregexpform.h" line="264"/>
         <source>dodgerblue</source>
         <translation>Bleu Dodger</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="257"/>
+        <location filename="colorregexpform.h" line="265"/>
         <source>firebrick</source>
         <translation>Brique de feu</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="258"/>
+        <location filename="colorregexpform.h" line="266"/>
         <source>floralwhite</source>
         <translation>Blanc floral</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="259"/>
+        <location filename="colorregexpform.h" line="267"/>
         <source>forestgreen</source>
         <translation>Vert forester</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="260"/>
+        <location filename="colorregexpform.h" line="268"/>
         <source>fuchsia</source>
         <translation>Fuchsia</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="261"/>
+        <location filename="colorregexpform.h" line="269"/>
         <source>gainsboro</source>
         <translation>Gainsboro</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="262"/>
+        <location filename="colorregexpform.h" line="270"/>
         <source>ghostwhite</source>
         <translation>Blanc fantôme</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="263"/>
+        <location filename="colorregexpform.h" line="271"/>
         <source>gold</source>
         <translation>Doré</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="264"/>
+        <location filename="colorregexpform.h" line="272"/>
         <source>goldenrod</source>
         <translation>Jaune paille</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="265"/>
+        <location filename="colorregexpform.h" line="273"/>
         <source>gray</source>
         <translation>Gris</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="266"/>
+        <location filename="colorregexpform.h" line="274"/>
         <source>green</source>
         <translation>Vert</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="267"/>
+        <location filename="colorregexpform.h" line="275"/>
         <source>greenyellow</source>
         <translation>Jaune vert</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="268"/>
+        <location filename="colorregexpform.h" line="276"/>
         <source>grey</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="269"/>
+        <location filename="colorregexpform.h" line="277"/>
         <source>honeydew</source>
         <translation>Miellé</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="270"/>
+        <location filename="colorregexpform.h" line="278"/>
         <source>hotpink</source>
         <translation>Rose chaud</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="271"/>
+        <location filename="colorregexpform.h" line="279"/>
         <source>indianred</source>
         <translation>Rouge indien</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="272"/>
+        <location filename="colorregexpform.h" line="280"/>
         <source>indigo</source>
         <translation>Indigo</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="273"/>
+        <location filename="colorregexpform.h" line="281"/>
         <source>ivory</source>
         <translation>Ivoire</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="274"/>
+        <location filename="colorregexpform.h" line="282"/>
         <source>khaki</source>
         <translation>Kaki</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="275"/>
+        <location filename="colorregexpform.h" line="283"/>
         <source>lavender</source>
         <translation>Lavande</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="276"/>
+        <location filename="colorregexpform.h" line="284"/>
         <source>lavenderblush</source>
         <translation>Lavande rougie</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="277"/>
+        <location filename="colorregexpform.h" line="285"/>
         <source>lawngreen</source>
         <translation>Vert gazon</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="278"/>
+        <location filename="colorregexpform.h" line="286"/>
         <source>lemonchiffon</source>
         <translation>Soie</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="279"/>
+        <location filename="colorregexpform.h" line="287"/>
         <source>lightblue</source>
         <translation>Bleu clair</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="280"/>
+        <location filename="colorregexpform.h" line="288"/>
         <source>lightcoral</source>
         <translation>Corail clair</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="281"/>
+        <location filename="colorregexpform.h" line="289"/>
         <source>lightcyan</source>
         <translation>Cyan clair</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="282"/>
+        <location filename="colorregexpform.h" line="290"/>
         <source>lightgoldenrodyellow</source>
         <translation>Jaune paille clair</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="283"/>
+        <location filename="colorregexpform.h" line="291"/>
         <source>lightgray</source>
         <translation>Gris clair</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="284"/>
+        <location filename="colorregexpform.h" line="292"/>
         <source>lightgreen</source>
         <translation>Vert clair</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="285"/>
+        <location filename="colorregexpform.h" line="293"/>
         <source>lightgrey</source>
         <translation>Gris clair</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="286"/>
+        <location filename="colorregexpform.h" line="294"/>
         <source>lightpink</source>
         <translation>Rose clair</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="287"/>
+        <location filename="colorregexpform.h" line="295"/>
         <source>lightsalmon</source>
         <translation>Saumon clair</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="288"/>
+        <location filename="colorregexpform.h" line="296"/>
         <source>lightseagreen</source>
         <translation>Vert marin clair</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="289"/>
+        <location filename="colorregexpform.h" line="297"/>
         <source>lightskyblue</source>
         <translation>Bleu ciel clair</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="290"/>
+        <location filename="colorregexpform.h" line="298"/>
         <source>lightslategray</source>
         <translation>Gris ardoise clair</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="291"/>
+        <location filename="colorregexpform.h" line="299"/>
         <source>lightslategrey</source>
         <translation>Gris ardoise clair</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="292"/>
+        <location filename="colorregexpform.h" line="300"/>
         <source>lightsteelblue</source>
         <translation>Bleu acier clair</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="293"/>
+        <location filename="colorregexpform.h" line="301"/>
         <source>lightyellow</source>
         <translation>Jaune clair</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="294"/>
+        <location filename="colorregexpform.h" line="302"/>
         <source>lime</source>
         <translation>Citron</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="295"/>
+        <location filename="colorregexpform.h" line="303"/>
         <source>limegreen</source>
         <translation>Citron vert</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="296"/>
+        <location filename="colorregexpform.h" line="304"/>
         <source>linen</source>
         <translation>Linge</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="297"/>
+        <location filename="colorregexpform.h" line="305"/>
         <source>magenta</source>
         <translation>Magenta</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="298"/>
+        <location filename="colorregexpform.h" line="306"/>
         <source>maroon</source>
         <translation>Marron</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="299"/>
+        <location filename="colorregexpform.h" line="307"/>
         <source>mediumaquamarine</source>
         <translation>Aigue-marine moyen</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="300"/>
+        <location filename="colorregexpform.h" line="308"/>
         <source>mediumblue</source>
         <translation>Bleu moyen</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="301"/>
+        <location filename="colorregexpform.h" line="309"/>
         <source>mediumorchid</source>
         <translation>Orchidée moyen</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="302"/>
+        <location filename="colorregexpform.h" line="310"/>
         <source>mediumpurple</source>
         <translation>Violet moyen</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="303"/>
+        <location filename="colorregexpform.h" line="311"/>
         <source>mediumseagreen</source>
         <translation>Vert marin moyen</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="304"/>
+        <location filename="colorregexpform.h" line="312"/>
         <source>mediumslateblue</source>
         <translation>Bleu ardoise moyen</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="305"/>
+        <location filename="colorregexpform.h" line="313"/>
         <source>mediumspringgreen</source>
         <translation>Vert printemps moyen</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="306"/>
+        <location filename="colorregexpform.h" line="314"/>
         <source>mediumturquoise</source>
         <translation>Turquoise moyen</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="307"/>
+        <location filename="colorregexpform.h" line="315"/>
         <source>mediumvioletred</source>
         <translation>Rouge violet moyen</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="308"/>
+        <location filename="colorregexpform.h" line="316"/>
         <source>midnightblue</source>
         <translation>Bleu minuit</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="309"/>
+        <location filename="colorregexpform.h" line="317"/>
         <source>mintcream</source>
         <translation>Menthe crème</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="310"/>
+        <location filename="colorregexpform.h" line="318"/>
         <source>mistyrose</source>
         <translation>Rose brumeux</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="311"/>
+        <location filename="colorregexpform.h" line="319"/>
         <source>moccasin</source>
         <translation>Mocassin</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="312"/>
+        <location filename="colorregexpform.h" line="320"/>
         <source>navajowhite</source>
         <translation>Blanc Navajo</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="313"/>
+        <location filename="colorregexpform.h" line="321"/>
         <source>navy</source>
         <translation>Bleu marine</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="314"/>
+        <location filename="colorregexpform.h" line="322"/>
         <source>oldlace</source>
         <translation>Dentelle veillie</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="315"/>
+        <location filename="colorregexpform.h" line="323"/>
         <source>olive</source>
         <translation>Olive</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="316"/>
+        <location filename="colorregexpform.h" line="324"/>
         <source>olivedrab</source>
         <translation>Olive terne</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="317"/>
+        <location filename="colorregexpform.h" line="325"/>
         <source>orange</source>
         <translation>Orange</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="318"/>
+        <location filename="colorregexpform.h" line="326"/>
         <source>orangered</source>
         <translation>Rouge orange</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="319"/>
+        <location filename="colorregexpform.h" line="327"/>
         <source>orchid</source>
         <translation>Orchidée</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="320"/>
+        <location filename="colorregexpform.h" line="328"/>
         <source>palegoldenrod</source>
         <translation>Jaune paille pâle</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="321"/>
+        <location filename="colorregexpform.h" line="329"/>
         <source>palegreen</source>
         <translation>Vert pâle</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="322"/>
+        <location filename="colorregexpform.h" line="330"/>
         <source>paleturquoise</source>
         <translation>Turquoise pâle</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="323"/>
+        <location filename="colorregexpform.h" line="331"/>
         <source>palevioletred</source>
         <translation>Rouge violet pâle</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="324"/>
+        <location filename="colorregexpform.h" line="332"/>
         <source>papayawhip</source>
         <translation>Papaye</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="325"/>
+        <location filename="colorregexpform.h" line="333"/>
         <source>peachpuff</source>
         <translation>Pêche fumée</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="326"/>
+        <location filename="colorregexpform.h" line="334"/>
         <source>peru</source>
         <translation>Pérou</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="327"/>
+        <location filename="colorregexpform.h" line="335"/>
         <source>pink</source>
         <translation>Rose</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="328"/>
+        <location filename="colorregexpform.h" line="336"/>
         <source>plum</source>
         <translation>Prûne</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="329"/>
+        <location filename="colorregexpform.h" line="337"/>
         <source>powderblue</source>
         <translation>Bleu poudre</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="330"/>
+        <location filename="colorregexpform.h" line="338"/>
         <source>purple</source>
         <translation>Violet</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="331"/>
+        <location filename="colorregexpform.h" line="339"/>
         <source>red</source>
         <translation>Rouge</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="332"/>
+        <location filename="colorregexpform.h" line="340"/>
         <source>rosybrown</source>
         <translation>Brun rose</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="333"/>
+        <location filename="colorregexpform.h" line="341"/>
         <source>royalblue</source>
         <translation>Bleu royal</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="334"/>
+        <location filename="colorregexpform.h" line="342"/>
         <source>saddlebrown</source>
         <translation>Marron selle</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="335"/>
+        <location filename="colorregexpform.h" line="343"/>
         <source>salmon</source>
         <translation>Saumon</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="336"/>
+        <location filename="colorregexpform.h" line="344"/>
         <source>sandybrown</source>
         <translation>Marron sablé</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="337"/>
+        <location filename="colorregexpform.h" line="345"/>
         <source>seagreen</source>
         <translation>Vert marin</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="338"/>
+        <location filename="colorregexpform.h" line="346"/>
         <source>seashell</source>
         <translation>Coquillage</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="339"/>
+        <location filename="colorregexpform.h" line="347"/>
         <source>sienna</source>
         <translation>Terre de Sienne</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="340"/>
+        <location filename="colorregexpform.h" line="348"/>
         <source>silver</source>
         <translation>Argent</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="341"/>
+        <location filename="colorregexpform.h" line="349"/>
         <source>skyblue</source>
         <translation>Bleu ciel</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="342"/>
+        <location filename="colorregexpform.h" line="350"/>
         <source>slateblue</source>
         <translation>Bleu ardoise</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="343"/>
+        <location filename="colorregexpform.h" line="351"/>
         <source>slategray</source>
         <translation>Gris ardoise</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="344"/>
+        <location filename="colorregexpform.h" line="352"/>
         <source>slategrey</source>
         <translation>Gris ardoise</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="345"/>
+        <location filename="colorregexpform.h" line="353"/>
         <source>snow</source>
         <translation>Neige</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="346"/>
+        <location filename="colorregexpform.h" line="354"/>
         <source>springgreen</source>
         <translation>Vert printemps</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="347"/>
+        <location filename="colorregexpform.h" line="355"/>
         <source>steelblue</source>
         <translation>Bleu acier</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="348"/>
+        <location filename="colorregexpform.h" line="356"/>
         <source>tan</source>
         <translation>Brun clair</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="349"/>
+        <location filename="colorregexpform.h" line="357"/>
         <source>teal</source>
         <translation>Bleu sarcelle</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="350"/>
+        <location filename="colorregexpform.h" line="358"/>
         <source>thistle</source>
         <translation>Chardon</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="351"/>
+        <location filename="colorregexpform.h" line="359"/>
         <source>tomato</source>
         <translation>Tomate</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="352"/>
+        <location filename="colorregexpform.h" line="360"/>
         <source>transparent</source>
         <translation>Transparent</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="353"/>
+        <location filename="colorregexpform.h" line="361"/>
         <source>turquoise</source>
         <translation>Turquoise</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="354"/>
+        <location filename="colorregexpform.h" line="362"/>
         <source>violet</source>
         <translation>Violet</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="355"/>
+        <location filename="colorregexpform.h" line="363"/>
         <source>wheat</source>
         <translation>Blé</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="356"/>
+        <location filename="colorregexpform.h" line="364"/>
         <source>white</source>
         <translation>Blanc</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="357"/>
+        <location filename="colorregexpform.h" line="365"/>
         <source>whitesmoke</source>
         <translation>Blanc fumé</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="358"/>
+        <location filename="colorregexpform.h" line="366"/>
         <source>yellow</source>
         <translation>Jaune</translation>
     </message>
     <message>
-        <location filename="colorregexpform.h" line="359"/>
+        <location filename="colorregexpform.h" line="367"/>
         <source>yellowgreen</source>
         <translation>Vert jaune</translation>
     </message>
@@ -935,84 +935,37 @@
         <translation>Télécharger des XTA</translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="66"/>
+        <location filename="downloadxta.cpp" line="69"/>
         <source>Error opening the XML document</source>
         <translation>Erreur en ouvrant le fichier XML</translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="66"/>
+        <location filename="downloadxta.cpp" line="69"/>
         <source>The XML document could not be assigned to the object QDomDocument.</source>
         <translation>Le fichier XML ne peux pas être associé à un objet QDomDocument.</translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="118"/>
+        <location filename="downloadxta.cpp" line="121"/>
         <source>Available songs</source>
         <translation>Chansons disponibles</translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="169"/>
-        <location filename="downloadxta.cpp" line="180"/>
+        <location filename="downloadxta.cpp" line="173"/>
         <source>Parsing...</source>
         <oldsource>Pasring...</oldsource>
         <translation>Analyse...</translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="196"/>
-        <source>The host name lookup failed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="downloadxta.cpp" line="197"/>
-        <source>The server refused the connection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="downloadxta.cpp" line="198"/>
-        <source>The server closed the connection unexpectedly</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="downloadxta.cpp" line="199"/>
-        <source>The server sent an invalid response header</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="downloadxta.cpp" line="200"/>
-        <source>The client could not read the content correctly because an error with respect to the content length occurred</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="downloadxta.cpp" line="201"/>
-        <source>The request was aborted with abort()</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="downloadxta.cpp" line="202"/>
-        <source>QHttp is using a proxy, and the proxy server requires authentication to establish a connection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="downloadxta.cpp" line="203"/>
-        <source>The web server requires authentication to complete the request</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="downloadxta.cpp" line="204"/>
-        <source>An unknown error occurred</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="downloadxta.cpp" line="209"/>
         <source>Error</source>
-        <translation>Erreur</translation>
+        <translation type="obsolete">Erreur</translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="218"/>
+        <location filename="downloadxta.cpp" line="192"/>
         <source>Select output folder</source>
         <translation>Choisir un dossier</translation>
     </message>
     <message>
-        <location filename="downloadxta.cpp" line="218"/>
+        <location filename="downloadxta.cpp" line="192"/>
         <source>Folder path</source>
         <translation>Dossier</translation>
     </message>
@@ -1236,68 +1189,68 @@ Commande : &apos;gksudo apt-get install lilypond&apos;</translation>
         <translation>Edition</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="119"/>
+        <location filename="mainwindow.ui" line="120"/>
         <source>Display</source>
         <translation>Affichage</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="148"/>
+        <location filename="mainwindow.ui" line="149"/>
         <source>Tabs</source>
         <translation>Onglets</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="130"/>
+        <location filename="mainwindow.ui" line="131"/>
         <source>Tools</source>
         <translation>Outils</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="141"/>
+        <location filename="mainwindow.ui" line="142"/>
         <source>?</source>
         <translation>?</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="176"/>
+        <location filename="mainwindow.ui" line="177"/>
         <source>Open</source>
         <translation>Ouvrir</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="179"/>
+        <location filename="mainwindow.ui" line="180"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="191"/>
-        <location filename="mainwindow.cpp" line="384"/>
+        <location filename="mainwindow.ui" line="192"/>
+        <location filename="mainwindow.cpp" line="393"/>
         <source>New</source>
         <translation>Nouveau</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="194"/>
+        <location filename="mainwindow.ui" line="195"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="205"/>
+        <location filename="mainwindow.ui" line="206"/>
         <source>Assist</source>
         <translation>Assistant</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="208"/>
+        <location filename="mainwindow.ui" line="209"/>
         <source>Ctrl+Shift+N</source>
         <translation>Ctrl+Shift+N</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="213"/>
+        <location filename="mainwindow.ui" line="214"/>
         <source>Open Folder</source>
         <translation>Ouvrir un dossier</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="216"/>
+        <location filename="mainwindow.ui" line="217"/>
         <source>Ctrl+Shift+O</source>
         <translation>Ctrl+Shift+O</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="418"/>
+        <location filename="mainwindow.ui" line="419"/>
         <source>Ctrl+F</source>
         <translation>Ctrl+F</translation>
     </message>
@@ -1306,200 +1259,206 @@ Commande : &apos;gksudo apt-get install lilypond&apos;</translation>
         <translation type="obsolete">Ouvrir tout</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="224"/>
+        <location filename="mainwindow.ui" line="225"/>
         <source>Edit List</source>
         <translation>Modifier la liste</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="229"/>
+        <location filename="mainwindow.ui" line="230"/>
         <source>Clear</source>
         <translation>Vider</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="238"/>
+        <location filename="mainwindow.ui" line="239"/>
         <source>Save</source>
         <translation>Enregistrer</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="241"/>
+        <location filename="mainwindow.ui" line="242"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="253"/>
-        <location filename="mainwindow.cpp" line="582"/>
+        <location filename="mainwindow.ui" line="254"/>
+        <location filename="mainwindow.cpp" line="587"/>
         <source>Save as</source>
         <translation>Enregistrer sous</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="256"/>
+        <location filename="mainwindow.ui" line="257"/>
         <source>Ctrl+Shift+S</source>
         <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="268"/>
+        <location filename="mainwindow.ui" line="269"/>
         <source>Close</source>
         <translation>Fermer</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="271"/>
+        <location filename="mainwindow.ui" line="272"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="279"/>
+        <location filename="mainwindow.ui" line="280"/>
         <source>Close All</source>
         <translation>Fermer tout</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="282"/>
+        <location filename="mainwindow.ui" line="283"/>
         <source>Ctrl+Shift+W</source>
         <translation>Ctrl+Shift+W</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="291"/>
+        <location filename="mainwindow.ui" line="292"/>
         <source>Preview</source>
         <translation>Aperçu</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="294"/>
+        <location filename="mainwindow.ui" line="295"/>
         <source>Ctrl+Shift+P</source>
         <translation>Ctrl+Shift+P</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="306"/>
+        <location filename="mainwindow.ui" line="307"/>
         <source>Print</source>
         <translation>Imprimer</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="309"/>
+        <location filename="mainwindow.ui" line="310"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="321"/>
+        <location filename="mainwindow.ui" line="322"/>
         <source>Quit</source>
         <translation>Quitter</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="324"/>
+        <location filename="mainwindow.ui" line="325"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="336"/>
+        <location filename="mainwindow.ui" line="337"/>
         <source>Undo</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="339"/>
+        <location filename="mainwindow.ui" line="340"/>
         <source>Ctrl+Z</source>
         <translation>Ctrl+Z</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="351"/>
+        <location filename="mainwindow.ui" line="352"/>
         <source>Redo</source>
         <translation>Rétablir</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="354"/>
+        <location filename="mainwindow.ui" line="355"/>
         <source>Ctrl+Shift+Z</source>
         <translation>Ctrl+Shift+Z</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="366"/>
+        <location filename="mainwindow.ui" line="367"/>
         <source>Cut</source>
         <translation>Couper</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="369"/>
+        <location filename="mainwindow.ui" line="370"/>
         <source>Ctrl+X</source>
         <translation>Ctrl+X</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="381"/>
+        <location filename="mainwindow.ui" line="382"/>
         <source>Copy</source>
         <translation>Copier</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="384"/>
+        <location filename="mainwindow.ui" line="385"/>
         <source>Ctrl+C</source>
         <translation>Ctrl+C</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="396"/>
+        <location filename="mainwindow.ui" line="397"/>
         <source>Paste</source>
         <translation>Coller</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="399"/>
+        <location filename="mainwindow.ui" line="400"/>
         <source>Ctrl+V</source>
         <translation>Ctrl+V</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="407"/>
+        <location filename="mainwindow.ui" line="408"/>
         <source>Select All</source>
         <translation>Sélectionner tout</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="410"/>
+        <location filename="mainwindow.ui" line="411"/>
         <source>Ctrl+A</source>
         <translation>Ctrl+A</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="415"/>
+        <location filename="mainwindow.ui" line="416"/>
         <source>Find</source>
         <translation>Rechercher</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="426"/>
+        <location filename="mainwindow.ui" line="427"/>
         <source>Find next</source>
         <translation>Rechercher suivant</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="429"/>
+        <location filename="mainwindow.ui" line="430"/>
         <source>F3</source>
         <translation>F3</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="438"/>
+        <location filename="mainwindow.ui" line="439"/>
         <source>Preferences</source>
         <translation>Préférences</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="622"/>
+        <location filename="mainwindow.ui" line="623"/>
         <source>Open Mp3</source>
         <translation>Ouvrir le fichier Mp3</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="637"/>
+        <location filename="mainwindow.ui" line="638"/>
         <source>Open Guitar Pro</source>
         <translation>Ouvrir le fichier Guitar Pro</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="645"/>
+        <location filename="mainwindow.ui" line="646"/>
         <source>Replace</source>
         <translation>Remplacer</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="648"/>
+        <location filename="mainwindow.ui" line="649"/>
         <source>Ctrl+H</source>
         <translation>Ctrl+H</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="653"/>
+        <location filename="mainwindow.ui" line="654"/>
         <source>Random</source>
         <translation>Aléatoire</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="656"/>
+        <location filename="mainwindow.ui" line="657"/>
         <source>F2</source>
         <translation>F2</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="665"/>
+        <location filename="mainwindow.ui" line="666"/>
         <source>Export Epub</source>
         <translation>Exporter en Epub</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="674"/>
+        <location filename="mainwindow.cpp" line="825"/>
+        <source>Replace tabulation</source>
+        <translation>Remplacer les tabulations</translation>
     </message>
     <message>
         <source>Translate FR -&gt; EN</source>
@@ -1510,85 +1469,85 @@ Commande : &apos;gksudo apt-get install lilypond&apos;</translation>
         <translation type="obsolete">Traduire AN -&gt; FR</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="454"/>
+        <location filename="mainwindow.ui" line="455"/>
         <source>Full Screen</source>
         <translation>Plein écran</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="457"/>
+        <location filename="mainwindow.ui" line="458"/>
         <source>Ctrl+Return</source>
         <translation>Ctrl+Return</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="573"/>
+        <location filename="mainwindow.ui" line="574"/>
         <source>Help</source>
         <translation>Aide</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="585"/>
-        <location filename="mainwindow.cpp" line="1161"/>
+        <location filename="mainwindow.ui" line="586"/>
+        <location filename="mainwindow.cpp" line="1179"/>
         <source>About</source>
         <translation>A propos</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="593"/>
+        <location filename="mainwindow.ui" line="594"/>
         <source>Previous</source>
         <translation>Précédent</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="596"/>
+        <location filename="mainwindow.ui" line="597"/>
         <source>Alt+Left</source>
         <translation>Alt+Left</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="604"/>
+        <location filename="mainwindow.ui" line="605"/>
         <source>Next</source>
         <translation>Next</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="607"/>
+        <location filename="mainwindow.ui" line="608"/>
         <source>Alt+Right</source>
         <translation>Alt+Right</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="469"/>
-        <location filename="mainwindow.cpp" line="827"/>
-        <location filename="mainwindow.cpp" line="846"/>
+        <location filename="mainwindow.ui" line="470"/>
+        <location filename="mainwindow.cpp" line="845"/>
+        <location filename="mainwindow.cpp" line="864"/>
         <source>Search lyrics</source>
         <translation>Rechercher les paroles</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="481"/>
+        <location filename="mainwindow.ui" line="482"/>
         <source>Search XTA</source>
         <translation>Rechercher des XTA</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="489"/>
+        <location filename="mainwindow.ui" line="490"/>
         <source>Open previous tabs</source>
         <translation>Ouvrir les onglets précédents</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="498"/>
+        <location filename="mainwindow.ui" line="499"/>
         <source>Chords manager</source>
         <translation>Gestionnaire d&apos;accords</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="510"/>
+        <location filename="mainwindow.ui" line="511"/>
         <source>Edit mode</source>
         <translation>Mode édition</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="513"/>
+        <location filename="mainwindow.ui" line="514"/>
         <source>Ctrl+E</source>
         <translation>Ctrl+E</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="528"/>
+        <location filename="mainwindow.ui" line="529"/>
         <source>Read-only mode</source>
         <translation>Mode lecture seule</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="531"/>
+        <location filename="mainwindow.ui" line="532"/>
         <source>Ctrl+R</source>
         <translation>Ctrl+R</translation>
     </message>
@@ -1597,19 +1556,19 @@ Commande : &apos;gksudo apt-get install lilypond&apos;</translation>
         <translation type="obsolete">Insérer une tablature</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="546"/>
-        <location filename="mainwindow.cpp" line="1008"/>
-        <location filename="mainwindow.cpp" line="1020"/>
+        <location filename="mainwindow.ui" line="547"/>
+        <location filename="mainwindow.cpp" line="1026"/>
+        <location filename="mainwindow.cpp" line="1038"/>
         <source>Export PDF</source>
         <translation>Exporter en PDF</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="558"/>
+        <location filename="mainwindow.ui" line="559"/>
         <source>Download XTA</source>
         <translation>Télécharger des XTA</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="234"/>
+        <location filename="mainwindow.cpp" line="255"/>
         <source>Exit Full Screen</source>
         <translation>Sortir du plein-écran</translation>
     </message>
@@ -1622,63 +1581,78 @@ Commande : &apos;gksudo apt-get install lilypond&apos;</translation>
         <translation type="obsolete">Impossible d&apos;ouvrir le fichier : %1</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="486"/>
-        <location filename="mainwindow.cpp" line="496"/>
+        <location filename="mainwindow.cpp" line="495"/>
+        <location filename="mainwindow.cpp" line="505"/>
         <source>Open file</source>
         <translation>Ouvrir</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="582"/>
-        <location filename="mainwindow.cpp" line="586"/>
+        <location filename="mainwindow.cpp" line="577"/>
+        <source>Create folder</source>
+        <translation>Création d&apos;un répertoire</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="577"/>
+        <source>The folder &apos;%1&apos; doesn&apos;t exist. Do you want to create it ?</source>
+        <translation>Le dossier &apos;%1&apos; n&apos;existe pas. Voulez-vous le créer ?</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="587"/>
+        <location filename="mainwindow.cpp" line="591"/>
         <source>XTA files (*.xta)</source>
         <translation>Fichier XTA (*.xta)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="582"/>
-        <location filename="mainwindow.cpp" line="589"/>
+        <location filename="mainwindow.cpp" line="587"/>
+        <location filename="mainwindow.cpp" line="594"/>
         <source>TXT files (*.txt)</source>
         <translation>Fichier texte (*.txt)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="595"/>
+        <location filename="mainwindow.cpp" line="600"/>
         <source>&apos;%1&apos; already exists.
 Do you want to replace it?</source>
         <translation>&apos;%1&apos; existe déjà.
 Voulez-vous le remplacer ?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="618"/>
+        <location filename="mainwindow.cpp" line="623"/>
         <source>Modified</source>
         <translation>Modification</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="618"/>
+        <location filename="mainwindow.cpp" line="623"/>
         <source>Do you want to save : %1</source>
         <translation>Voulez-vous sauvegarder : %1</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="654"/>
+        <location filename="mainwindow.cpp" line="659"/>
         <source>Files</source>
         <translation>Fichiers</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="655"/>
+        <location filename="mainwindow.cpp" line="660"/>
         <source>All</source>
         <translation>Tous</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="663"/>
+        <location filename="mainwindow.cpp" line="668"/>
         <source>Which files do you whant to save?</source>
         <translation>Quels fichiers voulez-vous sauvegarder ?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="824"/>
+        <location filename="mainwindow.cpp" line="825"/>
+        <source>Number of spaces to replace a tabulation</source>
+        <translation>Nombre d'espaces pour une tabulation</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="842"/>
         <source>lyrics</source>
         <translation>lyrics</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="827"/>
-        <location filename="mainwindow.cpp" line="846"/>
+        <location filename="mainwindow.cpp" line="845"/>
+        <location filename="mainwindow.cpp" line="864"/>
         <source>Search text:</source>
         <translation>Texte de la recherche :</translation>
     </message>
@@ -1699,52 +1673,52 @@ Voulez-vous le remplacer ?</translation>
         <translation type="obsolete">Le fichier XML ne peux pas être associé à un objet QDomDocument.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1020"/>
+        <location filename="mainwindow.cpp" line="1038"/>
         <source>PDF exported : %1</source>
         <translation>PDF exporté : %1</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1037"/>
+        <location filename="mainwindow.cpp" line="1055"/>
         <source>Export to ePUB</source>
         <translation>Exporter vers le format ePUB</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1040"/>
+        <location filename="mainwindow.cpp" line="1058"/>
         <source>Options</source>
         <translation>Options</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1041"/>
+        <location filename="mainwindow.cpp" line="1059"/>
         <source>This XTA only</source>
         <translation>Ce XTA seulement</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1042"/>
+        <location filename="mainwindow.cpp" line="1060"/>
         <source>This artist only</source>
         <translation>Cet artiste seulement</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1043"/>
+        <location filename="mainwindow.cpp" line="1061"/>
         <source>All XTA</source>
         <translation>Tous les XTA</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1084"/>
+        <location filename="mainwindow.cpp" line="1102"/>
         <source>Song book</source>
         <translation>Song book</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1090"/>
+        <location filename="mainwindow.cpp" line="1108"/>
         <source>Warning</source>
         <translation>Attention</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1090"/>
+        <location filename="mainwindow.cpp" line="1108"/>
         <source>This function is not available</source>
         <translation>Cette fonction n&apos;est pas disponible</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="1161"/>
+        <location filename="mainwindow.cpp" line="1179"/>
         <source>Written by %1 (%2)
 Version: %3</source>
         <comment>author, year, version</comment>
@@ -1826,100 +1800,106 @@ Version : %3</translation>
         <translation>Préférences</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="100"/>
+        <location filename="optionsform.cpp" line="103"/>
         <source>Default folder:</source>
         <translation>Dossier par défaut :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="101"/>
+        <location filename="optionsform.cpp" line="104"/>
         <source>Auto-create artist folder:</source>
         <translation>Création d&apos;un dossier par artiste :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="102"/>
+        <location filename="optionsform.cpp" line="105"/>
         <source>Select new tab:</source>
         <translation>Basculer sur le nouvel onglet :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="103"/>
+        <location filename="optionsform.cpp" line="106"/>
         <source>Open read only:</source>
         <translation>Ouvrir en lecture seule :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="104"/>
+        <location filename="optionsform.cpp" line="107"/>
         <source>Re-open previous tabs:</source>
         <translation>Ré-ouvrir les onglets précédents :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="105"/>
+        <location filename="optionsform.cpp" line="108"/>
         <source>Open size mode:</source>
         <translation>Mode d&apos;affichage :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="106"/>
+        <location filename="optionsform.cpp" line="109"/>
         <source>Chord size:</source>
         <translation>Taille des accords :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="107"/>
+        <location filename="optionsform.cpp" line="110"/>
         <source>ToolBar position:</source>
         <translation>Position de la barre d&apos;outils :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="109"/>
+        <location filename="optionsform.cpp" line="111"/>
+        <source>Spaces for one tabulation:</source>
+        <oldsource>Space for one tabulation:</oldsource>
+        <translation>Espaces pour une tabulation :</translation>
+    </message>
+    <message>
+        <location filename="optionsform.cpp" line="113"/>
         <source>General</source>
         <translation>Général</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="134"/>
-        <location filename="optionsform.cpp" line="137"/>
-        <location filename="optionsform.cpp" line="140"/>
-        <location filename="optionsform.cpp" line="143"/>
+        <location filename="optionsform.cpp" line="138"/>
+        <location filename="optionsform.cpp" line="141"/>
+        <location filename="optionsform.cpp" line="144"/>
+        <location filename="optionsform.cpp" line="147"/>
         <source>mm</source>
         <translation>mm</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="178"/>
+        <location filename="optionsform.cpp" line="182"/>
         <source>Default output folder:</source>
         <translation>Dossier de sortie par défaut :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="179"/>
+        <location filename="optionsform.cpp" line="183"/>
         <source>Enable colors on printing:</source>
         <translation>Impression en couleur :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="180"/>
+        <location filename="optionsform.cpp" line="184"/>
         <source>Print header on each pages:</source>
         <translation>Informations sur chaque pages :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="181"/>
+        <location filename="optionsform.cpp" line="185"/>
         <source>Title font:</source>
         <translation>Police de titre :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="182"/>
+        <location filename="optionsform.cpp" line="186"/>
         <source>Artist font:</source>
         <translation>Police d&apos;artiste :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="183"/>
+        <location filename="optionsform.cpp" line="187"/>
         <source>Other font:</source>
         <translation>Police d&apos;informations :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="184"/>
+        <location filename="optionsform.cpp" line="188"/>
         <source>Text font:</source>
         <translation>Police de texte :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="185"/>
+        <location filename="optionsform.cpp" line="189"/>
         <source>Margins:</source>
         <translation>Marges :</translation>
     </message>
     <message>
-        <location filename="optionsform.cpp" line="187"/>
+        <location filename="optionsform.cpp" line="191"/>
         <source>Print</source>
         <translation>Impression</translation>
     </message>
@@ -1958,102 +1938,101 @@ Version : %3</translation>
 <context>
     <name>QPrintPreview</name>
     <message>
-        <location filename="qprintpreview.cpp" line="49"/>
+        <location filename="qprintpreview.cpp" line="57"/>
         <source>%1%</source>
         <translation>%1%</translation>
     </message>
     <message>
-        <location filename="qprintpreview.cpp" line="134"/>
+        <location filename="qprintpreview.cpp" line="142"/>
         <source>Print Preview</source>
         <translation>Aperçu avant impression</translation>
     </message>
     <message>
-        <location filename="qprintpreview.cpp" line="162"/>
+        <location filename="qprintpreview.cpp" line="170"/>
         <source>Next page</source>
         <translation>Page suivante</translation>
     </message>
     <message>
-        <location filename="qprintpreview.cpp" line="163"/>
+        <location filename="qprintpreview.cpp" line="171"/>
         <source>Previous page</source>
         <translation>Page précédente</translation>
     </message>
     <message>
-        <location filename="qprintpreview.cpp" line="164"/>
+        <location filename="qprintpreview.cpp" line="172"/>
         <source>First page</source>
         <translation>Première page</translation>
     </message>
     <message>
-        <location filename="qprintpreview.cpp" line="165"/>
+        <location filename="qprintpreview.cpp" line="173"/>
         <source>Last page</source>
         <translation>Dernière page</translation>
     </message>
     <message>
-        <location filename="qprintpreview.cpp" line="174"/>
+        <location filename="qprintpreview.cpp" line="182"/>
         <source>Fit width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qprintpreview.cpp" line="175"/>
+        <location filename="qprintpreview.cpp" line="183"/>
         <source>Fit page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qprintpreview.cpp" line="186"/>
+        <location filename="qprintpreview.cpp" line="194"/>
         <source>Zoom in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qprintpreview.cpp" line="187"/>
+        <location filename="qprintpreview.cpp" line="195"/>
         <source>Zoom out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qprintpreview.cpp" line="193"/>
+        <location filename="qprintpreview.cpp" line="201"/>
         <source>Portrait</source>
         <translation>Portrait</translation>
     </message>
     <message>
-        <location filename="qprintpreview.cpp" line="194"/>
+        <location filename="qprintpreview.cpp" line="202"/>
         <source>Landscape</source>
         <translation>Paysage</translation>
     </message>
     <message>
-        <location filename="qprintpreview.cpp" line="204"/>
+        <location filename="qprintpreview.cpp" line="212"/>
         <source>Show single page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qprintpreview.cpp" line="205"/>
+        <location filename="qprintpreview.cpp" line="213"/>
         <source>Show facing pages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qprintpreview.cpp" line="206"/>
+        <location filename="qprintpreview.cpp" line="214"/>
         <source>Show overview of all pages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="qprintpreview.cpp" line="221"/>
+        <location filename="qprintpreview.cpp" line="229"/>
         <source>Print</source>
         <translation>Imprimer</translation>
     </message>
     <message>
-        <location filename="qprintpreview.cpp" line="222"/>
+        <location filename="qprintpreview.cpp" line="230"/>
         <source>Page setup</source>
         <translation>Mise en page</translation>
     </message>
     <message>
-        <location filename="qprintpreview.cpp" line="228"/>
         <source>Close</source>
-        <translation>Fermer</translation>
+        <translation type="obsolete">Fermer</translation>
     </message>
     <message>
-        <location filename="qprintpreview.cpp" line="373"/>
+        <location filename="qprintpreview.cpp" line="377"/>
         <source>Export to PDF</source>
         <translation>Exporter en PDF</translation>
     </message>
     <message>
-        <location filename="qprintpreview.cpp" line="376"/>
+        <location filename="qprintpreview.cpp" line="380"/>
         <source>Export to PostScript</source>
         <translation>Exporter en PostScript</translation>
     </message>
@@ -2061,12 +2040,12 @@ Version : %3</translation>
 <context>
     <name>QProgressBarDialog</name>
     <message>
-        <location filename="qprogressbardialog.h" line="17"/>
+        <location filename="qprogressbardialog.h" line="15"/>
         <source>Download</source>
         <translation>Téléchargement</translation>
     </message>
     <message>
-        <location filename="qprogressbardialog.h" line="19"/>
+        <location filename="qprogressbardialog.h" line="17"/>
         <source>Please wait...</source>
         <translation>Veuillez patienter...</translation>
     </message>
@@ -2225,8 +2204,8 @@ Version : %3</translation>
     </message>
     <message>
         <location filename="tab.cpp" line="321"/>
-        <location filename="tab.cpp" line="735"/>
-        <location filename="tab.cpp" line="827"/>
+        <location filename="tab.cpp" line="742"/>
+        <location filename="tab.cpp" line="834"/>
         <source>[Capo: %1, Tuning: %2]</source>
         <translation>[Capo: %1, Accordage: %2]</translation>
     </message>
@@ -2304,13 +2283,13 @@ Version : %3</translation>
     </message>
     <message>
         <location filename="tab.cpp" line="323"/>
-        <location filename="tab.cpp" line="829"/>
+        <location filename="tab.cpp" line="836"/>
         <source>[Capo: %1]</source>
         <translation>[Capo : %1]</translation>
     </message>
     <message>
         <location filename="tab.cpp" line="325"/>
-        <location filename="tab.cpp" line="831"/>
+        <location filename="tab.cpp" line="838"/>
         <source>[Tuning: %1]</source>
         <translation>[Accordage : %1 ]</translation>
     </message>
@@ -2330,47 +2309,47 @@ Version : %3</translation>
         <translation>Accords trouvés :</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="855"/>
+        <location filename="tab.cpp" line="862"/>
         <source>Page %1 of %2</source>
         <translation>Page %1 sur %2</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1044"/>
+        <location filename="tab.cpp" line="1051"/>
         <source>Add new chords</source>
         <translation>Ajouter des nouveaux accords</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1048"/>
+        <location filename="tab.cpp" line="1055"/>
         <source>Insert text</source>
         <translation>Insérer du texte</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1074"/>
+        <location filename="tab.cpp" line="1081"/>
         <source>Import from file</source>
         <translation>Importer depuis un fichier</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1074"/>
+        <location filename="tab.cpp" line="1081"/>
         <source>XTA files (*.xta)</source>
         <translation>Fichier XTA (*.xta)</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1085"/>
+        <location filename="tab.cpp" line="1092"/>
         <source>Insert length</source>
         <translation>Choisir la longueur</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1085"/>
+        <location filename="tab.cpp" line="1092"/>
         <source>Length:</source>
         <translation>Longueur :</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1152"/>
+        <location filename="tab.cpp" line="1159"/>
         <source>Ubuntu only function</source>
         <translation>Fonction sur Ubuntu uniquement</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1153"/>
+        <location filename="tab.cpp" line="1160"/>
         <source>This function is only available on Ubuntu.
 Download and install Ubuntu and try again.
 
@@ -2381,22 +2360,22 @@ Télécharger et installer Ubuntu, puis réessayer.
 Un exemple va être inséré...</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1154"/>
+        <location filename="tab.cpp" line="1161"/>
         <source>Download Ubuntu</source>
         <translation>Télécharger Ubuntu</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1157"/>
+        <location filename="tab.cpp" line="1164"/>
         <source>http://www.ubuntu.com/download/desktop</source>
         <translation>http://www.ubuntu.com/download/desktop</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1180"/>
+        <location filename="tab.cpp" line="1187"/>
         <source>Load image</source>
         <translation>Chargement d&apos;image</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1180"/>
+        <location filename="tab.cpp" line="1187"/>
         <source>Image (*.png *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</source>
         <translation>Image (*.png *.gif *.jpg *.jpeg *.png *.pbm *.pgm *.ppm *.tiff *.xbm *.xpm)</translation>
     </message>
@@ -2405,7 +2384,7 @@ Un exemple va être inséré...</translation>
         <translation type="obsolete">Image (*.png)</translation>
     </message>
     <message>
-        <location filename="tab.cpp" line="1249"/>
+        <location filename="tab.cpp" line="1260"/>
         <source>Select output folder</source>
         <translation>Choisir un dossier de sortie</translation>
     </message>
@@ -2418,88 +2397,95 @@ Un exemple va être inséré...</translation>
         <translation>ko</translation>
     </message>
     <message>
-        <location filename="updatemanager.cpp" line="48"/>
-        <location filename="updatemanager.cpp" line="92"/>
+        <location filename="updatemanager.cpp" line="74"/>
+        <source>Date:</source>
+        <translation>Date :</translation>
+    </message>
+    <message>
+        <location filename="updatemanager.cpp" line="80"/>
+        <source>Message</source>
+        <translation>Message</translation>
+    </message>
+    <message>
+        <location filename="updatemanager.cpp" line="117"/>
+        <location filename="updatemanager.cpp" line="160"/>
         <source>Warning</source>
         <translation>Attention</translation>
     </message>
     <message>
-        <location filename="updatemanager.cpp" line="48"/>
+        <location filename="updatemanager.cpp" line="117"/>
         <source>Error while downloading version: %1</source>
         <translation>Erreur pendant le téléchargement du fichier de version : %1</translation>
     </message>
     <message>
-        <location filename="updatemanager.cpp" line="57"/>
-        <location filename="updatemanager.cpp" line="62"/>
-        <location filename="updatemanager.cpp" line="69"/>
+        <location filename="updatemanager.cpp" line="126"/>
+        <location filename="updatemanager.cpp" line="131"/>
+        <location filename="updatemanager.cpp" line="138"/>
         <source>Information</source>
         <translation>Information</translation>
     </message>
     <message>
-        <location filename="updatemanager.cpp" line="57"/>
+        <location filename="updatemanager.cpp" line="126"/>
         <source>Invalid version format on server</source>
         <translation>Format de version invalide sur le serveur</translation>
     </message>
     <message>
-        <location filename="updatemanager.cpp" line="62"/>
+        <location filename="updatemanager.cpp" line="131"/>
         <source>New version available : %1</source>
         <translation>Nouvelle version disponible : %1</translation>
     </message>
     <message>
-        <location filename="updatemanager.cpp" line="62"/>
+        <location filename="updatemanager.cpp" line="131"/>
         <source>Don&apos;t download</source>
         <translation>Ne pas télécharger</translation>
     </message>
     <message>
-        <location filename="updatemanager.cpp" line="62"/>
+        <location filename="updatemanager.cpp" line="131"/>
         <source>Download</source>
         <translation>Télécharger</translation>
     </message>
     <message>
-        <location filename="updatemanager.cpp" line="66"/>
+        <location filename="updatemanager.cpp" line="135"/>
         <source>No newer version available</source>
         <translation>Pas de nouvelle version disponible</translation>
     </message>
     <message>
-        <location filename="updatemanager.cpp" line="92"/>
+        <location filename="updatemanager.cpp" line="160"/>
         <source>Error while downloading update: %1</source>
         <translation>Erreur pendant le téléchargement de la mise à jour : %1</translation>
     </message>
     <message>
-        <location filename="updatemanager.cpp" line="114"/>
+        <location filename="updatemanager.cpp" line="191"/>
         <source>Please restart software to use the new version</source>
         <translation>Merci de redémarrer le programme pour utiliser la nouvelle version</translation>
     </message>
     <message>
-        <location filename="updatemanager.cpp" line="115"/>
+        <location filename="updatemanager.cpp" line="192"/>
         <source>Restart</source>
         <translation>Redémarrer</translation>
     </message>
     <message>
-        <location filename="updatemanager.cpp" line="116"/>
+        <location filename="updatemanager.cpp" line="193"/>
         <source>Do not restart</source>
         <translation>Ne pas redémarrer</translation>
     </message>
     <message>
-        <location filename="updatemanager.cpp" line="118"/>
+        <location filename="updatemanager.cpp" line="195"/>
         <source>%1Kb downloaded</source>
         <translation>%1Ko téléchargés</translation>
     </message>
     <message>
-        <location filename="updatemanager.cpp" line="155"/>
         <source>Already up to date</source>
-        <translation>Déjà à jour</translation>
+        <translation type="obsolete">Déjà à jour</translation>
     </message>
     <message>
-        <location filename="updatemanager.cpp" line="173"/>
         <source>Error</source>
-        <translation>Erreur</translation>
+        <translation type="obsolete">Erreur</translation>
     </message>
     <message>
-        <location filename="updatemanager.cpp" line="173"/>
         <source>Can&apos;t remove: %1
 Please close the software</source>
-        <translation>Impossible de supprimer %1
+        <translation type="obsolete">Impossible de supprimer %1
 Veuillez fermer le programme</translation>
     </message>
 </context>

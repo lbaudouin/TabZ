@@ -169,6 +169,8 @@ public slots:
     void addImage(QImage &img);
 
     void toggleInfo();
+
+    void replace(QString,QString);
     
 };
 
