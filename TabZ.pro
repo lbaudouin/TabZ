@@ -81,7 +81,8 @@ win32 {
 
 FORMS    += mainwindow.ui
 
-OTHER_FILES += TODO
+OTHER_FILES += \
+    TODO
 
 RESOURCES += ressource.qrc
 

@@ -17,6 +17,7 @@
 **/
 int main(int argc, char *argv[])
 {
+    QCoreApplication::setApplicationName( "tabz" );
     QtSingleApplication instance("TabZ", argc, argv);
     instance.setWindowIcon( QIcon(":/images/TabZ.png" ) );
 
